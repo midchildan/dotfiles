@@ -1,0 +1,6 @@
+set editing-mode vi
+set completion-ignore-case on
+set visible-stats on
+"\C-l": clear-screen
+"\C-p": history-search-backward
+"\C-n": history-search-forward
