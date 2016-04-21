@@ -1,10 +1,11 @@
 autoload -Uz add-zsh-hook
 
 ## environment variables ------------------------
-export LANG="en_US.UTF-8"
 export EDITOR="vim"
-export PAGER="less"
+export GREP_OPTIONS="--color=auto"
+export LANG="en_US.UTF-8"
 export LESS="-R"
+export PAGER="less"
 
 export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 export GOPATH=~/Documents/devel/go
@@ -17,13 +18,14 @@ path=(
   "$GEM_HOME/bin"
   "$(/usr/bin/python -c 'import site; print(site.getuserbase())')/bin"
   "$(/usr/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
+  "$GOPATH/bin"
 )
 
 ## aliases and functions ------------------------
 unalias run-help && autoload -Uz run-help
 autoload -Uz run-help-git run-help-openssl run-help-sudo
 
-alias ls='ls -FG'
+alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
 autoload -Uz zsh_stats
