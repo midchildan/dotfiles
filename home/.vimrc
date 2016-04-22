@@ -3,6 +3,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'LaTeX-Box-Team/LaTeX-Box', {'for': ['tex', 'plaintex']}
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+Plug 'mileszs/ack.vim', {'on': 'Ack'}
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
