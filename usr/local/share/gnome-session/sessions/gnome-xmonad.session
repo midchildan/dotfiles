@@ -1,0 +1,4 @@
+[GNOME Session]
+Name=XMonad/GNOME
+RequiredComponents=gnome-flashback-init;gnome-flashback;gnome-panel;xmonad;unity-settings-daemon;gnome-flashback-services;
+DesktopName=Unity

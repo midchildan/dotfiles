@@ -1,0 +1,3 @@
+#!/bin/sh
+
+KDEWM=xmonad /usr/bin/startkde

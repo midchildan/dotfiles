@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=GNOME Xmonad
+Comment=This session logs you into GNOME Flashback with xmonad
+Exec=gnome-session --session=gnome-xmonad
+TryExec=gnome-session
+Icon=
+Type=Application
+DesktopNames=GNOME-Flashback;Unity;
+X-Ubuntu-Gettext-Domain=gnome-xmonad
