@@ -14,6 +14,7 @@ Plug 'Valloric/YouCompleteMe', {
 call plug#end()
 
 " editing
+set encoding=utf-8
 set expandtab
 set shiftwidth=2
 set softtabstop=2
@@ -55,9 +56,12 @@ let g:syntastic_always_populate_loc_list=1
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
 
+" ultisnips
+let g:UltiSnipsExpandTrigger='<C-j>'
+
 " youcompleteme
 let g:ycm_key_list_select_completion=[]
 let g:ycm_key_list_previous_completion=[]
 let g:ycm_key_invoke_completion=''
 let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
