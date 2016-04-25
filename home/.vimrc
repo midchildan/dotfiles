@@ -11,18 +11,16 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-surround'
 Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
+" filetype plugin indent and syntax is handled by plug#end
 call plug#end()
 
 " editing
 set encoding=utf-8
+set backspace=indent,eol,start
 set expandtab
 set shiftwidth=2
 set softtabstop=2
-set tabstop=2
-set backspace=indent,eol,start
 set autoindent
-set smartindent
-filetype plugin indent on
 
 " UI
 set colorcolumn=81
@@ -35,7 +33,6 @@ set display=lastline
 set showmatch
 set wildmenu
 set mouse=a
-syntax enable
 
 " search
 set incsearch
