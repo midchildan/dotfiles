@@ -1,16 +1,16 @@
 " plugins
 call plug#begin('~/.vim/plugged')
 Plug 'altercation/vim-colors-solarized'
+Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'LaTeX-Box-Team/LaTeX-Box', {'for': ['tex', 'plaintex']}
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle', 'for': 'go'}
 Plug 'mileszs/ack.vim', {'on': 'Ack'}
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-surround'
-Plug 'Valloric/YouCompleteMe', {
-  \ 'do': './install.py --clang-completer --gocode-completer'}
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 call plug#end()
 
 " editing
@@ -55,6 +55,8 @@ set undodir=~/.vim/tmp
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
+let g:syntastic_go_checkers=['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map={'mode': 'active', 'passive_filetypes': ['go']}
 
 " ultisnips
 let g:UltiSnipsExpandTrigger='<C-j>'
