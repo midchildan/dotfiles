@@ -5,6 +5,8 @@ Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'LaTeX-Box-Team/LaTeX-Box', {'for': ['tex', 'plaintex']}
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle', 'for': 'go'}
 Plug 'mileszs/ack.vim', {'on': 'Ack'}
+Plug 'rdnetto/YCM-generator', {'branch': 'stable',
+  \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
