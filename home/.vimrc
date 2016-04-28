@@ -58,7 +58,8 @@ let g:syntastic_go_checkers=['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map={'mode': 'active', 'passive_filetypes': ['go']}
 
 " ultisnips
-let g:UltiSnipsExpandTrigger='<C-j>'
+let g:UltiSnipsExpandTrigger='<C-x><C-j>'
+let g:UltiSnipsSnippetsDir='~/.vim/after/UltiSnips'
 
 " youcompleteme
 let g:ycm_key_list_select_completion=[]
