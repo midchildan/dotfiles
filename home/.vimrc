@@ -44,17 +44,14 @@ set smartcase
 set wrapscan
 
 " cache
-if empty($XDG_CACHE_HOME)
-  let $XDG_CACHE_HOME='~/.cache'
-endif
 if !has('nvim')
-  set viminfo+=n$XDG_CACHE_HOME/vim/viminfo
+  set viminfo+=n~/Library/Caches/vim/viminfo
 endif
-set dir=$XDG_CACHE_HOME/vim/swap
+set dir=~/Library/Caches/vim/swap
 set backup
-set backupdir=$XDG_CACHE_HOME/vim/backup
+set backupdir=~/Library/Caches/vim/backup
 set undofile
-set undodir=$XDG_CACHE_HOME/vim/undo
+set undodir=~/Library/Caches/vim/undo
 
 " syntastic
 let g:syntastic_always_populate_loc_list=1

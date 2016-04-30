@@ -1,6 +1,7 @@
 autoload -Uz add-zsh-hook
 
 ## environment variables ------------------------
+export CLICOLOR=1
 export EDITOR="vim"
 export GREP_OPTIONS="--color=auto"
 export LANG="en_US.UTF-8"
@@ -8,16 +9,18 @@ export LESS="-R"
 export PAGER="less"
 
 export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
+export GTK_PATH=/usr/local/lib/gtk-2.0
 export GOPATH=~/Documents/devel/go
 export ANDROID_HOME=~/.local/opt/android-sdk
 
 typeset -U path
 path=(
   "~/.local/bin"
+  "/usr/local/sbin"
   $path
   "$GEM_HOME/bin"
-  "$(/usr/bin/python -c 'import site; print(site.getuserbase())')/bin"
-  "$(/usr/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
+  "$(/usr/local/bin/python -c 'import site; print(site.getuserbase())')/bin"
+  "$(/usr/local/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
   "$GOPATH/bin"
 )
 
@@ -25,11 +28,14 @@ path=(
 unalias run-help && autoload -Uz run-help
 autoload -Uz run-help-git run-help-openssl run-help-sudo
 
-alias ls='ls -F --color=auto'
+alias ls='ls -F'
 alias ll='ls -lh'
 alias la='ls -lAh'
+alias qlook='qlmanage -p'
+alias sudoedit='sudo -e'
 autoload -Uz zsh_stats
 autoload -Uz trash
+autoload -Uz man-preview
 autoload -Uz loadenv
 
 ## directories ----------------------------------
@@ -88,8 +94,6 @@ setopt no_clobber
 setopt no_flowcontrol
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 
-source /etc/zsh_command_not_found
-
 ## theme ----------------------------------------
 setopt prompt_subst
 
@@ -116,6 +120,34 @@ update_prompt() {
 }
 add-zsh-hook precmd update_prompt
 
-source $HOME/.local/opt/antigen/antigen.zsh
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen apply
+## Apple Terminal -------------------------------
+# Tell Apple Terminal the working directory
+if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
+  update_terminal_cwd() {
+    # Identify the directory using a "file:" scheme URL, including
+    # the host name to disambiguate local vs. remote paths.
+
+    # Percent-encode the pathname.
+    local URL_PATH=''
+    {
+      # Use LANG=C to process text byte-by-byte.
+      local i ch hexch LANG=C
+      for ((i = 1; i <= ${#PWD}; ++i)); do
+        ch="$PWD[i]"
+        if [[ "$ch" =~ [/._~A-Za-z0-9-] ]]; then
+          URL_PATH+="$ch"
+        else
+          hexch=$(printf "%02X" "'$ch")
+          URL_PATH+="%$hexch"
+        fi
+      done
+    }
+
+    local PWD_URL="file://$HOST$URL_PATH"
+    printf '\e]7;%s\a' "$PWD_URL"
+  }
+  add-zsh-hook precmd update_terminal_cwd
+  update_terminal_cwd
+fi
+
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
