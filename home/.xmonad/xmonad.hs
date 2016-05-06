@@ -44,40 +44,41 @@ myLayouts = tiled ||| Mirror tiled ||| Full ||| floatLayout
     -- Percent of screen to increment by when resizing panes
     delta   = 3/100
 
-    floatLayout = named "Float" $ floatingDeco
-                                $ borderResize
-                                $ minimize
-                                $ maximize
-                                $ noBorders simplestFloat
-      where floatingDeco = imageButtonDeco shrinkText defaultThemeWithImageButtons
-                             { activeColor = "#000000"
-                             , inactiveColor = "#3C3B37"
-                             , fontName = "xft:TakaoPGothic-9:bold" }
+    floatLayout = named "Float"
+                $ floatingDeco
+                $ borderResize
+                $ minimize
+                $ maximize
+                $ noBorders simplestFloat
+
+    floatingDeco = imageButtonDeco shrinkText defaultThemeWithImageButtons
+        { activeColor = "#000000"
+        , inactiveColor = "#3C3B37"
+        , fontName = "xft:TakaoPGothic-9:bold" }
 
 myHandleEventHook = minimizeEventHook
 
-gnomeKeybinding = [("M-S-q", spawn "gnome-session-quit --power-off")]
 keybinding "gnome"        = gnomeKeybinding
 keybinding "gnome-xmonad" = gnomeKeybinding
 keybinding _              = []
+gnomeKeybinding = [("M-S-q", spawn "gnome-session-quit --power-off")]
 
 main = do
-  session <- lookupEnv "DESKTOP_SESSION"
-  let myConfig = maybe desktopConfig desktop session
-  let myManageHook = composeAll
+    session <- lookupEnv "DESKTOP_SESSION"
+    let myConfig = maybe desktopConfig desktop session
+    let myManageHook = composeAll
         [ manageHook myConfig
         , isDialog --> doCenterFloat
         , isFullscreen --> doFullFloat
-        , className =? "plasmashell" --> doFloat
-        ]
-  let myKeybinding = maybe [] keybinding session
+        , className =? "plasmashell" --> doFloat ]
+    let myKeybinding = maybe [] keybinding session
 
-  xmonad $ myConfig
-    { manageHook = myManageHook
-    , layoutHook = desktopLayoutModifiers $ smartBorders $ myLayouts
-    , handleEventHook = myHandleEventHook <+> handleEventHook myConfig
-    , workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    , modMask = mod4Mask
-    , focusFollowsMouse = False }
-    `additionalKeysP`
-    myKeybinding
+    xmonad $ myConfig
+        { manageHook = myManageHook
+        , layoutHook = desktopLayoutModifiers $ smartBorders $ myLayouts
+        , handleEventHook = myHandleEventHook <+> handleEventHook myConfig
+        , workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        , modMask = mod4Mask
+        , focusFollowsMouse = False }
+        `additionalKeysP`
+        myKeybinding
