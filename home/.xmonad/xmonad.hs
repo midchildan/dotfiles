@@ -67,10 +67,10 @@ main = do
     session <- lookupEnv "DESKTOP_SESSION"
     let myConfig = maybe desktopConfig desktop session
     let myManageHook = composeAll
-        [ manageHook myConfig
-        , isDialog --> doCenterFloat
-        , isFullscreen --> doFullFloat
-        , className =? "plasmashell" --> doFloat ]
+         [ manageHook myConfig
+         , isDialog --> doCenterFloat
+         , isFullscreen --> doFullFloat
+         , className =? "plasmashell" --> doFloat ]
     let myKeybinding = maybe [] keybinding session
 
     xmonad $ myConfig
