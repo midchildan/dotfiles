@@ -1,5 +1,7 @@
+import Data.Char (toLower)
 import Data.Maybe (maybe)
 import System.Environment (lookupEnv)
+import System.FilePath (takeBaseName)
 
 import XMonad
 
@@ -24,14 +26,16 @@ import XMonad.Layout.SimplestFloat
 
 import XMonad.Util.EZConfig (additionalKeysP)
 
-
-desktop "gnome"         = gnomeConfig
-desktop "gnome-xmonad"  = gnomeConfig
-desktop "plasma"        = kde4Config
-desktop "plasma-xmonad" = kde4Config
-desktop "xfce"          = xfceConfig
-desktop "xfce-xmonad"   = xfceConfig
-desktop _               = desktopConfig
+desktop = conf . map toLower . takeBaseName
+  where
+    conf "gnome"         = gnomeConfig
+    conf "gnome-xmonad"  = gnomeConfig
+    conf "kde"           = kde4Config
+    conf "plasma"        = kde4Config
+    conf "plasma-xmonad" = kde4Config
+    conf "xfce"          = xfceConfig
+    conf "xfce-xmonad"   = xfceConfig
+    conf _               = desktopConfig
 
 myLayouts = tiled ||| Mirror tiled ||| Full ||| floatLayout
   where
@@ -58,12 +62,17 @@ myLayouts = tiled ||| Mirror tiled ||| Full ||| floatLayout
 
 myHandleEventHook = minimizeEventHook
 
-keybinding "gnome"        = gnomeKeybinding
-keybinding "gnome-xmonad" = gnomeKeybinding
-keybinding _              = []
-gnomeKeybinding = [("M-S-q", spawn "gnome-session-quit --power-off")]
+keybinding session =
+  let
+    gnomeKey = [("M-S-q", spawn "gnome-session-quit --power-off")]
+  in
+    case session of
+        "gnome"        -> gnomeKey
+        "gnome-xmonad" -> gnomeKey
+        _              -> []
 
 main = do
+    -- the value of $DESKTOP_SESSION may differ between distributions
     session <- lookupEnv "DESKTOP_SESSION"
     let myConfig = maybe desktopConfig desktop session
     let myManageHook = composeAll
