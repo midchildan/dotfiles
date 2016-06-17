@@ -1,15 +1,7 @@
 autoload -Uz add-zsh-hook
 
 ## environment variables ------------------------
-export EDITOR="vim"
-export GREP_OPTIONS="--color=auto"
-export LANG="en_US.UTF-8"
-export LESS="-R"
-export PAGER="less"
-
 export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
-export GOPATH=~/Documents/devel/go
-export ANDROID_HOME=~/.local/opt/android-sdk
 
 typeset -U path
 path=(
@@ -25,6 +17,7 @@ path=(
 unalias run-help && autoload -Uz run-help
 autoload -Uz run-help-git run-help-openssl run-help-sudo
 
+alias grep='grep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
