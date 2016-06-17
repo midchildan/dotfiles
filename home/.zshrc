@@ -2,16 +2,7 @@ autoload -Uz add-zsh-hook
 
 ## environment variables ------------------------
 export CLICOLOR=1
-export EDITOR="vim"
-export GREP_OPTIONS="--color=auto"
-export LANG="en_US.UTF-8"
-export LESS="-R"
-export PAGER="less"
-
 export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
-export GTK_PATH=/usr/local/lib/gtk-2.0
-export GOPATH=~/Documents/devel/go
-export ANDROID_HOME=~/.local/opt/android-sdk
 
 typeset -U path
 path=(
