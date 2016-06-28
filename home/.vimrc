@@ -13,7 +13,8 @@ Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-surround'
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
+Plug 'Valloric/YouCompleteMe', {
+  \ 'do': './install.py --clang-completer --tern-completer'}
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
 
