@@ -1,0 +1,23 @@
+snippet jsarticle "A jsarticle template" b
+\documentclass[uplatex, a4paper, 11pt]{jsarticle}
+\usepackage{biblatex}
+\usepackage{booktabs}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{here}
+\usepackage{listings}
+\usepackage{longtable}
+\usepackage{url}
+\addbibresource{`!p snip.rv = snip.basename + '.bib'`}
+
+\title{$1}
+\author{$2}
+\date{${3:\today}}
+
+\begin{document}
+\maketitle
+
+$0
+
+\printbibliography[title=参考文献]
+\end{document}
+endsnippet

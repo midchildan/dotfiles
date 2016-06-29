@@ -2,8 +2,8 @@
 call plug#begin('~/.vim/plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'LaTeX-Box-Team/LaTeX-Box', {'for': ['tex', 'plaintex']}
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
+Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle', 'for': 'go'}
 Plug 'mileszs/ack.vim', {'on': 'Ack'}
 Plug 'rdnetto/YCM-generator', {'branch': 'stable',
@@ -54,6 +54,9 @@ set backup
 set backupdir=~/Library/Caches/vim/backup
 set undofile
 set undodir=~/Library/Caches/vim/undo
+
+" filetype recognition
+let g:tex_flavor='latex'
 
 " syntastic
 let g:syntastic_always_populate_loc_list=1
