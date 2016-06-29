@@ -21,9 +21,8 @@ alias grep='grep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
+autoload -Uz edit-command-line
 autoload -Uz zsh_stats
-autoload -Uz trash
-autoload -Uz loadenv
 
 ## directories ----------------------------------
 setopt auto_name_dirs
