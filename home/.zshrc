@@ -24,10 +24,8 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 alias qlook='qlmanage -p'
 alias sudoedit='sudo -e'
+autoload -Uz edit-command-line
 autoload -Uz zsh_stats
-autoload -Uz trash
-autoload -Uz man-preview
-autoload -Uz loadenv
 
 ## directories ----------------------------------
 setopt auto_name_dirs
