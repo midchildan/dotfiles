@@ -1,13 +1,13 @@
-$latex = 'platex --kanji=utf8';
-$bibtex = 'pbibtex';
-$biber = 'biber --bblencoding=utf8 -u -U --output_safechars';
+$latex = 'uplatex --kanji=utf8';
+$biber = 'biber -u -U --output_safechars';
+$bibtex = 'upbibtex';
 $dvipdf ='dvipdfmx %O -o %D %S';
-$makeindex = 'mendex %O -o %D %S';
+$makeindex = 'upmendex %O -o %D %S';
 $max_repeat = 5;
 $pdf_mode = 3;
 
 if ($^O eq 'darwin') {
   $pdf_previewer = 'open';
-} elseif ($^O eq 'linux') {
+} elsif ($^O eq 'linux') {
   $pdf_previewer = 'xdg-open';
 }
