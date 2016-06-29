@@ -109,6 +109,4 @@ update_prompt() {
 }
 add-zsh-hook precmd update_prompt
 
-source $HOME/.local/opt/antigen/antigen.zsh
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen apply
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

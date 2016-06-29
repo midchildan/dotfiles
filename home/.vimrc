@@ -13,7 +13,8 @@ Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-surround'
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
+Plug 'Valloric/YouCompleteMe', {
+  \ 'do': './install.py --clang-completer --tern-completer'}
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
 
@@ -45,17 +46,14 @@ set smartcase
 set wrapscan
 
 " cache
-if empty($XDG_CACHE_HOME)
-  let $XDG_CACHE_HOME='~/.cache'
-endif
 if !has('nvim')
-  set viminfo+=n$XDG_CACHE_HOME/vim/viminfo
+  set viminfo+=n~/.cache/vim/viminfo
 endif
-set dir=$XDG_CACHE_HOME/vim/swap
+set dir=~/.cache/vim/swap
 set backup
-set backupdir=$XDG_CACHE_HOME/vim/backup
+set backupdir=~/.cache/vim/backup
 set undofile
-set undodir=$XDG_CACHE_HOME/vim/undo
+set undodir=~/.cache/vim/undo
 
 " filetype recognition
 let g:tex_flavor='latex'
