@@ -6,7 +6,7 @@ export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 
 typeset -U path
 path=(
-  "~/.local/bin"
+  "$HOME/.local/bin"
   "/usr/local/sbin"
   $path
   "$GEM_HOME/bin"
