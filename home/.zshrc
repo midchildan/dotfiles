@@ -19,6 +19,7 @@ path=(
 unalias run-help && autoload -Uz run-help
 autoload -Uz run-help-git run-help-openssl run-help-sudo
 
+alias grep='grep --color=auto'
 alias ls='ls -F'
 alias ll='ls -lh'
 alias la='ls -lAh'
@@ -113,8 +114,6 @@ add-zsh-hook precmd update_prompt
 # Tell Apple Terminal the working directory
 if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
   update_terminal_cwd() {
-    # Identify the directory using a "file:" scheme URL, including
-    # the host name to disambiguate local vs. remote paths.
 
     # Percent-encode the pathname.
     local URL_PATH=''
@@ -132,8 +131,7 @@ if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
       done
     }
 
-    local PWD_URL="file://$HOST$URL_PATH"
-    printf '\e]7;%s\a' "$PWD_URL"
+    printf '\e]7;%s\a' "file://$HOST$URL_PATH"
   }
   add-zsh-hook precmd update_terminal_cwd
   update_terminal_cwd
