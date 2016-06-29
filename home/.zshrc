@@ -5,7 +5,7 @@ export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 
 typeset -U path
 path=(
-  "~/.local/bin"
+  "$HOME/.local/bin"
   $path
   "$GEM_HOME/bin"
   "$(/usr/bin/python -c 'import site; print(site.getuserbase())')/bin"
