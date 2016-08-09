@@ -85,27 +85,46 @@ source /etc/zsh_command_not_found
 ## theme ----------------------------------------
 setopt prompt_subst
 
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' actionformats \
-  '%b@%s: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
-zstyle ':vcs_info:*' formats \
-  '%b@%s: %F{blue}%r/%S%f' '%c%u'
-zstyle ':vcs_info:*' stagedstr "[%B%F{yellow}staged%f%b]"
-zstyle ':vcs_info:*' unstagedstr "[%B%F{red}unstaged%f%b]"
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' enable git
+if [[ "$TERM" == "dumb" ]]; then
+  PROMPT="%n: %~%# "
+else
+  autoload -Uz vcs_info
+  zstyle ':vcs_info:*' actionformats \
+    '%b@%s: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
+  zstyle ':vcs_info:*' formats \
+    '%b@%s: %F{blue}%r/%S%f' '%c%u'
+  zstyle ':vcs_info:*' stagedstr "[%B%F{yellow}staged%f%b]"
+  zstyle ':vcs_info:*' unstagedstr "[%B%F{red}unstaged%f%b]"
+  zstyle ':vcs_info:*' check-for-changes true
+  zstyle ':vcs_info:*' enable git
 
-update_prompt() {
-  ret_status="%(?:%(!.%F{green}#.%%):%F{red}%#)%f"
-  vcs_info
-  if [[ -n $vcs_info_msg_0_ ]]; then
-    PROMPT=$'%B$vcs_info_msg_0_\n$ret_status%b '
-    RPROMPT="$vcs_info_msg_1_"
-  else
-    PROMPT=$'%B%n: %F{blue}%~%f\n$ret_status%b '
-    RPROMPT=""
-  fi
-}
-add-zsh-hook precmd update_prompt
+  update_prompt() {
+    prompt_status="%(?:%(!.%F{green}#.%%):%F{red}%#)%f"
+    prompt_hname=""
+    if [[ -n "$SSH_CONNECTION" ]]; then
+      prompt_hname="@%m"
+    fi
 
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    vcs_info
+    if [[ -n "$vcs_info_msg_0_" ]]; then
+      PROMPT=$'%B$vcs_info_msg_0_\n$prompt_status%b '
+      RPROMPT="$vcs_info_msg_1_"
+    else
+      PROMPT=$'%B%n$prompt_hname: %F{blue}%~%f\n$prompt_status%b '
+      RPROMPT=""
+    fi
+  }
+
+  update_title() {
+    if [[ -n "$SSH_CONNECTION" ]]; then
+      print -Pn "\e]0;%m: %1~\a"
+    else
+      print -Pn "\e]0;%1~\a"
+    fi
+  }
+
+  add-zsh-hook precmd update_prompt
+  add-zsh-hook preexec update_title
+
+  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
