@@ -1,6 +1,12 @@
-set editing-mode vi
+# completion
 set completion-ignore-case on
+set menu-complete-display-prefix on
+set show-all-if-ambiguous on
 set visible-stats on
+
+# editing
+set editing-mode vi
+
 "\C-l": clear-screen
-"\C-p": history-search-backward
-"\C-n": history-search-forward
+"\C-n": history-search-backward
+"\C-p": history-search-forward
