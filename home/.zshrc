@@ -1,6 +1,8 @@
 autoload -Uz add-zsh-hook
 
-## environment variables ------------------------
+###########################
+#  environment variables  #
+###########################
 export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 
 typeset -U path
@@ -13,7 +15,9 @@ path=(
   "$GOPATH/bin"
 )
 
-## aliases and functions ------------------------
+###########################
+#  aliases and functions  #
+###########################
 unalias run-help && autoload -Uz run-help
 autoload -Uz run-help-git run-help-openssl run-help-sudo
 
@@ -24,15 +28,19 @@ alias la='ls -lAh'
 autoload -Uz edit-command-line
 autoload -Uz zsh_stats
 
-## directories ----------------------------------
+#################
+#  directories  #
+#################
 setopt auto_name_dirs
 setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushd_minus
 
-## history --------------------------------------
-if [ -z $HISTFILE ]; then
-    HISTFILE=~/.zsh_history
+#############
+#  history  #
+#############
+if [[ -z "$HISTFILE" ]]; then
+  HISTFILE=~/.zsh_history
 fi
 HISTSIZE=10000
 SAVEHIST=10000
@@ -44,7 +52,9 @@ setopt hist_ignore_space
 setopt hist_reduce_blanks
 setopt share_history
 
-## autocompletion -------------------------------
+################
+#  completion  #
+################
 setopt no_menu_complete
 setopt auto_menu
 setopt complete_in_word
@@ -67,14 +77,18 @@ zstyle ':completion:*:*:*:*:processes' \
 
 autoload -Uz compinit && compinit -i
 
-## misc -----------------------------------------
-# keybindings
+#################
+#  keybindings  #
+#################
 bindkey -v
 bindkey -v "^?" backward-delete-char
 bindkey -a "K" run-help
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
 
+##########
+#  misc  #
+##########
 setopt long_list_jobs
 setopt no_clobber
 setopt no_flowcontrol
@@ -82,7 +96,9 @@ autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 
 source /etc/zsh_command_not_found
 
-## theme ----------------------------------------
+###########
+#  theme  #
+###########
 setopt prompt_subst
 
 if [[ "$TERM" == "dumb" ]]; then
