@@ -30,6 +30,7 @@ alias la='ls -lAh'
 alias qlook='qlmanage -p'
 alias sudoedit='sudo -e'
 autoload -Uz edit-command-line
+autoload -Uz zmv
 autoload -Uz zsh_stats
 
 #################
