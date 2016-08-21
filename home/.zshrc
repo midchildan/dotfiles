@@ -26,6 +26,7 @@ alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
 autoload -Uz edit-command-line
+autoload -Uz zmv
 autoload -Uz zsh_stats
 
 #################
