@@ -1,3 +1,4 @@
+fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -Uz add-zsh-hook
 
 ###########################
