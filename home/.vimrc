@@ -1,4 +1,6 @@
-" plugins
+"""""""""""""
+"  Plugins  "
+"""""""""""""
 call plug#begin('~/.vim/plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'fatih/vim-go', {'for': 'go'}
@@ -18,7 +20,9 @@ Plug 'Valloric/YouCompleteMe', {
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
 
-" editing
+"""""""""""""
+"  Editing  "
+"""""""""""""
 set encoding=utf-8
 set backspace=indent,eol,start
 set expandtab
@@ -26,7 +30,9 @@ set shiftwidth=2
 set softtabstop=2
 set autoindent
 
-" UI
+""""""""
+"  UI  "
+""""""""
 set colorcolumn=81
 set number
 set ruler
@@ -38,14 +44,18 @@ set showmatch
 set wildmenu
 set mouse=a
 
-" search
+""""""""""""
+"  Search  "
+""""""""""""
 set incsearch
 set hlsearch
 set ignorecase
 set smartcase
 set wrapscan
 
-" cache
+"""""""""""
+"  Cache  "
+"""""""""""
 if !has('nvim')
   set viminfo+=n~/.cache/vim/viminfo
 endif
@@ -55,21 +65,24 @@ set backupdir=~/.cache/vim/backup
 set undofile
 set undodir=~/.cache/vim/undo
 
-" filetype recognition
+""""""""""
+"  Misc  "
+""""""""""
+" Filetype Recognition "
 let g:tex_flavor='latex'
 
-" syntastic
+" Syntastic "
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
 let g:syntastic_go_checkers=['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map={'mode': 'active', 'passive_filetypes': ['go']}
 
-" ultisnips
+" UltiSnips "
 let g:UltiSnipsExpandTrigger='<C-x><C-j>'
 let g:UltiSnipsSnippetsDir='~/.vim/after/UltiSnips'
 
-" youcompleteme
+" YouCompleteMe "
 let g:ycm_key_list_select_completion=[]
 let g:ycm_key_list_previous_completion=[]
 let g:ycm_key_invoke_completion=''

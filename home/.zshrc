@@ -1,7 +1,7 @@
 autoload -Uz add-zsh-hook
 
 ###########################
-#  environment variables  #
+#  Environment Variables  #
 ###########################
 export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 
@@ -16,21 +16,19 @@ path=(
 )
 
 ###########################
-#  aliases and functions  #
+#  Aliases and Functions  #
 ###########################
-unalias run-help && autoload -Uz run-help
-autoload -Uz run-help-git run-help-openssl run-help-sudo
-
 alias grep='grep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
 autoload -Uz edit-command-line
+autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
 autoload -Uz zmv
 autoload -Uz zsh_stats
 
 #################
-#  directories  #
+#  Directories  #
 #################
 setopt auto_name_dirs
 setopt auto_pushd
@@ -38,7 +36,7 @@ setopt pushd_ignore_dups
 setopt pushd_minus
 
 #############
-#  history  #
+#  History  #
 #############
 if [[ -z "$HISTFILE" ]]; then
   HISTFILE=~/.zsh_history
@@ -54,7 +52,7 @@ setopt hist_reduce_blanks
 setopt share_history
 
 ################
-#  completion  #
+#  Completion  #
 ################
 setopt no_menu_complete
 setopt auto_menu
@@ -79,7 +77,7 @@ zstyle ':completion:*:*:*:*:processes' \
 autoload -Uz compinit && compinit -i
 
 #################
-#  keybindings  #
+#  Keybindings  #
 #################
 bindkey -v
 bindkey -v "^?" backward-delete-char
@@ -88,7 +86,7 @@ bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
 
 ##########
-#  misc  #
+#  Misc  #
 ##########
 setopt long_list_jobs
 setopt no_clobber
@@ -98,7 +96,7 @@ autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 source /etc/zsh_command_not_found
 
 ###########
-#  theme  #
+#  Theme  #
 ###########
 setopt prompt_subst
 
