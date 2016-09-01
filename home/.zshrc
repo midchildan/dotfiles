@@ -105,27 +105,29 @@ if [[ "$TERM" == "dumb" ]]; then
 else
   autoload -Uz vcs_info
   zstyle ':vcs_info:*' actionformats \
-    '%b@%s: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
+    '%b@%s%f: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
   zstyle ':vcs_info:*' formats \
-    '%b@%s: %F{blue}%r/%S%f' '%c%u'
+    '%b@%s%f: %F{blue}%r/%S%f' '%c%u'
   zstyle ':vcs_info:*' stagedstr "[%B%F{yellow}staged%f%b]"
   zstyle ':vcs_info:*' unstagedstr "[%B%F{red}unstaged%f%b]"
   zstyle ':vcs_info:*' check-for-changes true
   zstyle ':vcs_info:*' enable git
 
   update_prompt() {
-    prompt_status="%(?:%(!.%F{green}#.%%):%F{red}%#)%f"
+    prompt_prompt="%(?::%F{red})%#%f"
+    prompt_login="%B%(!:%F{red}:)"
     prompt_hname=""
     if [[ -n "$SSH_CONNECTION" ]]; then
+      prompt_login="%B%(!:%F{red}:%F{green})"
       prompt_hname="@%m"
     fi
 
     vcs_info
     if [[ -n "$vcs_info_msg_0_" ]]; then
-      PROMPT=$'%B$vcs_info_msg_0_\n$prompt_status%b '
+      PROMPT=$'$prompt_login$vcs_info_msg_0_\n$prompt_prompt%b '
       RPROMPT="$vcs_info_msg_1_"
     else
-      PROMPT=$'%B%n$prompt_hname: %F{blue}%~%f\n$prompt_status%b '
+      PROMPT=$'$prompt_login%n$prompt_hname%f: %F{blue}%~%f\n$prompt_prompt%b '
       RPROMPT=""
     fi
   }
