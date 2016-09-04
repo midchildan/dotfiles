@@ -1,6 +1,6 @@
 export EDITOR="vim"
 export LANG="en_US.UTF-8"
-export LESS="-R"
+export LESS="iMR"
 export PAGER="less"
 
 export GOPATH=~/Documents/devel/go

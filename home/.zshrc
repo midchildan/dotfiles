@@ -99,6 +99,7 @@ bindkey -M menuselect '^?' undo
 ##########
 #  Misc  #
 ##########
+setopt extended_glob
 setopt long_list_jobs
 setopt no_clobber
 setopt no_flowcontrol
