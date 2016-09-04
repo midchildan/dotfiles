@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>org.gnupg.gpg-agent</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/bin/bash</string>
+      <string>-c</string>
+      <string>
+        eval $(/usr/local/bin/gpg-agent --daemon)
+        /bin/launchctl setenv GPG_AGENT_INFO $GPG_AGENT_INFO
+        if [[ -z "$SSH_AUTH_SOCK" ]]; then
+          /bin/launchctl setenv SSH_AUTH_SOCK $SSH_AUTH_SOCK
+        fi
+      </string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+  </dict>
+</plist>
