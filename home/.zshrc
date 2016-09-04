@@ -80,11 +80,21 @@ autoload -Uz compinit && compinit -i
 #################
 #  Keybindings  #
 #################
+autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
+
 bindkey -v
-bindkey -v "^?" backward-delete-char
-bindkey -a "K" run-help
-bindkey "^P" history-beginning-search-backward
-bindkey "^N" history-beginning-search-forward
+bindkey -v '^A' smart-insert-last-word
+bindkey -v '^?' backward-delete-char
+bindkey -a 'K' run-help
+bindkey '^P' history-beginning-search-backward
+bindkey '^N' history-beginning-search-forward
+bindkey -M menuselect '^N' down-line-or-history
+bindkey -M menuselect '^P' up-line-or-history
+bindkey -M menuselect '^F' forward-char
+bindkey -M menuselect '^B' backward-char
+bindkey -M menuselect '^J' accept-and-infer-next-history
+bindkey -M menuselect '^X^J' accept-and-menu-complete
+bindkey -M menuselect '^?' undo
 
 ##########
 #  Misc  #
