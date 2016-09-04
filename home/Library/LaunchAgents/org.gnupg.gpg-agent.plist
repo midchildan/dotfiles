@@ -11,7 +11,7 @@
       <string>
         eval $(/usr/local/bin/gpg-agent --daemon)
         /bin/launchctl setenv GPG_AGENT_INFO $GPG_AGENT_INFO
-        if [[ -z "$SSH_AUTH_SOCK" ]]; then
+        if [[ -n "$SSH_AUTH_SOCK" ]]; then
           /bin/launchctl setenv SSH_AUTH_SOCK $SSH_AUTH_SOCK
         fi
       </string>
