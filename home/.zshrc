@@ -26,7 +26,6 @@ alias la='ls -lAh'
 autoload -Uz edit-command-line
 autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
 autoload -Uz zmv
-autoload -Uz zsh_stats
 
 #################
 #  Directories  #
