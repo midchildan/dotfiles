@@ -1,0 +1,7 @@
+[user]
+	name = midchildan
+	email = midchildan+git@gmail.com
+[push]
+	default = simple
+[merge]
+	tool = vimdiff
