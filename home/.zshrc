@@ -60,8 +60,7 @@ setopt share_history
 ################
 #  Completion  #
 ################
-setopt no_menu_complete
-setopt auto_menu
+setopt menu_complete
 setopt complete_in_word
 setopt always_to_end
 setopt no_auto_remove_slash
@@ -86,28 +85,38 @@ autoload -Uz compinit && compinit -i
 #  Keybindings  #
 #################
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
+zle -C complete-file complete-word _generic &&
+  zstyle ':completion:complete-file:*' completer _files
 
 bindkey -v
-bindkey -v '^A' smart-insert-last-word
-bindkey -v '^?' backward-delete-char
+bindkey -rv '^[,' '^[/' '^[~'
+bindkey -v \
+  '^A' smart-insert-last-word \
+  '^Gu' split-undo \
+  '^H' backward-delete-char \
+  '^N' history-beginning-search-forward \
+  '^P' history-beginning-search-backward \
+  '^U' backward-kill-line \
+  '^W' backward-kill-word \
+  '^X^F' complete-file \
+  '^?' backward-delete-char
 bindkey -a 'K' run-help
-bindkey '^P' history-beginning-search-backward
-bindkey '^N' history-beginning-search-forward
-bindkey -M menuselect '^N' down-line-or-history
-bindkey -M menuselect '^P' up-line-or-history
-bindkey -M menuselect '^F' forward-char
-bindkey -M menuselect '^B' backward-char
-bindkey -M menuselect '^J' accept-and-infer-next-history
-bindkey -M menuselect '^X^J' accept-and-menu-complete
-bindkey -M menuselect '^?' undo
+bindkey -M menuselect \
+  '^B' backward-char \
+  '^F' forward-char \
+  '^J' accept-and-menu-complete \
+  '^N' down-line-or-history \
+  '^P' up-line-or-history \
+  '^X^F' accept-and-infer-next-history \
+  '^?' undo
 
 ##########
 #  Misc  #
 ##########
-setopt extended_glob
 setopt long_list_jobs
 setopt no_clobber
 setopt no_flowcontrol
+autoload -Uz select-word-style && select-word-style bash
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 
 # Tell Apple Terminal the working directory
@@ -185,4 +194,5 @@ else
   add-zsh-hook preexec update_title
 
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)
 fi
