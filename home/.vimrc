@@ -29,6 +29,7 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 set autoindent
+set linebreak
 
 """"""""
 "  UI  "
@@ -86,5 +87,4 @@ let g:UltiSnipsSnippetsDir='~/.vim/after/UltiSnips'
 let g:ycm_key_list_select_completion=[]
 let g:ycm_key_list_previous_completion=[]
 let g:ycm_key_invoke_completion=''
-let g:ycm_autoclose_preview_window_after_insertion=1
-let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
