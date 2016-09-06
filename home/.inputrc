@@ -1,12 +1,26 @@
 # completion
+set colored-stats on
 set completion-ignore-case on
+set completion-map-case on
 set menu-complete-display-prefix on
 set show-all-if-ambiguous on
+set skip-completed-text on
 set visible-stats on
 
 # editing
 set editing-mode vi
+set history-size 2000
+set bind-tty-special-chars off
 
+set keymap vi-command
 "\C-l": clear-screen
-"\C-n": history-search-backward
-"\C-p": history-search-forward
+
+set keymap vi-insert
+TAB: menu-complete
+"\e[Z": menu-complete-backward
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+"\C-w": backward-kill-word
+"\C-x\C-e": edit-and-execute-command
+"\C-x\C-f": complete-filename
+"\C-x\C-n": dynamic-complete-history
