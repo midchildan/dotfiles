@@ -4,6 +4,6 @@ export LESS="iMR"
 export PAGER="less"
 
 export GOPATH=~/Documents/devel/go
-export ANDROID_HOME=~/.local/opt/android-sdk
+export ANDROID_HOME=/usr/local/opt/android-sdk
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
