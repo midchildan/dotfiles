@@ -44,9 +44,8 @@ if [[ -z "${debian_root:-}" ]] && [[ -r /etc/debian_chroot ]]; then
   debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-PS1='${debian_chroot:+($debian_chroot)}'
 if [[ $TERM == "dumb" ]]; then
-  PS1+='\u@\h:\w\$ '
+  PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 else
   if [[ -x /usr/bin/dircolors ]]; then
     if [[ -r ~/.dircolors ]]; then
@@ -56,18 +55,20 @@ else
     fi
   fi
 
-  prompt_login='\[\033[1m\]'
-  prompt_login='\u'
+  prompt_color='\[\033[1m\]'
+  prompt_login='${debian_chroot:+($debian_chroot)}\u'
+  prompt_title='\[\e]0;${debian_chroot:+($debian_chroot)}\w\a\]'
   if [[ -n "$SSH_CONNECTION" ]]; then
     prompt_color='\[\033[1;32m\]'
-    prompt_login='\u@\h'
+    prompt_login+='@\h'
+    prompt_title='\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h:\w\a\]'
   fi
   if [[ $EUID -eq 0 ]]; then
     prompt_color='\[\033[1;31m\]'
   fi
-  PS1+=$prompt_color$prompt_login
+  PS1=$prompt_title$prompt_color$prompt_login
   PS1+='\[\033[0;1m\]:\[\033[34m\]\w\[\033[0;1m\]\$\[\033[0m\] '
-  unset prompt_login prompt_hname
+  unset prompt_color prompt_login prompt_title
 fi
 
 ##########
