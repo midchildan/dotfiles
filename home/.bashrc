@@ -45,18 +45,20 @@ shopt -s histappend
 if [[ $TERM == "dumb" ]]; then
   PS1='\u@\h:\w\$ '
 else
-  prompt_login='\[\033[1m\]'
+  prompt_color='\[\033[1m\]'
   prompt_login='\u'
+  prompt_title=''
   if [[ -n "$SSH_CONNECTION" ]]; then
     prompt_color='\[\033[1;32m\]'
-    prompt_login='\u@\h'
+    prompt_login+='@\h'
+    prompt_title='\[\e]0;\u@\h:\w\a\]'
   fi
   if [[ $EUID -eq 0 ]]; then
     prompt_color='\[\033[1;31m\]'
   fi
-  PS1=$prompt_color$prompt_login
+  PS1=$prompt_title$prompt_color$prompt_login
   PS1+='\[\033[0;1m\]:\[\033[34m\]\w\[\033[0;1m\]\$\[\033[0m\] '
-  unset prompt_login prompt_hname
+  unset prompt_color prompt_login prompt_title
 fi
 
 ##########
@@ -68,6 +70,7 @@ shopt -s globstar
 
 if [ -f /usr/local/etc/bash_completion ]; then
   . /usr/local/etc/bash_completion
+fi
 
 if [[ "$SHELL" != *"zsh" ]] && grep -q zsh /etc/shells; then
   echo "[NOTICE] zsh is available on this system." >&2
