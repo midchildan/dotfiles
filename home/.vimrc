@@ -71,6 +71,7 @@ set undodir=~/Library/Caches/vim/undo
 """"""""""
 " Filetype Recognition "
 let g:tex_flavor='latex'
+au BufRead,BufNewFile *.cuh setfiletype cuda
 
 " Syntastic "
 let g:syntastic_always_populate_loc_list=1
