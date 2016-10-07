@@ -55,7 +55,6 @@ setopt share_history
 ################
 #  Completion  #
 ################
-setopt menu_complete
 setopt complete_in_word
 setopt always_to_end
 setopt no_auto_remove_slash
