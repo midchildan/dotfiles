@@ -1,0 +1,18 @@
+[submodule "home/.mikutter/plugin/mikutter-uwm-hommage"]
+	path = home/.mikutter/plugin/mikutter-uwm-hommage
+	url = https://github.com/moguno/mikutter-uwm-hommage.git
+[submodule "home/.mikutter/plugin/search"]
+	path = home/.mikutter/plugin/search
+	url = https://github.com/moguno/mikutter-search_moguno.git
+[submodule "home/.mikutter/plugin/sub_parts_client"]
+	path = home/.mikutter/plugin/sub_parts_client
+	url = https://github.com/toshia/mikutter-sub-parts-client.git
+[submodule "home/.mikutter/plugin/mikutter-subparts-image"]
+	path = home/.mikutter/plugin/mikutter-subparts-image
+	url = https://github.com/moguno/mikutter-subparts-image.git
+[submodule "home/.mikutter/plugin/mikutter-okaeri"]
+	path = home/.mikutter/plugin/mikutter-okaeri
+	url = https://github.com/moguno/mikutter-okaeri.git
+[submodule "home/.mikutter/plugin/pulseaudio"]
+	path = home/.mikutter/plugin/pulseaudio
+	url = https://github.com/toshia/mikutter-pulseaudio.git
