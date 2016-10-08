@@ -44,6 +44,10 @@ mkdir -p ~/.ipython/profile_default
 ln -s $DOTFILE_DIR/home/.ipython/profile_default/ipython_config.py \
   ~/.ipython/profile_default/ipython_config.py
 
+# mikutter
+mkdir ~/.mikutter
+ln -s $DOTFILE_DIR/home/.mikutter/plugin ~/.mikutter/plugin
+
 # Others
 ln -s $DOTFILE_DIR/.clang-format ~/.clang-format
 ln -s $DOTFILE_DIR/.gitconfig ~/.gitconfig
