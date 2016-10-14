@@ -40,11 +40,11 @@ mkdir ~/.mikutter
 ln -s $DOTFILE_DIR/home/.mikutter/plugin ~/.mikutter/plugin
 
 # Others
-ln -s $DOTFILE_DIR/.clang-format ~/.clang-format
-ln -s $DOTFILE_DIR/.gdbinit ~/.gdbinit
-ln -s $DOTFILE_DIR/.gitconfig ~/.gitconfig
-ln -s $DOTFILE_DIR/.latexmkrc ~/.latexmkrc
-ln -s $DOTFILE_DIR/.tern-config ~/.tern-config
-ln -s $DOTFILE_DIR/.tmux.conf ~/.tmux.conf
-ln -s $DOTFILE_DIR/.xprofile ~/.xprofile
-ln -s $DOTFILE_DIR/.xmonad ~/.xmonad
+ln -s $DOTFILE_DIR/home/.clang-format ~/.clang-format
+ln -s $DOTFILE_DIR/home/.gdbinit ~/.gdbinit
+ln -s $DOTFILE_DIR/home/.gitconfig ~/.gitconfig
+ln -s $DOTFILE_DIR/home/.latexmkrc ~/.latexmkrc
+ln -s $DOTFILE_DIR/home/.tern-config ~/.tern-config
+ln -s $DOTFILE_DIR/home/.tmux.conf ~/.tmux.conf
+ln -s $DOTFILE_DIR/home/.xprofile ~/.xprofile
+ln -s $DOTFILE_DIR/home/.xmonad ~/.xmonad
