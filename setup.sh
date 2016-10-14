@@ -26,7 +26,10 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 # GnuPG
 mkdir ~/.gnupg
-chmod 600 .gnupg
+chmod 700 .gnupg
+chmod 700 $DOTFILE_DIR/home/.gnupg
+chmod 600 $DOTFILE_DIR/home/.gnupg/gpg-agent.conf
+chmod 600 $DOTFILE_DIR/home/.gnupg/gpg.conf
 ln -s $DOTFILE_DIR/home/.gnupg/gpg-agent.conf ~/.gnupg/gpg-agent.conf
 ln -s $DOTFILE_DIR/home/.gnupg/gpg.conf ~/.gnupg/gpg.conf
 
