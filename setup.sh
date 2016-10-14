@@ -3,6 +3,9 @@
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -z "$DOTFILE_DIR" ]] && $DOTFILE_DIR=~/.config/dotfiles
 
+git submodule init
+git submodule update
+
 # Shell
 ln -s $DOTFILE_DIR/home/.bash_profile ~/.bash_profile
 ln -s $DOTFILE_DIR/home/.bashrc ~/.bashrc
