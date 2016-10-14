@@ -43,6 +43,8 @@ mkdir ~/.mikutter
 ln -s $DOTFILE_DIR/home/.mikutter/plugin ~/.mikutter/plugin
 
 # Others
+mkdir -p ~/.local/opt
+ln -s $DOTFILE_DIR/home/.local/opt/peda ~/.local/opt/peda
 ln -s $DOTFILE_DIR/home/.clang-format ~/.clang-format
 ln -s $DOTFILE_DIR/home/.gdbinit ~/.gdbinit
 ln -s $DOTFILE_DIR/home/.gitconfig ~/.gitconfig

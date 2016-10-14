@@ -16,3 +16,6 @@
 [submodule "home/.mikutter/plugin/pulseaudio"]
 	path = home/.mikutter/plugin/pulseaudio
 	url = https://github.com/toshia/mikutter-pulseaudio.git
+[submodule "home/.local/opt/peda"]
+	path = home/.local/opt/peda
+	url = https://github.com/longld/peda.git
