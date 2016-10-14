@@ -22,8 +22,8 @@ ln -s $DOTFILE_DIR/home/.vimrc ~/.vimrc
 ln -s $DOTFILE_DIR/home/.gvimrc ~/.gvimrc
 ln -s $DOTFILE_DIR/home/.vim/after ~/.vim/after
 ln -s $DOTFILE_DIR/home/.vim/ycm_extra_conf.py ~/.vim/ycm_extra_conf.py
-ln -s $DOTFILE_DIR/.vimrc ~/.vim/init.vim
-ln -s ~/.vim ~/.config/nvim
+ln -s $DOTFILE_DIR/.vim/init.vim ~/.vim/init.vim
+ln -s $DOTFILE_DIR/.config/nvim ~/.config/nvim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
