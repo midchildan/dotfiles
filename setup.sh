@@ -3,6 +3,9 @@
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -z "$DOTFILE_DIR" ]] && $DOTFILE_DIR=~/Library/dotfiles
 
+git submodule init
+git submodule update
+
 # Shell
 ln -s $DOTFILE_DIR/home/.bash_profile ~/.bash_profile
 ln -s $DOTFILE_DIR/home/.bashrc ~/.bashrc
@@ -26,15 +29,16 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 # GnuPG
 mkdir ~/.gnupg
-chmod 600 .gnupg
+chmod 700 .gnupg
+chmod 700 $DOTFILE_DIR/home/.gnupg
+chmod 600 $DOTFILE_DIR/home/.gnupg/gpg-agent.conf
+chmod 600 $DOTFILE_DIR/home/.gnupg/gpg.conf
 ln -s $DOTFILE_DIR/home/.gnupg/gpg-agent.conf ~/.gnupg/gpg-agent.conf
 ln -s $DOTFILE_DIR/home/.gnupg/gpg.conf ~/.gnupg/gpg.conf
 ln -s $DOTFILE_DIR/Library/LaunchAgents/org.gnupg.gpg-agent.plist \
   ~/Library/LaunchAgents/org.gnupg.gpg-agent.plist
 
 # GTK
-git submodule init
-git submodule update
 mkdir ~/.themes
 ln -s $DOTFILE_DIR/.themes/zuki-themes ~/.themes/zuki-themes
 ln -s $DOTFILE_DIR/.gtkrc-2.0 ~/.gtkrc-2.0
@@ -49,8 +53,8 @@ mkdir ~/.mikutter
 ln -s $DOTFILE_DIR/home/.mikutter/plugin ~/.mikutter/plugin
 
 # Others
-ln -s $DOTFILE_DIR/.clang-format ~/.clang-format
-ln -s $DOTFILE_DIR/.gitconfig ~/.gitconfig
-ln -s $DOTFILE_DIR/.latexmkrc ~/.latexmkrc
-ln -s $DOTFILE_DIR/.tern-config ~/.tern-config
-ln -s $DOTFILE_DIR/.tmux.conf ~/.tmux.conf
+ln -s $DOTFILE_DIR/home/.clang-format ~/.clang-format
+ln -s $DOTFILE_DIR/home/.gitconfig ~/.gitconfig
+ln -s $DOTFILE_DIR/home/.latexmkrc ~/.latexmkrc
+ln -s $DOTFILE_DIR/home/.tern-config ~/.tern-config
+ln -s $DOTFILE_DIR/home/.tmux.conf ~/.tmux.conf
