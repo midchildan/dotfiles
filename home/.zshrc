@@ -25,6 +25,8 @@ path=(
 ###########################
 unalias run-help
 alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 alias ls='ls -F'
 alias ll='ls -lh'
 alias la='ls -lAh'
@@ -61,11 +63,11 @@ setopt share_history
 ################
 #  Completion  #
 ################
-setopt complete_in_word
 setopt always_to_end
-setopt no_auto_remove_slash
-setopt list_packed
+setopt complete_in_word
 setopt correct
+setopt magic_equal_subst
+setopt list_packed
 zmodload -i zsh/complist
 
 # case-insensitive (all),partial-word and then substring completion
@@ -73,7 +75,7 @@ zstyle ':completion:*' matcher-list \
   'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 zstyle ':completion:*' list-colors ''
-zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' menu select
 zstyle ':completion:*:*:kill:*:processes' list-colors \
   '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 zstyle ':completion:*:*:*:*:processes' \
@@ -110,6 +112,7 @@ bindkey -M menuselect \
   '^J' accept-and-menu-complete \
   '^N' down-line-or-history \
   '^P' up-line-or-history \
+  '^X^I' vi-insert \
   '^X^F' accept-and-infer-next-history \
   '^?' undo
 
