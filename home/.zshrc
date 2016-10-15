@@ -94,7 +94,10 @@ bindkey -v \
   '^W' backward-kill-word \
   '^X^F' complete-file \
   '^?' backward-delete-char
-bindkey -a 'K' run-help
+bindkey -a \
+  'K' run-help \
+  '\\/' history-incremental-pattern-search-backward \
+  '\\?' history-incremental-pattern-search-forward
 bindkey -M menuselect \
   '^B' backward-char \
   '^F' forward-char \
