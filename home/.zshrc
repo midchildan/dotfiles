@@ -20,6 +20,8 @@ path=(
 #  Aliases and Functions  #
 ###########################
 alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
@@ -116,6 +118,7 @@ setopt no_flowcontrol
 autoload -Uz select-word-style && select-word-style bash
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 
+[[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
 source /etc/zsh_command_not_found
 
 ###########
