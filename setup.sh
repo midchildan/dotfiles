@@ -45,8 +45,8 @@ install_symlink() {
   [[ ! -e "$DOTFILE_DIR/home/$1" ]] &&
     abort "install_symlink: $DOTFILE_DIR/home/$1 does not exist."
 
-  local dir=$(dirname $1)
-  local old_pwd=$(pwd)
+  local dir="$(dirname "$1")"
+  local old_pwd="$(pwd)"
   if [[ -n "$dir" ]] && [[ "$dir" != "." ]]; then
     [[ ! -d ~/"$dir" ]] && mkdir -p ~/"$dir"
     cd ~/"$dir"
@@ -55,7 +55,7 @@ install_symlink() {
   fi
 
   ln -s "$(relative_path "$DOTFILE_DIR/home/$1")" .
-  cd $old_pwd
+  cd "$old_pwd"
 }
 
 install_shell_config() {
@@ -79,8 +79,10 @@ install_vim_config() {
 }
 
 install_gpg_config() {
-  mkdir ~/.gnupg
-  chmod 700 ~/.gnupg
+  if [[ ! -d ~/.gnupg ]]; then
+    mkdir ~/.gnupg
+    chmod 700 ~/.gnupg
+  fi
   chmod 700 $DOTFILE_DIR/home/.gnupg
   chmod 600 $DOTFILE_DIR/home/.gnupg/gpg-agent.conf
   chmod 600 $DOTFILE_DIR/home/.gnupg/gpg.conf
