@@ -102,10 +102,6 @@ install_misc() {
 
   install_symlink ".gtkrc-2.0"
   install_symlink ".themes/zuki-themes"
-
-  install_symlink ".local/bin/fzf"
-  install_symlink ".local/bin/fzf-tmux"
-  install_symlink ".local/opt/fzf"
 }
 
 main
