@@ -66,6 +66,11 @@ set backup
 set backupdir=~/.cache/vim/backup
 set undofile
 set undodir=~/.cache/vim/undo
+for d in [&dir, &backupdir, &undodir]
+  if !isdirectory(d)
+    call mkdir(iconv(d, &encoding, &termencoding), 'p')
+  endif
+endfor
 
 """"""""""
 "  Misc  "
