@@ -2,7 +2,6 @@
 let s:path=system("source ~/.zshrc; echo echo VIMPATH'${PATH}' | $SHELL")
 let $PATH=matchstr(s:path, 'VIMPATH\zs.\{-}\ze\n')
 
-colorscheme molokai
 set lines=40
 set columns=120
 set cmdheight=1
@@ -13,3 +12,4 @@ set guitablabel=%M%t
 set guioptions-=T
 set transparency=15
 set confirm
+colorscheme molokai

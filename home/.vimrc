@@ -5,10 +5,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'fatih/vim-go', {'for': 'go'}
+Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle', 'for': 'go'}
-Plug 'mileszs/ack.vim', {'on': 'Ack'}
 Plug 'rdnetto/YCM-generator', {'branch': 'stable',
   \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
@@ -44,7 +44,13 @@ set laststatus=2
 set display=lastline
 set showmatch
 set wildmenu
+set title
 set mouse=a
+if $TERM =~? '.*-256color' && $TERM_PROGRAM !~? 'Apple_Terminal'
+  set cursorline
+  set termguicolors
+  colorscheme molokai
+endif
 
 """"""""""""
 "  Search  "
@@ -66,6 +72,11 @@ set backup
 set backupdir=~/Library/Caches/vim/backup
 set undofile
 set undodir=~/Library/Caches/vim/undo
+for d in [&dir, &backupdir, &undodir]
+  if !isdirectory(d)
+    call mkdir(iconv(d, &encoding, &termencoding), 'p')
+  endif
+endfor
 
 """"""""""
 "  Misc  "
@@ -73,6 +84,11 @@ set undodir=~/Library/Caches/vim/undo
 " Filetype Recognition "
 let g:tex_flavor='latex'
 au BufRead,BufNewFile *.cuh setfiletype cuda
+
+" QuickFix "
+set grepprg=rg\ --vimgrep\ --hidden
+au QuickfixCmdPost [^lA-Z]* cwindow
+au QuickfixCmdPost l* lwindow
 
 " Syntastic "
 let g:syntastic_always_populate_loc_list=1

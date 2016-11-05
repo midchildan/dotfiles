@@ -11,7 +11,6 @@ main() {
   install_shell_config
   install_vim_config
   install_gpg_config
-  install_gtk_config
   install_misc
 }
 
@@ -91,19 +90,22 @@ install_gpg_config() {
   install_symlink "Library/LaunchAgents/org.gnupg.gpg-agent.plist"
 }
 
-install_gtk_config() {
-  install_symlink ".themes/zuki-themes"
-  install_symlink ".gtkrc-2.0"
-}
-
 install_misc() {
   install_symlink ".clang-format"
   install_symlink ".gitconfig"
   install_symlink ".ipython/profile_default/ipython_config.py"
   install_symlink ".latexmkrc"
+  install_symlink ".local/share/zsh/site-functions"
   install_symlink ".mikutter/plugin"
   install_symlink ".tern-config"
   install_symlink ".tmux.conf"
+
+  install_symlink ".gtkrc-2.0"
+  install_symlink ".themes/zuki-themes"
+
+  install_symlink ".local/bin/fzf"
+  install_symlink ".local/bin/fzf-tmux"
+  install_symlink ".local/opt/fzf"
 }
 
 main
