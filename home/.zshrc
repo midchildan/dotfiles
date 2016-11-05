@@ -1,4 +1,4 @@
-fpath+=(~/.local/share/zsh/site-functions /usr/local/share/zsh-completions)
+fpath+=(~/.local/share/zsh/site-functions)
 autoload -Uz add-zsh-hook
 
 ###########################
