@@ -44,7 +44,13 @@ set laststatus=2
 set display=lastline
 set showmatch
 set wildmenu
+set title
 set mouse=a
+if $TERM =~? '.*-256color' && has('+termguicolors')
+  set cursorline
+  set termguicolors
+  colorscheme molokai
+endif
 
 """"""""""""
 "  Search  "
