@@ -1,0 +1,13 @@
+local cmd="command find . \\( -fstype 'dev' -o -fstype 'proc' \\) -prune \
+  -o -type f -print -o -type d -print -o -type l \
+  -print 2> /dev/null | sed 1d | cut -b3-"
+
+setopt localoptions pipefail 2> /dev/null
+eval "$cmd | fzf-tmux -m $FZF_FILE_OPTS" | while read item; do
+  LBUFFER+="$(echo -n "${(q)item} ")"
+done
+local ret=$?
+
+zle redisplay
+typeset -f zle-line-init >/dev/null && zle zle-line-init
+return $ret

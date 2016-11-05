@@ -1,3 +1,4 @@
+fpath+=(~/.local/share/zsh/site-functions)
 autoload -Uz add-zsh-hook
 
 ###########################
@@ -81,8 +82,9 @@ autoload -Uz compinit && compinit -i
 #  Keybindings  #
 #################
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
-zle -C complete-file complete-word _generic &&
-  zstyle ':completion:complete-file:*' completer _files
+autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
+autoload -Uz fzf-file-widget && zle -N fzf-file-widget
+autoload -Uz fzf-history-widget && zle -N fzf-history-widget
 
 bindkey -v
 bindkey -rv '^[,' '^[/' '^[~'
@@ -91,10 +93,12 @@ bindkey -v \
   '^Gu' split-undo \
   '^H' backward-delete-char \
   '^N' history-beginning-search-forward \
+  '^O' fzf-cd-widget \
   '^P' history-beginning-search-backward \
   '^U' backward-kill-line \
   '^W' backward-kill-word \
-  '^X^F' complete-file \
+  '^X^F' fzf-file-widget \
+  '^X^R' fzf-history-widget \
   '^?' backward-delete-char
 bindkey -a \
   'K' run-help \
