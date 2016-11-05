@@ -10,7 +10,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle', 'for': 'go'}
-Plug 'mileszs/ack.vim', {'on': 'Ack'}
 Plug 'rdnetto/YCM-generator', {'branch': 'stable',
   \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
@@ -86,6 +85,11 @@ endfor
 " Filetype Recognition "
 let g:tex_flavor='latex'
 au BufRead,BufNewFile *.cuh setfiletype cuda
+
+" QuickFix "
+set grepprg=rg\ --vimgrep\ --hidden
+au QuickfixCmdPost [^lA-Z]* cwindow
+au QuickfixCmdPost l* lwindow
 
 " Syntastic "
 let g:syntastic_always_populate_loc_list=1
