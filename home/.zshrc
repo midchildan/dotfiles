@@ -195,7 +195,9 @@ else
     if [[ -n "$SSH_CONNECTION" ]]; then
       print -Pn "\e]0;%m: %1~\a"
     else
-      print -Pn "\e]0;\a"
+      local title=""
+      [[ "$TERM_PROGRAM" != "Apple_Terminal" ]] && title="%1~"
+      print -Pn "\e]0;$title\a"
     fi
   }
 

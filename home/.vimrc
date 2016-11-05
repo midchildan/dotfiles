@@ -110,11 +110,5 @@ let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
 
 " VimR "
 if has('gui_vimr')
-  " set PATH
-  let s:path=system("source ~/.zshrc; echo echo VIMPATH'${PATH}' | $SHELL")
-  let $PATH=matchstr(s:path, 'VIMPATH\zs.\{-}\ze\n')
-
-  colorscheme molokai
-  set cursorline
-  set title
+  source ~/.config/nvim/ginit.vim
 endif
