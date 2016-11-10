@@ -93,7 +93,8 @@ au QuickfixCmdPost [^lA-Z]* cwindow
 au QuickfixCmdPost l* lwindow
 
 " FZF "
-command! -bang -nargs=* Grep " See BurntSushi/ripgrep#37
+" See BurntSushi/ripgrep#37
+command! -bang -nargs=* Grep
   \ call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
 " Syntastic "
