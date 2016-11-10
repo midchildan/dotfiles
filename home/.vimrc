@@ -10,12 +10,14 @@ Plug 'junegunn/fzf.vim'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle', 'for': 'go'}
+Plug 'mhinz/vim-signify'
 Plug 'rdnetto/YCM-generator', {'branch': 'stable',
   \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tomasr/molokai'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'Valloric/YouCompleteMe', {
   \ 'do': './install.py --clang-completer --tern-completer'}
