@@ -9,12 +9,14 @@ Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle', 'for': 'go'}
+Plug 'mhinz/vim-signify'
 Plug 'rdnetto/YCM-generator', {'branch': 'stable',
   \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tomasr/molokai'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'Valloric/YouCompleteMe', {
   \ 'do': './install.py --clang-completer --tern-completer'}
@@ -89,6 +91,10 @@ au BufRead,BufNewFile *.cuh setfiletype cuda
 set grepprg=rg\ --vimgrep\ --hidden
 au QuickfixCmdPost [^lA-Z]* cwindow
 au QuickfixCmdPost l* lwindow
+
+" FZF "
+command! -bang -nargs=* Grep " See BurntSushi/ripgrep#37
+  \ call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 
 " Syntastic "
 let g:syntastic_always_populate_loc_list=1
