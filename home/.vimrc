@@ -93,6 +93,10 @@ set grepprg=rg\ --vimgrep\ --hidden
 au QuickfixCmdPost [^lA-Z]* cwindow
 au QuickfixCmdPost l* lwindow
 
+" FZF "
+command! -bang -nargs=* Grep " See BurntSushi/ripgrep#37
+  \ call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+
 " Syntastic "
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_check_on_open=1
