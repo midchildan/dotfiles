@@ -96,9 +96,8 @@ au QuickfixCmdPost [^lA-Z]* cwindow
 au QuickfixCmdPost l* lwindow
 
 " FZF "
-" See BurntSushi/ripgrep#37
 command! -bang -nargs=* Grep
-  \ call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+  \ call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>), 1, <bang>0)
 
 " EasyMotion"
 let g:EasyMotion_use_migemo=1
