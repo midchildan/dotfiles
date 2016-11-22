@@ -3,7 +3,9 @@
 """""""""""""
 call plug#begin('~/.vim/plugged')
 Plug 'altercation/vim-colors-solarized'
+Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'deton/jasegment.vim'
 Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'junegunn/fzf', {'dir': '~/.local/opt/fzf', 'do': './install'}
 Plug 'junegunn/fzf.vim'
@@ -97,6 +99,9 @@ au QuickfixCmdPost l* lwindow
 " See BurntSushi/ripgrep#37
 command! -bang -nargs=* Grep
   \ call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+
+" EasyMotion"
+let g:EasyMotion_use_migemo=1
 
 " Syntastic "
 let g:syntastic_always_populate_loc_list=1
