@@ -11,7 +11,7 @@ Plug 'junegunn/fzf', {'dir': '~/.local/opt/fzf', 'do': './install'}
 Plug 'junegunn/fzf.vim'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'lervag/vimtex', {'for': 'tex'}
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle', 'for': 'go'}
+Plug 'majutsushi/tagbar'
 Plug 'mhinz/vim-signify'
 Plug 'rdnetto/YCM-generator', {'branch': 'stable',
   \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
@@ -23,6 +23,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'Valloric/YouCompleteMe', {
   \ 'do': './install.py --clang-completer --tern-completer'}
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
 
@@ -44,6 +45,7 @@ set colorcolumn=81
 set number
 set ruler
 set showcmd
+set noshowmode
 set cmdheight=1
 set laststatus=2
 set display=lastline
@@ -118,3 +120,7 @@ let g:ycm_key_list_select_completion=[]
 let g:ycm_key_list_previous_completion=[]
 let g:ycm_key_invoke_completion=''
 let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
+
+" airline "
+let g:airline_theme='monochrome'
+let g:airline_skip_empty_sections=1
