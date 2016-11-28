@@ -7,7 +7,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'deton/jasegment.vim'
 Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'junegunn/fzf', {'dir': '~/.local/opt/fzf', 'do': './install'}
+Plug 'junegunn/fzf', {'dir': '~/.local/opt/fzf', 'do': './install --bin'}
 Plug 'junegunn/fzf.vim'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'lervag/vimtex', {'for': 'tex'}

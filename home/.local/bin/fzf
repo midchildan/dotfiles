@@ -1,1 +1,2 @@
-../opt/fzf/bin/fzf
+#!/bin/bash
+exec ~/.local/bin/fzf "$@"
