@@ -17,6 +17,8 @@ path=(
   "$GOPATH/bin"
 )
 
+source ~/.nix-profile/etc/profile.d/nix.sh
+
 ###########################
 #  Aliases and Functions  #
 ###########################
