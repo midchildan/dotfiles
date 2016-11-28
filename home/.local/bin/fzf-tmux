@@ -1,2 +1,2 @@
 #!/bin/bash
-exec ~/.local/bin/fzf-tmux "$@"
+exec ~/.local/opt/fzf/bin/fzf-tmux "$@"
