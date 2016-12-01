@@ -57,6 +57,9 @@ if $TERM =~? '.*-256color' && $TERM_PROGRAM !~? 'Apple_Terminal'
   set termguicolors
   colorscheme molokai
 endif
+if has('nvim')
+  set inccommand=split
+endif
 
 """"""""""""
 "  Search  "
