@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+def main
+  pkgnames = ARGV
+
+  Tempfile.create(['rmpkg', '.rb']) do |f|
+    caskname = File.basename(f).gsub(".", "-")
+    f.print caskfile(caskname, pkgnames)
+    system("brew", "cask", "rm", "--force", f.path)
+  end
+end
+
+def caskfile(caskname, pkgnames)
+  pkgnames = pkgnames.map { |pkg| "'#{pkg}'" }
+
+<<-"EOS"
+cask '#{caskname}' do
+  name '#{caskname}'
+
+  uninstall pkgutil: [ #{pkgnames.join(", ")} ]
+end
+EOS
+end
+
+if __FILE__ == $0
+  main
+end
