@@ -6,6 +6,7 @@ def main
   Tempfile.create(['rmpkg', '.rb']) do |f|
     caskname = File.basename(f).gsub(".", "-")
     f.print caskfile(caskname, pkgnames)
+    f.close
     system("brew", "cask", "rm", "--force", f.path)
   end
 end
