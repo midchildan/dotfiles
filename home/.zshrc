@@ -7,7 +7,6 @@ autoload -Uz add-zsh-hook
 export CLICOLOR=1
 export GEM_HOME="$(/usr/local/bin/ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
-export SSH_AUTH_SOCK=~/.gnupg/S.gpg-agent.ssh
 
 typeset -U path
 path=(
