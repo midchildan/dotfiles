@@ -14,12 +14,29 @@ let g:vimtex_latexmk_continuous=1
 let g:vimtex_latexmk_options =
       \ '-pdfdvi -verbose -file-line-error -synctex=1 -interaction=nonstopmode'
 
-if executable('zathura')
-  let g:vimtex_view_method = 'zathura'
-elseif executable('okular')
-  let g:vimtex_view_general_viewer = 'okular'
-  let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
-  let g:vimtex_view_general_options_latexmk = '--unique'
+if isdirectory('/Applications/Skim.app')
+  let g:vimtex_view_general_viewer
+        \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+  let g:vimtex_view_general_options = '-g -r @line @pdf @tex'
+
+  let g:vimtex_latexmk_callback_hooks = ['UpdateSkim']
+  function! UpdateSkim(status)
+    if !a:status | return | endif
+
+    let l:out = b:vimtex.out()
+    let l:tex = expand('%:p')
+    let l:cmd = [g:vimtex_view_general_viewer, '-r']
+    if !empty(system('pgrep Skim'))
+      call extend(l:cmd, ['-g'])
+    endif
+    if has('nvim')
+      call jobstart(l:cmd + [line('.'), l:out, l:tex])
+    elseif has('job')
+      call job_start(l:cmd + [line('.'), l:out, l:tex])
+    else
+      call system(join(l:cmd + [line('.'), shellescape(l:out), shellescape(l:tex)], ' '))
+    endif
+  endfunction
 endif
 
 if !exists('g:ycm_semantic_triggers')
