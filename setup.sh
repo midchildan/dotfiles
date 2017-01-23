@@ -93,6 +93,7 @@ install_gpg_config() {
 
 install_misc() {
   install_symlink ".clang-format"
+  install_symlink ".config/zathura/zathurarc"
   install_symlink ".gdbinit"
   install_symlink ".gitconfig"
   install_symlink ".ipython/profile_default/ipython_config.py"

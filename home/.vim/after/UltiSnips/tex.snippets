@@ -4,9 +4,10 @@ snippet article "An article template" b
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{here}
+\usepackage{hyperref}
 \usepackage{listings}
 \usepackage{longtable}
-\usepackage{url}
+\usepackage{xcolor}
 \addbibresource{`!p snip.rv = snip.basename + '.bib'`}
 
 \title{$1}
@@ -23,14 +24,16 @@ $0
 endsnippet
 
 snippet jsarticle "A jsarticle template" b
-\documentclass[uplatex, a4paper, 11pt]{jsarticle}
+\documentclass[a4paper,11pt,uplatex,dvipdfmx]{jsarticle}
 \usepackage{biblatex}
 \usepackage{booktabs}
-\usepackage[dvipdfmx]{graphicx}
+\usepackage{graphicx}
 \usepackage{here}
+\usepackage{hyperref}
 \usepackage{listings}
 \usepackage{longtable}
-\usepackage{url}
+\usepackage{pxjahyper}
+\usepackage{xcolor}
 \addbibresource{`!p snip.rv = snip.basename + '.bib'`}
 
 \title{$1}

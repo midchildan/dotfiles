@@ -1,14 +1,27 @@
-" conceal
+"""""""""""""
+"  conceal  "
+"""""""""""""
 let g:tex_conceal='adbmgs'
 setlocal conceallevel=2
 hi Conceal guibg=black guifg=cyan
 
-" vimtex
+""""""""""""
+"  vimtex  "
+""""""""""""
 let g:vimtex_fold_enabled=1
-let g:vimtex_fold_manual=1
-let g:vimtex_latexmk_continous=0
-let g:vimtex_latexmk_options='-pdfdvi -verbose -file-line-error'
-let g:vimtex_latexmk_options.=' -synctex=1 -interaction=nonstopmode'
+let g:vimtex_fold_manual=0
+let g:vimtex_latexmk_continuous=1
+let g:vimtex_latexmk_options =
+      \ '-pdfdvi -verbose -file-line-error -synctex=1 -interaction=nonstopmode'
+
+if executable('zathura')
+  let g:vimtex_view_method = 'zathura'
+elseif executable('okular')
+  let g:vimtex_view_general_viewer = 'okular'
+  let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
+  let g:vimtex_view_general_options_latexmk = '--unique'
+endif
+
 if !exists('g:ycm_semantic_triggers')
   let g:ycm_semantic_triggers = {}
 endif
