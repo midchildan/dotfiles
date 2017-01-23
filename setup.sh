@@ -92,8 +92,9 @@ install_gpg_config() {
 
 install_misc() {
   install_symlink ".clang-format"
+  install_symlink ".config/git/config"
+  install_symlink ".config/git/ignore"
   install_symlink ".config/zathura/zathurarc"
-  install_symlink ".gitconfig"
   install_symlink ".ipython/profile_default/ipython_config.py"
   install_symlink ".latexmkrc"
   install_symlink ".local/bin/rmpkg"
