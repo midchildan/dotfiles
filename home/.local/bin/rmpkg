@@ -4,10 +4,10 @@ def main
   pkgnames = ARGV
 
   Tempfile.create(['rmpkg', '.rb']) do |f|
-    caskname = File.basename(f).gsub(".", "-")
+    caskname = File.basename(f, ".rb").gsub(".", "-")
     f.print caskfile(caskname, pkgnames)
     f.close
-    system("brew", "cask", "rm", "--force", f.path)
+    system("brew", "cask", "rm", "--force", "--verbose", f.path)
   end
 end
 
