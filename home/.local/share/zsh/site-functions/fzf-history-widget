@@ -1,3 +1,5 @@
+# vim:set et sw=2 ts=8 ft=zsh:
+
 local selected num
 
 setopt localoptions noglobsubst pipefail 2> /dev/null
