@@ -1,3 +1,6 @@
 {
-  "libs": ["browser", "jquery"]
+  "libs": ["browser", "jquery"],
+  "plugins": {
+    "node": {}
+  }
 }
