@@ -1,18 +1,40 @@
 #!/bin/bash
 
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-[[ -z "$DOTFILE_DIR" ]] && $DOTFILE_DIR=~/.config/dotfiles
+[[ -z "$DOTFILE_DIR" ]] && DOTFILE_DIR=~/.config/dotfiles
 
 main() {
-  cd "$DOTFILE_DIR"
-  git submodule init
-  git submodule update
+  local install_deps=""
+  for n in "$@"; do
+    case "$n" in
+      --install-deps)
+        install_deps=yes
+        ;;
+      *)
+        ;;
+    esac
+  done
 
-  install_shell_config
-  install_vim_config
-  install_gpg_config
-  install_misc
+  cd "$DOTFILE_DIR"
+
+  echo "$(tput bold)== Cloning submodules ==$(tput sgr0)"
+  git submodule update --init --recursive
+
+  echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
+  setup::shell
+  setup::vim
+  setup::gpg
+  setup::misc
+
+  if [[ -n "$install_deps" ]]; then
+    echo "$(tput bold)== Installing dependencies ==$(tput sgr0)"
+    shell::install_deps
+  fi
 }
+
+######################
+#  helper functions  #
+######################
 
 abort() {
   [[ -n "$1" ]] && echo "$1" >&2
@@ -57,7 +79,11 @@ install_symlink() {
   cd "$old_pwd"
 }
 
-install_shell_config() {
+###########
+#  setup  #
+###########
+
+setup::shell() {
   install_symlink ".bash_profile"
   install_symlink ".bashrc"
   install_symlink ".bash_logout"
@@ -67,10 +93,7 @@ install_shell_config() {
   install_symlink ".inputrc"
 }
 
-install_vim_config() {
-  mkdir -p ~/.cache/vim/backup
-  mkdir -p ~/.cache/vim/swap
-  mkdir -p ~/.cache/vim/undo
+setup::vim() {
   install_symlink ".vimrc"
   install_symlink ".gvimrc"
   install_symlink ".vim"
@@ -79,7 +102,7 @@ install_vim_config() {
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 }
 
-install_gpg_config() {
+setup::gpg() {
   if [[ ! -d ~/.gnupg ]]; then
     mkdir ~/.gnupg
     chmod 700 ~/.gnupg
@@ -91,7 +114,7 @@ install_gpg_config() {
   install_symlink ".gnupg/gpg.conf"
 }
 
-install_misc() {
+setup::misc() {
   install_symlink ".clang-format"
   install_symlink ".config/git/config"
   install_symlink ".config/git/ignore"
@@ -112,4 +135,19 @@ install_misc() {
   install_symlink ".local/bin/fzf-tmux"
 }
 
-main
+setup::install_deps() {
+  sudo apt-get update
+  sudo apt-get install -y \
+    build-essential \
+    cmake \
+    cargo \
+    rustc \
+    npm \
+    nodejs \
+    zsh-syntax-highlighting
+  sudo ln -s /usr/bin/nodejs /usr/local/bin/node
+
+  vim +PlugInstall +qall
+}
+
+main "$@"
