@@ -28,7 +28,7 @@ main() {
 
   if [[ -n "$install_deps" ]]; then
     echo "$(tput bold)== Installing dependencies ==$(tput sgr0)"
-    shell::install_deps
+    setup::install_deps
   fi
 }
 
