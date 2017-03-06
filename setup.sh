@@ -103,11 +103,13 @@ setup::vim() {
   local old_pwd="$(pwd)"
   cd "$mvim_dir"
   if [[ -x "$mvim_dir/mvim" ]]; then
+    ln -s mvim vi
     ln -s mvim view
     ln -s mvim vim
     ln -s mvim vimdiff
     ln -s mvim vimex
   else
+    [[ -e vi ]] || rm vi
     [[ -e view ]] || rm view
     [[ -e vim ]] || rm vim
     [[ -e vimdiff ]] || rm vimdiff
