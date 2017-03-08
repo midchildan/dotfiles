@@ -18,7 +18,7 @@ main() {
   cd "$DOTFILE_DIR"
 
   echo "$(tput bold)== Cloning submodules ==$(tput sgr0)"
-  git submodule update --init --recursive
+  git submodule update --init
 
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
@@ -123,6 +123,7 @@ setup::misc() {
   install_symlink ".ipython/profile_default/ipython_config.py"
   install_symlink ".latexmkrc"
   install_symlink ".local/opt/peda"
+  install_symlink ".local/opt/pwndbg"
   install_symlink ".local/share/zsh/site-functions"
   install_symlink ".mikutter/plugin"
   install_symlink ".nixpkgs/config.nix"
