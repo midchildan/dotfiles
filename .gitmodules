@@ -17,6 +17,7 @@
 [submodule "home/.mikutter/plugin/mikutter-subparts-image"]
 	path = home/.mikutter/plugin/mikutter-subparts-image
 	url = https://github.com/moguno/mikutter-subparts-image.git
+	ignore = all
 [submodule "home/.mikutter/plugin/mikutter-mac"]
 	path = home/.mikutter/plugin/mikutter-mac
 	url = https://github.com/midchildan/mikutter-mac.git
