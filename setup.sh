@@ -17,8 +17,8 @@ main() {
 
   cd "$DOTFILE_DIR"
 
-  echo "$(tput bold)== Cloning submodules ==$(tput sgr0)"
-  git submodule update --init
+  echo "$(tput bold)== Updating submodules ==$(tput sgr0)"
+  git submodule update --init --remote
 
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
