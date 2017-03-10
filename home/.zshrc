@@ -28,8 +28,8 @@ alias egrep='egrep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
-alias peda='GDB_USE_PEDA=1 gdb'
-alias pwndbg='GDB_USE_PWNDBG=1 gdb'
+alias peda='GDB_USE_PEDA=1 GDB_USE_PWNDBG=0 gdb'
+alias pwndbg='GDB_USE_PWNDBG=1 GDB_USE_PEDA=0 gdb'
 alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz edit-command-line
 autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
