@@ -4,11 +4,11 @@ DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -z "$DOTFILE_DIR" ]] && DOTFILE_DIR=~/Library/dotfiles
 
 main() {
-  local install_deps=""
+  local install_plugins=""
   for n in "$@"; do
     case "$n" in
-      --install-deps)
-        install_deps=yes
+      --install-plugins)
+        install_plugins=yes
         ;;
       *)
         ;;
@@ -17,8 +17,8 @@ main() {
 
   cd "$DOTFILE_DIR"
 
-  echo "$(tput bold)== Cloning submodules ==$(tput sgr0)"
-  git submodule update --init --recursive
+  echo "$(tput bold)== Updating submodules ==$(tput sgr0)"
+  git submodule update --init --remote
 
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
@@ -26,9 +26,9 @@ main() {
   setup::gpg
   setup::misc
 
-  if [[ -n "$install_deps" ]]; then
-    echo "$(tput bold)== Installing dependencies ==$(tput sgr0)"
-    setup::install_deps
+  if [[ -n "$install_plugins" ]]; then
+    echo "$(tput bold)== Installing plugins ==$(tput sgr0)"
+    setup::install_plugins
   fi
 }
 
@@ -123,9 +123,9 @@ setup::gpg() {
     mkdir ~/.gnupg
     chmod 700 ~/.gnupg
   fi
-  chmod 700 $DOTFILE_DIR/home/.gnupg
-  chmod 600 $DOTFILE_DIR/home/.gnupg/gpg-agent.conf
-  chmod 600 $DOTFILE_DIR/home/.gnupg/gpg.conf
+  chmod 700 "$DOTFILE_DIR/home/.gnupg"
+  chmod 600 "$DOTFILE_DIR/home/.gnupg/gpg-agent.conf"
+  chmod 600 "$DOTFILE_DIR/home/.gnupg/gpg.conf"
   install_symlink ".gnupg/gpg-agent.conf"
   install_symlink ".gnupg/gpg.conf"
   install_symlink "Library/LaunchAgents/org.gnupg.gpg-agent.plist"
@@ -148,7 +148,7 @@ setup::misc() {
   install_symlink ".themes/zuki-themes"
 }
 
-setup::install_deps() {
+setup::install_plugins() {
   brew update
   brew install \
     cmake \
