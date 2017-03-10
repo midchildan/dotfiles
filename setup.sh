@@ -107,9 +107,9 @@ setup::gpg() {
     mkdir ~/.gnupg
     chmod 700 ~/.gnupg
   fi
-  chmod 700 $DOTFILE_DIR/home/.gnupg
-  chmod 600 $DOTFILE_DIR/home/.gnupg/gpg-agent.conf
-  chmod 600 $DOTFILE_DIR/home/.gnupg/gpg.conf
+  chmod 700 "$DOTFILE_DIR/home/.gnupg"
+  chmod 600 "$DOTFILE_DIR/home/.gnupg/gpg-agent.conf"
+  chmod 600 "$DOTFILE_DIR/home/.gnupg/gpg.conf"
   install_symlink ".gnupg/gpg-agent.conf"
   install_symlink ".gnupg/gpg.conf"
 }
