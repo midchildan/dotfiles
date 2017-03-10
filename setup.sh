@@ -134,6 +134,7 @@ setup::misc() {
 
   install_symlink ".local/bin/fzf"
   install_symlink ".local/bin/fzf-tmux"
+  install_symlink ".local/libexec/fzf/install"
 }
 
 setup::install_plugins() {
