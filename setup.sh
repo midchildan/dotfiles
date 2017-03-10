@@ -4,11 +4,11 @@ DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -z "$DOTFILE_DIR" ]] && DOTFILE_DIR=~/.config/dotfiles
 
 main() {
-  local install_deps=""
+  local install_plugins=""
   for n in "$@"; do
     case "$n" in
-      --install-deps)
-        install_deps=yes
+      --install-plugins)
+        install_plugins=yes
         ;;
       *)
         ;;
@@ -26,9 +26,9 @@ main() {
   setup::gpg
   setup::misc
 
-  if [[ -n "$install_deps" ]]; then
-    echo "$(tput bold)== Installing dependencies ==$(tput sgr0)"
-    setup::install_deps
+  if [[ -n "$install_plugins" ]]; then
+    echo "$(tput bold)== Installing plugins ==$(tput sgr0)"
+    setup::install_plugins
   fi
 }
 
@@ -136,7 +136,7 @@ setup::misc() {
   install_symlink ".local/bin/fzf-tmux"
 }
 
-setup::install_deps() {
+setup::install_plugins() {
   sudo apt-get update
   sudo apt-get install -y \
     build-essential \
