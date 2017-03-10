@@ -32,6 +32,7 @@ main() {
 
   cd bin
   download "$version" "$os" "$arch" || return 1
+  mkdir -p ~/.local/bin
   ln -s fzf ~/.local/bin
   ln -s fzf-tmux ~/.local/bin
 }
