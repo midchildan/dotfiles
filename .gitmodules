@@ -19,3 +19,6 @@
 [submodule "home/.local/opt/peda"]
 	path = home/.local/opt/peda
 	url = https://github.com/longld/peda.git
+[submodule "home/.local/opt/pwndbg"]
+	path = home/.local/opt/pwndbg
+	url = https://github.com/pwndbg/pwndbg.git
