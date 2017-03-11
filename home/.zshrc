@@ -86,6 +86,8 @@ autoload -Uz compinit && compinit -i
 #  Keybindings  #
 #################
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
+autoload -Uz incarg && zle -N incarg
+autoload -Uz decarg && zle -N decarg
 autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
 autoload -Uz fzf-file-widget && zle -N fzf-file-widget
 autoload -Uz fzf-history-widget && zle -N fzf-history-widget
@@ -113,6 +115,8 @@ bindkey -a \
   'ds' delete-surround \
   'ys' add-surround \
   'K' run-help \
+  '^A' incarg \
+  '^X' decarg \
   '\\/' history-incremental-pattern-search-backward \
   '\\?' history-incremental-pattern-search-forward
 bindkey -M visual 'S' add-surround
