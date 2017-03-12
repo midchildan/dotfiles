@@ -32,9 +32,31 @@ main() {
 
   cd bin
   download "$version" "$os" "$arch" || return 1
+
+  fzf_dir="$(pwd)"
   mkdir -p ~/.local/bin
-  ln -s fzf ~/.local/bin
-  ln -s fzf-tmux ~/.local/bin
+  cd ~/.local/bin
+  ln -s "$(relative_path "$fzf_dir/fzf")" .
+  ln -s "$(relative_path "$fzf_dir/fzf-tmux")" .
+}
+
+relative_path() {
+  [[ "$#" != 1 ]] && abort "relative_path: Wrong number of arguments."
+  if [[ -x /usr/bin/realpath ]]; then
+    /usr/bin/realpath --no-symlinks --relative-to=. "$1"
+  elif [[ -x /usr/bin/perl ]]; then
+    /usr/bin/perl -e "use File::Spec; print File::Spec->abs2rel('$1')"
+  elif [[ -x /usr/bin/ruby ]]; then
+    /usr/bin/ruby -e \
+      "require 'pathname'; print(Pathname.new('$1').relative_path_from(Pathname.new('$(pwd)')))"
+  elif [[ -x /usr/bin/python3 ]]; then
+    /usr/bin/python3 -c "import os; print(os.path.relpath('$1'), end='')"
+  elif [[ -x /usr/bin/python ]]; then
+    /usr/bin/python -c \
+      "from __future__ import print_function; import os; print(os.path.relpath('$1'), end='')"
+  else
+    abort "relative_path: Needs coreutils, python, ruby, or perl."
+  fi
 }
 
 download() {
