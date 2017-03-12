@@ -151,6 +151,7 @@ setopt prompt_subst
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
+  unset zle_bracketed_paste
 else
   autoload -Uz vcs_info
   zstyle ':vcs_info:*' actionformats \
