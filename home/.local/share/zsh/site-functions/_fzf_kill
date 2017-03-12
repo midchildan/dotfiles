@@ -1,0 +1,10 @@
+# vim:set et sw=2 ts=8 ft=zsh:
+
+local matches="$(ps -ef | sed 1d |
+  fzf -m --preview 'echo {}' --preview-window down:3:wrap |
+  awk '{print $2}' | tr '\n' ' ')"
+if [[ -n "$matches" ]]; then
+  LBUFFER="$LBUFFER$matches"
+fi
+zle redisplay
+typeset -f zle-line-init >/dev/null && zle zle-line-init

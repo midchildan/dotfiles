@@ -1,14 +1,18 @@
 # vim:set et sw=2 ts=8 ft=zsh:
 
-local selected num
+if ! (command -v fzf > /dev/null 2>&1) || [[ "$TERM" = "dumb" ]]; then
+  zle history-incremental-search-backward
+  return
+fi
 
 setopt localoptions noglobsubst pipefail 2> /dev/null
-selected=( $(fc -l 1 | eval "fzf-tmux +s --tac +m -n2..,.. --tiebreak=index --toggle-sort=ctrl-r $FZF_HIST_OPTS -q ${(q)LBUFFER}") )
+local selected=( $(fc -l 1 |
+  fzf-tmux --tac -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort --query="$LBUFFER" +m) )
 local ret=$?
 
-if [ -n "$selected" ]; then
-  num=$selected[1]
-  if [ -n "$num" ]; then
+if [[ -n "$selected" ]]; then
+  local num=$selected[1]
+  if [[ -n "$num" ]]; then
     zle vi-fetch-history -n $num
   fi
 fi
