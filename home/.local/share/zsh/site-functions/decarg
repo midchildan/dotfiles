@@ -1,0 +1,3 @@
+autoload -Uz incarg
+(( NUMERIC = -${NUMERIC:-${incarg:-1}} ))
+incarg

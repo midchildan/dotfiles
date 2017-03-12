@@ -1,0 +1,45 @@
+# vim:set et sw=2 ts=8 ft=zsh:
+
+local fallback=${FZF_COMPLETION_FALLBACK:-expand-or-complete}
+
+if ! (command -v fzf > /dev/null 2>&1) || [[ "$TERM" = "dumb" ]]; then
+  zle "$fallback"
+  return
+fi
+
+setopt localoptions noshwordsplit noksh_arrays noposixbuiltins
+
+autoload -Uz _fzf_dirs _fzf_files _fzf_kill
+
+local tokens=(${(z)LBUFFER})
+if (( ${#tokens} < 1 )); then
+  zle "$fallback"
+  return
+fi
+
+local cmd=${tokens[1]}
+local trigger=${FZF_COMPLETION_TRIGGER:-'**'}
+[[ -z "$trigger" && ${LBUFFER[-1]} = ' ' ]] && tokens+=("")
+local tail=${LBUFFER:$(( ${#LBUFFER} - ${#trigger} ))}
+
+# no trigger needed for kill completion
+if [[ "$cmd" = "kill" && ${LBUFFER[-1]} = ' ' ]]; then
+  _fzf_kill
+# trigger given
+elif (( ${#tokens} > 1 )) && [[ "$tail" = "$trigger" ]]; then
+  local d_cmds=(${=FZF_COMPLETION_DIR_COMMANDS:-cd pushd rmdir})
+  local prefix lbuf
+  [[ -z "$trigger" ]] && prefix=${tokens[-1]} || prefix=${tokens[-1]:0:-${#trigger}}
+  [[ -z "${tokens[-1]}" ]] && lbuf="$LBUFFER" || lbuf=${LBUFFER:0:-${#tokens[-1]}}
+
+  if (type "_fzf_complete${cmd}" > /dev/null); then
+    "_fzf_complete_${cmd}" "$prefix" "$lbuf"
+  elif (( ${d_cmds[(i)$cmd]} <= ${#d_cmds} )); then
+    _fzf_dirs "$prefix" "$lbuf"
+  else
+    _fzf_files "$prefix" "$lbuf"
+  fi
+# no trigger given
+else
+  zle "$fallback"
+fi

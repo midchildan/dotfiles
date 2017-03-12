@@ -1,0 +1,12 @@
+# vim:set et sw=2 ts=8 ft=zsh:
+
+if ! declare -f _fzf_compgen_dirs > /dev/null; then
+  _fzf_compgen_dirs() {
+    command find -L "$1" \
+      -name .git -prune -o -name .svn -prune -o -type d \
+      -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+  }
+fi
+
+autoload -Uz _fzf_generic_path
+_fzf_generic_path "$1" "$2" _fzf_compgen_dirs "" "/" ""

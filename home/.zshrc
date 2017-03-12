@@ -86,9 +86,16 @@ autoload -Uz compinit && compinit -i
 #  Keybindings  #
 #################
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
+autoload -Uz incarg && zle -N incarg
+autoload -Uz decarg && zle -N decarg
+autoload -Uz fzf-complete && zle -N fzf-complete
 autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
 autoload -Uz fzf-file-widget && zle -N fzf-file-widget
 autoload -Uz fzf-history-widget && zle -N fzf-history-widget
+autoload -Uz surround \
+  && zle -N delete-surround surround \
+  && zle -N add-surround surround \
+  && zle -N change-surround surround
 
 bindkey -v
 bindkey -rv '^[,' '^[/' '^[~'
@@ -96,6 +103,7 @@ bindkey -v \
   '^A' smart-insert-last-word \
   '^Gu' split-undo \
   '^H' backward-delete-char \
+  '^I' fzf-complete \
   '^N' history-beginning-search-forward \
   '^O' fzf-cd-widget \
   '^P' history-beginning-search-backward \
@@ -105,9 +113,15 @@ bindkey -v \
   '^X^R' fzf-history-widget \
   '^?' backward-delete-char
 bindkey -a \
+  'cs' change-surround \
+  'ds' delete-surround \
+  'ys' add-surround \
   'K' run-help \
+  '^A' incarg \
+  '^X' decarg \
   '\\/' history-incremental-pattern-search-backward \
   '\\?' history-incremental-pattern-search-forward
+bindkey -M visual 'S' add-surround
 bindkey -M menuselect \
   '^B' backward-char \
   '^F' forward-char \
@@ -160,6 +174,7 @@ setopt prompt_subst
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
+  unset zle_bracketed_paste
 else
   autoload -Uz vcs_info
   zstyle ':vcs_info:*' actionformats \
