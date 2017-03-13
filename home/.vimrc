@@ -27,6 +27,10 @@ Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
 
+if !has('nvim')
+  packadd! matchit
+endif
+
 """""""""""""
 "  Editing  "
 """""""""""""

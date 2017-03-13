@@ -8,5 +8,3 @@
 	tool = vimdiff
 [commit]
 	gpgsign = true
-[submodule]
-	fetchJobs = 0
