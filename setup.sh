@@ -128,6 +128,7 @@ setup::misc() {
   install_symlink ".local/share/zsh/site-functions"
   install_symlink ".mikutter/plugin"
   install_symlink ".nixpkgs/config.nix"
+  install_symlink ".screenrc"
   install_symlink ".tern-config"
   install_symlink ".tmux.conf"
   install_symlink ".xprofile"

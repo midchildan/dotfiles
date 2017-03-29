@@ -1,0 +1,24 @@
+###########
+#  Basic  #
+###########
+startup_message off
+verbose on
+autodetach on
+ignorecase on
+term xterm-256color
+defflow off
+
+############
+#  Window  #
+############
+bind c screen 1
+bind 0 select 10
+screen 1
+altscreen on
+
+###########
+#  Theme  #
+###########
+termcapinfo xterm* 'hs:ts=\E]2;:fs=\007:ds=\E]2;\007'
+hardstatus string 'screen (%n: %t)'
+caption always '%{= gk}[%S] %-w%n %t*%+w %= "%H" %c %d-%M-%Y'
