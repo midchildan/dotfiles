@@ -30,6 +30,7 @@ call plug#end()
 
 if !has('nvim')
   packadd! matchit
+  runtime 'ftplugin/man.vim'
 endif
 
 """""""""""""
