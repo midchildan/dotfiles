@@ -134,3 +134,6 @@ let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
 " airline "
 let g:airline_theme='monochrome'
 let g:airline_skip_empty_sections=1
+
+" undotree "
+let g:undotree_WindowLayout=2
