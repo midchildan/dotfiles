@@ -11,6 +11,7 @@ Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'majutsushi/tagbar'
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'mhinz/vim-signify'
 Plug 'rdnetto/YCM-generator', {'branch': 'stable',
   \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
@@ -29,7 +30,7 @@ call plug#end()
 
 if !has('nvim')
   packadd! matchit
-  runtime 'ftplugin/man.vim'
+  runtime ftplugin/man.vim
 endif
 
 """""""""""""
