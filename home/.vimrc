@@ -98,9 +98,7 @@ endfor
 """"""""""
 "  Misc  "
 """"""""""
-" Filetype Recognition "
 let g:tex_flavor='latex'
-au BufRead,BufNewFile *.cuh setfiletype cuda
 
 " QuickFix "
 set grepprg=rg\ --vimgrep\ --hidden
