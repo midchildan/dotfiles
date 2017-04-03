@@ -97,9 +97,7 @@ endfor
 """"""""""
 "  Misc  "
 """"""""""
-" Filetype Recognition "
 let g:tex_flavor='latex'
-au BufRead,BufNewFile *.cuh setfiletype cuda
 
 " QuickFix "
 set grepprg=rg\ --vimgrep\ --hidden
@@ -134,6 +132,9 @@ let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
 " airline "
 let g:airline_theme='monochrome'
 let g:airline_skip_empty_sections=1
+
+" undotree "
+let g:undotree_WindowLayout=2
 
 " VimR "
 if has('gui_vimr')
