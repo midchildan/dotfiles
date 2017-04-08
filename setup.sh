@@ -23,6 +23,7 @@ main() {
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
   setup::vim
+  setup::emacs
   setup::gpg
   setup::misc
 
@@ -100,6 +101,11 @@ setup::vim() {
   install_symlink ".config/nvim"
   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+}
+
+setup::emacs() {
+  [[ ! -d ~/.emacs.d ]] && git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+  install_symlink ".spacemacs"
 }
 
 setup::gpg() {
