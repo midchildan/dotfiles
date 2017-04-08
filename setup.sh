@@ -23,7 +23,6 @@ main() {
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
   setup::vim
-  setup::emacs
   setup::gpg
   setup::misc
 
@@ -103,11 +102,6 @@ setup::vim() {
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 }
 
-setup::emacs() {
-  [[ ! -d ~/.emacs.d ]] && git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-  install_symlink ".spacemacs"
-}
-
 setup::gpg() {
   if [[ ! -d ~/.gnupg ]]; then
     mkdir ~/.gnupg
@@ -122,7 +116,6 @@ setup::gpg() {
 
 setup::misc() {
   install_symlink ".clang-format"
-  install_symlink ".config/Code/User/settings.json"
   install_symlink ".config/git/config"
   install_symlink ".config/git/ignore"
   install_symlink ".config/latexmk/latexmkrc"
@@ -140,6 +133,14 @@ setup::misc() {
   install_symlink ".tmux.conf"
   install_symlink ".xprofile"
   install_symlink ".xmonad"
+
+  # spacemacs
+  [[ ! -d ~/.emacs.d ]] && git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+  install_symlink ".spacemacs"
+
+  # vscode
+  install_symlink ".config/Code/User/settings.json"
+  chmod 700 ~/.config/Code
 }
 
 setup::install_plugins() {
