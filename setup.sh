@@ -145,8 +145,17 @@ setup::misc() {
   install_symlink ".tern-config"
   install_symlink ".tmux.conf"
 
+  # gtk
   install_symlink ".gtkrc-2.0"
   install_symlink ".themes/zuki-themes"
+
+  # spacemacs
+  [[ ! -d ~/.emacs.d ]] && git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+  install_symlink ".spacemacs"
+
+  # vscode
+  install_symlink ".config/Code/User/settings.json"
+  chmod 700 ~/.config/Code
 }
 
 setup::install_plugins() {
