@@ -154,8 +154,8 @@ setup::misc() {
   install_symlink ".spacemacs"
 
   # vscode
-  install_symlink ".config/Code/User/settings.json"
-  chmod 700 ~/.config/Code
+  install_symlink "Library/Application Support/Code/User/settings.json"
+  chmod 700 ~/Library/Application\ Support/Code
 }
 
 setup::install_plugins() {
