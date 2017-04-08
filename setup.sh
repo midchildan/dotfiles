@@ -122,6 +122,7 @@ setup::gpg() {
 
 setup::misc() {
   install_symlink ".clang-format"
+  install_symlink ".config/Code/User/settings.json"
   install_symlink ".config/git/config"
   install_symlink ".config/git/ignore"
   install_symlink ".config/latexmk/latexmkrc"
