@@ -98,24 +98,6 @@ setup::vim() {
   install_symlink ".config/nvim"
   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-  local mvim_dir=/usr/local/bin
-  local old_pwd="$(pwd)"
-  cd "$mvim_dir"
-  if [[ -x "$mvim_dir/mvim" ]]; then
-    ln -s mvim vi
-    ln -s mvim view
-    ln -s mvim vim
-    ln -s mvim vimdiff
-    ln -s mvim vimex
-  else
-    [[ -e vi ]] || rm vi
-    [[ -e view ]] || rm view
-    [[ -e vim ]] || rm vim
-    [[ -e vimdiff ]] || rm vimdiff
-    [[ -e vimex ]] || rm vimex
-  fi
-  cd "$old_pwd"
 }
 
 setup::gpg() {

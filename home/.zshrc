@@ -10,6 +10,7 @@ export GPG_TTY="$(tty)"
 
 typeset -U path
 path=(
+  "/Applications/MacVim.app/Contents/bin"
   "$HOME/.local/bin"
   "/usr/local/sbin"
   $path
