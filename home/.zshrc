@@ -4,20 +4,14 @@ autoload -Uz add-zsh-hook
 ###########################
 #  Environment Variables  #
 ###########################
-export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
 
 typeset -U path
 path=(
   "$HOME/.local/bin"
   $path
-  "$GEM_HOME/bin"
-  "$(/usr/bin/python -c 'import site; print(site.getuserbase())')/bin"
-  "$(/usr/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
   "$GOPATH/bin"
 )
-
-source ~/.nix-profile/etc/profile.d/nix.sh
 
 ###########################
 #  Aliases and Functions  #
@@ -193,6 +187,6 @@ else
   add-zsh-hook precmd update_prompt
   add-zsh-hook preexec update_title
 
-  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  source /run/current-system/sw/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)
 fi

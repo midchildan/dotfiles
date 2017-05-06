@@ -4,17 +4,6 @@ DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -z "$DOTFILE_DIR" ]] && DOTFILE_DIR=~/.config/dotfiles
 
 main() {
-  local install_plugins=""
-  for n in "$@"; do
-    case "$n" in
-      --install-plugins)
-        install_plugins=yes
-        ;;
-      *)
-        ;;
-    esac
-  done
-
   cd "$DOTFILE_DIR"
 
   echo "$(tput bold)== Updating submodules ==$(tput sgr0)"
@@ -25,11 +14,6 @@ main() {
   setup::vim
   setup::gpg
   setup::misc
-
-  if [[ -n "$install_plugins" ]]; then
-    echo "$(tput bold)== Installing plugins ==$(tput sgr0)"
-    setup::install_plugins
-  fi
 }
 
 ######################
@@ -43,21 +27,7 @@ abort() {
 
 relative_path() {
   [[ "$#" != 1 ]] && abort "relative_path: Wrong number of arguments."
-  if [[ -x /usr/bin/realpath ]]; then
-    /usr/bin/realpath --no-symlinks --relative-to=. "$1"
-  elif [[ -x /usr/bin/perl ]]; then
-    /usr/bin/perl -e "use File::Spec; print File::Spec->abs2rel('$1')"
-  elif [[ -x /usr/bin/ruby ]]; then
-    /usr/bin/ruby -e \
-      "require 'pathname'; print(Pathname.new('$1').relative_path_from(Pathname.new('$(pwd)')))"
-  elif [[ -x /usr/bin/python3 ]]; then
-    /usr/bin/python3 -c "import os; print(os.path.relpath('$1'), end='')"
-  elif [[ -x /usr/bin/python ]]; then
-    /usr/bin/python -c \
-      "from __future__ import print_function; import os; print(os.path.relpath('$1'), end='')"
-  else
-    abort "relative_path: Needs coreutils, python, ruby, or perl."
-  fi
+  realpath --no-symlinks --relative-to=. "$1"
 }
 
 install_symlink() {
@@ -141,21 +111,6 @@ setup::misc() {
   # vscode
   install_symlink ".config/Code/User/settings.json"
   chmod 700 ~/.config/Code
-}
-
-setup::install_plugins() {
-  sudo apt-get update
-  sudo apt-get install -y \
-    build-essential \
-    cmake \
-    cargo \
-    rustc \
-    npm \
-    nodejs \
-    zsh-syntax-highlighting
-  sudo ln -s /usr/bin/nodejs /usr/local/bin/node
-
-  vim +PlugInstall +qall
 }
 
 main "$@"

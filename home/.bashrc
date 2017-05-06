@@ -6,20 +6,12 @@ esac
 ###########################
 #  Environment Variables  #
 ###########################
-export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
-
-PATH="~/.local/bin:$PATH"
-PATH+=":$GEM_HOME/bin"
-PATH+=":$(/usr/bin/python -c 'import site; print(site.getuserbase())')/bin"
-PATH+=":$(/usr/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
-PATH+=":$GOPATH/bin"
-export PATH
+export PATH="~/.local/bin:$PATH:$GOPATH/bin"
 
 ###########################
 #  Aliases and Functions  #
 ###########################
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -43,28 +35,22 @@ shopt -s histappend
 ###########
 #  Theme  #
 ###########
-if [[ -z "${debian_root:-}" ]] && [[ -r /etc/debian_chroot ]]; then
-  debian_chroot=$(cat /etc/debian_chroot)
-fi
-
 if [[ $TERM == "dumb" ]]; then
-  PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+  PS1='\u@\h:\w\$ '
 else
-  command -v dircolors >/dev/null 2>&1; then
-    if [[ -r ~/.dircolors ]]; then
-      eval "$(dircolors -b ~/.dircolors)"
-    else
-      eval "$(dircolors -b)"
-    fi
+  if [[ -r ~/.dircolors ]]; then
+    eval "$(dircolors -b ~/.dircolors)"
+  else
+    eval "$(dircolors -b)"
   fi
 
   prompt_color='\[\033[1m\]'
-  prompt_login='${debian_chroot:+($debian_chroot)}\u'
-  prompt_title='\[\e]0;${debian_chroot:+($debian_chroot)}\w\a\]'
+  prompt_login='\u'
+  prompt_title='\[\e]0;\w\a\]'
   if [[ -n "$SSH_CONNECTION" ]]; then
     prompt_color='\[\033[1;32m\]'
     prompt_login+='@\h'
-    prompt_title='\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h:\w\a\]'
+    prompt_title='\[\e]0;\u@\h:\w\a\]'
   fi
   if [[ $EUID -eq 0 ]]; then
     prompt_color='\[\033[1;31m\]'

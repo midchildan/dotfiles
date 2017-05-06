@@ -7,8 +7,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'deton/jasegment.vim'
 Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'junegunn/fzf', {'dir': '~/.local/opt/fzf', 'do': '~/.local/libexec/fzf/install'}
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf' | Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'lervag/vimtex', {'for': 'tex'}
@@ -24,8 +23,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
-Plug 'Valloric/YouCompleteMe', {
-  \ 'do': './install.py --clang-completer --tern-completer --racer-completer'}
+Plug '/run/current-system/sw/share/vim-plugins/youcompleteme'
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
