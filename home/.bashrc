@@ -50,7 +50,7 @@ fi
 if [[ $TERM == "dumb" ]]; then
   PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 else
-  if [[ -x /usr/bin/dircolors ]]; then
+  command -v dircolors >/dev/null 2>&1; then
     if [[ -r ~/.dircolors ]]; then
       eval "$(dircolors -b ~/.dircolors)"
     else
@@ -81,7 +81,7 @@ shopt -s checkjobs
 shopt -s checkwinsize
 shopt -s globstar
 
-[[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
+command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then

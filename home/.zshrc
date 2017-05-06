@@ -141,7 +141,7 @@ setopt no_flowcontrol
 autoload -Uz select-word-style && select-word-style bash
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 
-[[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
+command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 source /etc/zsh_command_not_found
 
 ###########
