@@ -17,6 +17,7 @@
 
 import os
 import ycm_core
+import subprocess
 
 # These are the compilation flags that will be used in case there's no
 # compilation database set (by default, one is not set).
@@ -41,14 +42,6 @@ flags = [
 # For a C project, you would set this to 'c' instead of 'c++'.
 '-x',
 'c++',
-'-isystem',
-'/usr/include',
-'-isystem',
-'/usr/local/include',
-'-isystem',
-'/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/c++/v1',
-'-isystem',
-'/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include',
 ]
 
 
@@ -138,7 +131,9 @@ def FlagsForFile( filename, **kwargs ):
       compilation_info.compiler_working_dir_ )
   else:
     relative_to = DirectoryOfThisScript()
+    ncc = os.path.join(DirectoryOfThisScript(), 'ncc')
     final_flags = MakeRelativePathsInFlagsAbsolute( flags, relative_to )
+    final_flags = subprocess.check_output( [ ncc ] + final_flags ).decode().split()
 
   return {
     'flags': final_flags,
