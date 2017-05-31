@@ -119,6 +119,8 @@ setup::misc() {
   install_symlink ".config/git/config"
   install_symlink ".config/git/ignore"
   install_symlink ".config/latexmk/latexmkrc"
+  install_symlink ".config/ranger/rc.conf"
+  install_symlink ".config/ranger/scope.sh"
   install_symlink ".config/zathura/zathurarc"
   install_symlink ".gdbinit"
   install_symlink ".ipython/profile_default/ipython_config.py"
