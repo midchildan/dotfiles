@@ -31,10 +31,10 @@ maxln=200    # Stop after $maxln lines.  Can be used like ls | head -n $maxln
 # Find out something about the file:
 mimetype="$(file --mime-type -Lb "$path")"
 extension="$(echo "${path##*.}")"
-extension="${extension,,}"
+extension="$(echo "$extension" | awk '{print tolower($0)}')"
 basename="${path##*/}"
 basename="${basename%.*}"
-basename="${basename,,}"
+basename="$(echo "$basename" | awk '{print tolower($0)}')"
 
 # Functions:
 # runs a command and saves its output into $output.  Useful if you need
