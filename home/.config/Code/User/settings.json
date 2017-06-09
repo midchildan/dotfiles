@@ -2,6 +2,7 @@
     // Telemetry
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
+    "update.channel": "none",
 
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
