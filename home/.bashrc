@@ -12,7 +12,7 @@ export GPG_TTY="$(tty)"
 
 PATH="~/.local/bin:/usr/local/opt/python/libexec/bin:/usr/local/sbin:$PATH"
 PATH+=":$GEM_HOME/bin"
-PATH+=":$(/usr/local/bin/python -c 'import site; print(site.getuserbase())')/bin"
+PATH+=":$(/usr/local/bin/python2 -c 'import site; print(site.getuserbase())')/bin"
 PATH+=":$(/usr/local/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
 PATH+=":$GOPATH/bin"
 export PATH

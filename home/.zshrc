@@ -15,7 +15,7 @@ path=(
   "/usr/local/sbin"
   $path
   "$GEM_HOME/bin"
-  "$(/usr/local/bin/python -c 'import site; print(site.getuserbase())')/bin"
+  "$(/usr/local/bin/python2 -c 'import site; print(site.getuserbase())')/bin"
   "$(/usr/local/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
   "$GOPATH/bin"
 )
