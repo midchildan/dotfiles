@@ -103,9 +103,11 @@ endfor
 let g:tex_flavor='latex'
 
 " QuickFix "
-set grepprg=rg\ --vimgrep\ --hidden
 au QuickfixCmdPost [^lA-Z]* cwindow
 au QuickfixCmdPost l* lwindow
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --hidden
+endif
 
 " FZF "
 command! -bang -nargs=* Grep

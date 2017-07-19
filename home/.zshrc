@@ -118,9 +118,7 @@ bindkey -a \
   'ys' add-surround \
   'K' run-help \
   '^A' incarg \
-  '^X' decarg \
-  '\\/' history-incremental-pattern-search-backward \
-  '\\?' history-incremental-pattern-search-forward
+  '^X' decarg
 bindkey -M visual 'S' add-surround
 bindkey -M menuselect \
   '^B' backward-char \
@@ -164,9 +162,9 @@ else
   zstyle ':vcs_info:*' enable git
 
   update_prompt() {
-    prompt_prompt="%(?::%F{red})%#%f"
-    prompt_login="%B%(!:%F{red}:)"
-    prompt_hname=""
+    local prompt_prompt="%(?::%F{red})%#%f"
+    local prompt_login="%B%(!:%F{red}:)"
+    local prompt_hname=""
     if [[ -n "$SSH_CONNECTION" ]]; then
       prompt_login="%B%(!:%F{red}:%F{green})"
       prompt_hname="@%m"
@@ -174,10 +172,10 @@ else
 
     vcs_info
     if [[ -n "$vcs_info_msg_0_" ]]; then
-      PROMPT=$'$prompt_login$vcs_info_msg_0_\n$prompt_prompt%b '
+      PROMPT="$prompt_login$vcs_info_msg_0_"$'\n'"$prompt_prompt%b "
       RPROMPT="$vcs_info_msg_1_"
     else
-      PROMPT=$'$prompt_login%n$prompt_hname%f: %F{blue}%~%f\n$prompt_prompt%b '
+      PROMPT="$prompt_login%n$prompt_hname%f: %F{blue}%~%f"$'\n'"$prompt_prompt%b "
       RPROMPT=""
     fi
   }
