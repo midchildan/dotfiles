@@ -11,6 +11,7 @@ export GPG_TTY="$(tty)"
 typeset -U path
 path=(
   "$HOME/.local/bin"
+  "/usr/local/opt/python/libexec/bin"
   "/usr/local/sbin"
   $path
   "$GEM_HOME/bin"

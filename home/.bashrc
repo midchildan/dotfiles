@@ -10,7 +10,7 @@ export CLICOLOR=1
 export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
 
-PATH="~/.local/bin:/usr/local/sbin:$PATH"
+PATH="~/.local/bin:/usr/local/opt/python/libexec/bin:/usr/local/sbin:$PATH"
 PATH+=":$GEM_HOME/bin"
 PATH+=":$(/usr/local/bin/python -c 'import site; print(site.getuserbase())')/bin"
 PATH+=":$(/usr/local/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
