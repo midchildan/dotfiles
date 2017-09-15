@@ -31,3 +31,7 @@
 	url = https://github.com/pwndbg/pwndbg.git
 	branch = dev
 	ignore = all
+[submodule "home/.local/opt/gef"]
+	path = home/.local/opt/gef
+	url = https://github.com/hugsy/gef.git
+	ignore = all
