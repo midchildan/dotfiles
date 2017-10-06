@@ -37,3 +37,8 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+####################
+#  Editor configs  #
+####################
+.ycm_extra_conf.py

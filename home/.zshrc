@@ -22,8 +22,9 @@ alias egrep='egrep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
-alias peda='GDB_USE_PEDA=1 GDB_USE_PWNDBG=0 gdb'
-alias pwndbg='GDB_USE_PEDA=0 GDB_USE_PWNDBG=1 gdb'
+alias gef='GDB_USE_GEF=1 GDB_USE_PEDA=0 GDB_USE_PWNDBG=0 gdb'
+alias peda='GDB_USE_GEF=0 GDB_USE_PEDA=1 GDB_USE_PWNDBG=0 gdb'
+alias pwndbg='GDB_USE_GEF=0 GDB_USE_PEDA=0 GDB_USE_PWNDBG=1 gdb'
 alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz edit-command-line
 autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
@@ -112,9 +113,7 @@ bindkey -a \
   'ys' add-surround \
   'K' run-help \
   '^A' incarg \
-  '^X' decarg \
-  '\\/' history-incremental-pattern-search-backward \
-  '\\?' history-incremental-pattern-search-forward
+  '^X' decarg
 bindkey -M visual 'S' add-surround
 bindkey -M menuselect \
   '^B' backward-char \
@@ -157,9 +156,9 @@ else
   zstyle ':vcs_info:*' enable git
 
   update_prompt() {
-    prompt_prompt="%(?::%F{red})%#%f"
-    prompt_login="%B%(!:%F{red}:)"
-    prompt_hname=""
+    local prompt_prompt="%(?::%F{red})%#%f"
+    local prompt_login="%B%(!:%F{red}:)"
+    local prompt_hname=""
     if [[ -n "$SSH_CONNECTION" ]]; then
       prompt_login="%B%(!:%F{red}:%F{green})"
       prompt_hname="@%m"
@@ -167,10 +166,10 @@ else
 
     vcs_info
     if [[ -n "$vcs_info_msg_0_" ]]; then
-      PROMPT=$'$prompt_login$vcs_info_msg_0_\n$prompt_prompt%b '
+      PROMPT="$prompt_login$vcs_info_msg_0_"$'\n'"$prompt_prompt%b "
       RPROMPT="$vcs_info_msg_1_"
     else
-      PROMPT=$'$prompt_login%n$prompt_hname%f: %F{blue}%~%f\n$prompt_prompt%b '
+      PROMPT="$prompt_login%n$prompt_hname%f: %F{blue}%~%f"$'\n'"$prompt_prompt%b "
       RPROMPT=""
     fi
   }
