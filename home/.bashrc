@@ -9,6 +9,7 @@ esac
 export CLICOLOR=1
 export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
+export USE_POWERLINE=0
 
 PATH="~/.local/bin:/usr/local/opt/python/libexec/bin:/usr/local/sbin:$PATH"
 PATH+=":$GEM_HOME/bin"
@@ -42,6 +43,8 @@ shopt -s histappend
 ###########
 #  Theme  #
 ###########
+[[ -z "$TERM_PROGRAM" ]] && USE_POWERLINE=0
+
 if [[ $TERM == "dumb" ]]; then
   PS1='\u@\h:\w\$ '
 else

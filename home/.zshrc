@@ -7,6 +7,7 @@ autoload -Uz add-zsh-hook
 export CLICOLOR=1
 export GEM_HOME="$(/usr/local/bin/ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
+export USE_POWERLINE=0
 
 typeset -U path
 path=(
@@ -170,6 +171,8 @@ fi
 #  Theme  #
 ###########
 setopt prompt_subst
+
+[[ -z "$TERM_PROGRAM" ]] && USE_POWERLINE=0
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
