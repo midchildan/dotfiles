@@ -5,6 +5,7 @@ autoload -Uz add-zsh-hook
 #  Environment Variables  #
 ###########################
 export GPG_TTY="$(tty)"
+export USE_POWERLINE=0
 
 typeset -U path
 path=(
@@ -140,6 +141,8 @@ command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 #  Theme  #
 ###########
 setopt prompt_subst
+
+[[ -z "$DISPLAY$WAYLAND_DISPLAY" ]] && USE_POWERLINE=0
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "

@@ -7,6 +7,7 @@ esac
 #  Environment Variables  #
 ###########################
 export GPG_TTY="$(tty)"
+export USE_POWERLINE=0
 export PATH="~/.local/bin:$PATH:$GOPATH/bin"
 
 ###########################
@@ -36,6 +37,8 @@ shopt -s histappend
 ###########
 #  Theme  #
 ###########
+[[ -z "$DISPLAY$WAYLAND_DISPLAY" ]] && USE_POWERLINE=0
+
 if [[ $TERM == "dumb" ]]; then
   PS1='\u@\h:\w\$ '
 else

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -z "$DOTFILE_DIR" ]] && DOTFILE_DIR=~/.config/dotfiles
@@ -16,25 +16,115 @@ main() {
   setup::misc
 }
 
+###########
+#  setup  #
+###########
+
+setup::shell() {
+  install::default ".bash_profile"
+  install::default ".bashrc"
+  install::default ".bash_logout"
+  install::default ".zshenv"
+  install::default ".zshrc"
+  install::default ".zlogout"
+  install::default ".inputrc"
+}
+
+setup::vim() {
+  install::default ".vimrc"
+  install::default ".gvimrc"
+  install::default ".vim"
+  install::default ".config/nvim"
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+}
+
+setup::gpg() {
+  if [[ ! -d ~/.gnupg ]]; then
+    mkdir ~/.gnupg
+    chmod 700 ~/.gnupg
+  fi
+  chmod 700 "$DOTFILE_DIR/home/.gnupg"
+  chmod 600 "$DOTFILE_DIR/home/.gnupg/gpg-agent.conf"
+  chmod 600 "$DOTFILE_DIR/home/.gnupg/gpg.conf"
+  install::default ".gnupg/gpg-agent.conf"
+  install::default ".gnupg/gpg.conf"
+}
+
+setup::misc() {
+  install::default ".clang-format"
+  install::default ".config/git/config"
+  install::default ".config/git/ignore"
+  install::default ".config/latexmk/latexmkrc"
+  install::default ".config/ranger/rc.conf"
+  install::default ".config/ranger/scope.sh"
+  install::default ".config/zathura/zathurarc"
+  install::default ".gdbinit"
+  install::default ".ipython/profile_default/ipython_config.py"
+  install::default ".local/libexec/fzf/install"
+  install::default ".local/opt/gef"
+  install::default ".local/opt/peda"
+  install::default ".local/opt/pwndbg"
+  install::default ".local/share/zsh/site-functions"
+  install::default ".mikutter/plugin"
+  install::default ".nixpkgs/config.nix"
+  install::default ".screenrc"
+  install::default ".tern-config"
+  install::default ".tmux.conf"
+  install::default ".xprofile"
+  install::default ".xmonad"
+
+  # spacemacs
+  [[ ! -d ~/.emacs.d ]] && git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+  install::default ".spacemacs"
+
+  # vscode
+  install::default ".config/Code/User/settings.json"
+  chmod 700 ~/.config/Code
+}
+
 ######################
 #  helper functions  #
 ######################
 
+# Print an error message and exit
+# Arguments:
+#   error_message [default: abort]
+# Returns:
+#   None
 abort() {
-  [[ -n "$1" ]] && echo "$1" >&2
+  local message="abort"
+  [[ -n "$1" ]] && message="$1"
+  printf "[%s():%s] %s\n" "${FUNCNAME[1]}" "${BASH_LINENO[0]}" "$message" >&2
   exit 1
 }
 
+# Prints the relative path from the current directory to the given path
+# Arguments:
+#   path
+# Returns:
+#   None
+# Dependencies:
+#   coreutils, python, ruby, or perl
 relative_path() {
   [[ "$#" != 1 ]] && abort "relative_path: Wrong number of arguments."
   realpath --no-symlinks --relative-to=. "$1"
 }
 
-install_symlink() {
-  [[ "$#" != 1 ]] && abort "install_symlink: Wrong number of arguments."
-  [[ "$1" == /* ]] && abort "install_symlink: Cannot use absoulte path."
+# Creates an symlink from $DOTFILE_DIR/home/$path_to_file to ~/$path_to_file
+# Globals:
+#   DOTFILE_DIR
+# Arguments:
+#   path_to_file : file to install
+# Returns:
+#   None
+install::default() {
+  echo "Installing $1"
+
+  [[ "$#" != 1 ]] && abort "Wrong number of arguments."
+  [[ "$1" == /* ]] && abort "Cannot use absoulte path."
   [[ ! -e "$DOTFILE_DIR/home/$1" ]] &&
-    abort "install_symlink: $DOTFILE_DIR/home/$1 does not exist."
+    abort "$DOTFILE_DIR/home/$1 does not exist."
 
   local dir="$(dirname "$1")"
   local old_pwd="$(pwd)"
@@ -49,70 +139,38 @@ install_symlink() {
   cd "$old_pwd"
 }
 
-###########
-#  setup  #
-###########
+# Creates an symlink from $DOTFILE_DIR/home/$path_to_file/$version to
+# ~/$path_to_file
+# Globals:
+#   DOTFILE_DIR
+# Arguments:
+#   path_to_file : file to install
+#   version [default: latest]
+# Returns:
+#   None
+install::versioned() {
+  echo "Installing $1"
 
-setup::shell() {
-  install_symlink ".bash_profile"
-  install_symlink ".bashrc"
-  install_symlink ".bash_logout"
-  install_symlink ".zshenv"
-  install_symlink ".zshrc"
-  install_symlink ".zlogout"
-  install_symlink ".inputrc"
-}
+  (( "$#" > 2 )) && abort "Wrong number of arguments."
+  [[ "$1" == /* ]] && abort "Cannot use absoulte path."
 
-setup::vim() {
-  install_symlink ".vimrc"
-  install_symlink ".gvimrc"
-  install_symlink ".vim"
-  install_symlink ".config/nvim"
-  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-}
+  local dir="$(dirname "$1")"
+  local fname="$(basename "$1")"
+  local version="latest"
+  [[ -n "$2" ]] && version="$2"
+  [[ ! -e "$DOTFILE_DIR/home/$1/$version" ]] &&
+    abort "$DOTFILE_DIR/home/$1/$version does not exist."
 
-setup::gpg() {
-  if [[ ! -d ~/.gnupg ]]; then
-    mkdir ~/.gnupg
-    chmod 700 ~/.gnupg
+  local old_pwd="$(pwd)"
+  if [[ -n "$dir" ]] && [[ "$dir" != "." ]]; then
+    [[ ! -d ~/"$dir" ]] && mkdir -p ~/"$dir"
+    cd ~/"$dir"
+  else
+    cd
   fi
-  chmod 700 "$DOTFILE_DIR/home/.gnupg"
-  chmod 600 "$DOTFILE_DIR/home/.gnupg/gpg-agent.conf"
-  chmod 600 "$DOTFILE_DIR/home/.gnupg/gpg.conf"
-  install_symlink ".gnupg/gpg-agent.conf"
-  install_symlink ".gnupg/gpg.conf"
-}
 
-setup::misc() {
-  install_symlink ".clang-format"
-  install_symlink ".config/git/config"
-  install_symlink ".config/git/ignore"
-  install_symlink ".config/latexmk/latexmkrc"
-  install_symlink ".config/ranger/rc.conf"
-  install_symlink ".config/ranger/scope.sh"
-  install_symlink ".config/zathura/zathurarc"
-  install_symlink ".gdbinit"
-  install_symlink ".ipython/profile_default/ipython_config.py"
-  install_symlink ".local/libexec/fzf/install"
-  install_symlink ".local/opt/peda"
-  install_symlink ".local/opt/pwndbg"
-  install_symlink ".local/share/zsh/site-functions"
-  install_symlink ".mikutter/plugin"
-  install_symlink ".nixpkgs/config.nix"
-  install_symlink ".screenrc"
-  install_symlink ".tern-config"
-  install_symlink ".tmux.conf"
-  install_symlink ".xprofile"
-  install_symlink ".xmonad"
-
-  # spacemacs
-  [[ ! -d ~/.emacs.d ]] && git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-  install_symlink ".spacemacs"
-
-  # vscode
-  install_symlink ".config/Code/User/settings.json"
-  chmod 700 ~/.config/Code
+  ln -s "$(relative_path "$DOTFILE_DIR/home/$1/$version")" "$fname"
+  cd "$old_pwd"
 }
 
 main "$@"
