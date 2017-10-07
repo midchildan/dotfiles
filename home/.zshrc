@@ -6,6 +6,7 @@ autoload -Uz add-zsh-hook
 ###########################
 export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
+export USE_POWERLINE=0
 
 typeset -U path
 path=(
@@ -147,6 +148,8 @@ source /etc/zsh_command_not_found
 #  Theme  #
 ###########
 setopt prompt_subst
+
+[[ -z "$DISPLAY$WAYLAND_DISPLAY" ]] && USE_POWERLINE=0
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "

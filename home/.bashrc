@@ -8,6 +8,7 @@ esac
 ###########################
 export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
+export USE_POWERLINE=0
 
 PATH="~/.local/bin:$PATH"
 PATH+=":$GEM_HOME/bin"
@@ -44,6 +45,8 @@ shopt -s histappend
 ###########
 #  Theme  #
 ###########
+[[ -z "$DISPLAY$WAYLAND_DISPLAY" ]] && USE_POWERLINE=0
+
 if [[ -z "${debian_root:-}" ]] && [[ -r /etc/debian_chroot ]]; then
   debian_chroot=$(cat /etc/debian_chroot)
 fi
@@ -51,7 +54,7 @@ fi
 if [[ $TERM == "dumb" ]]; then
   PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 else
-  command -v dircolors >/dev/null 2>&1; then
+  if command -v dircolors >/dev/null 2>&1; then
     if [[ -r ~/.dircolors ]]; then
       eval "$(dircolors -b ~/.dircolors)"
     else
