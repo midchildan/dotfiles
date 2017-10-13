@@ -1,4 +1,4 @@
-export EDITOR="vim"
+export EDITOR="emacs"
 export LANG="en_US.UTF-8"
 export LESS="iMR"
 export PAGER="less"
