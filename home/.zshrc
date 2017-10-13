@@ -36,6 +36,7 @@ alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz edit-command-line
 autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
 autoload -Uz zmv
+autoload -Uz fzf-sel fzf-run
 
 #################
 #  Directories  #
