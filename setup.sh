@@ -28,6 +28,8 @@ setup::shell() {
   install::default ".zshrc"
   install::default ".zlogout"
   install::default ".inputrc"
+  install::default ".config/shell/common.snip"
+  install::default ".local/share/zsh/site-functions"
 }
 
 setup::vim() {
@@ -62,10 +64,10 @@ setup::misc() {
   install::default ".gdbinit"
   install::default ".ipython/profile_default/ipython_config.py"
   install::default ".local/libexec/fzf/install"
+  install::default ".local/opt/fzftools"
   install::default ".local/opt/gef"
   install::default ".local/opt/peda"
   install::default ".local/opt/pwndbg"
-  install::default ".local/share/zsh/site-functions"
   install::default ".mikutter/plugin"
   install::default ".nixpkgs/config.nix"
   install::default ".screenrc"
