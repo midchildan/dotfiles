@@ -22,3 +22,7 @@
 	path = home/.mikutter/plugin/mikutter-mac
 	url = https://github.com/midchildan/mikutter-mac.git
 	ignore = all
+[submodule "home/.local/opt/fzftools"]
+	path = home/.local/opt/fzftools
+	url = https://github.com/midchildan/fzftools.git
+	ignore = all

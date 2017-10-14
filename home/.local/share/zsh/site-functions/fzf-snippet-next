@@ -1,0 +1,31 @@
+local strp
+if command -v perl > /dev/null 2>&1; then
+  strp="$(
+    echo "$BUFFER" \
+      | perl -n0777e \
+          'printf "%d:%s\n", pos()-length($&), $& while /\{\{[\w\._-]+\}\}/g' \
+      | head -1
+  )"
+else
+  # macos version of grep seems to have a bug that always prints 0 as the offset
+  strp="$(echo "$BUFFER" | grep -b -o '{{[a-zA-Z0-9\._-]\+}}' | head -1)"
+fi
+[[ -z "$strp" ]] && return "$?"
+
+local pos="$(echo "$strp" | cut -d':' -f1)"
+local placeholder="$(echo "$strp" | cut -d':' -f2)"
+
+if [[ -n "$1" ]]; then
+  BUFFER="$(echo "$BUFFER" | sed -e 's/{{//' -e 's/}}//')"
+  CURSOR=$(( $pos + ${#placeholder} -4 ))
+else
+  BUFFER="$(echo "$BUFFER" | sed "s/$placeholder//")"
+  CURSOR="$pos"
+fi
+local ret="$?"
+
+zle redisplay
+typeset -f zle-line-init >/dev/null && zle zle-line-init
+return "$ret"
+
+# vim:set et sw=2 ts=8 ft=zsh:
