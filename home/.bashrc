@@ -81,6 +81,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
+source ~/.local/opt/fzftools/fzftools.bash
+
 if [[ "$SHELL" != *"zsh" ]] && grep -q zsh /etc/shells; then
   echo "[NOTICE] zsh is available on this system." >&2
 fi

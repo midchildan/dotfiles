@@ -35,3 +35,7 @@
 	path = home/.local/opt/gef
 	url = https://github.com/hugsy/gef.git
 	ignore = all
+[submodule "home/.local/opt/fzftools"]
+	path = home/.local/opt/fzftools
+	url = https://github.com/midchildan/fzftools.git
+	ignore = all
