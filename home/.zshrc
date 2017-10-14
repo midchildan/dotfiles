@@ -95,6 +95,7 @@ autoload -Uz fzf-complete && zle -N fzf-complete
 autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
 autoload -Uz fzf-file-widget && zle -N fzf-file-widget
 autoload -Uz fzf-history-widget && zle -N fzf-history-widget
+autoload -Uz fzf-snippet-expand && zle -N fzf-snippet-expand
 autoload -Uz surround \
   && zle -N delete-surround surround \
   && zle -N add-surround surround \
@@ -113,6 +114,7 @@ bindkey -v \
   '^U' backward-kill-line \
   '^W' backward-kill-word \
   '^X^F' fzf-file-widget \
+  '^X^J' fzf-snippet-expand \
   '^X^R' fzf-history-widget \
   '^?' backward-delete-char
 bindkey -a \
