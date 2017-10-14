@@ -42,6 +42,8 @@ setup::shell() {
   install::default ".zshenv"
   install::default ".zshrc"
   install::default ".inputrc"
+  install::default ".config/shell/common.snip"
+  install::default ".local/share/zsh/site-functions"
 }
 
 setup::vim() {
@@ -95,7 +97,7 @@ setup::misc() {
   install::default ".ipython/profile_default/ipython_config.py"
   install::default ".local/bin/rmpkg"
   install::default ".local/bin/imgcat"
-  install::default ".local/share/zsh/site-functions"
+  install::default ".local/opt/fzftools"
   install::default ".mikutter/plugin"
   install::default ".screenrc"
   install::default ".tern-config"
