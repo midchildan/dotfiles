@@ -61,7 +61,7 @@ set showmatch
 set wildmenu
 set title
 set mouse=a
-if $TERM =~? '.*-256color' && $TERM_PROGRAM !~? 'Apple_Terminal'
+if $TERM =~? '.*-256color' && $TERM_PROGRAM !=? 'Apple_Terminal'
   set cursorline
   set termguicolors
   colorscheme molokai
