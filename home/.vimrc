@@ -64,6 +64,10 @@ if $TERM =~? '.*-256color' && has('termguicolors')
   set cursorline
   set termguicolors
   colorscheme molokai
+  if !has('nvim') && $TERM ==? 'screen-256color'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  endif
 endif
 if has('nvim')
   set inccommand=split
