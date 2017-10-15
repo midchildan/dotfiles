@@ -83,7 +83,8 @@ zstyle ':completion:*:*:kill:*:processes' list-colors \
 zstyle ':completion:*:*:*:*:processes' \
   command "ps -u `whoami` -o pid,user,comm -w -w"
 
-autoload -Uz compinit && compinit -i
+# skip the slooow security checks (-C), it's pointless in a single-user setup
+autoload -Uz compinit && compinit -C
 
 #################
 #  Keybindings  #
