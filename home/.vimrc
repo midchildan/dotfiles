@@ -45,7 +45,6 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 set autoindent
-set linebreak
 
 """"""""
 "  UI  "
@@ -138,7 +137,6 @@ let g:ycm_key_invoke_completion=''
 let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
 
 " airline "
-let g:airline_theme='monochrome'
 let g:airline_skip_empty_sections=1
 if $USE_POWERLINE
   let g:airline_powerline_fonts=1
