@@ -10,6 +10,8 @@ export GPG_TTY="$(tty)"
 export USE_POWERLINE=0
 export PATH="~/.local/bin:$PATH:$GOPATH/bin"
 
+source ~/.nix-profile/etc/profile.d/nix.sh
+
 ###########################
 #  Aliases and Functions  #
 ###########################
@@ -37,7 +39,7 @@ shopt -s histappend
 ###########
 #  Theme  #
 ###########
-[[ -z "$DISPLAY$WAYLAND_DISPLAY" ]] && USE_POWERLINE=0
+[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && unset USE_POWERLINE
 
 if [[ $TERM == "dumb" ]]; then
   PS1='\u@\h:\w\$ '

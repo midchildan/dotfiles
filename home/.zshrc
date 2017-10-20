@@ -30,7 +30,7 @@ alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz edit-command-line
 autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
 autoload -Uz zmv
-autoload -Uz fzf-sel fzf-run
+autoload -Uz fzf-sel fzf-run fzf-loop
 
 #################
 #  Directories  #
@@ -146,7 +146,7 @@ command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 ###########
 setopt prompt_subst
 
-[[ -z "$DISPLAY$WAYLAND_DISPLAY" ]] && USE_POWERLINE=0
+[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && unset USE_POWERLINE
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
