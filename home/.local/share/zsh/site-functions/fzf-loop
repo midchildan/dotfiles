@@ -2,4 +2,4 @@
 
 unset -f fzf-sel fzf-run fzf-loop
 source ~/.local/opt/fzftools/fzftools.zsh
-fzf-sel "$@"
+fzf-loop "$@"

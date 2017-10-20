@@ -36,7 +36,7 @@ alias sudoedit='sudo -e'
 autoload -Uz edit-command-line
 autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
 autoload -Uz zmv
-autoload -Uz fzf-sel fzf-run
+autoload -Uz fzf-sel fzf-run fzf-loop
 
 #################
 #  Directories  #
@@ -176,7 +176,7 @@ fi
 ###########
 setopt prompt_subst
 
-[[ -z "$TERM_PROGRAM" ]] && USE_POWERLINE=0
+[[ -z "$TERM_PROGRAM" ]] && unset USE_POWERLINE
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "

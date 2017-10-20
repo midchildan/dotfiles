@@ -18,6 +18,8 @@ PATH+=":$(/usr/local/bin/python3 -c 'import site; print(site.getuserbase())')/bi
 PATH+=":$GOPATH/bin"
 export PATH
 
+source ~/.nix-profile/etc/profile.d/nix.sh
+
 ###########################
 #  Aliases and Functions  #
 ###########################
@@ -43,7 +45,7 @@ shopt -s histappend
 ###########
 #  Theme  #
 ###########
-[[ -z "$TERM_PROGRAM" ]] && USE_POWERLINE=0
+[[ -z "$TERM_PROGRAM" ]] && unset USE_POWERLINE
 
 if [[ $TERM == "dumb" ]]; then
   PS1='\u@\h:\w\$ '
