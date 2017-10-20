@@ -153,7 +153,7 @@ source /etc/zsh_command_not_found
 ###########
 setopt prompt_subst
 
-[[ -z "$DISPLAY$WAYLAND_DISPLAY" ]] && USE_POWERLINE=0
+[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && unset USE_POWERLINE
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "

@@ -17,6 +17,8 @@ PATH+=":$(/usr/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
 PATH+=":$GOPATH/bin"
 export PATH
 
+source ~/.nix-profile/etc/profile.d/nix.sh
+
 ###########################
 #  Aliases and Functions  #
 ###########################
@@ -45,7 +47,7 @@ shopt -s histappend
 ###########
 #  Theme  #
 ###########
-[[ -z "$DISPLAY$WAYLAND_DISPLAY" ]] && USE_POWERLINE=0
+[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && unset USE_POWERLINE
 
 if [[ -z "${debian_root:-}" ]] && [[ -r /etc/debian_chroot ]]; then
   debian_chroot=$(cat /etc/debian_chroot)
