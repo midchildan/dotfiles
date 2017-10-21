@@ -10,8 +10,9 @@ export USE_POWERLINE=0
 
 typeset -U path
 path=(
-  "$HOME/.local/bin"
+  ~/.local/bin
   $path
+  ~/.cargo/bin
   "$GEM_HOME/bin"
   "$(/usr/bin/python -c 'import site; print(site.getuserbase())')/bin"
   "$(/usr/bin/python3 -c 'import site; print(site.getuserbase())')/bin"

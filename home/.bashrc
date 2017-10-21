@@ -10,7 +10,8 @@ export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
 export USE_POWERLINE=0
 
-PATH="~/.local/bin:$PATH"
+PATH="$HOME/.local/bin:$PATH"
+PATH+=":$HOME/.cargo/bin"
 PATH+=":$GEM_HOME/bin"
 PATH+=":$(/usr/bin/python -c 'import site; print(site.getuserbase())')/bin"
 PATH+=":$(/usr/bin/python3 -c 'import site; print(site.getuserbase())')/bin"

@@ -106,8 +106,6 @@ setup::plugins() {
   sudo apt-get install -y \
     build-essential \
     cmake \
-    cargo \
-    rustc \
     npm \
     nodejs \
     zsh-syntax-highlighting
