@@ -5,7 +5,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'deton/jasegment.vim'
 Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'junegunn/fzf', {'dir': '~/.local/opt/fzf', 'do': '~/.local/libexec/fzf/install'}
 Plug 'junegunn/fzf.vim'
