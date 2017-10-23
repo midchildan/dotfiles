@@ -120,7 +120,6 @@ setup::plugins() {
   brew update
   brew install \
     cmake \
-    rust \
     node \
     zsh-completions \
     zsh-syntax-highlighting
