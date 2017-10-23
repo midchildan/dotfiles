@@ -9,7 +9,7 @@ export USE_POWERLINE=0
 
 typeset -U path
 path=(
-  "$HOME/.local/bin"
+  ~/.local/bin
   $path
   "$GOPATH/bin"
 )

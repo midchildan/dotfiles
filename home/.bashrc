@@ -8,7 +8,7 @@ esac
 ###########################
 export GPG_TTY="$(tty)"
 export USE_POWERLINE=0
-export PATH="~/.local/bin:$PATH:$GOPATH/bin"
+export PATH="$HOME/.local/bin:$PATH:$GOPATH/bin"
 
 source ~/.nix-profile/etc/profile.d/nix.sh
 
