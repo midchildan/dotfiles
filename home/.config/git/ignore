@@ -41,4 +41,30 @@ Thumbs.db
 ####################
 #  Editor configs  #
 ####################
+# vim
 .ycm_extra_conf.py
+# vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+##########
+#  Tags  #
+##########
+TAGS
+.TAGS
+!TAGS/
+tags
+.tags
+!tags/
+gtags.files
+GTAGS
+GRTAGS
+GPATH
+GSYMS
+cscope.files
+cscope.out
+cscope.in.out
+cscope.po.out
