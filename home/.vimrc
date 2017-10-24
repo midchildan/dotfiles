@@ -109,8 +109,8 @@ endfor
 let g:tex_flavor='latex'
 
 " QuickFix "
-au QuickfixCmdPost [^lA-Z]* cwindow
-au QuickfixCmdPost l* lwindow
+au QuickfixCmdPost [^lA-Z]* botright cwindow
+au QuickfixCmdPost l* botright lwindow
 if executable('rg')
   set grepprg=rg\ --vimgrep\ --hidden
 endif
