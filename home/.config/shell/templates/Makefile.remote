@@ -1,0 +1,5 @@
+.PHONY: all
+
+all:
+	ssh ${1:remote} 'make -C ${2:build_path}' 2>&1 \
+	  | sed 's#${3:remote_src}#${4:local_src}#g'

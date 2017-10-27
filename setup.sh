@@ -28,7 +28,9 @@ setup::shell() {
   install::default ".zshrc"
   install::default ".zlogout"
   install::default ".inputrc"
-  install::default ".config/shell/common.snip"
+  install::default ".config/shell/snippets/common.snip"
+  install::default ".config/shell/templates"
+  install::default ".config/shell/templates.csv"
   install::default ".local/share/zsh/site-functions"
 }
 

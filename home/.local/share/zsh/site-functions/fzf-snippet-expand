@@ -7,7 +7,7 @@ fi
 
 local snip="$( \
   # color command names & comments before piping to fzf
-  cat ~/.config/shell/*.snip \
+  cat ~/.config/shell/snippets/*.snip \
     | sed -e "s/^\([a-zA-Z0-9_-]\{1,\}\) /$(tput setaf 255)\1$(tput sgr0) /" \
         -e "s/ *\(##\) *\(.*\)/$(tput setaf 8)  \1 \2$(tput sgr0)/" \
     | fzf-tmux +m --ansi -q "$LBUFFER" \
