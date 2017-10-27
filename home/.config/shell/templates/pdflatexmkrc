@@ -1,0 +1,18 @@
+#!/usr/bin/env perl
+
+$pdflatex = 'pdflatex -synctex=1 -file-line-error -interaction=nonstopmode';
+$biber = 'biber -u -U --output_safechars';
+$bibtex = 'bibtex';
+$makeindex = 'makeindex %O -o %D %S';
+$max_repeat = 5;
+$pdf_mode = 1;
+
+if ($^O eq 'linux') {
+  $pdf_previewer = 'xdg-open';
+} elsif ($^O eq 'darwin') {
+  if (-d '/Applications/Skim.app') {
+    $pdf_previewer = 'open -ga /Applications/Skim.app'
+  } else {
+    $pdf_previewer = 'open -g';
+  }
+}
