@@ -8,3 +8,5 @@
 	tool = vimdiff
 [commit]
 	gpgsign = true
+[alias]
+	exec = "!exec " # run a shell command from the top directory

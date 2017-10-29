@@ -281,6 +281,7 @@ git diff --name-only {{pathspec}} ## Show only names of changed files
 git diff --staged ## Show staged (added, but not yet committed) changes only
 git diff --summary {{pathspec}} ## Output a condensed summary of extended header information
 git diff {{pathspec}} ## Show changes to tracked files
+git exec $EDITOR .git/info/exclude ## Manage ignore files for the local copy of the repository; the exec alias needs to be configured
 git fetch --all ## Fetch the latest changes from all remote git servers
 git fetch origin; git rebase -i origin/master ## Rebase your local branch  interactively with the latest changes from upstream
 git fetch {{remote_name}} ## Fetch new branches and update remote-tracking branches
