@@ -47,6 +47,10 @@ set autoindent
 let mapleader="\<Space>"
 noremap \ <Space>
 
+imap <C-x><C-x><C-f> <Plug>(fzf-complete-path)
+imap <C-x><C-x><C-k> <Plug>(fzf-complete-word)
+imap <C-x><C-x><C-l> <Plug>(fzf-complete-line)
+
 """"""""
 "  UI  "
 """"""""
@@ -62,6 +66,8 @@ set showmatch
 set wildmenu
 set title
 set mouse=a
+
+" colors
 if $TERM =~? '.*-256color' && has('termguicolors')
   set cursorline
   set termguicolors
@@ -74,6 +80,10 @@ endif
 if has('nvim')
   set inccommand=split
 endif
+
+" show extra whitespace
+hi link ExtraWhitespace Error
+au Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 """"""""""""
 "  Search  "
