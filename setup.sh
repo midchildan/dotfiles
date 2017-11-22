@@ -95,6 +95,7 @@ setup::misc() {
   install::default ".config/latexmk/latexmkrc"
   install::default ".config/ranger/rc.conf"
   install::default ".config/ranger/scope.sh"
+  install::default ".config/tig/config"
   install::default ".config/zathura/zathurarc"
   install::default ".ipython/profile_default/ipython_config.py"
   install::default ".local/bin/rmpkg"
