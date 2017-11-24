@@ -132,13 +132,24 @@ let g:tex_flavor='latex'
 " QuickFix "
 au QuickfixCmdPost [^lA-Z]* botright cwindow
 au QuickfixCmdPost l* botright lwindow
-if executable('rg')
+
+let s:has_rg = executable('rg')
+if s:has_rg
   set grepprg=rg\ --vimgrep\ --hidden
 endif
 
 " FZF "
-command! -bang -nargs=* Grep
-  \ call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>), 1, <bang>0)
+command! -bang Compilers
+  \ call midchildan#fzf_compilers(0, <bang>0)
+command! -bang BCompilers
+  \ call midchildan#fzf_compilers(1, <bang>0)
+if s:has_rg
+  command! -bang -nargs=* Grep
+    \ call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>), 1, <bang>0)
+else
+  command! -bang -nargs=* Grep
+    \ call fzf#vim#grep('grep -r --line-number '.shellescape(<q-args>).' *', 0, <bang>0)
+endif
 
 " EasyMotion"
 let g:EasyMotion_use_migemo=1
