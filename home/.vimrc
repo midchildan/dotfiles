@@ -56,15 +56,15 @@ noremap \ <Space>
 imap <C-x><C-x><C-f> <Plug>(fzf-complete-path)
 imap <C-x><C-x><C-k> <Plug>(fzf-complete-word)
 imap <C-x><C-x><C-l> <Plug>(fzf-complete-line)
-inoremap <C-x><C-x><C-j> <Esc>:Snippets<CR>
-nnoremap <Leader>gf :Files<CR>
-nnoremap <Leader>gb :Buffers<CR>
-nnoremap <Leader>g/ :Lines<CR>
-nnoremap <Leader>' :Marks<CR>
-nnoremap <Leader>/ :BLines<CR>
-nnoremap <Leader>: :Commands<CR>
-nnoremap <Leader><C-o> :History<CR>
-nnoremap <Leader><C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
+inoremap <silent> <C-x><C-x><C-j> <Esc>:Snippets<CR>
+nnoremap <silent> <Leader>gf :Files<CR>
+nnoremap <silent> <Leader>gb :Buffers<CR>
+nnoremap <silent> <Leader>g/ :Lines<CR>
+nnoremap <silent> <Leader>' :Marks<CR>
+nnoremap <silent> <Leader>/ :BLines<CR>
+nnoremap <silent> <Leader>: :Commands<CR>
+nnoremap <silent> <Leader><C-o> :History<CR>
+nnoremap <silent> <Leader><C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
 
 """"""""
 "  UI  "
