@@ -119,10 +119,11 @@ bindkey -v \
   '^X^J' fzf-snippet-expand \
   '^X^R' fzf-history-widget \
   '^?' backward-delete-char
+bindkey -ra 's'
 bindkey -a \
-  'cs' change-surround \
-  'ds' delete-surround \
-  'ys' add-surround \
+  'sa' add-surround \
+  'sd' delete-surround \
+  'sr' change-surround \
   'K' run-help \
   '^A' incarg \
   '^X' decarg
