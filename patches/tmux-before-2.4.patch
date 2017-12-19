@@ -23,7 +23,7 @@ index a8e2cbb..7c99e1d 100644
  _sep_rsub="#{?USE_POWERLINE,,|}"
 -_seg_host="#{?${_is_ssh},#{?USE_POWERLINE, ,S:},}#{=17:host_short}"
 -_seg_mode="#{?#{==:${_curr_mode},root},,${_curr_mode} ${_sep_rsub} }"
-+_seg_host="#{=19:host_short}"
++_seg_host="#{?SSH_CONNECTION,S:,}#{=17:host_short}"
 +_seg_mode="${_curr_mode} ${_sep_rsub} "
  
  set -g status-style "fg=white,bg=black"
