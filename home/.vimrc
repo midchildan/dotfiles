@@ -11,6 +11,7 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'LnL7/vim-nix', {'for': 'nix'}
+Plug 'machakann/vim-sandwich'
 Plug 'majutsushi/tagbar'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'mhinz/vim-signify'
@@ -21,7 +22,6 @@ Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tomasr/molokai'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
 Plug '/run/current-system/sw/share/vim-plugins/youcompleteme'
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
@@ -63,6 +63,10 @@ nnoremap <silent> <Leader>/ :BLines<CR>
 nnoremap <silent> <Leader>: :Commands<CR>
 nnoremap <silent> <Leader><C-o> :History<CR>
 nnoremap <silent> <Leader><C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
+
+" vim-sandwich
+nmap s <Nop>
+xmap s <Nop>
 
 """"""""
 "  UI  "
