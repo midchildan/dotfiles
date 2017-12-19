@@ -23,7 +23,7 @@ index a8e2cbb..7c99e1d 100644
  _sep_rsub="#{?USE_POWERLINE,,|}"
 -_seg_host="#{?${_is_ssh},#{?USE_POWERLINE, ,S:},}#{=17:host_short}"
 -_seg_mode="#{?#{==:${_curr_mode},root},,${_curr_mode} ${_sep_rsub} }"
-+_seg_host="#{=19:host_short}"
++_seg_host="#{?SSH_CONNECTION,S:,}#{=17:host_short}"
 +_seg_mode="${_curr_mode} ${_sep_rsub} "
  
  set -g status-style "fg=white,bg=black"
@@ -59,29 +59,3 @@ index a8e2cbb..7c99e1d 100644
  
  # Don't wait after escape key input, since it slows down mode-switching in vim.
  set -g escape-time 0
-diff --git a/patches/tmux-before-2.4.patch b/patches/tmux-before-2.4.patch
-index b694d9b..e69de29 100644
---- a/patches/tmux-before-2.4.patch
-+++ b/patches/tmux-before-2.4.patch
-@@ -1,21 +0,0 @@
--diff --cc home/.tmux.conf
--index a8e2cbb,737f66f..0000000
----- a/home/.tmux.conf
--+++ b/home/.tmux.conf
--@@@ -27,12 -27,11 +27,12 @@@ _sep_lmain2="#{?USE_POWERLINE,, }
--  _sep_lsub="#{?USE_POWERLINE,,|}"
--  _sep_rmain="#{?USE_POWERLINE,,}"
--  _sep_rsub="#{?USE_POWERLINE,,|}"
--- _seg_host="#{?${_is_ssh},#{?USE_POWERLINE, ,S:},}#{=17:host_short}"
--- _seg_mode="#{?#{==:${_curr_mode},root},,${_curr_mode} ${_sep_rsub} }"
--++_seg_host="#{=19:host_short}"
--+ _seg_mode="${_curr_mode} ${_sep_rsub} "
--  
--  set -g status-style "fg=white,bg=black"
-- -set -g status-left "${_sty_stat} #{=7:session_name} ${_sty_sep1}${_sep_lmain2}"
-- -set -g status-right "${_sty_sep1}${_sep_rmain}${_sty_stat} ${_seg_mode}#{=20:pane_title} ${_sep_rsub} %H:%M %b-%d-%y"
-- +set -g status-left "${_sty_stat} ${_ico_ssh}#{=7:session_name} ${_sty_sep1}${_sep_lmain2}"
-- +set -g status-right "${_sty_sep1}${_sep_rmain}${_sty_stat} ${_seg_mode}%H:%M %b-%d-%y ${_sep_rsub} ${_seg_host} "
--  set -g status-right-length 50
--  set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},}"
--  set -g window-status-current-format "${_sty_sep2}${_sep_lmain1}${_sty_stat} #I ${_sep_lsub} #W#{?window_flags,#{window_flags},} ${_sty_sep1}${_sep_lmain1}"
