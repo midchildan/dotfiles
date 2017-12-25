@@ -92,7 +92,6 @@ setup::misc() {
   install::default ".clang-format"
   install::default ".config/git/config"
   install::default ".config/git/ignore"
-  install::default ".config/latexmk/latexmkrc"
   install::default ".config/ranger/rc.conf"
   install::default ".config/ranger/scope.sh"
   install::default ".config/tig/config"
@@ -109,6 +108,11 @@ setup::misc() {
   # gtk
   install::default ".gtkrc-2.0"
   install::default ".themes/zuki-themes"
+
+  # LaTeX
+  install::default ".config/latexmk/latexmkrc"
+  install::default ".local/bin/platexmk"
+  install::default ".local/bin/uplatexmk"
 
   # spacemacs
   [[ ! -d ~/.emacs.d ]] && git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d

@@ -73,6 +73,7 @@ fi
 shopt -s checkjobs
 shopt -s checkwinsize
 shopt -s globstar
+stty -ixoff -ixon # disable flow control
 
 if [ -f /usr/local/etc/bash_completion ]; then
   . /usr/local/etc/bash_completion
