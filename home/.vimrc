@@ -6,6 +6,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf' | Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
@@ -21,6 +22,7 @@ Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'tomasr/molokai'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug '/run/current-system/sw/share/vim-plugins/youcompleteme'
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
@@ -42,6 +44,13 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 set autoindent
+set formatoptions+=j
+
+" jump to the last known cursor position
+au BufReadPost *
+  \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+  \ |   exe "normal! g`\""
+  \ | endif
 
 """""""""""""""""
 "  keybindings  "
@@ -49,6 +58,25 @@ set autoindent
 " swap leader key (\) and space
 let mapleader="\<Space>"
 noremap \ <Space>
+
+" break undo before deleting a whole line
+inoremap <C-u> <C-g>u<C-u>
+
+" text objects
+xnoremap <silent> ae gg0oG$
+onoremap <silent> ae :<C-u>exe "normal! m`"<Bar>keepjumps normal! ggVG<CR>
+xnoremap <silent> al <Esc>0v$
+onoremap <silent> al :<C-u>normal! 0v$<CR>
+xnoremap <silent> il <Esc>^vg_
+onoremap <silent> il :<C-u>normal! ^vg_<CR>
+
+" toggles
+nnoremap <silent> <Leader>tf :NERDTreeToggle<CR>
+nnoremap <silent> <Leader>tl :ALEToggle<CR>
+nnoremap <silent> <Leader>tt :TagbarToggle<CR>
+nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
+nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
+nnoremap <silent> <Leader>t<Space> :AirlineToggleWhitespace<CR>
 
 " FZF mappings
 imap <C-x><C-x><C-f> <Plug>(fzf-complete-path)
@@ -63,6 +91,10 @@ nnoremap <silent> <Leader>/ :BLines<CR>
 nnoremap <silent> <Leader>: :Commands<CR>
 nnoremap <silent> <Leader><C-o> :History<CR>
 nnoremap <silent> <Leader><C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
+
+" vim-easy-align
+nmap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
 
 " vim-sandwich
 nmap s <Nop>
@@ -132,6 +164,9 @@ endfor
 "  Misc  "
 """"""""""
 let g:tex_flavor='latex'
+
+command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+  \ | wincmd p | diffthis
 
 " QuickFix "
 au QuickfixCmdPost [^lA-Z]* botright cwindow

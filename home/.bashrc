@@ -21,9 +21,6 @@ alias egrep='egrep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
-alias peda='GDB_USE_GEF=1 GDB_USE_PEDA=0 GDB_USE_PWNDBG=0 gdb'
-alias peda='GDB_USE_GEF=0 GDB_USE_PEDA=1 GDB_USE_PWNDBG=0 gdb'
-alias pwndbg='GDB_USE_GEF=0 GDB_USE_PEDA=0 GDB_USE_PWNDBG=1 gdb'
 alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 
 #############
@@ -72,6 +69,7 @@ fi
 shopt -s checkjobs
 shopt -s checkwinsize
 shopt -s globstar
+stty -ixoff -ixon # disable flow control
 
 command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 
