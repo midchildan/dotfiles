@@ -79,13 +79,9 @@ setup::misc() {
   install::default ".config/ranger/scope.sh"
   install::default ".config/tig/config"
   install::default ".config/zathura/zathurarc"
-  install::default ".gdbinit"
   install::default ".ipython/profile_default/ipython_config.py"
   install::default ".local/libexec/fzf/install"
   install::default ".local/opt/fzftools"
-  install::default ".local/opt/gef"
-  install::default ".local/opt/peda"
-  install::default ".local/opt/pwndbg"
   install::default ".mikutter/plugin"
   install::default ".nixpkgs/config.nix"
   install::default ".screenrc"
@@ -93,6 +89,12 @@ setup::misc() {
   install::default ".tmux.conf"
   install::default ".xprofile"
   install::default ".xmonad"
+
+  # gdb
+  install::default ".gdbinit"
+  install::default ".local/opt/gef"
+  install::default ".local/opt/peda"
+  install::default ".local/opt/pwndbg"
 
   # LaTeX
   install::default ".config/latexmk/latexmkrc"

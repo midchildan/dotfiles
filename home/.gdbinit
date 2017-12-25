@@ -12,21 +12,13 @@ end
 
 python
 import os
-use_gef = os.environ.get('GDB_USE_GEF', 0)
-use_peda = os.environ.get('GDB_USE_PEDA', 0)
-use_pwndbg = os.environ.get('GDB_USE_PWNDBG', 0)
-gdb.execute('set $USE_GEF = {}'.format(use_gef))
-gdb.execute('set $USE_PEDA = {}'.format(use_peda))
-gdb.execute('set $USE_PWNDBG = {}'.format(use_pwndbg))
-del use_gef, use_peda, use_pwndbg
-end
-
-if $USE_GEF == 1
-  gef
-end
-if $USE_PEDA == 1
-  peda
-end
-if $USE_PWNDBG == 1
-  pwndbg
+plugins = [ x for x in os.environ.get('GDB_PLUGINS', '').split(':') if x ]
+framework = next(x for x in plugins if x in ['gef', 'peda', 'pwndbg'])
+if framework == 'gef':
+    gdb.execute('gef')
+elif framework == 'peda':
+    gdb.execute('peda')
+elif framework == 'pwndbg':
+    gdb.execute('pwndbg')
+del plugins, framework
 end
