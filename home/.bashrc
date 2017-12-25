@@ -84,6 +84,7 @@ fi
 shopt -s checkjobs
 shopt -s checkwinsize
 shopt -s globstar
+stty -ixoff -ixon # disable flow control
 
 command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 
