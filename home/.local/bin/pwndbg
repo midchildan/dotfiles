@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 export GDB_PLUGINS="pwndbg:$GDB_PLUGINS"
-exec gdb
+exec gdb "$@"
