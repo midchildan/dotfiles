@@ -1,33 +1,43 @@
-"""""""""""""
-"  Plugins  "
-"""""""""""""
+""""""""""""""""""""
+"  Initialization  "
+""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
-Plug 'altercation/vim-colors-solarized'
+" editing
+Plug 'junegunn/vim-easy-align'
 Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'junegunn/vim-easy-align'
-Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-peekaboo'
-Plug 'ledger/vim-ledger', {'for': 'ledger'}
-Plug 'lervag/vimtex', {'for': 'tex'}
-Plug 'LnL7/vim-nix', {'for': 'nix'}
-Plug 'machakann/vim-sandwich'
-Plug 'majutsushi/tagbar'
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
-Plug 'mhinz/vim-signify'
-Plug 'rdnetto/YCM-generator', {'branch': 'stable',
-  \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-Plug 'tomasr/molokai'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
+Plug 'machakann/vim-sandwich'
+
+" completion and linting
+Plug 'w0rp/ale'
+Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 Plug 'Valloric/YouCompleteMe', {
   \ 'do': './install.py --clang-completer --tern-completer --racer-completer'}
+Plug 'rdnetto/YCM-generator', {'branch': 'stable',
+  \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+" utilities
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/vim-peekaboo'
+Plug 'mhinz/vim-signify'
+Plug 'majutsushi/tagbar'
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'
+
+" colorschemes
+Plug 'tomasr/molokai'
+Plug 'altercation/vim-colors-solarized'
+
+" filetypes
+Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'ledger/vim-ledger', {'for': 'ledger'}
+Plug 'LnL7/vim-nix', {'for': 'nix'}
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
+Plug 'lervag/vimtex', {'for': 'tex'}
+
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
 
@@ -35,6 +45,10 @@ if !has('nvim')
   packadd! matchit
   runtime ftplugin/man.vim
 endif
+
+augroup vimrc
+  autocmd!
+augroup END
 
 """""""""""""
 "  Editing  "
@@ -48,7 +62,7 @@ set autoindent
 set formatoptions+=j
 
 " jump to the last known cursor position
-au BufReadPost *
+au vimrc BufReadPost *
   \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""
   \ | endif
@@ -62,6 +76,8 @@ noremap \ <Space>
 
 " break undo before deleting a whole line
 inoremap <C-u> <C-g>u<C-u>
+" do much more than just redraw the screen
+nnoremap <silent> <Leader><C-l> :nohlsearch<CR>:call vimrc#refresh()<CR>
 
 " text objects
 xnoremap <silent> ae gg0oG$
@@ -133,7 +149,7 @@ endif
 
 " show extra whitespace
 hi link ExtraWhitespace Error
-au Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+au vimrc Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 """"""""""""
 "  Search  "
@@ -166,12 +182,13 @@ endfor
 """"""""""
 let g:tex_flavor='latex'
 
+" See :h :DiffOrig
 command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
   \ | wincmd p | diffthis
 
 " QuickFix "
-au QuickfixCmdPost [^lA-Z]* botright cwindow
-au QuickfixCmdPost l* botright lwindow
+au vimrc QuickfixCmdPost [^lA-Z]* botright cwindow
+au vimrc QuickfixCmdPost l* botright lwindow
 
 let s:has_rg = executable('rg')
 if s:has_rg
@@ -180,9 +197,9 @@ endif
 
 " FZF "
 command! -bang Compilers
-  \ call midchildan#fzf_compilers(0, <bang>0)
+  \ call vimrc#fzf_compilers(0, <bang>0)
 command! -bang BCompilers
-  \ call midchildan#fzf_compilers(1, <bang>0)
+  \ call vimrc#fzf_compilers(1, <bang>0)
 if s:has_rg
   command! -bang -nargs=* Grep
     \ call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>), 1, <bang>0)

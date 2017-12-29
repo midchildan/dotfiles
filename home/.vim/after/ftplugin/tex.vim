@@ -10,9 +10,11 @@ hi Conceal guibg=black guifg=cyan
 """"""""""""
 let g:vimtex_fold_enabled=1
 let g:vimtex_fold_manual=0
-let g:vimtex_latexmk_continuous=1
-let g:vimtex_latexmk_options =
-      \ '-pdfdvi -verbose -file-line-error -synctex=1 -interaction=nonstopmode'
+let g:vimtex_compiler_latexmk = {
+  \ 'continuous' : 1,
+  \ 'options' : [
+  \   '-verbose', '-file-line-error', '-synctex=1', '-interaction=nonstopmode'
+  \ ]}
 
 if isdirectory('/Applications/Skim.app')
   let g:vimtex_view_general_viewer
@@ -43,11 +45,11 @@ if !exists('g:ycm_semantic_triggers')
   let g:ycm_semantic_triggers = {}
 endif
 let g:ycm_semantic_triggers.tex = [
-      \ 're!\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*',
-      \ 're!\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
-      \ 're!\\hyperref\[[^]]*',
-      \ 're!\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
-      \ 're!\\(include(only)?|input){[^}]*',
-      \ 're!\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
-      \ 're!\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
-      \ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*']
+  \ 're!\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*',
+  \ 're!\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
+  \ 're!\\hyperref\[[^]]*',
+  \ 're!\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
+  \ 're!\\(include(only)?|input){[^}]*',
+  \ 're!\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
+  \ 're!\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
+  \ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*']
