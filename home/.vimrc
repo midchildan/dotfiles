@@ -2,33 +2,43 @@
 "  Initialization  "
 """"""""""""""""""""
 call plug#begin('~/.vim/plugged')
-Plug 'altercation/vim-colors-solarized'
+" editing
+Plug 'junegunn/vim-easy-align'
 Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-commentary'
+Plug 'machakann/vim-sandwich'
+
+" completion and linting
+Plug 'w0rp/ale'
 Plug 'junegunn/fzf', {'dir': '~/.local/opt/fzf', 'do': '~/.local/libexec/fzf/install'}
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-peekaboo'
-Plug 'ledger/vim-ledger', {'for': 'ledger'}
-Plug 'lervag/vimtex', {'for': 'tex'}
-Plug 'LnL7/vim-nix', {'for': 'nix'}
-Plug 'machakann/vim-sandwich'
-Plug 'majutsushi/tagbar'
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
-Plug 'mhinz/vim-signify'
-Plug 'rdnetto/YCM-generator', {'branch': 'stable',
-  \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-Plug 'tomasr/molokai'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
 Plug 'Valloric/YouCompleteMe', {
   \ 'do': './install.py --clang-completer --tern-completer --racer-completer'}
+Plug 'rdnetto/YCM-generator', {'branch': 'stable',
+  \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+" utilities
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/vim-peekaboo'
+Plug 'mhinz/vim-signify'
+Plug 'majutsushi/tagbar'
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'
+
+" colorschemes
+Plug 'tomasr/molokai'
+Plug 'altercation/vim-colors-solarized'
+
+" filetypes
+Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'ledger/vim-ledger', {'for': 'ledger'}
+Plug 'LnL7/vim-nix', {'for': 'nix'}
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
+Plug 'lervag/vimtex', {'for': 'tex'}
+
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
 
