@@ -1,6 +1,6 @@
-"""""""""""""
-"  Plugins  "
-"""""""""""""
+""""""""""""""""""""
+"  Initialization  "
+""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 Plug 'altercation/vim-colors-solarized'
 Plug 'easymotion/vim-easymotion'
@@ -37,6 +37,10 @@ if !has('nvim')
   runtime ftplugin/man.vim
 endif
 
+augroup vimrc
+  autocmd!
+augroup END
+
 """""""""""""
 "  Editing  "
 """""""""""""
@@ -49,7 +53,7 @@ set autoindent
 set formatoptions+=j
 
 " jump to the last known cursor position
-au BufReadPost *
+au vimrc BufReadPost *
   \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   exe "normal! g`\""
   \ | endif
@@ -63,6 +67,8 @@ noremap \ <Space>
 
 " break undo before deleting a whole line
 inoremap <C-u> <C-g>u<C-u>
+" do much more than just redraw the screen
+nnoremap <silent> <Leader><C-l> :nohlsearch<CR>:call vimrc#refresh()<CR>
 
 " text objects
 xnoremap <silent> ae gg0oG$
@@ -134,7 +140,7 @@ endif
 
 " show extra whitespace
 hi link ExtraWhitespace Error
-au Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+au vimrc Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 """"""""""""
 "  Search  "
@@ -167,12 +173,13 @@ endfor
 """"""""""
 let g:tex_flavor='latex'
 
+" See :h :DiffOrig
 command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
   \ | wincmd p | diffthis
 
 " QuickFix "
-au QuickfixCmdPost [^lA-Z]* botright cwindow
-au QuickfixCmdPost l* botright lwindow
+au vimrc QuickfixCmdPost [^lA-Z]* botright cwindow
+au vimrc QuickfixCmdPost l* botright lwindow
 
 let s:has_rg = executable('rg')
 if s:has_rg
@@ -181,9 +188,9 @@ endif
 
 " FZF "
 command! -bang Compilers
-  \ call midchildan#fzf_compilers(0, <bang>0)
+  \ call vimrc#fzf_compilers(0, <bang>0)
 command! -bang BCompilers
-  \ call midchildan#fzf_compilers(1, <bang>0)
+  \ call vimrc#fzf_compilers(1, <bang>0)
 if s:has_rg
   command! -bang -nargs=* Grep
     \ call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>), 1, <bang>0)
