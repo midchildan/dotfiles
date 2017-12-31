@@ -4,10 +4,12 @@
 call plug#begin('~/.vim/plugged')
 " editing
 Plug 'junegunn/vim-easy-align'
-Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-commentary'
 Plug 'machakann/vim-sandwich'
+Plug 'easymotion/vim-easymotion', {'on': [
+  \ '<Plug>(easymotion-j)', '<Plug>(easymotion-k)', '<Plug>(easymotion-sn)',
+  \ '<Plug>(easymotion-tn)', '<Plug>(easymotion-overwin-f2)' ]}
 
 " completion and linting
 Plug 'w0rp/ale'
@@ -21,6 +23,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " utilities
 Plug 'tpope/vim-fugitive'
+Plug 'machakann/vim-highlightedyank'
 Plug 'junegunn/vim-peekaboo'
 Plug 'mhinz/vim-signify'
 Plug 'majutsushi/tagbar'
@@ -60,7 +63,7 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 set autoindent
-set formatoptions+=j
+set formatoptions+=jm
 
 " jump to the last known cursor position
 au vimrc BufReadPost *
@@ -71,13 +74,16 @@ au vimrc BufReadPost *
 """""""""""""""""
 "  keybindings  "
 """""""""""""""""
-" swap leader key (\) and space
 let mapleader="\<Space>"
-noremap \ <Space>
+let maplocalleader="\<Space>\<Space>"
+" XXX: Workaround for <Nop> bug in vim/vim#1548, neovim/neovim#6241
+noremap <Space> \
 
+" a more logical mapping for Y
+nnoremap Y y$
 " break undo before deleting a whole line
 inoremap <C-u> <C-g>u<C-u>
-" do much more than just redraw the screen
+" a more powerful <C-l>
 nnoremap <silent> <Leader><C-l> :nohlsearch<CR>:call vimrc#refresh()<CR>
 
 " text objects
@@ -87,6 +93,11 @@ xnoremap <silent> al <Esc>0v$
 onoremap <silent> al :<C-u>normal! 0v$<CR>
 xnoremap <silent> il <Esc>^vg_
 onoremap <silent> il :<C-u>normal! ^vg_<CR>
+" XXX: Same feature as vim/vim#958
+xmap im <Plug>(textobj-sandwich-literal-query-i)
+omap im <Plug>(textobj-sandwich-literal-query-i)
+xmap am <Plug>(textobj-sandwich-literal-query-a)
+omap am <Plug>(textobj-sandwich-literal-query-a)
 
 " toggles
 nnoremap <silent> <Leader>tf :NERDTreeToggle<CR>
@@ -109,6 +120,13 @@ nnoremap <silent> <Leader>/ :BLines<CR>
 nnoremap <silent> <Leader>: :Commands<CR>
 nnoremap <silent> <Leader><C-o> :History<CR>
 nnoremap <silent> <Leader><C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
+
+" easymotion
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>s <Plug>(easymotion-overwin-f2)
+map g/ <Plug>(easymotion-sn)
+omap g/ <Plug>(easymotion-tn)
 
 " vim-easy-align
 nmap ga <Plug>(EasyAlign)
@@ -184,7 +202,7 @@ endfor
 let g:tex_flavor='latex'
 
 " See :h :DiffOrig
-command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
   \ | wincmd p | diffthis
 
 " QuickFix "
@@ -210,6 +228,8 @@ else
 endif
 
 " EasyMotion"
+let g:EasyMotion_do_mapping=0
+let g:EasyMotion_smartcase=1
 let g:EasyMotion_use_migemo=1
 
 " EditorConfig
