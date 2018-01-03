@@ -7,6 +7,9 @@ func! s:uniq(list)
 endf
 
 func! vimrc#refresh()
+  if exists(':SignifyRefresh')
+    SignifyRefresh
+  endif
   diffupdate
   syntax sync fromstart
   normal! <C-l>
