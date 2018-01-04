@@ -4,11 +4,11 @@ DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -z "$DOTFILE_DIR" ]] && DOTFILE_DIR=~/.config/dotfiles
 
 main() {
-  local install_plugins=""
+  local install_deps=""
   for n in "$@"; do
     case "$n" in
-      --install-plugins)
-        install_plugins=yes
+      --install-deps)
+        install_deps=yes
         ;;
       *)
         ;;
@@ -26,9 +26,9 @@ main() {
   setup::gpg
   setup::misc
 
-  if [[ -n "$install_plugins" ]]; then
-    echo "$(tput bold)== Installing plugins ==$(tput sgr0)"
-    setup::plugins
+  if [[ -n "$install_deps" ]]; then
+    echo "$(tput bold)== Installing dependencies ==$(tput sgr0)"
+    setup::deps
   fi
 }
 
@@ -110,15 +110,17 @@ setup::misc() {
   chmod 700 ~/.config/Code
 }
 
-setup::plugins() {
+setup::deps() {
   sudo apt-get update
   sudo apt-get install -y \
     build-essential \
     cmake \
+    cmigemo \
     npm \
     nodejs \
     zsh-syntax-highlighting
   sudo ln -s /usr/bin/nodejs /usr/local/bin/node
+  curl https://sh.rustup.rs -sSf | sh
 
   vim +PlugInstall +qall
 }
