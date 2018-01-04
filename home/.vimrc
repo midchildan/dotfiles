@@ -8,8 +8,9 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-commentary'
 Plug 'machakann/vim-sandwich'
 Plug 'easymotion/vim-easymotion', {'on': [
-  \ '<Plug>(easymotion-j)', '<Plug>(easymotion-k)', '<Plug>(easymotion-sn)',
-  \ '<Plug>(easymotion-tn)', '<Plug>(easymotion-overwin-f2)' ]}
+  \ '<Plug>(easymotion-j)', '<Plug>(easymotion-k)',
+  \ '<Plug>(easymotion-s2)', '<Plug>(easymotion-overwin-f2)',
+  \ '<Plug>(easymotion-sn)', '<Plug>(easymotion-tn)' ]}
 
 " completion and linting
 Plug 'w0rp/ale'
@@ -61,7 +62,7 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 set autoindent
-set formatoptions+=jm
+set formatoptions+=jmB
 
 " jump to the last known cursor position
 au vimrc BufReadPost *
@@ -122,13 +123,14 @@ nnoremap <silent> <Leader><C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
 " easymotion
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
-map <Leader>s <Plug>(easymotion-overwin-f2)
+map <Leader>s <Plug>(easymotion-s2)
+nmap <Leader>s <Plug>(easymotion-overwin-f2)
 map g/ <Plug>(easymotion-sn)
 omap g/ <Plug>(easymotion-tn)
 
 " vim-easy-align
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
+nmap g= <Plug>(EasyAlign)
+xmap g= <Plug>(EasyAlign)
 
 " vim-sandwich
 nmap s <Nop>

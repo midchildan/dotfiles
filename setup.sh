@@ -4,6 +4,17 @@ DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -z "$DOTFILE_DIR" ]] && DOTFILE_DIR=~/.config/dotfiles
 
 main() {
+  local install_deps=""
+  for n in "$@"; do
+    case "$n" in
+      --install-deps)
+        install_deps=yes
+        ;;
+      *)
+        ;;
+    esac
+  done
+
   cd "$DOTFILE_DIR"
 
   echo "$(tput bold)== Updating submodules ==$(tput sgr0)"
@@ -14,6 +25,11 @@ main() {
   setup::vim
   setup::gpg
   setup::misc
+
+  if [[ -n "$install_deps" ]]; then
+    echo "$(tput bold)== Installing dependencies ==$(tput sgr0)"
+    setup::deps
+  fi
 }
 
 ###########
@@ -92,6 +108,10 @@ setup::misc() {
   # vscode
   install::default ".config/Code/User/settings.json"
   chmod 700 ~/.config/Code
+}
+
+setup::deps() {
+  vim +PlugInstall +qall
 }
 
 ######################
