@@ -146,6 +146,10 @@ cut -d'{{:}}' -f{{5-10}} ## Cut out the fields five through 10, split on the col
 cut -d'{{:}}' -f{{5}} ## Cut out the fifth field, split on the colon character of each line
 date +"%c" ## Display the date using the default locale
 date -u +"%Y-%m-%dT%H:%M:%SZ" ## Display the date in UTC and ISO 8601 format
+dd if=/dev/urandom of={{random_file}} bs=100 count=1 ## Generate a file of 100 random bytes by using kernel random driver
+dd if=/dev/zero of={{file_1GB}} bs=1024 count=1000000 ## Benchmark the write performance of a disk
+dd if=/dev/{{src_drive}} of=/dev/{{dst_drive}} bs=4M conv=noerror ## Clone a drive to another drive with 4MB block and ignore error
+dd if={{file.iso}} of=/dev/{{usb_drive}} ## Make a bootable usb drive from an isohybrid file
 deluser -r {{name}} ## Remove a user along with their home directory and mail spool
 deluser {{name}} {{group}} ## Remove a user from a group
 deluser {{name}} ## Remove a user
@@ -170,6 +174,11 @@ docker ps ## List of running docker containers
 docker run -it {{image}} bash ## Start a container from an image and get a shell inside of it
 docker start {{container}} ## Start a container
 docker stop {{container}} ## Stop a container
+du -h {{directory}} ## List the size of a directory and its subdirectories in human-readable units
+du -ah {{directory}} ## Get recursively, individual file/folder sizes in human readable form
+du -sh {{path}} ## Get a sum of the total size of a file/folder in human readable units
+du -h -d {{N}} ## List the sizes of directories for N levels below the specified directory in human-readable units
+du -ch */*.{{ext}} ## List the sizes of all files with a specific extension under the current directory
 {{command}} | tee {{file}} ## Copy standard input to each FILE, and also to standard output
 {{command}} | lp ## Print the output of a command to the default printer (see `lpstat` command)
 echo "{{content}}" | mailx -s "{{subject}}" {{to_addr}} ## Send mail with short content
@@ -349,6 +358,8 @@ gzip -c -d {{src.ext.gz}} > dst.ext ## Uncompress a gzipped file
 gzip -c {{file.ext}} > compressed-file.ext.gz##Compress a file specifying the output filename
 gzip -d {{file.ext.gz}} ## Decompress a file, replacing it with the original uncompressed version
 gzip {{file.ext}} ## Compress a file, replacing it with a gzipped compressed version
+head -c {{size_in_bytes}} {{filename}} ## Output the first few bytes of a file
+head -n {{count_of_lines}} {{filename}} ## Output the first few lines of a file
 history -c ## Clear the commands history list (only for current `bash` shell)
 history -w ## Overwrite history file with history of current `bash` shell (often combined with `history -c` to purge history)
 history ## Display the commands history list with line numbers
@@ -501,6 +512,7 @@ nginx -c {{config_file}} ## Start server with custom config file
 nginx -s reload ## Reload configuration by sending a signal with no downtime
 nginx -t ## Test configuration without affecting the running server
 nice -n {{niceness_value}} {{command}} ## Launch a program with altered priority
+nix-channel --update ## Obtain the latest nix expressions
 nix-env -e {{pkg_name}} ## Uninstall package
 nix-env -i {{pkg_name}} ## Install package
 nix-env -qa {{pkg_name}} ## Show available package with name or without name
@@ -652,6 +664,11 @@ rename {{regex}} '*' ## Rename files using a Perl Common Regular Expression (e.g
 renice -n {{niceness_value}} -g {{group}} ## Change priority of all processes that belongs to a group
 renice -n {{niceness_value}} -p {{pid}} ## Change priority of a running process
 renice -n {{niceness_value}} -u {{user}} ## Change priority of all processes owned by a user
+rg {{pattern}} ## Recursively search the current directory for a regex pattern
+rg -uu {{pattern}} ## Search for pattern including all .gitignored and hidden files
+rg -t {{filetype}} {{pattern}} ## Search for a pattern only in a certain filetype
+rg {{pattern}} {{subdirs...}} ## Search for a pattern only in a subset of directories
+rg {{pattern}} -g {{glob}} ## Search for a pattern in files matching a glob
 rm -i {{files...}} ## Prompt before every removal
 rm -r {{dir}} ## Remove recursively a directory and all its subdirectories
 rm -rf {{dir}} ## Remove directory without prompt
@@ -723,6 +740,8 @@ ssh -L {{9999}}:{{example.com:80}} {{user}}@{{remote}} ## SSH tunneling: Forward
 ssh -i {{keyfile}} {{user}}@{{remote}} ## Connect to a remote server with a specific identity (private key)
 ssh {{remote}} {{command}} ## Run a command on a remote server
 ssh {{user}}@{{remote}} -p {{2222}} ## Connect to a remote server using a specific port
+ssh-copy-id -i {{key_path}} -p {{port}} {{username}}@{{remote_host}} ## Copy the given public key to the remote with specific port
+ssh-copy-id -i {{key_path}} {{username}}@{{remote_host}} ## Copy the given public key to the remote
 ssh-keygen -f ~/.ssh/{{filename}} ## Specify file in which to save the key
 ssh-keygen -l -F {{remote_host}} ## Retrieve the key fingerprint from a host (useful for confirming the authenticity of the host when first connecting to it via SSH)
 ssh-keygen -t ed25519 -C "{{email}}" ## Generate an ED25519 key with your email as a comment
@@ -788,6 +807,17 @@ tldr {{command}} ## Get typical usages of a command (hint: this is how you got h
 tldrl -f {{page.md}} ## Format a specific page to stdout
 tldrl -fi {{pages_directory}} ## Format all pages in place
 tldrl {{pages_directory}} ## Lint all pages
+tlmgr --help ## Show manpage
+tlmgr update --self --all ## Update tlmgr and all its packages
+tlmgr update --self --all --backup ## Backup before updating
+tlmgr update --self --all --dry-run ## Dry-run update
+tlmgr install {{package}} ## Install a package
+tlmgr install --dry-run {{package}} ## Dry-run package installation
+tlmgr search --global {{keyword}} ## Search packages for keyword
+tlmgr search --global --file {{keyword}} ## Search packages containing files matching a keyword
+tlmgr search --global --all {{keyword}} ## Search packages; Keyword applies to package names, descriptions, and filenames
+tlmgr search {{keyword}} ## Search for local packages
+tlmgr backup --all --clean ## Delete all backups
 tmux a -t {{name}} ## Attach to a named session
 tmux a ## Attach to a session
 tmux kill-session -t {{name}} ## Kill session
@@ -857,6 +887,8 @@ vim {{file}} +{{linenumber}} ## Open a file with cursor at the given line number
 vimtutor {{language}} ## Launch the vim tutor using the given language (en, fr, de, ...)
 w -h ## Show logged-in users info without a header
 w ## Show logged-in users info
+wall -t {{seconds}} {{file}} ## Send a message with timeout (default 300)
+wall {{file}} ## Send a message from a file
 watch -d {{ls -l}} ## Monitor the contents of a directory, highlighting differences as they appear
 watch -n {{60}} {{command}} ## Re-run a command every 60 seconds
 watch {{command}} ## Repeatedly run a command and show the result
@@ -932,3 +964,4 @@ zsh -x {{file}} ## Run commands from file and print them as they are executed
 {{command}} | base32 ## Encode from stdin
 {{command}} | base64 -d ## Decode from stdin
 {{command}} | base64 ## Encode from stdin
+{{command}} | wall ## Send a message

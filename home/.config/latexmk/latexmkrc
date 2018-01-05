@@ -1,5 +1,6 @@
 #!/usr/bin/env perl
 
+$ENV{LATEXMK_ENGINE} //= '';
 if ($ENV{LATEXMK_ENGINE} eq 'uplatex') {
   $latex = 'uplatex -kanji=utf8 -synctex=1 -file-line-error -interaction=nonstopmode';
   $dvipdf ='dvipdfmx %O -o %D %S';
