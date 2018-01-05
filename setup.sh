@@ -43,7 +43,7 @@ setup::shell() {
   install::default ".zshrc"
   install::default ".inputrc"
   install::default ".config/shell/snippets/common.snip"
-  install::default ".config/shell/snippets/linux.snip"
+  install::default ".config/shell/snippets/macos.snip"
   install::default ".config/shell/templates"
   install::default ".config/shell/templates.csv"
   install::default ".local/share/zsh/site-functions"
