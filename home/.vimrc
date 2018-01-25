@@ -59,6 +59,8 @@ augroup END
 "  Editing  "
 """""""""""""
 set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,default,latin1
+set fileformats=unix,dos,mac
 set backspace=indent,eol,start
 set expandtab
 set shiftwidth=2
@@ -73,7 +75,7 @@ au vimrc BufReadPost *
   \ | endif
 
 """""""""""""""""
-"  keybindings  "
+"  Keybindings  "
 """""""""""""""""
 let mapleader="\<Space>"
 let maplocalleader="\<Space>\<Space>"
@@ -103,6 +105,7 @@ omap am <Plug>(textobj-sandwich-literal-query-a)
 " toggles
 nnoremap <silent> <Leader>tf :NERDTreeToggle<CR>
 nnoremap <silent> <Leader>tl :ALEToggle<CR>
+nnoremap <silent> <Leader>ts :setlocal spell! spell?<CR>
 nnoremap <silent> <Leader>tt :TagbarToggle<CR>
 nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
@@ -116,11 +119,12 @@ inoremap <silent> <C-x><C-x><C-j> <Esc>:Snippets<CR>
 nnoremap <silent> <Leader>gf :Files<CR>
 nnoremap <silent> <Leader>gb :Buffers<CR>
 nnoremap <silent> <Leader>g/ :Lines<CR>
+nnoremap <silent> <Leader>g<C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
 nnoremap <silent> <Leader>' :Marks<CR>
 nnoremap <silent> <Leader>/ :BLines<CR>
 nnoremap <silent> <Leader>: :Commands<CR>
 nnoremap <silent> <Leader><C-o> :History<CR>
-nnoremap <silent> <Leader><C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
+nnoremap <silent> <Leader><C-]> :BTags <C-r>=expand("<cword>")<CR><CR>
 
 " easymotion
 map <Leader>j <Plug>(easymotion-j)
@@ -149,6 +153,7 @@ set noshowmode
 set cmdheight=1
 set laststatus=2
 set display=lastline
+set lazyredraw
 set showmatch
 set wildmenu
 set title
@@ -180,6 +185,7 @@ set hlsearch
 set ignorecase
 set smartcase
 set wrapscan
+set tags=./tags;,tags
 
 """""""""""
 "  Cache  "
@@ -192,9 +198,9 @@ set backup
 set backupdir=~/.cache/vim/backup
 set undofile
 set undodir=~/.cache/vim/undo
-for d in [&dir, &backupdir, &undodir]
-  if !isdirectory(d)
-    call mkdir(iconv(d, &encoding, &termencoding), 'p')
+for s:d in [&dir, &backupdir, &undodir]
+  if !isdirectory(s:d)
+    call mkdir(iconv(s:d, &encoding, &termencoding), 'p')
   endif
 endfor
 

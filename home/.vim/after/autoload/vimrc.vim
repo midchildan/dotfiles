@@ -12,7 +12,7 @@ func! vimrc#refresh()
   endif
   diffupdate
   syntax sync fromstart
-  normal! <C-l>
+  redraw!
 endf
 
 func! vimrc#fzf_compilers(is_buffer, bang)
