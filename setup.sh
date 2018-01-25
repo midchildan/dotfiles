@@ -93,9 +93,9 @@ setup::misc() {
 
   # gdb
   install::default ".gdbinit"
-  install::default ".local/opt/gef"
-  install::default ".local/opt/peda"
-  install::default ".local/opt/pwndbg"
+  install::default ".local/bin/gef"
+  install::default ".local/bin/peda"
+  install::default ".local/bin/pwndbg"
 
   # LaTeX
   install::default ".config/latexmk/latexmkrc"
