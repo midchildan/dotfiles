@@ -74,6 +74,68 @@ au vimrc BufReadPost *
   \ |   exe "normal! g`\""
   \ | endif
 
+""""""""
+"  UI  "
+""""""""
+set colorcolumn=81
+set number
+set ruler
+set showcmd
+set noshowmode
+set cmdheight=1
+set laststatus=2
+set display=lastline
+set lazyredraw
+set showmatch
+set wildmenu
+set title
+set mouse=a
+
+" colors
+if $TERM =~? '.*-256color' && has('termguicolors')
+  set cursorline
+  set termguicolors
+  colorscheme molokai
+  if !has('nvim') && $TERM ==? 'screen-256color'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  endif
+endif
+if has('nvim')
+  set inccommand=split
+endif
+
+" show extra whitespace
+hi link ExtraWhitespace Error
+au vimrc Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+
+""""""""""""
+"  Search  "
+""""""""""""
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set wrapscan
+set tags=./tags;,tags
+
+"""""""""""
+"  Cache  "
+"""""""""""
+if !has('nvim')
+  set viminfo+=n~/.cache/vim/viminfo
+endif
+set dir=~/.cache/vim/swap
+set backup
+set backupdir=~/.cache/vim/backup
+set undofile
+set undodir=~/.cache/vim/undo
+for s:d in [&dir, &backupdir, &undodir]
+  if !isdirectory(s:d)
+    call mkdir(iconv(s:d, &encoding, &termencoding), 'p')
+  endif
+endfor
+
 """""""""""""""""
 "  Keybindings  "
 """""""""""""""""
@@ -141,68 +203,6 @@ xmap g= <Plug>(EasyAlign)
 " vim-sandwich
 nmap s <Nop>
 xmap s <Nop>
-
-""""""""
-"  UI  "
-""""""""
-set colorcolumn=81
-set number
-set ruler
-set showcmd
-set noshowmode
-set cmdheight=1
-set laststatus=2
-set display=lastline
-set lazyredraw
-set showmatch
-set wildmenu
-set title
-set mouse=a
-
-" colors
-if $TERM =~? '.*-256color' && has('termguicolors')
-  set cursorline
-  set termguicolors
-  colorscheme molokai
-  if !has('nvim') && $TERM ==? 'screen-256color'
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  endif
-endif
-if has('nvim')
-  set inccommand=split
-endif
-
-" show extra whitespace
-hi link ExtraWhitespace Error
-au vimrc Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
-
-""""""""""""
-"  Search  "
-""""""""""""
-set incsearch
-set hlsearch
-set ignorecase
-set smartcase
-set wrapscan
-set tags=./tags;,tags
-
-"""""""""""
-"  Cache  "
-"""""""""""
-if !has('nvim')
-  set viminfo+=n~/.cache/vim/viminfo
-endif
-set dir=~/.cache/vim/swap
-set backup
-set backupdir=~/.cache/vim/backup
-set undofile
-set undodir=~/.cache/vim/undo
-for s:d in [&dir, &backupdir, &undodir]
-  if !isdirectory(s:d)
-    call mkdir(iconv(s:d, &encoding, &termencoding), 'p')
-  endif
-endfor
 
 """"""""""
 "  Misc  "
