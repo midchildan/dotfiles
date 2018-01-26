@@ -105,9 +105,9 @@ if has('nvim')
   set inccommand=split
 endif
 
-" show extra whitespace
-hi link ExtraWhitespace Error
-au vimrc Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+" show whitespace errors
+hi link WhitespaceError Error
+au vimrc Syntax * syn match WhitespaceError /\s\+$\| \+\ze\t/
 
 """"""""""""
 "  Search  "
@@ -142,7 +142,8 @@ endfor
 let mapleader="\<Space>"
 let maplocalleader="\<Space>\<Space>"
 " XXX: Workaround for <Nop> bug in vim/vim#1548, neovim/neovim#6241
-noremap <Space> \
+nnoremap <Space> \
+xnoremap <Space> \
 
 " a more logical mapping for Y
 nnoremap Y y$
@@ -150,6 +151,15 @@ nnoremap Y y$
 inoremap <C-u> <C-g>u<C-u>
 " a more powerful <C-l>
 nnoremap <silent> <Leader><C-l> :nohlsearch<CR>:call vimrc#refresh()<CR>
+
+" find merge conflict marker
+nnoremap <silent> <Leader>fc /\v^[<=>]{7}( .*<Bar>$)<CR>
+xnoremap <silent> <Leader>fc /\v^[<=>]{7}( .*<Bar>$)<CR>
+onoremap <silent> <Leader>fc /\v^[<=>]{7}( .*<Bar>$)<CR>
+" find whitespace errors
+nnoremap <silent> <Leader>f<Space> /\s\+$\<Bar> \+\ze\t<CR>
+xnoremap <silent> <Leader>f<Space> /\s\+$\<Bar> \+\ze\t<CR>
+onoremap <silent> <Leader>f<Space> /\s\+$\<Bar> \+\ze\t<CR>
 
 " text objects
 xnoremap <silent> ae gg0oG$
@@ -170,6 +180,7 @@ nnoremap <silent> <Leader>tl :ALEToggle<CR>
 nnoremap <silent> <Leader>ts :setlocal spell! spell?<CR>
 nnoremap <silent> <Leader>tt :TagbarToggle<CR>
 nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
+nnoremap <silent> <Leader>tv :call vimrc#toggle_virtualedit()<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
 nnoremap <silent> <Leader>t<Space> :AirlineToggleWhitespace<CR>
 
@@ -182,6 +193,8 @@ nnoremap <silent> <Leader>gf :Files<CR>
 nnoremap <silent> <Leader>gb :Buffers<CR>
 nnoremap <silent> <Leader>g/ :Lines<CR>
 nnoremap <silent> <Leader>g<C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
+nnoremap <silent> <Leader>q: :History:<CR>
+nnoremap <silent> <Leader>q/ :History/<CR>
 nnoremap <silent> <Leader>' :Marks<CR>
 nnoremap <silent> <Leader>/ :BLines<CR>
 nnoremap <silent> <Leader>: :Commands<CR>
@@ -189,11 +202,18 @@ nnoremap <silent> <Leader><C-o> :History<CR>
 nnoremap <silent> <Leader><C-]> :BTags <C-r>=expand("<cword>")<CR><CR>
 
 " easymotion
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>s <Plug>(easymotion-s2)
+nmap <Leader>j <Plug>(easymotion-j)
+xmap <Leader>j <Plug>(easymotion-j)
+omap <Leader>j <Plug>(easymotion-j)
+nmap <Leader>k <Plug>(easymotion-k)
+xmap <Leader>k <Plug>(easymotion-k)
+omap <Leader>k <Plug>(easymotion-k)
+nmap <Leader>s <Plug>(easymotion-s2)
+xmap <Leader>s <Plug>(easymotion-s2)
+omap <Leader>s <Plug>(easymotion-s2)
 nmap <Leader>s <Plug>(easymotion-overwin-f2)
-map g/ <Plug>(easymotion-sn)
+nmap g/ <Plug>(easymotion-sn)
+xmap g/ <Plug>(easymotion-sn)
 omap g/ <Plug>(easymotion-tn)
 
 " vim-easy-align

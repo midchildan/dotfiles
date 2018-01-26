@@ -26,3 +26,12 @@ func! vimrc#fzf_compilers(is_buffer, bang)
   \ 'options': a:is_buffer ? '+m --prompt="BCompilers> "' : '+m --prompt="Compilers> "'
   \}, a:bang))
 endf
+
+func! vimrc#toggle_virtualedit()
+  if empty(&virtualedit)
+    set virtualedit=all
+  else
+    set virtualedit=
+  endif
+  set virtualedit?
+endf
