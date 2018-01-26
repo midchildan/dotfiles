@@ -88,8 +88,6 @@ autoload -Uz compinit && compinit -C
 #  Keybindings  #
 #################
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
-autoload -Uz incarg && zle -N incarg
-autoload -Uz decarg && zle -N decarg
 autoload -Uz fzf-complete && zle -N fzf-complete
 autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
 autoload -Uz fzf-file-widget && zle -N fzf-file-widget
@@ -99,6 +97,9 @@ autoload -Uz surround \
   && zle -N delete-surround surround \
   && zle -N add-surround surround \
   && zle -N change-surround surround
+autoload -Uz vim-incarg \
+  && zle -N vim-incarg \
+  && zle -N vim-decarg vim-incarg
 
 bindkey -v
 bindkey -rv '^[,' '^[/' '^[~'
@@ -122,8 +123,8 @@ bindkey -a \
   'sd' delete-surround \
   'sr' change-surround \
   'K' run-help \
-  '^A' incarg \
-  '^X' decarg
+  '^A' vim-incarg \
+  '^X' vim-decarg
 bindkey -M visual 'S' add-surround
 bindkey -M menuselect \
   '^B' backward-char \
