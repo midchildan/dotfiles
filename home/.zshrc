@@ -31,8 +31,6 @@ alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
 alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
-autoload -Uz edit-command-line
-autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
 autoload -Uz zmv
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
 
@@ -87,7 +85,9 @@ autoload -Uz compinit && compinit -C
 #################
 #  Keybindings  #
 #################
+autoload -Uz edit-command-line && zle -N edit-command-line
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
+autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
 autoload -Uz fzf-complete && zle -N fzf-complete
 autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
 autoload -Uz fzf-file-widget && zle -N fzf-file-widget
@@ -124,8 +124,8 @@ bindkey -a \
   'sr' change-surround \
   'K' run-help \
   '^A' vim-incarg \
-  '^X' vim-decarg
-bindkey -M visual 'S' add-surround
+  '^X' vim-decarg \
+  '!' edit-command-line
 bindkey -M menuselect \
   '^B' backward-char \
   '^F' forward-char \

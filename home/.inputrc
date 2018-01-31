@@ -13,6 +13,7 @@ set history-size 2000
 set bind-tty-special-chars off
 
 set keymap vi-command
+"!": edit-and-execute-command
 "\C-l": clear-screen
 
 set keymap vi-insert
@@ -21,6 +22,5 @@ TAB: menu-complete
 "\C-p": history-search-backward
 "\C-n": history-search-forward
 "\C-w": backward-kill-word
-"\C-x\C-e": edit-and-execute-command
 "\C-x\C-f": complete-filename
 "\C-x\C-n": dynamic-complete-history
