@@ -10,10 +10,6 @@
 	path = home/.mikutter/plugin/mikutter-subparts-image
 	url = https://github.com/moguno/mikutter-subparts-image.git
 	ignore = all
-[submodule "home/.mikutter/plugin/mikutter-okaeri"]
-	path = home/.mikutter/plugin/mikutter-okaeri
-	url = https://github.com/moguno/mikutter-okaeri.git
-	ignore = all
 [submodule "home/.mikutter/plugin/pulseaudio"]
 	path = home/.mikutter/plugin/pulseaudio
 	url = https://github.com/toshia/mikutter-pulseaudio.git
