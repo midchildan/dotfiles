@@ -13,6 +13,8 @@ fi
 cd "$dir"
 local ret=$?
 
+autoload -Uz rerun-precmd && zle -N rerun-precmd
+zle rerun-precmd
 zle reset-prompt
 typeset -f zle-line-init >/dev/null && zle zle-line-init
 return $ret
