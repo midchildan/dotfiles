@@ -1,0 +1,6 @@
+# vim:set et sw=2 ts=8 ft=zsh:
+
+local precmd
+for precmd in $precmd_functions; do
+  $precmd
+done
