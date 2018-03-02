@@ -263,7 +263,6 @@ let g:EasyMotion_use_migemo=1
 let g:EditorConfig_exclude_patterns=['fugitive://.*', '\(M\|m\|GNUm\)akefile']
 
 " UltiSnips "
-let g:UltiSnipsUsePythonVersion=2
 let g:UltiSnipsExpandTrigger='<C-x><C-j>'
 
 " YouCompleteMe "
