@@ -14,8 +14,7 @@ path=(
   $path
   ~/.cargo/bin
   "$GEM_HOME/bin"
-  "$(/usr/bin/python -c 'import site; print(site.getuserbase())')/bin"
-  "$(/usr/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
+  "$(python3 -c 'import site; print(site.getuserbase())')/bin"
   "$GOPATH/bin"
 )
 

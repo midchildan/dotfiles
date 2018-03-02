@@ -13,8 +13,7 @@ export USE_POWERLINE=0
 PATH="$HOME/.local/bin:$PATH"
 PATH+=":$HOME/.cargo/bin"
 PATH+=":$GEM_HOME/bin"
-PATH+=":$(/usr/bin/python -c 'import site; print(site.getuserbase())')/bin"
-PATH+=":$(/usr/bin/python3 -c 'import site; print(site.getuserbase())')/bin"
+PATH+=":$(python3 -c 'import site; print(site.getuserbase())')/bin"
 PATH+=":$GOPATH/bin"
 export PATH
 
