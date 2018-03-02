@@ -173,8 +173,8 @@ relative_path() {
       "require 'pathname'; print(Pathname.new('$1').relative_path_from(Pathname.new('$(pwd)')))"
   elif command -v python3 >/dev/null 2>&1; then
     python3 -c "import os; print(os.path.relpath('$1'), end='')"
-  elif command -v python >/dev/null 2>&1; then
-    python -c \
+  elif command -v python2 >/dev/null 2>&1; then
+    python2 -c \
       "from __future__ import print_function; import os; print(os.path.relpath('$1'), end='')"
   else
     abort "Needs coreutils, python, ruby, or perl."
