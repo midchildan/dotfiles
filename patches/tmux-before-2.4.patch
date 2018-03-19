@@ -1,5 +1,5 @@
 diff --git a/home/.tmux.conf b/home/.tmux.conf
-index 634340b..aecb113 100644
+index 61095f7..7f68246 100644
 --- a/home/.tmux.conf
 +++ b/home/.tmux.conf
 @@ -1,3 +1,5 @@
@@ -60,3 +60,13 @@ index 634340b..aecb113 100644
  
  # Don't wait after escape key input, since it slows down mode-switching in vim.
  set -g escape-time 0
+@@ -106,8 +94,8 @@ bind C-b copy-mode -ue
+ bind C-k swap-pane -U \; switch-client -T prefix
+ bind C-j swap-pane -D \; switch-client -T prefix
+ bind C-n new-window \; switch-client -T prefix
+-bind C-u copy-mode -e \; send -X halfpage-up
+-bind C-y copy-mode -e \; send -X scroll-up
++bind C-u copy-mode -e \; send C-u
++bind C-y copy-mode -e \; send C-y
+ bind g switch-client -T g
+ bind G display-panes \; switch-client -T prefix
