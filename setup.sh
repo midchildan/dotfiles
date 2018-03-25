@@ -89,6 +89,7 @@ setup::misc() {
   install::default ".screenrc"
   install::default ".tern-config"
   install::default ".tmux.conf"
+  install::default ".wgetrc"
   install::default ".xprofile"
   install::default ".xmonad"
 
