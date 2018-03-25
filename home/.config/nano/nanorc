@@ -1,0 +1,26 @@
+# General
+unset boldtext
+set const
+set morespace
+set mouse
+set multibuffer
+unset nohelp
+set smarthome
+set smooth
+set suspend
+
+# Editing
+set autoindent
+unset cut
+unset historylog
+unset noconvert
+unset nonewlines
+set tabsize 2
+set tabstospaces
+
+# Searching
+unset backwards
+unset casesensitive
+
+# Syntax
+include "/usr/share/nano/*.nanorc"

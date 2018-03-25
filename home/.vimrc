@@ -175,6 +175,7 @@ omap am <Plug>(textobj-sandwich-literal-query-a)
 
 " toggles
 nnoremap <silent> <Leader>tf :NERDTreeToggle<CR>
+nnoremap <silent> <Leader>th :setlocal bufhidden! bufhidden?<CR>
 nnoremap <silent> <Leader>tl :ALEToggle<CR>
 nnoremap <silent> <Leader>ts :setlocal spell! spell?<CR>
 nnoremap <silent> <Leader>tt :TagbarToggle<CR>
@@ -222,6 +223,11 @@ xmap g= <Plug>(EasyAlign)
 " vim-sandwich
 nmap s <Nop>
 xmap s <Nop>
+
+" youcompleteme
+nnoremap <silent> <LocalLeader>K :YcmCompleter GetDoc<CR>
+nnoremap <silent> <LocalLeader>[i :YcmCompleter GetType<CR>
+nnoremap <silent> <LocalLeader><C-]> :YcmCompleter GoTo<CR>
 
 """"""""""
 "  Misc  "
