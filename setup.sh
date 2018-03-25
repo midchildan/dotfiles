@@ -76,6 +76,7 @@ setup::misc() {
   install::default ".clang-format"
   install::default ".config/git/config"
   install::default ".config/git/ignore"
+  install::default ".config/nano/nanorc"
   install::default ".config/ranger/rc.conf"
   install::default ".config/ranger/scope.sh"
   install::default ".config/tig/config"
