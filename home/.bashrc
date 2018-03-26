@@ -52,30 +52,31 @@ fi
 
 if [[ $TERM == "dumb" ]]; then
   PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-else
-  if command -v dircolors >/dev/null 2>&1; then
-    if [[ -r ~/.dircolors ]]; then
-      eval "$(dircolors -b ~/.dircolors)"
-    else
-      eval "$(dircolors -b)"
-    fi
-  fi
-
-  prompt_color='\[\033[1m\]'
-  prompt_login='${debian_chroot:+($debian_chroot)}\u'
-  prompt_title='\[\e]0;${debian_chroot:+($debian_chroot)}\w\a\]'
-  if [[ -n "$SSH_CONNECTION" ]]; then
-    prompt_color='\[\033[1;32m\]'
-    prompt_login+='@\h'
-    prompt_title='\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h:\w\a\]'
-  fi
-  if [[ $EUID -eq 0 ]]; then
-    prompt_color='\[\033[1;31m\]'
-  fi
-  PS1=$prompt_title$prompt_color$prompt_login
-  PS1+='\[\033[0;1m\]:\[\033[34m\]\w\[\033[0;1m\]\$\[\033[0m\] '
-  unset prompt_color prompt_login prompt_title
+  return
 fi
+
+if command -v dircolors >/dev/null 2>&1; then
+  if [[ -r ~/.dircolors ]]; then
+    eval "$(dircolors -b ~/.dircolors)"
+  else
+    eval "$(dircolors -b)"
+  fi
+fi
+
+prompt_color='\[\033[1m\]'
+prompt_login='${debian_chroot:+($debian_chroot)}\u'
+prompt_title='\[\e]0;${debian_chroot:+($debian_chroot)}\w\a\]'
+if [[ -n "$SSH_CONNECTION" ]]; then
+  prompt_color='\[\033[1;32m\]'
+  prompt_login+='@\h'
+  prompt_title='\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h:\w\a\]'
+fi
+if [[ $EUID -eq 0 ]]; then
+  prompt_color='\[\033[1;31m\]'
+fi
+PS1=$prompt_title$prompt_color$prompt_login
+PS1+='\[\033[0;1m\]:\[\033[34m\]\w\[\033[0;1m\]\$\[\033[0m\] '
+unset prompt_color prompt_login prompt_title
 
 ##########
 #  Misc  #
