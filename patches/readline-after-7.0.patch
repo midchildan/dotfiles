@@ -1,0 +1,15 @@
+diff --git a/home/.inputrc b/home/.inputrc
+index 6ca1ea5..45b3ec0 100644
+--- a/home/.inputrc
++++ b/home/.inputrc
+@@ -11,6 +11,10 @@ set visible-stats on
+ set editing-mode vi
+ set history-size 2000
+ set bind-tty-special-chars off
++set show-mode-in-prompt on
++set vi-cmd-mode-string "\e[2 q
++set vi-ins-mode-string "\e[6 q"
++set emacs-mode-string "\e[6 q"
+ 
+ set keymap vi-command
+ "!": edit-and-execute-command

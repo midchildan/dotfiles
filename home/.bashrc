@@ -33,36 +33,6 @@ shopt -s cmdhist
 shopt -s lithist
 shopt -s histappend
 
-###########
-#  Theme  #
-###########
-[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && unset USE_POWERLINE
-
-if [[ $TERM == "dumb" ]]; then
-  PS1='\u@\h:\w\$ '
-else
-  if [[ -r ~/.dircolors ]]; then
-    eval "$(dircolors -b ~/.dircolors)"
-  else
-    eval "$(dircolors -b)"
-  fi
-
-  prompt_color='\[\033[1m\]'
-  prompt_login='\u'
-  prompt_title='\[\e]0;\w\a\]'
-  if [[ -n "$SSH_CONNECTION" ]]; then
-    prompt_color='\[\033[1;32m\]'
-    prompt_login+='@\h'
-    prompt_title='\[\e]0;\u@\h:\w\a\]'
-  fi
-  if [[ $EUID -eq 0 ]]; then
-    prompt_color='\[\033[1;31m\]'
-  fi
-  PS1=$prompt_title$prompt_color$prompt_login
-  PS1+='\[\033[0;1m\]:\[\033[34m\]\w\[\033[0;1m\]\$\[\033[0m\] '
-  unset prompt_color prompt_login prompt_title
-fi
-
 ##########
 #  Misc  #
 ##########
@@ -86,3 +56,34 @@ source ~/.local/opt/fzftools/fzftools.bash
 if [[ "$SHELL" != *"zsh" ]] && grep -q zsh /etc/shells; then
   echo "[NOTICE] zsh is available on this system." >&2
 fi
+
+###########
+#  Theme  #
+###########
+[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && unset USE_POWERLINE
+
+if [[ $TERM == "dumb" ]]; then
+  PS1='\u@\h:\w\$ '
+  return
+fi
+
+if [[ -r ~/.dircolors ]]; then
+  eval "$(dircolors -b ~/.dircolors)"
+else
+  eval "$(dircolors -b)"
+fi
+
+__prompt_color='\[\033[1m\]'
+__prompt_login='\u'
+__prompt_title='\[\e]0;\w\a\]'
+if [[ -n "$SSH_CONNECTION" ]]; then
+  __prompt_color='\[\033[1;32m\]'
+  __prompt_login+='@\h'
+  __prompt_title='\[\e]0;\u@\h:\w\a\]'
+fi
+if [[ $EUID -eq 0 ]]; then
+  __prompt_color='\[\033[1;31m\]'
+fi
+PS1=$__prompt_title$__prompt_color$__prompt_login
+PS1+='\[\033[0;1m\]:\[\033[34m\]\w\[\033[0;1m\]\$\[\033[0m\] '
+unset __prompt_color __prompt_login __prompt_title
