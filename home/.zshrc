@@ -44,6 +44,10 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushd_minus
 
+autoload -Uz chpwd_recent_dirs cdr
+chpwd_functions=(chpwd_recent_dirs)
+zstyle ':chpwd:*' recent-dirs-default true
+
 #############
 #  History  #
 #############
@@ -67,6 +71,7 @@ setopt always_to_end
 setopt complete_in_word
 setopt correct
 setopt magic_equal_subst
+setopt menu_complete
 setopt list_packed
 zmodload -i zsh/complist
 
@@ -76,6 +81,8 @@ zstyle ':completion:*' matcher-list \
 
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' menu select
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion:*' recent-dirs-insert fallback
 zstyle ':completion:*:*:kill:*:processes' list-colors \
   '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 zstyle ':completion:*:*:*:*:processes' \
@@ -88,10 +95,13 @@ autoload -Uz compinit && compinit -C
 #  Keybindings  #
 #################
 autoload -Uz edit-command-line && zle -N edit-command-line
+autoload -Uz select-bracketed && zle -N select-bracketed
+autoload -Uz select-quoted && zle -N select-quoted
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
 autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
 autoload -Uz fzf-complete && zle -N fzf-complete
 autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
+autoload -Uz fzf-cdr-widget && zle -N fzf-cdr-widget
 autoload -Uz fzf-file-widget && zle -N fzf-file-widget
 autoload -Uz fzf-history-widget && zle -N fzf-history-widget
 autoload -Uz fzf-snippet-expand && zle -N fzf-snippet-expand
@@ -111,7 +121,7 @@ bindkey -v \
   '^H' backward-delete-char \
   '^I' fzf-complete \
   '^N' history-beginning-search-forward \
-  '^O' fzf-cd-widget \
+  '^O' fzf-cdr-widget \
   '^P' history-beginning-search-backward \
   '^U' backward-kill-line \
   '^W' backward-kill-word \
@@ -121,6 +131,7 @@ bindkey -v \
   '^?' backward-delete-char
 bindkey -ra 's'
 bindkey -a \
+  'gf' fzf-cd-widget \
   'sa' add-surround \
   'sd' delete-surround \
   'sr' change-surround \
@@ -134,9 +145,17 @@ bindkey -M menuselect \
   '^J' accept-and-menu-complete \
   '^N' down-line-or-history \
   '^P' up-line-or-history \
-  '^X^I' vi-insert \
   '^X^F' accept-and-infer-next-history \
+  '^X^X' vi-insert \
   '^?' undo
+for m in visual viopp; do
+  for c in {a,i}${(s..)^:-'()[]{}<>bB'}; do
+    bindkey -M $m $c select-bracketed
+  done
+  for c in {a,i}{\',\",\`}; do
+    bindkey -M $m $c select-quoted
+  done
+done
 
 ##########
 #  Misc  #
@@ -146,10 +165,11 @@ setopt no_clobber
 setopt no_flowcontrol
 autoload -Uz select-word-style && select-word-style bash
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
+autoload -Uz zrecompile && zrecompile -p -R ~/.zshrc -- -M ~/.zcompdump
 
 # Tell Apple Terminal the working directory
 if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
-  update_terminal_cwd() {
+  __update_terminal_cwd() {
 
     # Percent-encode the pathname.
     local URL_PATH=''
@@ -169,8 +189,8 @@ if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
 
     printf '\e]7;%s\a' "file://$HOST$URL_PATH"
   }
-  add-zsh-hook precmd update_terminal_cwd
-  update_terminal_cwd
+  add-zsh-hook precmd __update_terminal_cwd
+  __update_terminal_cwd
 fi
 
 ###########
@@ -183,49 +203,63 @@ setopt prompt_subst
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
   unset zle_bracketed_paste
-else
-  autoload -Uz vcs_info
-  zstyle ':vcs_info:*' actionformats \
-    '%b@%s%f: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
-  zstyle ':vcs_info:*' formats \
-    '%b@%s%f: %F{blue}%r/%S%f' '%c%u'
-  zstyle ':vcs_info:*' stagedstr "[%B%F{yellow}staged%f%b]"
-  zstyle ':vcs_info:*' unstagedstr "[%B%F{red}unstaged%f%b]"
-  zstyle ':vcs_info:*' check-for-changes true
-  zstyle ':vcs_info:*' enable git
-
-  update_prompt() {
-    local prompt_prompt="%(?::%F{red})%#%f"
-    local prompt_login="%B%(!:%F{red}:)"
-    local prompt_hname=""
-    if [[ -n "$SSH_CONNECTION" ]]; then
-      prompt_login="%B%(!:%F{red}:%F{green})"
-      prompt_hname="@%m"
-    fi
-
-    vcs_info
-    if [[ -n "$vcs_info_msg_0_" ]]; then
-      PROMPT="$prompt_login$vcs_info_msg_0_"$'\n'"$prompt_prompt%b "
-      RPROMPT="$vcs_info_msg_1_"
-    else
-      PROMPT="$prompt_login%n$prompt_hname%f: %F{blue}%~%f"$'\n'"$prompt_prompt%b "
-      RPROMPT=""
-    fi
-  }
-
-  update_title() {
-    if [[ -n "$SSH_CONNECTION" ]]; then
-      print -Pn "\e]0;%m: %1~\a"
-    else
-      local title=""
-      [[ "$TERM_PROGRAM" != "Apple_Terminal" ]] && title="%1~"
-      print -Pn "\e]0;$title\a"
-    fi
-  }
-
-  add-zsh-hook precmd update_prompt
-  add-zsh-hook preexec update_title
-
-  source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)
+  return
 fi
+
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' actionformats \
+  '%b@%s%f: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
+zstyle ':vcs_info:*' formats \
+  '%b@%s%f: %F{blue}%r/%S%f' '%c%u'
+zstyle ':vcs_info:*' stagedstr "[%B%F{yellow}staged%f%b]"
+zstyle ':vcs_info:*' unstagedstr "[%B%F{red}unstaged%f%b]"
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' enable git
+
+__update_prompt() {
+  local prompt_prompt="%(?::%F{red})%#%f"
+  local prompt_login="%B%(!:%F{red}:)"
+  local prompt_hname=""
+  if [[ -n "$SSH_CONNECTION" ]]; then
+    prompt_login="%B%(!:%F{red}:%F{green})"
+    prompt_hname="@%m"
+  fi
+
+  vcs_info
+  if [[ -n "$vcs_info_msg_0_" ]]; then
+    PROMPT="$prompt_login$vcs_info_msg_0_"$'\n'"$prompt_prompt%b "
+    RPROMPT="$vcs_info_msg_1_"
+  else
+    PROMPT="$prompt_login%n$prompt_hname%f: %F{blue}%~%f"$'\n'"$prompt_prompt%b "
+    RPROMPT=""
+  fi
+}
+
+__update_terminal() {
+  # set title
+  if [[ -n "$SSH_CONNECTION" ]]; then
+    print -Pn "\e]0;%m: %1~\a"
+  else
+    local title=""
+    [[ "$TERM_PROGRAM" != "Apple_Terminal" ]] && title="%1~"
+    print -Pn "\e]0;$title\a"
+  fi
+
+  # set cursor shape to steady block
+  print -Pn "\e[2 q"
+}
+
+__indicate_mode() {
+  local cursor_shape=6
+  [[ "$ZLE_STATE" == *overwrite* ]] && cursor_shape=4
+  [[ "$KEYMAP" == vicmd ]] && cursor_shape=2
+  printf "%b%s" "\e[$cursor_shape q"
+}
+
+add-zsh-hook precmd __update_prompt
+add-zsh-hook preexec __update_terminal
+zle -N zle-line-init __indicate_mode
+zle -N zle-keymap-select __indicate_mode
+
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)
