@@ -60,7 +60,7 @@ fi
 ###########
 #  Theme  #
 ###########
-[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && unset USE_POWERLINE
+[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
 
 if [[ $TERM == "dumb" ]]; then
   PS1='\u@\h:\w\$ '

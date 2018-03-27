@@ -70,3 +70,4 @@ index 61095f7..7f68246 100644
 +bind C-y copy-mode -e \; send C-y
  bind g switch-client -T g
  bind G display-panes \; switch-client -T prefix
+
