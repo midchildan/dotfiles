@@ -172,7 +172,7 @@ source /etc/zsh_command_not_found
 ###########
 setopt prompt_subst
 
-[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && unset USE_POWERLINE
+[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
@@ -209,29 +209,35 @@ __update_prompt() {
   fi
 }
 
-__update_terminal() {
-  # set title
+__update_title() {
   if [[ -n "$SSH_CONNECTION" ]]; then
     print -Pn "\e]0;%m: %1~\a"
   else
     print -Pn "\e]0;%1~\a"
   fi
-
-  # set cursor shape to steady block
-  print -Pn "\e[2 q"
-}
-
-__indicate_mode() {
-  local cursor_shape=6
-  [[ "$ZLE_STATE" == *overwrite* ]] && cursor_shape=4
-  [[ "$KEYMAP" == vicmd ]] && cursor_shape=2
-  printf "%b%s" "\e[$cursor_shape q"
 }
 
 add-zsh-hook precmd __update_prompt
-add-zsh-hook preexec __update_terminal
-zle -N zle-line-init __indicate_mode
-zle -N zle-keymap-select __indicate_mode
+add-zsh-hook preexec __update_title
+
+case "$TERM" in
+  xterm-256color|screen-256color)
+    __vi_cursor() {
+      local cursor_shape=6
+      [[ "$ZLE_STATE" == *overwrite* ]] && cursor_shape=4
+      [[ "$KEYMAP" == vicmd ]] && cursor_shape=2
+      print -Pn "\e[$cursor_shape q"
+    }
+
+    __reset_cursor() {
+      print -Pn "\e[2 q"
+    }
+
+    zle -N zle-line-init __vi_cursor
+    zle -N zle-keymap-select __vi_cursor
+    add-zsh-hook preexec __reset_cursor
+    ;;
+esac
 
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)
