@@ -198,7 +198,7 @@ fi
 ###########
 setopt prompt_subst
 
-[[ -z "$TERM_PROGRAM" ]] && unset USE_POWERLINE
+[[ -z "$TERM_PROGRAM" ]] && USE_POWERLINE=0
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
@@ -235,8 +235,7 @@ __update_prompt() {
   fi
 }
 
-__update_terminal() {
-  # set title
+__update_title() {
   if [[ -n "$SSH_CONNECTION" ]]; then
     print -Pn "\e]0;%m: %1~\a"
   else
@@ -244,22 +243,29 @@ __update_terminal() {
     [[ "$TERM_PROGRAM" != "Apple_Terminal" ]] && title="%1~"
     print -Pn "\e]0;$title\a"
   fi
-
-  # set cursor shape to steady block
-  print -Pn "\e[2 q"
-}
-
-__indicate_mode() {
-  local cursor_shape=6
-  [[ "$ZLE_STATE" == *overwrite* ]] && cursor_shape=4
-  [[ "$KEYMAP" == vicmd ]] && cursor_shape=2
-  printf "%b%s" "\e[$cursor_shape q"
 }
 
 add-zsh-hook precmd __update_prompt
-add-zsh-hook preexec __update_terminal
-zle -N zle-line-init __indicate_mode
-zle -N zle-keymap-select __indicate_mode
+add-zsh-hook preexec __update_title
+
+case "$TERM" in
+  xterm-256color|screen-256color)
+    __vi_cursor() {
+      local cursor_shape=6
+      [[ "$ZLE_STATE" == *overwrite* ]] && cursor_shape=4
+      [[ "$KEYMAP" == vicmd ]] && cursor_shape=2
+      print -Pn "\e[$cursor_shape q"
+    }
+
+    __reset_cursor() {
+      print -Pn "\e[2 q"
+    }
+
+    zle -N zle-line-init __vi_cursor
+    zle -N zle-keymap-select __vi_cursor
+    add-zsh-hook preexec __reset_cursor
+    ;;
+esac
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)

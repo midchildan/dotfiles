@@ -63,7 +63,7 @@ fi
 ###########
 #  Theme  #
 ###########
-[[ -z "$TERM_PROGRAM" ]] && unset USE_POWERLINE
+[[ -z "$TERM_PROGRAM" ]] && USE_POWERLINE=0
 
 if [[ $TERM == "dumb" ]]; then
   PS1='\u@\h:\w\$ '
