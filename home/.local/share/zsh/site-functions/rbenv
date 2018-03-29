@@ -1,0 +1,18 @@
+emulate -L zsh
+
+export RBENV_ROOT="$HOME/.local/opt/rbenv"
+export PATH="$RBENV_ROOT/bin:$PATH"
+
+if ! type -p rbenv > /dev/null 2>&1; then
+  echo "rbenv not found. To install, run the following commands:" >&2
+  echo "\tgit clone https://github.com/rbenv/rbenv.git ~/.local/opt/rbenv" >&2
+  echo "\tcd ~/.local/opt/rbenv && src/configure && make -C src" >&2
+  return 1
+fi
+
+unset -f rbenv
+eval "$(command rbenv init -)"
+if zstyle -T ':lazyenvs:rbenv' use-global; then
+  rbenv global system
+fi
+rbenv "$@"
