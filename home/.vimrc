@@ -74,6 +74,13 @@ au vimrc BufReadPost *
   \ |   exe "normal! g`\""
   \ | endif
 
+" enable brackted paste mode
+if !has('nvim') && has('patch-8.0.0238') && $TERM =~? 'screen'
+  let &t_BE = "\<Esc>[?2004h"
+  let &t_BD = "\<Esc>[?2004l"
+  exec "set t_PS=\<ESC>[200~ | set t_PE=\<ESC>[201~"
+endif
+
 """"""""
 "  UI  "
 """"""""
@@ -96,12 +103,12 @@ if $TERM =~? '.*-256color' && has('termguicolors')
   set cursorline
   set termguicolors
   colorscheme molokai
-  if !has('nvim') && $TERM ==? 'screen-256color'
+  if !has('nvim') && $TERM =~? 'screen'
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   endif
 endif
-if has('nvim')
+if exists('+inccommand')
   set inccommand=split
 endif
 
