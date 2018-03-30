@@ -111,6 +111,7 @@ bindkey -v \
   '^Gu' split-undo \
   '^H' backward-delete-char \
   '^I' fzf-complete \
+  '^J' self-insert \
   '^N' history-beginning-search-forward \
   '^O' fzf-cdr-widget \
   '^P' history-beginning-search-backward \

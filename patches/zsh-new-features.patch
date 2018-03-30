@@ -1,0 +1,13 @@
+diff --git a/home/.zshrc b/home/.zshrc
+index 8711484..789b4de 100644
+--- a/home/.zshrc
++++ b/home/.zshrc
+@@ -163,6 +163,8 @@ setopt no_clobber
+ setopt no_flowcontrol
+ autoload -Uz select-word-style && select-word-style bash
+ autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
++autoload -Uz bracketed-paste-url-magic && \
++  zle -N bracketed-paste bracketed-paste-url-magic
+ autoload -Uz zrecompile && zrecompile -p -R ~/.zshrc -- -M ~/.zcompdump
+ 
+ command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
