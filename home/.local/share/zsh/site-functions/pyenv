@@ -1,11 +1,11 @@
 emulate -L zsh
 
-export PYENV_ROOT="$HOME/.local/opt/pyenv"
+export PYENV_ROOT="/usr/local/var/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
 if ! type -p pyenv > /dev/null 2>&1; then
   echo "pyenv not found. To install, run the following command:" >&2
-  echo "\tgit clone https://github.com/pyenv/pyenv.git ~/.local/opt/pyenv" >&2
+  echo "\tbrew install pyenv" >&2
   return 1
 fi
 
