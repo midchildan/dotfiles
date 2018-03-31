@@ -1,5 +1,6 @@
 fpath+=(~/.local/share/zsh/site-functions)
 autoload -Uz add-zsh-hook
+autoload -Uz is-at-least
 
 ###########################
 #  Environment Variables  #
@@ -25,6 +26,7 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz zmv
+autoload -Uz fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
 
 #################
@@ -42,9 +44,7 @@ zstyle ':chpwd:*' recent-dirs-default true
 #############
 #  History  #
 #############
-if [[ -z "$HISTFILE" ]]; then
-  HISTFILE=~/.zsh_history
-fi
+HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
@@ -74,6 +74,7 @@ zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' menu select
 zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion:*' recent-dirs-insert fallback
+zstyle ':completion:*:functions' ignored-patterns '_*'
 zstyle ':completion:*:*:kill:*:processes' list-colors \
   '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 zstyle ':completion:*:*:*:*:processes' \
@@ -85,6 +86,7 @@ autoload -Uz compinit && compinit -C
 #################
 #  Keybindings  #
 #################
+autoload -Uz copy-earlier-word && zle -N copy-earlier-word
 autoload -Uz edit-command-line && zle -N edit-command-line
 autoload -Uz select-bracketed && zle -N select-bracketed
 autoload -Uz select-quoted && zle -N select-quoted
@@ -108,6 +110,7 @@ bindkey -v
 bindkey -rv '^[,' '^[/' '^[~'
 bindkey -v \
   '^A' smart-insert-last-word \
+  '^B' copy-earlier-word \
   '^Gu' split-undo \
   '^H' backward-delete-char \
   '^I' fzf-complete \
@@ -152,12 +155,17 @@ done
 ##########
 #  Misc  #
 ##########
+setopt interactive_comments
 setopt long_list_jobs
 setopt no_clobber
 setopt no_flowcontrol
 autoload -Uz select-word-style && select-word-style bash
-autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 autoload -Uz zrecompile && zrecompile -p -R ~/.zshrc -- -M ~/.zcompdump
+autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
+if is-at-least 5.2; then
+  autoload -Uz bracketed-paste-url-magic && \
+    zle -N bracketed-paste bracketed-paste-url-magic
+fi
 
 command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -171,6 +179,7 @@ setopt prompt_subst
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
   unset zle_bracketed_paste
+  bindkey -v '^J' accept-line
   return
 fi
 

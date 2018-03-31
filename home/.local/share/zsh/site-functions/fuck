@@ -1,0 +1,11 @@
+emulate -L zsh
+
+if ! command -v thefuck; then
+  echo "thefuck not installed" >&2
+  return 1
+fi
+
+unset -f fuck
+eval $(thefuck --alias)
+
+fuck "$@"
