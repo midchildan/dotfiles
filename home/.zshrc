@@ -32,6 +32,7 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz zmv
+autoload -Uz fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
 
 #################
