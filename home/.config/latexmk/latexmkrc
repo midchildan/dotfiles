@@ -15,6 +15,7 @@ if ($ENV{LATEXMK_ENGINE} eq 'uplatex') {
   $pdf_mode = 3;
 } else {
   $pdflatex = 'pdflatex -synctex=1 -file-line-error -interaction=nonstopmode';
+  $pdf_mode = 1;
 }
 
 $biber = 'biber -u -U --output_safechars';
