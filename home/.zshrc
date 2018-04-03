@@ -32,7 +32,7 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz zmv
-autoload -Uz fuck
+autoload -Uz cd.. fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
 
 #################
@@ -149,12 +149,14 @@ bindkey -M menuselect \
   '^X^F' accept-and-infer-next-history \
   '^X^X' vi-insert \
   '^?' undo
-for m in visual viopp; do
-  for c in {a,i}${(s..)^:-'()[]{}<>bB'}; do
-    bindkey -M $m $c select-bracketed
+
+local mode char
+for mode in visual viopp; do
+  for char in {a,i}${(s..)^:-'()[]{}<>bB'}; do
+    bindkey -M $mode $char select-bracketed
   done
-  for c in {a,i}{\',\",\`}; do
-    bindkey -M $m $c select-quoted
+  for char in {a,i}{\',\",\`}; do
+    bindkey -M $mode $char select-quoted
   done
 done
 
