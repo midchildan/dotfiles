@@ -35,7 +35,7 @@ alias la='ls -lAh'
 alias qlook='qlmanage -p'
 alias sudoedit='sudo -e'
 autoload -Uz zmv
-autoload -Uz fuck
+autoload -Uz cd.. fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
 
 #################
@@ -152,12 +152,14 @@ bindkey -M menuselect \
   '^X^F' accept-and-infer-next-history \
   '^X^X' vi-insert \
   '^?' undo
-for m in visual viopp; do
-  for c in {a,i}${(s..)^:-'()[]{}<>bB'}; do
-    bindkey -M $m $c select-bracketed
+
+local mode char
+for mode in visual viopp; do
+  for char in {a,i}${(s..)^:-'()[]{}<>bB'}; do
+    bindkey -M $mode $char select-bracketed
   done
-  for c in {a,i}{\',\",\`}; do
-    bindkey -M $m $c select-quoted
+  for char in {a,i}{\',\",\`}; do
+    bindkey -M $mode $char select-quoted
   done
 done
 
@@ -200,6 +202,29 @@ if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
   }
   add-zsh-hook precmd __update_terminal_cwd
   __update_terminal_cwd
+fi
+
+# Tell libvte terminals the working directory
+if (( "${VTE_VERSION:-0}" >= 3405 )); then
+  __vte_urlencode() {
+    # Use LC_CTYPE=C to process text byte-by-byte.
+    local LC_CTYPE=C LC_ALL= raw_url="$1" safe_url="" safe
+    while [[ -n "$raw_url" ]]; do
+      safe="${raw_url%%[!a-zA-Z0-9/:_\.\-\!\'\(\)~]*}"
+      safe_url+="$safe"
+      raw_url="${raw_url#"$safe"}"
+      if [[ -n "$raw_url" ]]; then
+        safe_url+="%$(([##16] #raw_url))"
+        raw_url="${raw_url#?}"
+      fi
+    done
+    echo -E "$safe_url"
+  }
+
+  __vte_osc7() {
+    printf "\e]7;file://%s%s\a" "${HOSTNAME:-}" "$(__vte_urlencode "$PWD")"
+  }
+  add-zsh-hook precmd __vte_osc7
 fi
 
 ###########
