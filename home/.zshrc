@@ -180,32 +180,6 @@ fi
 
 # Tell Apple Terminal the working directory
 if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
-  __update_terminal_cwd() {
-
-    # Percent-encode the pathname.
-    local URL_PATH=''
-    {
-      # Use LC_CTYPE=C to process text byte-by-byte.
-      local i ch hexch LC_CTYPE=C LC_ALL=
-      for ((i = 1; i <= ${#PWD}; ++i)); do
-        ch="$PWD[i]"
-        if [[ "$ch" =~ [/._~A-Za-z0-9-] ]]; then
-          URL_PATH+="$ch"
-        else
-          hexch=$(printf "%02X" "'$ch")
-          URL_PATH+="%$hexch"
-        fi
-      done
-    }
-
-    printf '\e]7;%s\a' "file://$HOST$URL_PATH"
-  }
-  add-zsh-hook precmd __update_terminal_cwd
-  __update_terminal_cwd
-fi
-
-# Tell libvte terminals the working directory
-if (( "${VTE_VERSION:-0}" >= 3405 )); then
   __vte_urlencode() {
     # Use LC_CTYPE=C to process text byte-by-byte.
     local LC_CTYPE=C LC_ALL= raw_url="$1" safe_url="" safe
@@ -222,9 +196,10 @@ if (( "${VTE_VERSION:-0}" >= 3405 )); then
   }
 
   __vte_osc7() {
-    printf "\e]7;file://%s%s\a" "${HOSTNAME:-}" "$(__vte_urlencode "$PWD")"
+    printf "\e]7;file://%s%s\a" "${HOST:-}" "$(__vte_urlencode "$PWD")"
   }
   add-zsh-hook precmd __vte_osc7
+  __vte_osc7
 fi
 
 ###########
