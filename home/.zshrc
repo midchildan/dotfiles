@@ -171,6 +171,29 @@ fi
 
 command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 
+# Tell libvte terminals the working directory
+if (( "${VTE_VERSION:-0}" >= 3405 )); then
+  __vte_urlencode() {
+    # Use LC_CTYPE=C to process text byte-by-byte.
+    local LC_CTYPE=C LC_ALL= raw_url="$1" safe_url="" safe
+    while [[ -n "$raw_url" ]]; do
+      safe="${raw_url%%[!a-zA-Z0-9/:_\.\-\!\'\(\)~]*}"
+      safe_url+="$safe"
+      raw_url="${raw_url#"$safe"}"
+      if [[ -n "$raw_url" ]]; then
+        safe_url+="%$(([##16] #raw_url))"
+        raw_url="${raw_url#?}"
+      fi
+    done
+    echo -E "$safe_url"
+  }
+
+  __vte_osc7() {
+    printf "\e]7;file://%s%s\a" "${HOSTNAME:-}" "$(__vte_urlencode "$PWD")"
+  }
+  add-zsh-hook precmd __vte_osc7
+fi
+
 ###########
 #  Theme  #
 ###########

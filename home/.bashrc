@@ -53,6 +53,28 @@ fi
 
 source ~/.local/opt/fzftools/fzftools.bash
 
+# Tell libvte terminals the working directory
+if (( "${VTE_VERSION:-0}" >= 3405 )); then
+  __vte_urlencode() {
+    # Use LC_CTYPE=C to process text byte-by-byte.
+    local LC_CTYPE=C LC_ALL= raw_url="$1" safe
+    while [[ -n "$raw_url" ]]; do
+      safe="${raw_url%%[!a-zA-Z0-9/:_\.\-\!\'\(\)~]*}"
+      printf "%s" "$safe"
+      raw_url="${raw_url#"$safe"}"
+      if [[ -n "$raw_url" ]]; then
+        printf "%%%02X" "'$raw_url"
+        raw_url="${raw_url#?}"
+      fi
+    done
+  }
+
+  __vte_osc7() {
+    printf "\e]7;file://%s%s\a" "${HOSTNAME:-}" "$(__vte_urlencode "$PWD")"
+  }
+  PROMPT_COMMAND+=";__vte_osc7"
+fi
+
 if [[ "$SHELL" != *"zsh" ]] && grep -q zsh /etc/shells; then
   echo "[NOTICE] zsh is available on this system." >&2
 fi
