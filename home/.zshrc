@@ -179,7 +179,7 @@ command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 source /etc/zsh_command_not_found
 
 # Tell libvte terminals the working directory
-if (( "${VTE_VERSION:-0}" >= 3405 )); then
+if (( ${VTE_VERSION:-0} >= 3405 )); then
   __vte_urlencode() {
     # Use LC_CTYPE=C to process text byte-by-byte.
     local LC_CTYPE=C LC_ALL= raw_url="$1" safe_url="" safe
