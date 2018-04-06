@@ -150,13 +150,13 @@ bindkey -M menuselect \
   '^X^X' vi-insert \
   '^?' undo
 
-local mode char
-for mode in visual viopp; do
-  for char in {a,i}${(s..)^:-'()[]{}<>bB'}; do
-    bindkey -M $mode $char select-bracketed
+local _mode _char
+for _mode in visual viopp; do
+  for _char in {a,i}${(s..)^:-'()[]{}<>bB'}; do
+    bindkey -M $_mode $_char select-bracketed
   done
-  for char in {a,i}{\',\",\`}; do
-    bindkey -M $mode $char select-quoted
+  for _char in {a,i}{\',\",\`}; do
+    bindkey -M $_mode $_char select-quoted
   done
 done
 
@@ -182,21 +182,21 @@ source /etc/zsh_command_not_found
 if (( ${VTE_VERSION:-0} >= 3405 )); then
   __vte_urlencode() {
     # Use LC_CTYPE=C to process text byte-by-byte.
-    local LC_CTYPE=C LC_ALL= raw_url="$1" safe_url="" safe
-    while [[ -n "$raw_url" ]]; do
-      safe="${raw_url%%[!a-zA-Z0-9/:_\.\-\!\'\(\)~]*}"
-      safe_url+="$safe"
-      raw_url="${raw_url#"$safe"}"
-      if [[ -n "$raw_url" ]]; then
-        safe_url+="%$(([##16] #raw_url))"
-        raw_url="${raw_url#?}"
+    local LC_CTYPE=C LC_ALL= _raw_url="$1" _safe_url="" _safe
+    while [[ -n "$_raw_url" ]]; do
+      _safe="${_raw_url%%[!a-zA-Z0-9/:_\.\-\!\'\(\)~]*}"
+      _safe_url+="$_safe"
+      _raw_url="${_raw_url#"$_safe"}"
+      if [[ -n "$_raw_url" ]]; then
+        _safe_url+="%$(([##16] #_raw_url))"
+        _raw_url="${_raw_url#?}"
       fi
     done
-    echo -E "$safe_url"
+    echo -E "$_safe_url"
   }
 
   __vte_osc7() {
-    printf "\e]7;file://%s%s\a" "${HOSTNAME:-}" "$(__vte_urlencode "$PWD")"
+    printf "\e]7;file://%s%s\a" "$HOST" "$(__vte_urlencode "$PWD")"
   }
   add-zsh-hook precmd __vte_osc7
 fi
@@ -226,42 +226,51 @@ zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' enable git
 
 __update_prompt() {
-  local prompt_prompt="%(?::%F{red})%#%f"
-  local prompt_login="%B%(!:%F{red}:)"
-  local prompt_hname=""
+  local _prompt="%(?::%F{red})%#%f" _login="%B%(!:%F{red}:)" _hname=""
   if [[ -n "$SSH_CONNECTION" ]]; then
-    prompt_login="%B%(!:%F{red}:%F{green})"
-    prompt_hname="@%m"
+    _login="%B%(!:%F{red}:%F{green})"
+    _hname="@%m"
+  fi
+
+  local _begin= _end=
+  if zstyle -T ':iterm2:osc' enable; then
+    _begin=$'%{\e]133;D;%?\a\e]133;A\a%}'
+    _end=$'%{\e]133;B\a%}'
   fi
 
   vcs_info
   if [[ -n "$vcs_info_msg_0_" ]]; then
-    PROMPT="$prompt_login$vcs_info_msg_0_"$'\n'"$prompt_prompt%b "
+    PROMPT="$_begin$_login$vcs_info_msg_0_"$'\n'"$_prompt%b $_end"
     RPROMPT="$vcs_info_msg_1_"
   else
-    PROMPT="$prompt_login%n$prompt_hname%f: %F{blue}%~%f"$'\n'"$prompt_prompt%b "
+    PROMPT="$_begin$_login%n$_hname%f: %F{blue}%~%f"$'\n'"$_prompt%b $_end"
     RPROMPT=""
   fi
 }
 
-__update_title() {
+__update_term() {
   if [[ -n "$SSH_CONNECTION" ]]; then
     print -Pn "\e]0;%m: %1~\a"
   else
     print -Pn "\e]0;%1~\a"
   fi
+
+  if zstyle -T ':iterm2:osc' enable; then
+    printf "\e]1337;RemoteHost=%s@%s\a\e]1337;CurrentDir=%s\a\e]133;C\a" \
+      "$USER" "$HOST" "$PWD"
+  fi
 }
 
 add-zsh-hook precmd __update_prompt
-add-zsh-hook preexec __update_title
+add-zsh-hook preexec __update_term
 
 case "$TERM" in
   xterm-256color|screen-256color)
     __vi_cursor() {
-      local cursor_shape=6
-      [[ "$ZLE_STATE" == *overwrite* ]] && cursor_shape=4
-      [[ "$KEYMAP" == vicmd ]] && cursor_shape=2
-      print -Pn "\e[$cursor_shape q"
+      local _shape=6
+      [[ "$ZLE_STATE" == *overwrite* ]] && _shape=4
+      [[ "$KEYMAP" == vicmd ]] && _shape=2
+      print -Pn "\e[$_shape q"
     }
 
     __reset_cursor() {
