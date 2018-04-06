@@ -18,8 +18,6 @@ PATH+=":$(python3 -c 'import site; print(site.getuserbase())')/bin"
 PATH+=":$GOPATH/bin"
 export PATH
 
-source ~/.nix-profile/etc/profile.d/nix.sh
-
 ###########################
 #  Aliases and Functions  #
 ###########################
@@ -45,9 +43,9 @@ shopt -s histappend
 ##########
 #  Misc  #
 ##########
-shopt -s checkjobs
+shopt -s checkjobs 2>/dev/null
 shopt -s checkwinsize
-shopt -s globstar
+shopt -s globstar 2>/dev/null
 stty -ixoff -ixon # disable flow control
 
 if [ -f /usr/local/etc/bash_completion ]; then
