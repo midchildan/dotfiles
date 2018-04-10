@@ -41,21 +41,21 @@ main() {
 }
 
 relative_path() {
-  [[ "$#" != 1 ]] && abort "relative_path: Wrong number of arguments."
-  if [[ -x /usr/bin/realpath ]]; then
-    /usr/bin/realpath --no-symlinks --relative-to=. "$1"
-  elif [[ -x /usr/bin/perl ]]; then
-    /usr/bin/perl -e "use File::Spec; print File::Spec->abs2rel('$1')"
-  elif [[ -x /usr/bin/ruby ]]; then
-    /usr/bin/ruby -e \
+  [[ "$#" != 1 ]] && abort "Wrong number of arguments."
+  if command -v realpath >/dev/null 2>&1; then
+    realpath --no-symlinks --relative-to=. "$1"
+  elif command -v perl >/dev/null 2>&1; then
+    perl -e "use File::Spec; print File::Spec->abs2rel('$1')"
+  elif command -v ruby >/dev/null 2>&1; then
+    ruby -e \
       "require 'pathname'; print(Pathname.new('$1').relative_path_from(Pathname.new('$(pwd)')))"
-  elif [[ -x /usr/bin/python3 ]]; then
-    /usr/bin/python3 -c "import os; print(os.path.relpath('$1'), end='')"
-  elif [[ -x /usr/bin/python ]]; then
-    /usr/bin/python -c \
+  elif command -v python3 >/dev/null 2>&1; then
+    python3 -c "import os; print(os.path.relpath('$1'), end='')"
+  elif command -v python2 >/dev/null 2>&1; then
+    python2 -c \
       "from __future__ import print_function; import os; print(os.path.relpath('$1'), end='')"
   else
-    abort "relative_path: Needs coreutils, python, ruby, or perl."
+    abort "Needs coreutils, python, ruby, or perl."
   fi
 }
 

@@ -1,0 +1,10 @@
+#compdef cd..
+
+# Get parents (in reverse order)
+local i cwd_depth=${#${(ps:/:)${PWD}}} reply=()
+for i in {$((cwd_depth+1))..2}; do
+  reply+="$(echo $PWD | cut -d'/' -f$i)"
+done
+reply+="/"
+
+compadd -V directories -- $reply

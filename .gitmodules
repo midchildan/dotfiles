@@ -2,10 +2,6 @@
 	path = home/.mikutter/plugin/mikutter-uwm-hommage
 	url = https://github.com/moguno/mikutter-uwm-hommage.git
 	ignore = all
-[submodule "home/.mikutter/plugin/search"]
-	path = home/.mikutter/plugin/search
-	url = https://github.com/moguno/mikutter-search_moguno.git
-	ignore = all
 [submodule "home/.mikutter/plugin/sub_parts_client"]
 	path = home/.mikutter/plugin/sub_parts_client
 	url = https://github.com/toshia/mikutter-sub-parts-client.git
@@ -34,4 +30,8 @@
 [submodule "home/.local/opt/gef"]
 	path = home/.local/opt/gef
 	url = https://github.com/hugsy/gef.git
+	ignore = all
+[submodule "home/.local/opt/fzftools"]
+	path = home/.local/opt/fzftools
+	url = https://github.com/midchildan/fzftools.git
 	ignore = all

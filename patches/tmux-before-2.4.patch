@@ -1,0 +1,87 @@
+diff --git a/home/.tmux.conf b/home/.tmux.conf
+index f7dba3d..0658915 100644
+--- a/home/.tmux.conf
++++ b/home/.tmux.conf
+@@ -1,3 +1,5 @@
++# XXX: This configuration is patched to work w/ tmux < 2.4
++
+ #############
+ #  general  #
+ #############
+@@ -25,10 +27,8 @@ _sep_lmain2="#{?USE_POWERLINE,, }"
+ _sep_lsub="#{?USE_POWERLINE,,|}"
+ _sep_rmain="#{?USE_POWERLINE,,}"
+ _sep_rsub="#{?USE_POWERLINE,,|}"
+-_seg_host="#{?#{==:#{SSH_CONNECTION},},,#{?USE_POWERLINE, ,S:}}#{=17:host_short}"
+-_seg_sync="#{?pane_synchronized,sync ${_sep_rsub} ,}"
+-_seg_table="${_curr_mode} ${_sep_rsub} "
+-_seg_mode="#{?#{==:${_curr_mode},root},${_seg_sync},${_seg_table}}"
++_seg_host="#{?SSH_CONNECTION,S:,}#{=17:host_short}"
++_seg_mode="${_curr_mode}#{?pane_synchronized,:sync,} ${_sep_rsub} "
+ 
+ set -g status-style "fg=white,bg=black"
+ set -g status-left "${_sty_stat} ${_ico_ssh}#{=7:session_name} ${_sty_sep1}${_sep_lmain2}"
+@@ -38,15 +38,6 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
+ set -g window-status-current-format "${_sty_sep2}${_sep_lmain1}${_sty_stat} #I ${_sep_lsub} #W#{?window_flags,#{window_flags},} ${_sty_sep1}${_sep_lmain1}"
+ set -ga update-environment "USE_POWERLINE"
+ 
+-set-hook -g 'after-new-window' \
+-  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
+-set-hook -g 'after-kill-pane' \
+-  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
+-set-hook -g 'pane-exited' \
+-  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
+-set-hook -g 'after-split-window' \
+-  'if -b "[ \#{window_panes} -gt 1 ]" "set pane-border-status top"'
+-
+ setenv -gu _curr_mode
+ setenv -gu _sty_mode
+ setenv -gu _sty_stat
+@@ -58,8 +49,6 @@ setenv -gu _sep_lsub
+ setenv -gu _sep_rmain
+ setenv -gu _sep_rsub
+ setenv -gu _seg_host
+-setenv -gu _seg_sync
+-setenv -gu _seg_table
+ setenv -gu _seg_mode
+ 
+ #################
+@@ -102,8 +91,8 @@ bind C-b copy-mode -ue
+ bind C-k swap-pane -U \; switch-client -T prefix
+ bind C-j swap-pane -D \; switch-client -T prefix
+ bind C-n new-window \; switch-client -T prefix
+-bind C-u copy-mode -e \; send -X halfpage-up
+-bind C-y copy-mode -e \; send -X scroll-up
++bind C-u copy-mode -e \; send C-u
++bind C-y copy-mode -e \; send C-y
+ bind g switch-client -T g
+ bind G display-panes \; switch-client -T prefix
+ 
+@@ -128,8 +117,7 @@ bind C-w switch-client -T ctrl-w
+ bind '"' switch-client -T buffer
+ bind "'" command-prompt -p index "select-window -t ':%%'"
+ bind . send-prefix
+-bind / copy-mode \; command-prompt -ip "(search up)" \
+-  -I"#{pane_search_string}" "send -X search-backward-incremental \"%%%\""
++bind / copy-mode \; send /
+ bind : command-prompt \; switch-client -T prefix
+ bind ? list-keys
+ bind Enter resize-pane -Z \; switch-client -T prefix
+@@ -139,14 +127,9 @@ bind Space next-layout \; switch-client -T prefix
+ #  copy mode  #
+ ###############
+ 
+-bind -T copy-mode-vi v send -X begin-selection
+-bind -T copy-mode-vi y send -X copy-pipe-and-cancel "xclip -i -sel clip"
+-bind -T copy-mode-vi / command-prompt -ip "(search up)" \
+-  -I"#{pane_search_string}" "send -X search-backward-incremental \"%%%\""
+-bind -T copy-mode-vi ? command-prompt -ip "(search down)" \
+-  -I"#{pane_search_string}" "send -X search-forward-incremental \"%%%\""
+-bind -T copy-mode-vi C-v send -X begin-selection \;\
+-  send -X rectangle-toggle
++bind -t vi-copy v begin-selection
++bind -t vi-copy C-v rectangle-toggle
++bind -t vi-copy y copy-pipe "xclip -i -sel clip"
+ 
+ ############
+ #  c mode  #

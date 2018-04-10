@@ -1,0 +1,24 @@
+diff --git a/home/.vimrc b/home/.vimrc
+index 09c32d6..699d5e2 100644
+--- a/home/.vimrc
++++ b/home/.vimrc
+@@ -284,6 +284,7 @@ let g:ycm_key_list_select_completion=[]
+ let g:ycm_key_list_previous_completion=[]
+ let g:ycm_key_invoke_completion=''
+ let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
++let g:ycm_server_python_interpreter='~/.local/opt/pyenv/shims/python'
+ let g:ycm_rust_src_path='~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
+ 
+ " airline "
+diff --git a/home/.zshrc b/home/.zshrc
+index 52be737..d055444 100644
+--- a/home/.zshrc
++++ b/home/.zshrc
+@@ -34,6 +34,7 @@ alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
+ autoload -Uz zmv
+ autoload -Uz fuck
+ autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
++autoload -Uz pyenv rbenv
+ 
+ #################
+ #  Directories  #

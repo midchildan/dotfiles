@@ -1,0 +1,19 @@
+#!/usr/bin/env perl
+
+$latex = 'uplatex -kanji=utf8 -synctex=1 -file-line-error -interaction=nonstopmode';
+$biber = 'biber -u -U --output_safechars';
+$bibtex = 'upbibtex';
+$dvipdf ='dvipdfmx %O -o %D %S';
+$makeindex = 'upmendex %O -o %D %S';
+$max_repeat = 5;
+$pdf_mode = 3;
+
+if ($^O eq 'linux') {
+  $pdf_previewer = 'xdg-open';
+} elsif ($^O eq 'darwin') {
+  if (-d '/Applications/Skim.app') {
+    $pdf_previewer = 'open -ga /Applications/Skim.app'
+  } else {
+    $pdf_previewer = 'open -g';
+  }
+}

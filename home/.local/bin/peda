@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export GDB_PLUGINS="peda:$GDB_PLUGINS"
+exec gdb "$@"

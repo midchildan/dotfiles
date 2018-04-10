@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export LATEXMK_ENGINE="uplatex"
+exec latexmk "$@"

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+main() {
+  local selected="$( \
+    curl https://www.gitignore.io/api/list | tr , '\n' | fzf_or_abort +m )"
+  curl "https://www.gitignore.io/api/$selected"
+}
+
+abort() {
+  local message="abort"
+  [[ -n "$1" ]] && message="$1"
+  printf "[%s:%s] %s\n" "${FUNCNAME[1]}" "${BASH_LINENO[0]}" "$message" >&2
+  exit 1
+}
+
+fzf_or_abort() {
+  fzf-tmux "$@" || abort "FZF selection canceled"
+}
+
+main

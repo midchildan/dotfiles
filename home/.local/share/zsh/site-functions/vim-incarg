@@ -1,0 +1,40 @@
+emulate -L zsh
+
+# locate the digit
+integer pos=$CURSOR
+while [[ $BUFFER[pos] != [[:digit:]] ]]; do
+  (( pos++ ))
+  (( $pos > $#BUFFER )) && return
+done
+
+# determine the amount to increment
+integer ninc=${NUMERIC:-1}
+if [[ $WIDGET = vim-decarg ]]; then
+  (( ninc = -$ninc ))
+fi
+
+# find the start of the number
+integer first=$pos
+while [[ $BUFFER[first-1] = [[:digit:]] ]]; do
+  (( first-- ))
+done
+if [[ $BUFFER[first-1] = - ]]; then
+  (( first-- ))
+fi
+
+# find the end of the number
+integer last=$pos
+while [[ $BUFFER[last+1] = [[:digit:]] ]]; do
+  (( last++ ))
+done
+
+# calculate the width
+integer ndigits=0
+case "$BUFFER[first,first+1]" in
+  0*|-0) ndigits=$((last - first + 1)) ;;
+esac
+
+# change the number and move the cursor after it
+integer oldlen=$#BUFFER
+BUFFER[first,last]="$(printf "%0${ndigits}d" $((BUFFER[first,last] + $ninc)))"
+(( CURSOR = last + $#BUFFER - oldlen ))

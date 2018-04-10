@@ -1,0 +1,5 @@
+# vim:set et sw=2 ts=8 ft=zsh:
+
+unset -f fzf-sel fzf-run fzf-loop fzf-gen
+source ~/.local/opt/fzftools/fzftools.zsh
+fzf-sel "$@"

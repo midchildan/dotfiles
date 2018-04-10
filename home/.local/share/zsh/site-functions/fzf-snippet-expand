@@ -1,0 +1,25 @@
+autoload -Uz fzf-snippet-next
+
+if grep -q "{{" <<< "$BUFFER"; then
+  fzf-snippet-next
+  return
+fi
+
+local snip="$( \
+  # color command names & comments before piping to fzf
+  cat ~/.config/shell/snippets/*.snip \
+    | sed -e "s/^\([a-zA-Z0-9_-]\{1,\}\) /$(tput setaf 255)\1$(tput sgr0) /" \
+        -e "s/ *\(##\) *\(.*\)/$(tput setaf 8)  \1 \2$(tput sgr0)/" \
+    | fzf-tmux +m --ansi -q "$LBUFFER" \
+        --preview 'echo {}' --preview-window down:3:wrap \
+)"
+local ret="$?"
+[[ -z "$snip" ]] && return "$ret"
+
+LBUFFER="$(sed "s/ *##.*//" <<< "$snip")"
+
+zle redisplay
+typeset -f zle-line-init >/dev/null && zle zle-line-init
+return "$ret"
+
+# vim:set et sw=2 ts=8 ft=zsh:

@@ -1,0 +1,6 @@
+.clang-format,clang-format,clang-format configuration file,plain,default
+.gitignore,mkgitignore,Git ignore files,script,default
+latexmkrc,pdflatexmkrc,Latexmk configuration file for pdflatex,plain,default
+latexmkrc,uplatexmkrc,Latexmk configuration file for uplatex,plain,default
+Makefile,Makefile.remote,Makefile for building over SSH,snippet,default
+GNUmakefile,Makefile.remote,Makefile for building over SSH,snippet,default

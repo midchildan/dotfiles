@@ -1,11 +1,10 @@
 # vim:set et sw=2 ts=8 ft=zsh:
 
-local cmd="command find -L . -mindepth 1 \\( -path '*/\\.*' \
-  -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' -o -fstype 'sysfs' \
-  \\) -prune -o -type d -print 2> /dev/null | cut -b3-"
+local -a reply
+autoload -Uz chpwd_recent_filehandler && chpwd_recent_filehandler $reply
 
 setopt localoptions pipefail 2> /dev/null
-local dir="$(eval "$cmd" | fzf-tmux +m)"
+local dir="$(for line in $reply; do echo "$line"; done | fzf-tmux +m)"
 if [[ -z "$dir" ]]; then
   zle redisplay
   return 0

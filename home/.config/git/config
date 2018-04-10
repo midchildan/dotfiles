@@ -4,3 +4,5 @@
 	signingkey = 0x8660C96E7D48C992
 [push]
 	default = simple
+[alias]
+	exec = "!exec " # run a shell command from the top directory

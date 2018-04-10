@@ -1,12 +1,25 @@
 #!/usr/bin/env perl
 
-$latex = 'uplatex -kanji=utf8 -synctex=1 -file-line-error -interaction=nonstopmode';
+$ENV{LATEXMK_ENGINE} //= '';
+if ($ENV{LATEXMK_ENGINE} eq 'uplatex') {
+  $latex = 'uplatex -kanji=utf8 -synctex=1 -file-line-error -interaction=nonstopmode';
+  $dvipdf ='dvipdfmx %O -o %D %S';
+  $bibtex = 'upbibtex';
+  $makeindex = 'upmendex %O -o %D %S';
+  $pdf_mode = 3;
+} elsif ($ENV{LATEXMK_ENGINE} eq 'platex') {
+  $latex = 'platex -kanji=utf8 -synctex=1 -file-line-error -interaction=nonstopmode';
+  $dvipdf ='dvipdfmx %O -o %D %S';
+  $bibtex = 'pbibtex';
+  $makeindex = 'mendex %O -o %D %S';
+  $pdf_mode = 3;
+} else {
+  $pdflatex = 'pdflatex -synctex=1 -file-line-error -interaction=nonstopmode';
+  $pdf_mode = 1;
+}
+
 $biber = 'biber -u -U --output_safechars';
-$bibtex = 'upbibtex';
-$dvipdf ='dvipdfmx %O -o %D %S';
-$makeindex = 'upmendex %O -o %D %S';
 $max_repeat = 5;
-$pdf_mode = 3;
 
 if ($^O eq 'linux') {
   $pdf_previewer = 'xdg-open';
