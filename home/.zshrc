@@ -98,6 +98,7 @@ autoload -Uz fzf-cdr-widget && zle -N fzf-cdr-widget
 autoload -Uz fzf-file-widget && zle -N fzf-file-widget
 autoload -Uz fzf-history-widget && zle -N fzf-history-widget
 autoload -Uz fzf-snippet-expand && zle -N fzf-snippet-expand
+autoload -Uz fzf-snippet-next && zle -N fzf-snippet-next
 autoload -Uz surround \
   && zle -N delete-surround surround \
   && zle -N add-surround surround \
@@ -114,7 +115,7 @@ bindkey -v \
   '^Gu' split-undo \
   '^H' backward-delete-char \
   '^I' fzf-complete \
-  '^J' self-insert \
+  '^J' fzf-snippet-next \
   '^N' history-beginning-search-forward \
   '^O' fzf-cdr-widget \
   '^P' history-beginning-search-backward \
