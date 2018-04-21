@@ -84,6 +84,7 @@ setup::misc() {
   install::default ".ipython/profile_default/ipython_config.py"
   install::default ".local/libexec/fzf/install"
   install::default ".local/opt/fzftools"
+  install::default ".local/opt/tmux-copycat"
   install::default ".mikutter/plugin"
   install::default ".nixpkgs/config.nix"
   install::default ".screenrc"
