@@ -30,6 +30,9 @@ alias egrep='egrep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
+alias emacs='emacs -nw'
+alias ema='emacs -nw'
+alias emacsgui='\emacs'
 alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz zmv
 autoload -Uz cd.. fuck
