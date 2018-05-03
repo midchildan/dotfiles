@@ -63,9 +63,12 @@ set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,default,latin1
 set fileformats=unix,dos,mac
 set backspace=indent,eol,start
 set expandtab
+set smarttab
 set shiftwidth=2
 set softtabstop=2
 set autoindent
+set copyindent
+set preserveindent
 set formatoptions+=jmB
 
 " jump to the last known cursor position
@@ -95,6 +98,7 @@ set display=lastline
 set lazyredraw
 set showmatch
 set wildmenu
+set nofoldenable
 set title
 set mouse=a
 
@@ -191,6 +195,7 @@ nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
 nnoremap <silent> <Leader>tv :call vimrc#toggle_virtualedit()<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
 nnoremap <silent> <Leader>t<Space> :AirlineToggleWhitespace<CR>
+nnoremap <silent> <Leader>t<Tab> :setlocal list! list?<CR>
 
 " FZF mappings
 imap <C-x><C-x><C-f> <Plug>(fzf-complete-path)
