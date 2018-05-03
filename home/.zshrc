@@ -46,6 +46,7 @@ setopt pushd_minus
 autoload -Uz chpwd_recent_dirs cdr
 chpwd_functions=(chpwd_recent_dirs)
 zstyle ':chpwd:*' recent-dirs-default true
+zstyle ':chpwd:*' recent-dirs-max 500
 
 #############
 #  History  #
