@@ -1,9 +1,9 @@
 func! s:uniq(list)
-  let visited={}
+  let l:visited={}
   for item in a:list
-    let visited[item] = 1
+    let l:visited[item] = 1
   endfor
-  return keys(visited)
+  return keys(l:visited)
 endf
 
 func! vimrc#refresh()
@@ -16,22 +16,29 @@ func! vimrc#refresh()
 endf
 
 func! vimrc#fzf_compilers(is_buffer, bang)
-  let compilers = split(globpath(&rtp, "compiler/*.vim"), "\n")
+  let l:compilers = split(globpath(&rtp, "compiler/*.vim"), "\n")
   if has('packages')
-    let compilers += split(globpath(&packpath, "pack/*/opt/*/compiler/*.vim"), "\n")
+    let l:compilers += split(globpath(&packpath, "pack/*/opt/*/compiler/*.vim"), "\n")
   endif
   return fzf#run(fzf#wrap('compilers', {
-  \ 'source':  s:uniq(map(compilers, "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')")),
+  \ 'source':  s:uniq(map(l:compilers, "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')")),
   \ 'sink':    a:is_buffer ? 'compiler' : 'compiler!',
   \ 'options': a:is_buffer ? '+m --prompt="BCompilers> "' : '+m --prompt="Compilers> "'
   \}, a:bang))
 endf
 
+func! vimrc#toggle_recursive_path()
+  if index(split(&path, ','), '**') >= 0
+    set path-=** path?
+  else
+    set path+=** path?
+  endif
+endf
+
 func! vimrc#toggle_virtualedit()
   if empty(&virtualedit)
-    set virtualedit=all
+    set virtualedit=all virtualedit?
   else
-    set virtualedit=
+    set virtualedit= virtualedit?
   endif
-  set virtualedit?
 endf
