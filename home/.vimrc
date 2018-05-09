@@ -98,6 +98,7 @@ set display=lastline
 set lazyredraw
 set showmatch
 set wildmenu
+set wildignorecase
 set nofoldenable
 set title
 set mouse=a
@@ -194,6 +195,7 @@ nnoremap <silent> <Leader>tt :TagbarToggle<CR>
 nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
 nnoremap <silent> <Leader>tv :call vimrc#toggle_virtualedit()<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
+nnoremap <silent> <Leader>t* :call vimrc#toggle_recursive_path()<CR>
 nnoremap <silent> <Leader>t<Space> :AirlineToggleWhitespace<CR>
 nnoremap <silent> <Leader>t<Tab> :setlocal list! list?<CR>
 
