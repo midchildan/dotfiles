@@ -1,3 +1,5 @@
+# Modified by midchildan
+
 # Copyright (C) 2014 Google Inc.
 #
 # This file is part of ycmd.
@@ -25,22 +27,8 @@ flags = [
 '-Wall',
 '-Wextra',
 '-Werror',
-'-Wno-c++11-extensions',
 '-fexceptions',
 '-DNDEBUG',
-# THIS IS IMPORTANT! Without a "-std=<something>" flag, clang won't know which
-# language to use when compiling headers. So it will guess. Badly. So C++
-# headers will be compiled as C headers. You don't want that so ALWAYS specify
-# a "-std=<something>".
-# For a C project, you would set this to something like 'c99' instead of
-# 'c++11'.
-'-std=c++14',
-# ...and the same thing goes for the magic -x option which specifies the
-# language that the files to be compiled are written in. This is mostly
-# relevant for c++ headers.
-# For a C project, you would set this to 'c' instead of 'c++'.
-'-x',
-'c++',
 '-isystem',
 '/usr/include',
 '-isystem',
@@ -65,44 +53,23 @@ if os.path.exists( compilation_database_folder ):
 else:
   database = None
 
-SOURCE_EXTENSIONS = [ '.cpp', '.cxx', '.cc', '.c', '.m', '.mm' ]
+SOURCE_EXTENSIONS = [ '.cpp', '.cxx', '.cc', '.c', '.cu', '.m', '.mm' ]
 
 def DirectoryOfThisScript():
   return os.path.dirname( os.path.abspath( __file__ ) )
 
 
-def MakeRelativePathsInFlagsAbsolute( flags, working_directory ):
-  if not working_directory:
-    return list( flags )
-  new_flags = []
-  make_next_absolute = False
-  path_flags = [ '-isystem', '-I', '-iquote', '--sysroot=' ]
-  for flag in flags:
-    new_flag = flag
-
-    if make_next_absolute:
-      make_next_absolute = False
-      if not flag.startswith( '/' ):
-        new_flag = os.path.join( working_directory, flag )
-
-    for path_flag in path_flags:
-      if flag == path_flag:
-        make_next_absolute = True
-        break
-
-      if flag.startswith( path_flag ):
-        path = flag[ len( path_flag ): ]
-        new_flag = path_flag + os.path.join( working_directory, path )
-        break
-
-    if new_flag:
-      new_flags.append( new_flag )
-  return new_flags
-
-
 def IsHeaderFile( filename ):
   extension = os.path.splitext( filename )[ 1 ]
-  return extension in [ '.h', '.hxx', '.hpp', '.hh' ]
+  return extension in [ '.h', '.hxx', '.hpp', '.hh', '.cuh' ]
+
+
+def ListCorrespondingSource( filename ):
+  basename = os.path.splitext( filename )[ 0 ]
+  for extension in SOURCE_EXTENSIONS:
+    replacement_file = basename + extension
+    if os.path.exists( replacement_file ):
+      yield replacement_file
 
 
 def GetCompilationInfoForFile( filename ):
@@ -111,37 +78,68 @@ def GetCompilationInfoForFile( filename ):
   # corresponding source file, if any. If one exists, the flags for that file
   # should be good enough.
   if IsHeaderFile( filename ):
-    basename = os.path.splitext( filename )[ 0 ]
-    for extension in SOURCE_EXTENSIONS:
-      replacement_file = basename + extension
-      if os.path.exists( replacement_file ):
-        compilation_info = database.GetCompilationInfoForFile(
-          replacement_file )
-        if compilation_info.compiler_flags_:
-          return compilation_info
+    for replacement_file in ListCorrespondingSource( filename ):
+      compilation_info = database.GetCompilationInfoForFile( replacement_file )
+      if compilation_info.compiler_flags_:
+        return compilation_info
     return None
   return database.GetCompilationInfoForFile( filename )
+
+
+# This is the last resort; this function is called when no compilation database
+# is found.
+def GuessFlagsForFile( filename, filetype, flags=[] ):
+  # THIS IS IMPORTANT! Without a "-std=<something>" flag, clang won't know which
+  # language to use when compiling headers. So it will guess. Badly. So C++
+  # headers will be compiled as C headers. You don't want that so ALWAYS specify
+  # a "-std=<something>".
+  #
+  # ...and the same thing goes for the magic -x option which specifies the
+  # language that the files to be compiled are written in. This is mostly
+  # relevant for c++ headers.
+  # For a C project, you would set this to 'c' instead of 'c++'.
+  LANGS = {
+    'c': { 'flags': [ '-xc', '--std=c11' ], 'ext': [ '.c' ] },
+    'cpp': { 'flags': [ '-xc++', '--std=c++14' ],
+             'ext': [ '.cpp', '.cxx', '.cc' ] },
+    'cuda': { 'flags': [ '-xcuda', '--std=c++14' ], 'ext': [ '.cu', '.cuh' ] },
+    'objc': { 'flags': [ '-xobjective-c' ], 'ext': [ '.m' ] },
+    'objcpp': { 'flags': [ '-xobjective-c++' ], 'ext': [ '.mm' ] },
+  }
+
+  extension = os.path.splitext( filename )[ 1 ]
+  if IsHeaderFile( filename ) and extension != '.cuh':
+    extension = next( ListCorrespondingSource( filename ), None )
+
+  for l in LANGS.values():
+    if extension in l[ 'ext' ]:
+      return l[ 'flags' ] + flags
+
+  return LANGS.get( filetype, LANGS[ 'cpp' ] )[ 'flags' ] + flags
 
 
 # This is the entry point; this function is called by ycmd to produce flags for
 # a file.
 def FlagsForFile( filename, **kwargs ):
-  if database:
-    # Bear in mind that compilation_info.compiler_flags_ does NOT return a
-    # python list, but a "list-like" StringVec object
-    compilation_info = GetCompilationInfoForFile( filename )
-    if not compilation_info:
-      return None
+  if not database:
+    filetype = None
+    client_data = kwargs.get( 'client_data' )
+    if client_data:
+      filetype = client_data.get( '&filetype' )
+    return {
+      'flags': GuessFlagsForFile( filename, filetype, flags ),
+      'include_paths_relative_to_dir': DirectoryOfThisScript()
+    }
 
-    final_flags = MakeRelativePathsInFlagsAbsolute(
-      compilation_info.compiler_flags_,
-      compilation_info.compiler_working_dir_ )
-  else:
-    relative_to = DirectoryOfThisScript()
-    final_flags = MakeRelativePathsInFlagsAbsolute( flags, relative_to )
+  compilation_info = GetCompilationInfoForFile( filename )
+  if not compilation_info:
+    return None
 
+  # Bear in mind that compilation_info.compiler_flags_ does NOT return a
+  # python list, but a "list-like" StringVec object.
   return {
-    'flags': final_flags,
-    'do_cache': True
+    'flags': list( compilation_info.compiler_flags_ ),
+    'include_paths_relative_to_dir': compilation_info.compiler_working_dir_
   }
 
+  # vim:set et sw=2:
