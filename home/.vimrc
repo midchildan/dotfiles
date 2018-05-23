@@ -288,6 +288,7 @@ let g:UltiSnipsExpandTrigger='<C-x><C-j>'
 let g:ycm_key_list_select_completion=[]
 let g:ycm_key_list_previous_completion=[]
 let g:ycm_key_invoke_completion=''
+let g:ycm_extra_conf_vim_data=['&filetype']
 let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
 if has('nvim')
   let g:ycm_server_python_interpreter='nvim-python'
