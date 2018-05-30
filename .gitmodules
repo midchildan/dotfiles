@@ -38,3 +38,4 @@
 [submodule "home/.local/opt/tmux-copycat"]
 	path = home/.local/opt/tmux-copycat
 	url = https://github.com/tmux-plugins/tmux-copycat.git
+	ignore = all
