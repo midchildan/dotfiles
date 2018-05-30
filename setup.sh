@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LOGFILE="$(mktemp)"
 [[ -z "$DOTFILE_DIR" ]] && DOTFILE_DIR=~/.config/dotfiles
+
+
+cleanup() {
+  echo "$(tput bold)== Printing logs ==$(tput sgr0)"
+  cat "$LOGFILE"
+  rm "$LOGFILE"
+}
+trap cleanup EXIT
 
 main() {
   local install_deps=""
@@ -52,8 +61,6 @@ setup::shell() {
 }
 
 setup::vim() {
-  install::default ".vimrc"
-  install::default ".gvimrc"
   install::default ".vim"
   install::default ".config/nvim"
   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
@@ -154,12 +161,14 @@ relative_path() {
 # Returns:
 #   None
 install::default() {
-  echo "Installing $1"
+  echo -n "Installing $1..."
 
   [[ "$#" != 1 ]] && abort "Wrong number of arguments."
   [[ "$1" == /* ]] && abort "Cannot use absoulte path."
-  [[ ! -e "$DOTFILE_DIR/home/$1" ]] &&
-    abort "$DOTFILE_DIR/home/$1 does not exist."
+  if [[ ! -e "$DOTFILE_DIR/home/$1" ]]; then
+    echo "$DOTFILE_DIR/home/$1 does not exist" >>"$LOGFILE"
+    return
+  fi
 
   local dir="$(dirname "$1")"
   local old_pwd="$(pwd)"
@@ -170,7 +179,12 @@ install::default() {
     cd
   fi
 
-  ln -s "$(relative_path "$DOTFILE_DIR/home/$1")" .
+  ln -s "$(relative_path "$DOTFILE_DIR/home/$1")" . >>"$LOGFILE" 2>&1
+  if [[ "$?" == 0 ]]; then
+    echo "[$(tput setaf 2)OK$(tput sgr0)]"
+  else
+    echo "[$(tput setaf 1)FAILED$(tput sgr0)]"
+  fi
   cd "$old_pwd"
 }
 
