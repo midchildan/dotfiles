@@ -61,8 +61,6 @@ setup::shell() {
 }
 
 setup::vim() {
-  install::default ".vimrc"
-  install::default ".gvimrc"
   install::default ".vim"
   install::default ".config/nvim"
   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
