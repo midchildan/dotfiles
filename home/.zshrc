@@ -115,11 +115,8 @@ autoload -Uz vim-incarg \
   && zle -N vim-incarg \
   && zle -N vim-decarg vim-incarg
 
-bindkey -v
-bindkey -rv '^[,' '^[/' '^[~'
-bindkey -v \
-  '^A' smart-insert-last-word \
-  '^B' copy-earlier-word \
+bindkey -e
+bindkey -e \
   '^Gu' split-undo \
   '^H' backward-delete-char \
   '^I' fzf-complete \
