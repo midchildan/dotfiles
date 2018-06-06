@@ -6,8 +6,10 @@ LOGFILE="$(mktemp)"
 
 
 cleanup() {
-  echo "$(tput bold)== Printing logs ==$(tput sgr0)"
-  cat "$LOGFILE"
+  if [[ -s "$LOGFILE" ]]; then
+    echo "$(tput bold)== Printing logs ==$(tput sgr0)"
+    cat "$LOGFILE"
+  fi
   rm "$LOGFILE"
 }
 trap cleanup EXIT
@@ -28,6 +30,9 @@ main() {
 
   echo "$(tput bold)== Updating submodules ==$(tput sgr0)"
   git submodule update --init --remote
+
+  echo "$(tput bold)== Pruning dead symlinks ==$(tput sgr0)"
+  setup::prune
 
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
@@ -68,17 +73,17 @@ setup::vim() {
   local old_pwd="$(pwd)"
   cd "$mvim_dir"
   if [[ -x "$mvim_dir/mvim" ]]; then
-    ln -s mvim vi
-    ln -s mvim view
-    ln -s mvim vim
-    ln -s mvim vimdiff
-    ln -s mvim vimex
+    [[ mvim -ef vi ]] || ln -s mvim vi >>"$LOGFILE" 2>&1
+    [[ mvim -ef view ]] || ln -s mvim view >>"$LOGFILE" 2>&1
+    [[ mvim -ef vim ]] || ln -s mvim vim >>"$LOGFILE" 2>&1
+    [[ mvim -ef vimdiff ]] || ln -s mvim vimdiff >>"$LOGFILE" 2>&1
+    [[ mvim -ef vimex ]] || ln -s mvim vimex >>"$LOGFILE" 2>&1
   else
-    [[ -e vi ]] || rm vi
-    [[ -e view ]] || rm view
-    [[ -e vim ]] || rm vim
-    [[ -e vimdiff ]] || rm vimdiff
-    [[ -e vimex ]] || rm vimex
+    [[ -e vi ]] || rm vi >>"$LOGFILE" 2>&1
+    [[ -e view ]] || rm view >>"$LOGFILE" 2>&1
+    [[ -e vim ]] || rm vim >>"$LOGFILE" 2>&1
+    [[ -e vimdiff ]] || rm vimdiff >>"$LOGFILE" 2>&1
+    [[ -e vimex ]] || rm vimex >>"$LOGFILE" 2>&1
   fi
   cd "$old_pwd"
 }
@@ -134,7 +139,15 @@ setup::misc() {
   chmod 700 ~/Library/Application\ Support/Code
 }
 
-setup::plugins() {
+setup::prune() {
+  prune ".gitconfig"
+  prune ".latexmkrc"
+  prune ".vimrc"
+  prune ".gvimrc"
+  prune ".config/shell/common.snip"
+}
+
+setup::deps() {
   brew update
   brew install \
     cmake \
@@ -155,13 +168,13 @@ setup::plugins() {
 
 # Print an error message and exit
 # Arguments:
-#   error_message [default: abort]
+#   error_message
 # Returns:
 #   None
 abort() {
-  local message="abort"
+  local message=""
   [[ -n "$1" ]] && message="$1"
-  printf "[%s():%s] %s\n" "${FUNCNAME[1]}" "${BASH_LINENO[0]}" "$message" >&2
+  printf "%s():%s [ABORT] %s\n" "${FUNCNAME[1]}" "${BASH_LINENO[0]}" "$message" >&2
   exit 1
 }
 
@@ -191,6 +204,26 @@ relative_path() {
   fi
 }
 
+# Removes ~/$path_to_file if it is a dead symlink
+# Arguments:
+#   path_to_file : file to prune
+# Returns:
+#   None
+prune() {
+  [[ "$#" != 1 ]] && abort "Wrong number of arguments."
+  [[ "$1" == /* ]] && abort "Cannot use absoulte path."
+
+  echo -n "Pruning $1..."
+
+  local filepath=~/"$1"
+  [[ ! -L "$filepath" || -e "$filepath" ]] || rm "$filepath" >>"$LOGFILE" 2>&1
+  if [[ "$?" == 0 ]]; then
+    echo "[$(tput setaf 2)OK$(tput sgr0)]"
+  else
+    echo "[$(tput setaf 1)FAILED$(tput sgr0)]"
+  fi
+}
+
 # Creates an symlink from $DOTFILE_DIR/home/$path_to_file to ~/$path_to_file
 # Globals:
 #   DOTFILE_DIR
@@ -199,10 +232,10 @@ relative_path() {
 # Returns:
 #   None
 install::default() {
-  echo -n "Installing $1..."
-
   [[ "$#" != 1 ]] && abort "Wrong number of arguments."
   [[ "$1" == /* ]] && abort "Cannot use absoulte path."
+
+  echo -n "Installing $1..."
   if [[ ! -e "$DOTFILE_DIR/home/$1" ]]; then
     echo "$DOTFILE_DIR/home/$1 does not exist" >>"$LOGFILE"
     return
@@ -217,12 +250,20 @@ install::default() {
     cd
   fi
 
-  ln -s "$(relative_path "$DOTFILE_DIR/home/$1")" . >>"$LOGFILE" 2>&1
+  local fname="$(basename "$1")"
+  local src="$DOTFILE_DIR/home/$1"
+  # remove dead symlink
+  [[ ! -L "$fname" || -e "$fname" ]] || rm "$fname" >>"$LOGFILE" 2>&1
+  # install symlink
+  [[ "$fname" -ef "$src" ]] ||
+    ln -s "$(relative_path "$src")" . >>"$LOGFILE" 2>&1
+
   if [[ "$?" == 0 ]]; then
     echo "[$(tput setaf 2)OK$(tput sgr0)]"
   else
     echo "[$(tput setaf 1)FAILED$(tput sgr0)]"
   fi
+
   cd "$old_pwd"
 }
 
