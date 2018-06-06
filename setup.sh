@@ -6,8 +6,10 @@ LOGFILE="$(mktemp)"
 
 
 cleanup() {
-  echo "$(tput bold)== Printing logs ==$(tput sgr0)"
-  cat "$LOGFILE"
+  if [[ -s "$LOGFILE" ]]; then
+    echo "$(tput bold)== Printing logs ==$(tput sgr0)"
+    cat "$LOGFILE"
+  fi
   rm "$LOGFILE"
 }
 trap cleanup EXIT
@@ -28,6 +30,9 @@ main() {
 
   echo "$(tput bold)== Updating submodules ==$(tput sgr0)"
   git submodule update --init --remote
+
+  echo "$(tput bold)== Pruning dead symlinks ==$(tput sgr0)"
+  setup::prune
 
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
@@ -121,6 +126,14 @@ setup::misc() {
   chmod 700 ~/.config/Code
 }
 
+setup::prune() {
+  prune ".gitconfig"
+  prune ".latexmkrc"
+  prune ".vimrc"
+  prune ".gvimrc"
+  prune ".config/shell/common.snip"
+}
+
 setup::deps() {
   vim +PlugInstall +qall
 }
@@ -131,13 +144,13 @@ setup::deps() {
 
 # Print an error message and exit
 # Arguments:
-#   error_message [default: abort]
+#   error_message
 # Returns:
 #   None
 abort() {
-  local message="abort"
+  local message=""
   [[ -n "$1" ]] && message="$1"
-  printf "[%s():%s] %s\n" "${FUNCNAME[1]}" "${BASH_LINENO[0]}" "$message" >&2
+  printf "%s():%s [ABORT] %s\n" "${FUNCNAME[1]}" "${BASH_LINENO[0]}" "$message" >&2
   exit 1
 }
 
@@ -153,6 +166,26 @@ relative_path() {
   realpath --no-symlinks --relative-to=. "$1"
 }
 
+# Removes ~/$path_to_file if it is a dead symlink
+# Arguments:
+#   path_to_file : file to prune
+# Returns:
+#   None
+prune() {
+  [[ "$#" != 1 ]] && abort "Wrong number of arguments."
+  [[ "$1" == /* ]] && abort "Cannot use absoulte path."
+
+  echo -n "Pruning $1..."
+
+  local filepath=~/"$1"
+  [[ ! -L "$filepath" || -e "$filepath" ]] || rm "$filepath" >>"$LOGFILE" 2>&1
+  if [[ "$?" == 0 ]]; then
+    echo "[$(tput setaf 2)OK$(tput sgr0)]"
+  else
+    echo "[$(tput setaf 1)FAILED$(tput sgr0)]"
+  fi
+}
+
 # Creates an symlink from $DOTFILE_DIR/home/$path_to_file to ~/$path_to_file
 # Globals:
 #   DOTFILE_DIR
@@ -161,10 +194,10 @@ relative_path() {
 # Returns:
 #   None
 install::default() {
-  echo -n "Installing $1..."
-
   [[ "$#" != 1 ]] && abort "Wrong number of arguments."
   [[ "$1" == /* ]] && abort "Cannot use absoulte path."
+
+  echo -n "Installing $1..."
   if [[ ! -e "$DOTFILE_DIR/home/$1" ]]; then
     echo "$DOTFILE_DIR/home/$1 does not exist" >>"$LOGFILE"
     return
@@ -179,12 +212,20 @@ install::default() {
     cd
   fi
 
-  ln -s "$(relative_path "$DOTFILE_DIR/home/$1")" . >>"$LOGFILE" 2>&1
+  local fname="$(basename "$1")"
+  local src="$DOTFILE_DIR/home/$1"
+  # remove dead symlink
+  [[ ! -L "$fname" || -e "$fname" ]] || rm "$fname" >>"$LOGFILE" 2>&1
+  # install symlink
+  [[ "$fname" -ef "$src" ]] ||
+    ln -s "$(relative_path "$src")" . >>"$LOGFILE" 2>&1
+
   if [[ "$?" == 0 ]]; then
     echo "[$(tput setaf 2)OK$(tput sgr0)]"
   else
     echo "[$(tput setaf 1)FAILED$(tput sgr0)]"
   fi
+
   cd "$old_pwd"
 }
 
