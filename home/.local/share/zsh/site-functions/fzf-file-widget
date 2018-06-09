@@ -15,7 +15,7 @@ local cmd="command find -L .  \\( -path '*/\\.*' \
   2> /dev/null | cut -b3-"
 
 setopt localoptions pipefail 2> /dev/null
-eval "$cmd | fzf-tmux -m" | while read item; do
+eval "$cmd | fzf --height 50% --reverse -m" | while read item; do
   LBUFFER+="$(echo -n "${(q)item} ")"
 done
 local ret=$?

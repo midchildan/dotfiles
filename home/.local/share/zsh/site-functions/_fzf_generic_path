@@ -16,9 +16,10 @@ while true; do
     [[ -z "$dir" ]] && dir='.'
     [[ "$dir" != "/" ]] && dir="${dir/%\//}"
     dir=${~dir}
-    local matches=$(eval "$compgen $(printf %q "$dir")" | fzf-tmux ${=fzf_opts} -q "$leftover" | while read item; do
-      echo -n "${(q)item}$suffix "
-    done)
+    local matches=$(
+      eval "$compgen $(printf %q "$dir")" \
+        | fzf --height 50% --reverse ${=fzf_opts} -q "$leftover" \
+        | while read item; do; echo -n "${(q)item}$suffix "; done)
     matches=${matches% }
     if [ -n "$matches" ]; then
       LBUFFER="$lbuf$matches$tail"
