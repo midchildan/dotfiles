@@ -4,7 +4,7 @@ local -a reply
 autoload -Uz chpwd_recent_filehandler && chpwd_recent_filehandler $reply
 
 setopt localoptions pipefail 2> /dev/null
-local dir="$(for line in $reply; do echo "$line"; done | fzf-tmux +m)"
+local dir="$(for line in $reply; do echo "$line"; done | fzf --height 50% --reverse +m)"
 if [[ -z "$dir" ]]; then
   zle redisplay
   return 0

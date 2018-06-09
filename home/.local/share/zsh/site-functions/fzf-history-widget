@@ -7,7 +7,7 @@ fi
 
 setopt localoptions noglobsubst pipefail 2> /dev/null
 local selected=( $(fc -l 1 |
-  fzf-tmux --tac -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort --query="$LBUFFER" +m) )
+  fzf --height 50% --reverse --tac -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort --query="$LBUFFER" +m) )
 local ret=$?
 
 if [[ -n "$selected" ]]; then
