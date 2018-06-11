@@ -1,6 +1,6 @@
 " set PATH
-let s:path=system("source ~/.zshrc; echo echo VIMPATH'${PATH}' | $SHELL")
-let $PATH=matchstr(s:path, 'VIMPATH\zs.\{-}\ze\n')
+let s:path=system("$SHELL -ic 'echo PATH=$PATH'")
+let $PATH=matchstr(s:path, 'PATH=\zs.\{-}\ze\n')
 
 set termguicolors
 set cmdheight=1
