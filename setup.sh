@@ -69,22 +69,25 @@ setup::vim() {
   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-  local mvim_dir=/usr/local/bin
+  setup::vim::macvim
+}
+
+setup::vim::macvim() {
+  local mvim_bin=/Applications/MacVim.app/Contents/bin/mvim
+  local dst_dir=/usr/local/bin
+
+  [[ -x "$mvim_bin" ]] || return
+  echo -n "Installing $dst_dir/mvim..."
+  install::_ln "$mvim_bin" "$dst_dir/mvim"
+  print_badge
+
   local old_pwd="$(pwd)"
-  cd "$mvim_dir"
-  if [[ -x "$mvim_dir/mvim" ]]; then
-    [[ mvim -ef vi ]] || ln -s mvim vi >>"$LOGFILE" 2>&1
-    [[ mvim -ef view ]] || ln -s mvim view >>"$LOGFILE" 2>&1
-    [[ mvim -ef vim ]] || ln -s mvim vim >>"$LOGFILE" 2>&1
-    [[ mvim -ef vimdiff ]] || ln -s mvim vimdiff >>"$LOGFILE" 2>&1
-    [[ mvim -ef vimex ]] || ln -s mvim vimex >>"$LOGFILE" 2>&1
-  else
-    [[ -e vi ]] || rm vi >>"$LOGFILE" 2>&1
-    [[ -e view ]] || rm view >>"$LOGFILE" 2>&1
-    [[ -e vim ]] || rm vim >>"$LOGFILE" 2>&1
-    [[ -e vimdiff ]] || rm vimdiff >>"$LOGFILE" 2>&1
-    [[ -e vimex ]] || rm vimex >>"$LOGFILE" 2>&1
-  fi
+  cd "$dst_dir"
+  for item in vi view vim vimdiff vimex; do
+    echo -n "Setting $item to mvim..."
+    install::_ln mvim "$item"
+    print_badge
+  done
   cd "$old_pwd"
 }
 
