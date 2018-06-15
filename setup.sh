@@ -165,6 +165,37 @@ abort() {
   exit 1
 }
 
+# Indicate whether the last command succeeded
+# Arguments:
+#   None
+# Returns:
+#   None
+print_badge() {
+  if [[ "$?" == 0 ]]; then
+    print_badge::ok
+  else
+    print_badge::failed
+  fi
+}
+
+# Indicate success
+# Arguments:
+#   None
+# Returns:
+#   None
+print_badge::ok() {
+  echo "[$(tput setaf 2)OK$(tput sgr0)]"
+}
+
+# Indicate failure
+# Arguments:
+#   None
+# Returns:
+#   None
+print_badge::failed() {
+  echo "[$(tput setaf 1)FAILED$(tput sgr0)]"
+}
+
 # Prints the relative path from the current directory to the given path
 # Arguments:
 #   path
@@ -204,11 +235,7 @@ prune() {
 
   local filepath=~/"$1"
   [[ ! -L "$filepath" || -e "$filepath" ]] || rm "$filepath" >>"$LOGFILE" 2>&1
-  if [[ "$?" == 0 ]]; then
-    echo "[$(tput setaf 2)OK$(tput sgr0)]"
-  else
-    echo "[$(tput setaf 1)FAILED$(tput sgr0)]"
-  fi
+  print_badge
 }
 
 # Creates an symlink from $DOTFILE_DIR/home/$path_to_file to ~/$path_to_file
@@ -225,6 +252,7 @@ install::default() {
   echo -n "Installing $1..."
   if [[ ! -e "$DOTFILE_DIR/home/$1" ]]; then
     echo "$DOTFILE_DIR/home/$1 does not exist" >>"$LOGFILE"
+    print_badge::failed
     return
   fi
 
@@ -239,19 +267,27 @@ install::default() {
 
   local fname="$(basename "$1")"
   local src="$DOTFILE_DIR/home/$1"
-  # remove dead symlink
-  [[ ! -L "$fname" || -e "$fname" ]] || rm "$fname" >>"$LOGFILE" 2>&1
-  # install symlink
-  [[ "$fname" -ef "$src" ]] ||
-    ln -s "$(relative_path "$src")" . >>"$LOGFILE" 2>&1
-
-  if [[ "$?" == 0 ]]; then
-    echo "[$(tput setaf 2)OK$(tput sgr0)]"
-  else
-    echo "[$(tput setaf 1)FAILED$(tput sgr0)]"
-  fi
+  install::_ln "$(relative_path "$src")" "$fname"
+  print_badge
 
   cd "$old_pwd"
+}
+
+# Creates an symlink from $src to $dst
+# Arguments:
+#   src : source path
+#   dst : destination path
+# Returns:
+#   None
+install::_ln() {
+  [[ "$#" != 2 ]] && abort "Wrong number of arguments."
+  local src="$1"
+  local dst="$2"
+
+  # remove dead symlink
+  [[ ! -L "$dst" || -e "$dst" ]] || rm "$dst" >>"$LOGFILE" 2>&1
+  # install symlink
+  [[ "$dst" -ef "$src" ]] || ln -s "$src" "$dst" >>"$LOGFILE" 2>&1
 }
 
 main "$@"
