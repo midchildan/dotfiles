@@ -112,6 +112,14 @@ if $TERM =~? '.*-256color' && $TERM_PROGRAM !=? 'Apple_Terminal'
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   endif
 endif
+
+" cursor shape
+if !has('nvim') && $TERM =~? '\(xterm\|screen\)'
+  let &t_SI = "\<Esc>[6 q"
+  let &t_SR = "\<Esc>[4 q"
+  let &t_EI = "\<Esc>[2 q"
+endif
+
 if exists('+inccommand')
   set inccommand=split
 endif
