@@ -63,9 +63,12 @@ set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,default,latin1
 set fileformats=unix,dos,mac
 set backspace=indent,eol,start
 set expandtab
+set smarttab
 set shiftwidth=2
 set softtabstop=2
 set autoindent
+set copyindent
+set preserveindent
 set formatoptions+=jmB
 
 " jump to the last known cursor position
@@ -95,6 +98,8 @@ set display=lastline
 set lazyredraw
 set showmatch
 set wildmenu
+set wildignorecase
+set nofoldenable
 set title
 set mouse=a
 
@@ -108,6 +113,14 @@ if $TERM =~? '.*-256color' && has('termguicolors')
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   endif
 endif
+
+" cursor shape
+if !has('nvim') && $TERM =~? '\(xterm\|screen\)'
+  let &t_SI = "\<Esc>[6 q"
+  let &t_SR = "\<Esc>[4 q"
+  let &t_EI = "\<Esc>[2 q"
+endif
+
 if exists('+inccommand')
   set inccommand=split
 endif
@@ -132,7 +145,7 @@ set tags=./tags;,tags
 if !has('nvim')
   set viminfo+=n~/.cache/vim/viminfo
 endif
-set dir=~/.cache/vim/swap
+set dir=~/.cache/vim/swap//
 set backup
 set backupdir=~/.cache/vim/backup
 set undofile
@@ -190,7 +203,9 @@ nnoremap <silent> <Leader>tt :TagbarToggle<CR>
 nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
 nnoremap <silent> <Leader>tv :call vimrc#toggle_virtualedit()<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
+nnoremap <silent> <Leader>t* :call vimrc#toggle_recursive_path()<CR>
 nnoremap <silent> <Leader>t<Space> :AirlineToggleWhitespace<CR>
+nnoremap <silent> <Leader>t<Tab> :setlocal list! list?<CR>
 
 " FZF mappings
 imap <C-x><C-x><C-f> <Plug>(fzf-complete-path)
@@ -273,7 +288,7 @@ let g:EasyMotion_do_mapping=0
 let g:EasyMotion_smartcase=1
 let g:EasyMotion_use_migemo=1
 
-" EditorConfig
+" EditorConfig "
 let g:EditorConfig_exclude_patterns=['fugitive://.*', '\(M\|m\|GNUm\)akefile']
 
 " UltiSnips "
@@ -283,6 +298,7 @@ let g:UltiSnipsExpandTrigger='<C-x><C-j>'
 let g:ycm_key_list_select_completion=[]
 let g:ycm_key_list_previous_completion=[]
 let g:ycm_key_invoke_completion=''
+let g:ycm_extra_conf_vim_data=['&filetype']
 let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
 let g:ycm_rust_src_path='~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 

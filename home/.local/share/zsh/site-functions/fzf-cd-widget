@@ -5,7 +5,7 @@ local cmd="command find -L . -mindepth 1 \\( -path '*/\\.*' \
   \\) -prune -o -type d -print 2> /dev/null | cut -b3-"
 
 setopt localoptions pipefail 2> /dev/null
-local dir="$(eval "$cmd" | fzf-tmux +m)"
+local dir="$(eval "$cmd" | fzf --height 50% --reverse +m)"
 if [[ -z "$dir" ]]; then
   zle redisplay
   return 0

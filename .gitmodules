@@ -35,3 +35,7 @@
 	path = home/.local/opt/fzftools
 	url = https://github.com/midchildan/fzftools.git
 	ignore = all
+[submodule "home/.local/opt/tmux-copycat"]
+	path = home/.local/opt/tmux-copycat
+	url = https://github.com/tmux-plugins/tmux-copycat.git
+	ignore = all
