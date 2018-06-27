@@ -89,6 +89,7 @@ setup::misc() {
   install::default ".config/git/config"
   install::default ".config/git/ignore"
   install::default ".config/nano/nanorc"
+  install::default ".config/nixpkgs/config.nix"
   install::default ".config/ranger/rc.conf"
   install::default ".config/ranger/scope.sh"
   install::default ".config/tig/config"
@@ -98,7 +99,6 @@ setup::misc() {
   install::default ".local/opt/fzftools"
   install::default ".local/opt/tmux-copycat"
   install::default ".mikutter/plugin"
-  install::default ".nixpkgs/config.nix"
   install::default ".screenrc"
   install::default ".tern-config"
   install::default ".tmux.conf"
@@ -132,6 +132,7 @@ setup::prune() {
   prune ".vimrc"
   prune ".gvimrc"
   prune ".config/shell/common.snip"
+  prune ".nixpkgs/config.nix"
 }
 
 setup::deps() {
