@@ -180,14 +180,27 @@ onoremap <silent> <Leader>fc /\v^[<=>]{7}( .*<Bar>$)<CR>
 nnoremap <silent> <Leader>f<Space> /\s\+$\<Bar> \+\ze\t<CR>
 xnoremap <silent> <Leader>f<Space> /\s\+$\<Bar> \+\ze\t<CR>
 onoremap <silent> <Leader>f<Space> /\s\+$\<Bar> \+\ze\t<CR>
+" find full-width punctuation marks
+nnoremap <silent> <Leader>f. /\v(\.<Bar>．<Bar>。)<CR>
+xnoremap <silent> <Leader>f. /\v(\.<Bar>．<Bar>。)<CR>
+onoremap <silent> <Leader>f. /\v(\.<Bar>．<Bar>。)<CR>
+nnoremap <silent> <Leader>f, /\v(,<Bar>，<Bar>、)<CR>
+xnoremap <silent> <Leader>f, /\v(,<Bar>，<Bar>、)<CR>
+onoremap <silent> <Leader>f, /\v(,<Bar>，<Bar>、)<CR>
+nnoremap <silent> <Leader>f! /\v(!<Bar>！)<CR>
+xnoremap <silent> <Leader>f! /\v(!<Bar>！)<CR>
+onoremap <silent> <Leader>f! /\v(!<Bar>！)<CR>
+nnoremap <silent> <Leader>f? /\v(\?<Bar>？)<CR>
+xnoremap <silent> <Leader>f? /\v(\?<Bar>？)<CR>
+onoremap <silent> <Leader>f? /\v(\?<Bar>？)<CR>
 
 " text objects
-xnoremap <silent> ae gg0oG$
-onoremap <silent> ae :<C-u>exe "normal! m`"<Bar>keepjumps normal! ggVG<CR>
 xnoremap <silent> al <Esc>0v$
 onoremap <silent> al :<C-u>normal! 0v$<CR>
 xnoremap <silent> il <Esc>^vg_
 onoremap <silent> il :<C-u>normal! ^vg_<CR>
+xnoremap <silent> a, gg0oG$
+onoremap <silent> a, :<C-u>exe "normal! m`"<Bar>keepjumps normal! ggVG<CR>
 " XXX: Same feature as vim/vim#958
 xmap im <Plug>(textobj-sandwich-literal-query-i)
 omap im <Plug>(textobj-sandwich-literal-query-i)
