@@ -123,6 +123,7 @@ setup::misc() {
   install::default ".tern-config"
   install::default ".tmux.conf"
   install::default ".wgetrc"
+  install::default "Library/Application Support/AquaSKK/keymap.conf"
 
   # gtk
   install::default ".gtkrc-2.0"
