@@ -99,10 +99,10 @@ def GuessFlagsForFile( filename, filetype, flags=[] ):
   # relevant for c++ headers.
   # For a C project, you would set this to 'c' instead of 'c++'.
   LANGS = {
-    'c': { 'flags': [ '-xc', '--std=c11' ], 'ext': [ '.c' ] },
-    'cpp': { 'flags': [ '-xc++', '--std=c++14' ],
+    'c': { 'flags': [ '-xc', '--std=gnu11' ], 'ext': [ '.c' ] },
+    'cpp': { 'flags': [ '-xc++', '--std=gnu++14' ],
              'ext': [ '.cpp', '.cxx', '.cc' ] },
-    'cuda': { 'flags': [ '-xcuda', '--std=c++14' ], 'ext': [ '.cu', '.cuh' ] },
+    'cuda': { 'flags': [ '-xcuda', '--std=gnu++14' ], 'ext': [ '.cu', '.cuh' ] },
     'objc': { 'flags': [ '-xobjective-c' ], 'ext': [ '.m' ] },
     'objcpp': { 'flags': [ '-xobjective-c++' ], 'ext': [ '.mm' ] },
   }
