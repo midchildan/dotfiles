@@ -28,6 +28,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'junegunn/vim-peekaboo'
 Plug 'mhinz/vim-signify'
 Plug 'majutsushi/tagbar'
+Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
