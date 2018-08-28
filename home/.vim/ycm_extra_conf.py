@@ -111,14 +111,13 @@ def GuessFlagsForFile( filename, filetype, flags=[] ):
   return LANGS.get( filetype, LANGS[ 'cpp' ] )[ 'flags' ] + flags
 
 
-# This is the entry point; this function is called by ycmd to produce flags for
-# a file.
-def FlagsForFile( filename, **kwargs ):
+def CFamilySettings( **kwargs ):
+  filename = kwargs[ 'filename' ]
+
   if not database:
     filetype = None
-    client_data = kwargs.get( 'client_data' )
-    if client_data:
-      filetype = client_data.get( '&filetype' )
+    client_data = kwargs[ 'client_data' ]
+    filetype = client_data.get( '&filetype' )
 
     ncc_path = os.path.join( DirectoryOfThisScript(), 'ncc' )
     lang_flags = GuessFlagsForFile( filename, filetype )
@@ -141,11 +140,22 @@ def FlagsForFile( filename, **kwargs ):
   }
 
 
-def Settings( **kwargs ):
+def PythonSettings( **kwargs ):
   client_data = kwargs[ 'client_data' ]
   return {
     'interpreter_path': client_data[ 'g:ycm_python_interpreter_path' ],
     'sys_path': client_data[ 'g:ycm_python_sys_path' ]
   }
+
+
+# This is the entry point; this function is called by ycmd to produce flags for
+# a file.
+def Settings( **kwargs ):
+  language = kwargs[ 'language' ]
+  if language == 'cfamily':
+    return CFamilySettings( **kwargs )
+  elif language == 'python':
+    return PythonSettings( **kwargs )
+  return {}
 
   # vim:set et sw=2:
