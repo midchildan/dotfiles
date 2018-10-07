@@ -49,6 +49,10 @@ Thumbs.db
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+# sourcetrail
+*.srctrlbm
+*.srctrldb
+*.srctrlprj
 
 ##########
 #  Tags  #
