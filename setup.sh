@@ -98,7 +98,6 @@ setup::misc() {
   install::default ".local/libexec/fzf/install"
   install::default ".local/opt/fzftools"
   install::default ".local/opt/tmux-copycat"
-  install::default ".mikutter/plugin"
   install::default ".screenrc"
   install::default ".tern-config"
   install::default ".tmux.conf"
@@ -132,6 +131,7 @@ setup::prune() {
   prune ".vimrc"
   prune ".gvimrc"
   prune ".config/shell/common.snip"
+  prune ".mikutter/plugin"
   prune ".nixpkgs/config.nix"
 }
 
