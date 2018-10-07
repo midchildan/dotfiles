@@ -2,22 +2,6 @@
 	path = home/.themes/zuki-themes
 	url = https://github.com/lassekongo83/zuki-themes.git
 	ignore = all
-[submodule "home/.mikutter/plugin/mikutter-uwm-hommage"]
-	path = home/.mikutter/plugin/mikutter-uwm-hommage
-	url = https://github.com/moguno/mikutter-uwm-hommage.git
-	ignore = all
-[submodule "home/.mikutter/plugin/sub_parts_client"]
-	path = home/.mikutter/plugin/sub_parts_client
-	url = https://github.com/toshia/mikutter-sub-parts-client.git
-	ignore = all
-[submodule "home/.mikutter/plugin/mikutter-subparts-image"]
-	path = home/.mikutter/plugin/mikutter-subparts-image
-	url = https://github.com/moguno/mikutter-subparts-image.git
-	ignore = all
-[submodule "home/.mikutter/plugin/mikutter-mac"]
-	path = home/.mikutter/plugin/mikutter-mac
-	url = https://github.com/midchildan/mikutter-mac.git
-	ignore = all
 [submodule "home/.local/opt/fzftools"]
 	path = home/.local/opt/fzftools
 	url = https://github.com/midchildan/fzftools.git
