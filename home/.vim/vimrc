@@ -28,6 +28,7 @@ Plug 'mhinz/vim-signify'
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'CoatiSoftware/vim-sourcetrail', {'for': ['c', 'cpp', 'cuda', 'java']}
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 
