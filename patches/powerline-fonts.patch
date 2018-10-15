@@ -1,0 +1,26 @@
+diff --git a/home/.bashrc b/home/.bashrc
+index 1297248..ec74a7c 100644
+--- a/home/.bashrc
++++ b/home/.bashrc
+@@ -8,7 +8,7 @@ esac
+ ###########################
+ export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
+ export GPG_TTY="$(tty)"
+-export USE_POWERLINE=0
++export USE_POWERLINE=1
+ 
+ PATH="$HOME/.local/bin:$PATH"
+ PATH+=":$HOME/.cargo/bin"
+diff --git a/home/.zshrc b/home/.zshrc
+index df180aa..53e8e8d 100644
+--- a/home/.zshrc
++++ b/home/.zshrc
+@@ -7,7 +7,7 @@ autoload -Uz is-at-least
+ ###########################
+ export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
+ export GPG_TTY="$(tty)"
+-export USE_POWERLINE=0
++export USE_POWERLINE=1
+ 
+ typeset -U path
+ path=(
