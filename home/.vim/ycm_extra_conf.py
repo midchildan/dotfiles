@@ -111,6 +111,11 @@ def GuessFlagsForFile( filename, filetype, flags=[] ):
   return LANGS.get( filetype, LANGS[ 'cpp' ] )[ 'flags' ] + flags
 
 
+def NixFlags( flag_list ):
+  ncc_path = os.path.join( DirectoryOfThisScript(), 'ncc' )
+  return subprocess.check_output( [ ncc_path ] + flag_list ).decode().split()
+
+
 def CFamilySettings( **kwargs ):
   filename = kwargs[ 'filename' ]
 
@@ -121,8 +126,7 @@ def CFamilySettings( **kwargs ):
 
     ncc_path = os.path.join( DirectoryOfThisScript(), 'ncc' )
     lang_flags = GuessFlagsForFile( filename, filetype )
-    final_flags = subprocess.check_output( [ ncc_path ] + lang_flags + flags )
-                    .decode().split()
+    final_flags = NixFlags( lang_flags + flags )
     return {
       'flags': final_flags,
       'include_paths_relative_to_dir': DirectoryOfThisScript()
