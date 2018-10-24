@@ -3,7 +3,6 @@
 """""""""""""
 let g:tex_conceal='adbmgs'
 setlocal conceallevel=2
-hi Conceal guibg=black guifg=cyan
 
 """"""""""""
 "  vimtex  "
