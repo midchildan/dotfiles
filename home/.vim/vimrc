@@ -30,6 +30,7 @@ Plug 'mhinz/vim-signify'
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'Yggdroot/indentLine', {'on': 'IndentLinesEnable'}
+Plug 'Yilin-Yang/vim-markbar', {'on': '<Plug>ToggleMarkbar'}
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'CoatiSoftware/vim-sourcetrail', {'for': ['c', 'cpp', 'cuda', 'java']}
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
@@ -214,6 +215,7 @@ xmap am <Plug>(textobj-sandwich-literal-query-a)
 omap am <Plug>(textobj-sandwich-literal-query-a)
 
 " toggles
+nmap <Leader>tm <Plug>ToggleMarkbar
 nnoremap <silent> <Leader>tf :NERDTreeToggle<CR>
 nnoremap <silent> <Leader>th :setlocal bufhidden! bufhidden?<CR>
 nnoremap <silent> <Leader>tl :ALEToggle<CR>
@@ -342,6 +344,9 @@ endif
 let g:indentLine_enabled=0
 let g:indentLine_setColors=0
 let g:indentLine_concealcursor=''
+
+" markbar "
+let g:markbar_enable_peekaboo=v:false
 
 " undotree "
 let g:undotree_WindowLayout=2
