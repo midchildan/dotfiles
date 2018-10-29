@@ -29,13 +29,13 @@ endf
 
 func! vimrc#toggle_show_whitespace()
   if &list
-    if exists(":IndentLinesDisable")
+    if exists(':IndentLinesDisable')
       IndentLinesDisable
     endif
-    setlocal nolist list?
+    setlocal nolist nocursorcolumn list?
   else
     IndentLinesEnable
-    setlocal list list?
+    setlocal list cursorcolumn list?
   endif
 endf
 
