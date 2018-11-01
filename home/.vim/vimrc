@@ -27,12 +27,12 @@ Plug 'tpope/vim-fugitive'
 Plug 'machakann/vim-highlightedyank'
 Plug 'junegunn/vim-peekaboo'
 Plug 'mhinz/vim-signify'
-Plug 'majutsushi/tagbar'
 Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'Yggdroot/indentLine', {'on': 'IndentLinesEnable'}
 Plug 'Yilin-Yang/vim-markbar', {'on': '<Plug>ToggleMarkbar'}
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 Plug 'CoatiSoftware/vim-sourcetrail', {'for': ['c', 'cpp', 'cuda', 'java']}
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 
