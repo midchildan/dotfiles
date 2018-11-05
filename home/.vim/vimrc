@@ -200,6 +200,8 @@ onoremap <silent> <Leader>f! /\v(!<Bar>！)<CR>
 nnoremap <silent> <Leader>f? /\v(\?<Bar>？)<CR>
 xnoremap <silent> <Leader>f? /\v(\?<Bar>？)<CR>
 onoremap <silent> <Leader>f? /\v(\?<Bar>？)<CR>
+" NERDTreeFind
+nnoremap <silent> <Leader>ff :NERDTreeFind<CR>
 
 " text objects
 xnoremap <silent> al <Esc>0v$
