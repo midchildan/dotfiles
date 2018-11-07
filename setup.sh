@@ -86,6 +86,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .nixpkgs/config.nix
 
 # Will not run unless --install-deps is specified
-@pacakges Install Packages
+@packages
   - skip: "${SKIP_PACKAGES:-true}"
   - shell: vim +PlugInstall +qall

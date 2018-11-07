@@ -11,7 +11,7 @@ _DOT_PACKAGE_UPDATED=
 
 dot::_exit() {
   if [[ -s "$_DOT_LOGFILE" ]]; then
-    echo "$(tput bold)== Printing logs ==$(tput sgr0)"
+    echo "$(tput bold)== Print logs ==$(tput sgr0)"
     cat "$_DOT_LOGFILE"
   fi
   rm "$_DOT_LOGFILE"
@@ -22,21 +22,21 @@ trap dot::_exit EXIT
 #  syntax  #
 ############
 
-@pacakges() {
+@packages() {
   _DOT_SECTION="packages"
-  echo "$(tput bold)== ${*:-Installing packages} ==$(tput sgr0)"
+  echo "$(tput bold)== ${*:-Install Packages} ==$(tput sgr0)"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
 @install() {
   _DOT_SECTION="install"
-  echo "$(tput bold)== ${*:-Installing files} ==$(tput sgr0)"
+  echo "$(tput bold)== ${*:-Install Files} ==$(tput sgr0)"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
 @clean() {
   _DOT_SECTION="clean"
-  echo "$(tput bold)== ${*:-Cleaning dead symlinks} ==$(tput sgr0)"
+  echo "$(tput bold)== ${*:-Clean Dead Symlinks} ==$(tput sgr0)"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
