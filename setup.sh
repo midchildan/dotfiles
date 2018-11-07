@@ -82,7 +82,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .mikutter/plugin
 
 # Will not run unless --install-deps is specified
-@pacakges Install Packages
+@packages
   - skip: "${SKIP_PACKAGES:-true}"
   - cmake
   - cmigemo
