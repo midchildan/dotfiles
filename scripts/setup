@@ -1,0 +1,322 @@
+#!/usr/bin/env bash
+
+DOTFILE_DIR="${DOTFILE_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+SKIP_PACKAGES=true
+
+_DOT_LOGFILE="$(mktemp)"
+_DOT_LNFLAGS=""
+_DOT_SECTION=
+_DOT_PACKAGE_UPDATED=
+
+
+dot::_exit() {
+  if [[ -s "$_DOT_LOGFILE" ]]; then
+    echo "$(tput bold)== Printing logs ==$(tput sgr0)"
+    cat "$_DOT_LOGFILE"
+  fi
+  rm "$_DOT_LOGFILE"
+}
+trap dot::_exit EXIT
+
+############
+#  syntax  #
+############
+
+@pacakges() {
+  _DOT_SECTION="packages"
+  echo "$(tput bold)== ${*:-Installing packages} ==$(tput sgr0)"
+  cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
+}
+
+@install() {
+  _DOT_SECTION="install"
+  echo "$(tput bold)== ${*:-Installing files} ==$(tput sgr0)"
+  cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
+}
+
+@clean() {
+  _DOT_SECTION="clean"
+  echo "$(tput bold)== ${*:-Cleaning dead symlinks} ==$(tput sgr0)"
+  cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
+}
+
+-() {
+  [[ -z "$_DOT_SECTION" ]] && return
+
+  if [[ "$1" =~ .*: ]]; then
+    dot::"${1%:}" "${@:2}"
+    return
+  fi
+
+  case "$_DOT_SECTION" in
+    packages) dot::packages::task "$@" ;;
+    install) dot::install::task "$@" ;;
+    clean) dot::clean::task "$@" ;;
+  esac
+}
+
+###########
+#  tasks  #
+###########
+
+# Creates an symlink from $DOTFILE_DIR/home/$path_to_file to ~/$path_to_file
+# Globals:
+#   DOTFILE_DIR
+#   _DOT_LOGFILE
+# Arguments:
+#   path_to_file : file to install
+# Returns:
+#   None
+dot::install::task() {
+  [[ "$#" != 1 ]] && dot::_abort "Wrong number of arguments."
+  [[ "$1" == /* ]] && dot::_abort "Cannot use absoulte path."
+
+  echo -n "Installing $1..."
+  if [[ ! -e "$DOTFILE_DIR/home/$1" ]]; then
+    echo "$DOTFILE_DIR/home/$1 does not exist" >>"$_DOT_LOGFILE"
+    dot::_print_badge::failed
+    return
+  fi
+
+  local dir="$(dirname "$1")"
+  local old_pwd="$(pwd)"
+  if [[ -n "$dir" ]] && [[ "$dir" != "." ]]; then
+    [[ ! -d ~/"$dir" ]] && mkdir -p ~/"$dir"
+    cd ~/"$dir"
+  else
+    cd
+  fi
+
+  local fname="$(basename "$1")"
+  local src="$DOTFILE_DIR/home/$1"
+  dot::_ln "$(dot::_relative_path "$src")" "$fname"
+  dot::_print_badge
+
+  cd "$old_pwd"
+}
+
+# Removes ~/$path_to_file if it is a dead symlink
+# Globals:
+#   _DOT_LOGFILE
+# Arguments:
+#   path_to_file : file to clean
+# Returns:
+#   None
+dot::clean::task() {
+  [[ "$#" != 1 ]] && dot::_abort "Wrong number of arguments."
+  [[ "$1" == /* ]] && dot::_abort "Cannot use absoulte path."
+
+  echo -n "Cleaning $1..."
+
+  local filepath=~/"$1"
+  [[ ! -L "$filepath" || -e "$filepath" ]] || rm "$filepath" >>"$_DOT_LOGFILE" 2>&1
+  dot::_print_badge
+}
+
+# Installs a package using the system package manager
+# Globals:
+#   _DOT_PACKAGE_UPDATED
+# Arguments:
+#   package_name : name of package
+# Returns:
+#   None
+dot::packages::task() {
+  if [[ -z "$_DOT_PACKAGE_UPDATED" ]]; then
+    _DOT_PACKAGE_UPDATED=true
+    brew update
+  fi
+  brew install "$1"
+}
+
+# Skip section
+# Globals:
+#   _DOT_SECTION
+# Arguments:
+#   enable : Whether to skip the current section (true/false)
+# Returns:
+#   None
+dot::skip() {
+  case "$1" in
+    true|yes|1)
+      [[ -n "$_DOT_SECTION" ]] && echo "Skipping section..."
+      _DOT_SECTION=
+      ;;
+    false|no|0)
+      ;;
+    *)
+      dot::_abort "Invalid argument: $1"
+      ;;
+  esac
+}
+
+# Change current directory during the scope of the current section
+# Arguments:
+#   path : Path of the target directory
+# Returns:
+#   None
+dot::cd() {
+  (( $# != 1 )) && dot::_abort "Wrong number of arguments."
+  cd "$1"
+}
+
+# Changes file permissions for $DOTFILE_DIR/home/$path_to_file
+# Globals:
+#   DOTFILE_DIR
+# Arguments:
+#   enable : Whether to skip the current section (true/false)
+# Returns:
+#   None
+dot::chmod() {
+  (( $# != 2 )) && dot::_abort "Wrong number of arguments."
+  chmod "$1" "$DOTFILE_DIR/home/$2"
+}
+
+# Download a file
+# Arguments:
+#   url : URL of the file to download
+#   dst: path to target
+# Returns:
+#   None
+dot::download() {
+  (( $# != 2 )) && dot::_abort "Wrong number of arguments."
+
+  local src="$1" dst="$2"
+  curl -fLo "$dst" --create-dirs "$src"
+}
+
+# Clone a repository from GitHub
+# Arguments:
+#   repository: the target repository
+#   dst: target directory
+# Returns:
+#   None
+dot::github() {
+  [[ -d "$2" ]] && return
+  git clone "https://github.com/$1.git" "$2"
+}
+
+# Run a shell script
+# Arguments:
+#   path: target path/url
+# Returns:
+#   None
+dot::script() {
+  (( $# == 0 )) && dot::_abort "Wrong number of arguments."
+
+  if [[ "$1" =~ ^https?:// ]]; then
+    curl "$1" -sSf | bash
+  else
+    bash "$@"
+  fi
+}
+
+# Run a shell command
+# Arguments:
+#   cmd: Command to run
+# Returns:
+#   None
+dot::shell() {
+  "$@"
+}
+
+#############
+#  helpers  #
+#############
+
+# Print an error message and exit
+# Arguments:
+#   error_message
+# Returns:
+#   None
+dot::_abort() {
+  local message=""
+  [[ -n "$1" ]] && message="$1"
+  printf "%s():%s [ABORT] %s\n" "${FUNCNAME[1]}" "${BASH_LINENO[0]}" "$message" >&2
+  exit 1
+}
+
+# Creates an symlink from $src to $dst
+# Arguments:
+#   src : source path
+#   dst : destination path
+# Returns:
+#   None
+dot::_ln() {
+  [[ "$#" != 2 ]] && dot::_abort "Wrong number of arguments."
+  local src="$1"
+  local dst="$2"
+
+  # remove dead symlink
+  [[ ! -L "$dst" || -e "$dst" ]] || rm "$dst" >>"$_DOT_LOGFILE" 2>&1
+  # install symlink
+  [[ "$dst" -ef "$src" ]] || ln -s"$_DOT_LNFLAGS" "$src" "$dst" >>"$_DOT_LOGFILE" 2>&1
+}
+
+# Indicate whether the last command succeeded
+# Arguments:
+#   None
+# Returns:
+#   None
+dot::_print_badge() {
+  if [[ "$?" == 0 ]]; then
+    dot::_print_badge::ok
+  else
+    dot::_print_badge::failed
+  fi
+}
+
+# Indicate success
+# Arguments:
+#   None
+# Returns:
+#   None
+dot::_print_badge::ok() {
+  echo "[$(tput setaf 2)OK$(tput sgr0)]"
+}
+
+# Indicate failure
+# Arguments:
+#   None
+# Returns:
+#   None
+dot::_print_badge::failed() {
+  echo "[$(tput setaf 1)FAILED$(tput sgr0)]"
+}
+
+# Prints the relative path from the current directory to the given path
+# Arguments:
+#   path
+# Returns:
+#   None
+# Dependencies:
+#   coreutils, python, ruby, or perl
+dot::_relative_path() {
+  [[ "$#" != 1 ]] && dot::_abort "Wrong number of arguments."
+  if command -v realpath >/dev/null 2>&1; then
+    realpath --no-symlinks --relative-to=. "$1"
+  elif command -v perl >/dev/null 2>&1; then
+    perl -e "use File::Spec; print File::Spec->abs2rel('$1')"
+  elif command -v ruby >/dev/null 2>&1; then
+    ruby -e \
+      "require 'pathname'; print(Pathname.new('$1').relative_path_from(Pathname.new('$(pwd)')))"
+  elif command -v python3 >/dev/null 2>&1; then
+    python3 -c "import os; print(os.path.relpath('$1'), end='')"
+  elif command -v python2 >/dev/null 2>&1; then
+    python2 -c \
+      "from __future__ import print_function; import os; print(os.path.relpath('$1'), end='')"
+  else
+    dot::_abort "Needs coreutils, python, ruby, or perl."
+  fi
+}
+
+###########################
+#  command line arguments #
+###########################
+
+for n in "$@"; do
+  case "$n" in
+    -f) _DOT_LNFLAGS+="f" ;;
+    --install-deps) SKIP_PACKAGES=false ;;
+    *) ;;
+  esac
+done
