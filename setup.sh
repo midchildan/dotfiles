@@ -3,6 +3,18 @@
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$DOTFILE_DIR/scripts/setup"
 
+# Remove dead symlinks
+@clean
+  - gc: "${ENABLE_GC:-true}"
+  # the rest of this section is kept for backwards compatibility
+  - .gitconfig
+  - .latexmkrc
+  - .vimrc
+  - .gvimrc
+  - .config/shell/common.snip
+  - .mikutter/plugin
+  - .nixpkgs/config.nix
+
 @install Update Submodules
   - shell: git submodule update --init --remote
 
@@ -74,16 +86,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .wgetrc
   - .xprofile
   - .xmonad
-
-# Remove dead symlinks
-@clean
-  - .gitconfig
-  - .latexmkrc
-  - .vimrc
-  - .gvimrc
-  - .config/shell/common.snip
-  - .mikutter/plugin
-  - .nixpkgs/config.nix
 
 # Will not run unless --install-deps is specified
 @packages
