@@ -3,6 +3,17 @@
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$DOTFILE_DIR/scripts/setup"
 
+# Remove dead symlinks
+@clean
+  - gc: "${ENABLE_GC:-true}"
+  # the rest of this section is kept for backwards compatibility
+  - .gitconfig
+  - .latexmkrc
+  - .vimrc
+  - .gvimrc
+  - .config/shell/common.snip
+  - .mikutter/plugin
+
 @install Update Submodules
   - shell: git submodule update --init --remote
 
@@ -71,15 +82,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .tmux.conf
   - .wgetrc
   - Library/Application\ Support/AquaSKK/keymap.conf
-
-# Remove dead symlinks
-@clean
-  - .gitconfig
-  - .latexmkrc
-  - .vimrc
-  - .gvimrc
-  - .config/shell/common.snip
-  - .mikutter/plugin
 
 # Will not run unless --install-deps is specified
 @packages

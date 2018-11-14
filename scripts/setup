@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 DOTFILE_DIR="${DOTFILE_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+ENABLE_GC=true
 SKIP_PACKAGES=true
 
 _DOT_LOGFILE="$(mktemp)"
+_DOT_GCROOT="$DOTFILE_DIR/.gcroot"
 _DOT_LNFLAGS=""
 _DOT_SECTION=
 _DOT_PACKAGE_UPDATED=
@@ -95,6 +97,8 @@ dot::install::task() {
   cd "$old_pwd"
 }
 
+# [DEPRECATED] This function is no longer necessary since the garbage collector
+#   will automatically keep track of symlinks installed by the setup script.
 # Removes ~/$path_to_file if it is a dead symlink
 # Globals:
 #   _DOT_LOGFILE
@@ -195,6 +199,30 @@ dot::github() {
   git clone "https://github.com/$1.git" "$2"
 }
 
+# Automatically remove dead symlinks
+# Arguments:
+#   enable: Whether to run the GC (true/false)
+# Returns:
+#   None
+dot::gc() {
+  [[ "$_DOT_SECTION" != "clean" ]] && return
+
+  case "$1" in
+    true|yes|1) ;;
+    false|no|0) return ;;
+    *) dot::_abort "Invalid argument: $1" ;;
+  esac
+
+  for root in "$_DOT_GCROOT"/*; do
+    link="$(readlink "$root")"
+    if [[ -L "$link" && ! -e "$link" ]]; then
+      echo -n "Cleaning $link..."
+      rm "$link" "$root" >> "$_DOT_LOGFILE" 2>&1
+      dot::_print_badge
+    fi
+  done
+}
+
 # Run a shell script
 # Arguments:
 #   path: target path/url
@@ -247,9 +275,20 @@ dot::_ln() {
   local dst="$2"
 
   # remove dead symlink
-  [[ ! -L "$dst" || -e "$dst" ]] || rm "$dst" >>"$_DOT_LOGFILE" 2>&1
+  if [[ -L "$dst" && ! -e "$dst" ]]; then
+    rm "$dst" >>"$_DOT_LOGFILE" 2>&1
+  fi
   # install symlink
-  [[ "$dst" -ef "$src" ]] || ln -s"$_DOT_LNFLAGS" "$src" "$dst" >>"$_DOT_LOGFILE" 2>&1
+  if [[ ! "$dst" -ef "$src" ]]; then
+    ln -s"$_DOT_LNFLAGS" "$src" "$dst" >>"$_DOT_LOGFILE" 2>&1 \
+      || return 1
+  fi
+
+  # Mark dst as GC root
+  local abs_dst="$(dot::_absolute_path "$dst")"
+  local dst_hash="$(echo "$abs_dst" | shasum -a 256 | cut -d' ' -f1)"
+  ln -sf "$abs_dst" "$_DOT_GCROOT/$dst_hash" >>"$_DOT_LOGFILE" 2>&1 \
+    || return
 }
 
 # Indicate whether the last command succeeded
@@ -283,6 +322,32 @@ dot::_print_badge::failed() {
   echo "[$(tput setaf 1)FAILED$(tput sgr0)]"
 }
 
+# Prints the absolute path of a given path
+# Arguments:
+#   path
+# Returns:
+#   None
+# Dependencies:
+#   coreutils, python, ruby, or perl
+dot::_absolute_path() {
+  [[ "$#" != 1 ]] && dot::_abort "Wrong number of arguments."
+  if command -v realpath >/dev/null 2>&1; then
+    realpath -s "$1"
+  elif command -v perl >/dev/null 2>&1; then
+    perl -e "use File::Spec; print File::Spec->rel2abs(\$ARGV[0])" "$1"
+  elif command -v ruby >/dev/null 2>&1; then
+    ruby -e \
+      "require 'pathname'; print(Pathname.new(ARGV[0]).expand_path())" "$1"
+  elif command -v python3 >/dev/null 2>&1; then
+    python3 -c "import os,sys; print(os.path.abspath(sys.argv[1]), end='')" "$1"
+  elif command -v python2 >/dev/null 2>&1; then
+    python2 -c \
+      "from __future__ import print_function; import os,sys; print(os.path.abspath(sys.argv[1]), end='')" "$1"
+  else
+    dot::_abort "Needs coreutils, python, ruby, or perl."
+  fi
+}
+
 # Prints the relative path from the current directory to the given path
 # Arguments:
 #   path
@@ -295,15 +360,15 @@ dot::_relative_path() {
   if command -v realpath >/dev/null 2>&1; then
     realpath --no-symlinks --relative-to=. "$1"
   elif command -v perl >/dev/null 2>&1; then
-    perl -e "use File::Spec; print File::Spec->abs2rel('$1')"
+    perl -e "use File::Spec; print File::Spec->abs2rel(\$ARGV[0])" "$1"
   elif command -v ruby >/dev/null 2>&1; then
     ruby -e \
-      "require 'pathname'; print(Pathname.new('$1').relative_path_from(Pathname.new('$(pwd)')))"
+      "require 'pathname'; print(Pathname.new(ARGV[0]).relative_path_from(Pathname.getwd))" "$1"
   elif command -v python3 >/dev/null 2>&1; then
-    python3 -c "import os; print(os.path.relpath('$1'), end='')"
+    python3 -c "import os,sys; print(os.path.relpath(sys.argv[1]), end='')" "$1"
   elif command -v python2 >/dev/null 2>&1; then
     python2 -c \
-      "from __future__ import print_function; import os; print(os.path.relpath('$1'), end='')"
+      "from __future__ import print_function; import os; print(os.path.relpath(sys.argv[1]), end='')" "$1"
   else
     dot::_abort "Needs coreutils, python, ruby, or perl."
   fi
@@ -317,6 +382,7 @@ for n in "$@"; do
   case "$n" in
     -f) _DOT_LNFLAGS+="f" ;;
     --install-deps) SKIP_PACKAGES=false ;;
+    --disable-gc) ENABLE_GC=false ;;
     *) ;;
   esac
 done
