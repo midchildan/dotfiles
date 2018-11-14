@@ -1,0 +1,3 @@
+This directory stores symlinks to symlinks installed by the setup script. It is
+used by the garbage collector to find dead symlinks previously installed by the
+setup script.
