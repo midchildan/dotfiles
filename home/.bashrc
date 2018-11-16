@@ -6,7 +6,7 @@ esac
 ###########################
 #  Environment Variables  #
 ###########################
-export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
+export GEM_HOME="$(ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
 export USE_POWERLINE=0
 
@@ -17,7 +17,9 @@ PATH+=":$(python3 -c 'import site; print(site.getuserbase())')/bin"
 PATH+=":$GOPATH/bin"
 export PATH
 
-source ~/.nix-profile/etc/profile.d/nix.sh
+if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
+  source ~/.nix-profile/etc/profile.d/nix.sh
+fi
 
 ###########################
 #  Aliases and Functions  #
@@ -80,11 +82,7 @@ if (( "${VTE_VERSION:-0}" >= 3405 )); then
   __vte_osc7() {
     printf "\e]7;file://%s%s\a" "${HOSTNAME:-}" "$(__vte_urlencode "$PWD")"
   }
-  PROMPT_COMMAND+=";__vte_osc7"
-fi
-
-if [[ "$SHELL" != *"zsh" ]] && grep -q zsh /etc/shells; then
-  echo "[NOTICE] zsh is available on this system." >&2
+  PROMPT_COMMAND="__vte_osc7;$PROMPT_COMMAND"
 fi
 
 ###########
@@ -92,12 +90,8 @@ fi
 ###########
 [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
 
-if [[ -z "${debian_root:-}" ]] && [[ -r /etc/debian_chroot ]]; then
-  debian_chroot=$(cat /etc/debian_chroot)
-fi
-
 if [[ $TERM == "dumb" ]]; then
-  PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+  PS1='\u@\h:\w\$ '
   return
 fi
 
@@ -109,17 +103,17 @@ if command -v dircolors >/dev/null 2>&1; then
   fi
 fi
 
-__prompt_color='\[\033[1m\]'
-__prompt_login='${debian_chroot:+($debian_chroot)}\u'
-__prompt_title='\[\e]0;${debian_chroot:+($debian_chroot)}\w\a\]'
+__prompt_color='\[\e[1m\]'
+__prompt_login='\u'
+__prompt_title='\[\e]0;\w\a\]'
 if [[ -n "$SSH_CONNECTION" ]]; then
-  __prompt_color='\[\033[1;32m\]'
+  __prompt_color='\[\e[1;32m\]'
   __prompt_login+='@\h'
-  __prompt_title='\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h:\w\a\]'
+  __prompt_title='\[\e]0;\u@\h:\w\a\]'
 fi
-if [[ $EUID -eq 0 ]]; then
-  __prompt_color='\[\033[1;31m\]'
+if (( EUID == 0 )); then
+  __prompt_color='\[\e[1;31m\]'
 fi
 PS1=$__prompt_title$__prompt_color$__prompt_login
-PS1+='\[\033[0;1m\]:\[\033[34m\]\w\[\033[0;1m\]\$\[\033[0m\] '
+PS1+='\[\e[0;1m\]:\[\e[34m\]\w\[\e[0;1m\]\$\[\e[0m\] '
 unset __prompt_color __prompt_login __prompt_title
