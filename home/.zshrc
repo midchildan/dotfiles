@@ -92,7 +92,6 @@ autoload -Uz edit-command-line && zle -N edit-command-line
 autoload -Uz select-bracketed && zle -N select-bracketed
 autoload -Uz select-quoted && zle -N select-quoted
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
-autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
 autoload -Uz fzf-complete && zle -N fzf-complete
 autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
 autoload -Uz fzf-cdr-widget && zle -N fzf-cdr-widget
@@ -107,6 +106,9 @@ autoload -Uz surround \
 autoload -Uz vim-incarg \
   && zle -N vim-incarg \
   && zle -N vim-decarg vim-incarg
+
+unalias run-help 2>/dev/null
+autoload -Uz run-help run-help-git run-help-ip run-help-openssl run-help-sudo
 
 bindkey -v
 bindkey -rv '^[,' '^[/' '^[~'

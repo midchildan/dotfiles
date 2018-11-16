@@ -10,8 +10,6 @@ export GPG_TTY="$(tty)"
 export USE_POWERLINE=0
 export PATH="$HOME/.local/bin:$PATH:$GOPATH/bin"
 
-source ~/.nix-profile/etc/profile.d/nix.sh
-
 ###########################
 #  Aliases and Functions  #
 ###########################
@@ -72,11 +70,7 @@ if (( "${VTE_VERSION:-0}" >= 3405 )); then
   __vte_osc7() {
     printf "\e]7;file://%s%s\a" "${HOSTNAME:-}" "$(__vte_urlencode "$PWD")"
   }
-  PROMPT_COMMAND+=";__vte_osc7"
-fi
-
-if [[ "$SHELL" != *"zsh" ]] && grep -q zsh /etc/shells; then
-  echo "[NOTICE] zsh is available on this system." >&2
+  PROMPT_COMMAND="__vte_osc7;$PROMPT_COMMAND"
 fi
 
 ###########
@@ -95,17 +89,17 @@ else
   eval "$(dircolors -b)"
 fi
 
-__prompt_color='\[\033[1m\]'
+__prompt_color='\[\e[1m\]'
 __prompt_login='\u'
 __prompt_title='\[\e]0;\w\a\]'
 if [[ -n "$SSH_CONNECTION" ]]; then
-  __prompt_color='\[\033[1;32m\]'
+  __prompt_color='\[\e[1;32m\]'
   __prompt_login+='@\h'
   __prompt_title='\[\e]0;\u@\h:\w\a\]'
 fi
-if [[ $EUID -eq 0 ]]; then
-  __prompt_color='\[\033[1;31m\]'
+if (( EUID == 0 )); then
+  __prompt_color='\[\e[1;31m\]'
 fi
 PS1=$__prompt_title$__prompt_color$__prompt_login
-PS1+='\[\033[0;1m\]:\[\033[34m\]\w\[\033[0;1m\]\$\[\033[0m\] '
+PS1+='\[\e[0;1m\]:\[\e[34m\]\w\[\e[0;1m\]\$\[\e[0m\] '
 unset __prompt_color __prompt_login __prompt_title
