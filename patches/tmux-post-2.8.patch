@@ -1,0 +1,65 @@
+diff --git a/home/.tmux.conf b/home/.tmux.conf
+index ff1f10e..66e1587 100644
+--- a/home/.tmux.conf
++++ b/home/.tmux.conf
+@@ -135,6 +135,7 @@ bind : command-prompt \; switch-client -T prefix
+ bind ? list-keys
+ bind Enter resize-pane -Z \; switch-client -T prefix
+ bind Space next-layout \; switch-client -T prefix
++bind Any switch-client -T prefix
+ 
+ ###############
+ #  copy mode  #
+@@ -157,6 +158,7 @@ bind -T c s command-prompt -I "#S" "rename-session '%%'" \;\
+   switch-client -T prefix
+ bind -T c w command-prompt -I "#W" "rename-window '%%'" \;\
+   switch-client -T prefix
++bind -T c Any switch-client -T prefix
+ 
+ ############
+ #  d mode  #
+@@ -164,6 +166,7 @@ bind -T c w command-prompt -I "#W" "rename-window '%%'" \;\
+ 
+ bind -T d b delete-buffer \; switch-client -T prefix
+ bind -T d m select-pane -M \; switch-client -T prefix
++bind -T d Any switch-client -T prefix
+ 
+ ############
+ #  g mode  #
+@@ -185,6 +188,7 @@ bind -T g S switch-client -p \; switch-client -T prefix
+ bind -T g t next-window \; switch-client -T prefix
+ bind -T g T previous-window \; switch-client -T prefix
+ bind -T g / run ~/.local/opt/tmux-copycat/scripts/copycat_search.sh
++bind -T g Any switch-client -T prefix
+ 
+ ############
+ #  Z mode  #
+@@ -193,6 +197,7 @@ bind -T g / run ~/.local/opt/tmux-copycat/scripts/copycat_search.sh
+ bind -T Z C choose-client
+ bind -T Z Q suspend-client
+ bind -T Z Z detach-client
++bind -T Z Any switch-client -T prefix
+ 
+ #################
+ #  buffer mode  #
+@@ -200,6 +205,7 @@ bind -T Z Z detach-client
+ 
+ bind -T buffer p choose-buffer
+ bind -T buffer + choose-buffer 'run "tmux show-buffer -b \'%%\' | xclip -i -sel clip"'
++bind -T buffer Any switch-client -T prefix
+ 
+ #################
+ #  ctrl-w mode  #
+@@ -229,6 +235,7 @@ bind -T ctrl-w C-v split-window -h -c "#{pane_current_path}" \;\
+   switch-client -T prefix
+ bind -T ctrl-w C-w select-pane -t :.+ \; switch-client -T prefix
+ bind -T ctrl-w / command-prompt "find-window '%%'"
++bind -T ctrl-w Any switch-client -T prefix
+ 
+ ##################
+ #  copycat mode  #
+@@ -245,3 +252,4 @@ bind -T copycat 1 run "~/.local/opt/tmux-copycat/scripts/copycat_mode_start.sh \
+ bind -T copycat 4 run "~/.local/opt/tmux-copycat/scripts/copycat_mode_start.sh \
+   '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}'"
+ bind -T copycat g run "~/.local/opt/tmux-copycat/scripts/copycat_git_special.sh #{pane_current_path}"
++bind -T copycat Any switch-client -T prefix
