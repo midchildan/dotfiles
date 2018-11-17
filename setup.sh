@@ -37,6 +37,12 @@ source "$DOTFILE_DIR/scripts/setup"
       ~/.vim/autoload/plug.vim
   - script: "$DOTFILE_DIR/scripts/macvim.sh"
 
+@install Install Git Config
+  - .config/git/config
+  - .config/git/ignore
+  - .config/tig/config
+  - .local/libexec/diff-so-fancy/git-fancy
+
 @install Install GPG Config
   - shell: install -d -m 700 ~/.gnupg
   - chmod: 700 .gnupg
@@ -65,11 +71,8 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @install Install Miscellaneous Config
   - .clang-format
-  - .config/git/config
-  - .config/git/ignore
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
-  - .config/tig/config
   - .config/zathura/zathurarc
   - .ipython/profile_default/ipython_config.py
   - .local/bin/rmpkg
