@@ -12,5 +12,11 @@
 	program = gpg2
 [alias]
 	exec = "!exec " # run a shell command from the top directory
+	fancy = "!~/.local/libexec/diff-so-fancy/git-fancy "
 [merge "ours"]
 	driver = true
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22

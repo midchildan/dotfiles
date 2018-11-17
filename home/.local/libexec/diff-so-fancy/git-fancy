@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+main() {
+  cd "${GIT_PREFIX:-.}"
+  git "${1:-diff}" "${@:2}" \
+    | diff-so-fancy \
+    | less --pattern '^(Date|added|deleted|modified):'
+}
+
+git() {
+  command git \
+    -c "color.ui=always" \
+    -c "color.diff.meta=yellow" \
+    -c "color.diff.frag=magenta bold" \
+    -c "color.diff.commit=yellow bold" \
+    -c "color.diff.old=red bold" \
+    -c "color.diff.new=green bold" \
+    -c "color.diff.whitespace=red reverse" \
+    "$@"
+}
+
+main "$@"
