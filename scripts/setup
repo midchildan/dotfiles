@@ -280,14 +280,14 @@ dot::_ln() {
   fi
   # install symlink
   if [[ ! "$dst" -ef "$src" ]]; then
-    ln -s"$_DOT_LNFLAGS" "$src" "$dst" >>"$_DOT_LOGFILE" 2>&1 \
+    ln -sn"$_DOT_LNFLAGS" "$src" "$dst" >>"$_DOT_LOGFILE" 2>&1 \
       || return 1
   fi
 
   # Mark dst as GC root
   local abs_dst="$(dot::_absolute_path "$dst")"
   local dst_hash="$(echo "$abs_dst" | shasum -a 256 | cut -d' ' -f1)"
-  ln -sf "$abs_dst" "$_DOT_GCROOT/$dst_hash" >>"$_DOT_LOGFILE" 2>&1 \
+  ln -snf "$abs_dst" "$_DOT_GCROOT/$dst_hash" >>"$_DOT_LOGFILE" 2>&1 \
     || return
 }
 
