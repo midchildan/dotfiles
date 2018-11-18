@@ -85,6 +85,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .tmux.conf
   - .wgetrc
   - Library/Application\ Support/AquaSKK/keymap.conf
+  - Library/Preferences/bat/config
 
 # Will not run unless --install-deps is specified
 @packages
