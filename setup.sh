@@ -77,6 +77,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/bat/config
   - .config/nano/nanorc
   - .config/nixpkgs/config.nix
+  - .config/nixpkgs/overlays/nix-cflags
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/zathura/zathurarc
@@ -94,4 +95,5 @@ source "$DOTFILE_DIR/scripts/setup"
 # Will not run unless --install-deps is specified
 @packages
   - skip: "${SKIP_PACKAGES:-true}"
+  - nix-cflags
   - shell: vim +PlugInstall +qall

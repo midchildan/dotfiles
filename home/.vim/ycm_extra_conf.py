@@ -113,23 +113,23 @@ def GuessFlagsForFile( filename, filetype, flags=[] ):
   return LANGS.get( filetype, LANGS[ 'cpp' ] )[ 'flags' ] + flags
 
 
-def NixFlags():
+def NixFlags( filetype ):
   nix_wrapper = os.path.join( DirectoryOfThisScript(), 'cflags.nix' )
-  command = [ 'nix', 'eval', '--raw', '-f', nix_wrapper, '' ]
+  command = [ 'nix-cflags' ]
+  if filetype in ('cpp', 'cuda'):
+    command += [ '--cxx' ]
   return subprocess.check_output( command ).decode().split()
 
 
 def CFamilySettings( **kwargs ):
   filename = kwargs[ 'filename' ]
+  client_data = kwargs[ 'client_data' ]
+  filetype = client_data.get( '&filetype' )
 
   if not database:
-    filetype = None
-    client_data = kwargs[ 'client_data' ]
-    filetype = client_data.get( '&filetype' )
-
     ncc_path = os.path.join( DirectoryOfThisScript(), 'ncc' )
     lang_flags = GuessFlagsForFile( filename, filetype )
-    final_flags = lang_flags + flags + NixFlags()
+    final_flags = lang_flags + flags + NixFlags( filetype )
     return {
       'flags': final_flags,
       'include_paths_relative_to_dir': DirectoryOfThisScript()
@@ -142,7 +142,7 @@ def CFamilySettings( **kwargs ):
   # Bear in mind that compilation_info.compiler_flags_ does NOT return a
   # python list, but a "list-like" StringVec object.
   return {
-    'flags': list( compilation_info.compiler_flags_ ) + NixFlags(),
+    'flags': list( compilation_info.compiler_flags_ ) + NixFlags( filetype ),
     'include_paths_relative_to_dir': compilation_info.compiler_working_dir_
   }
 
