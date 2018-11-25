@@ -95,7 +95,9 @@ def GuessFlagsForFile( filename, filetype, flags=[] ):
     'c': { 'flags': [ '-xc', '--std=gnu11' ], 'ext': [ '.c' ] },
     'cpp': { 'flags': [ '-xc++', '--std=gnu++14' ],
              'ext': [ '.cpp', '.cxx', '.cc' ] },
-    'cuda': { 'flags': [ '-xcuda', '--std=gnu++14' ], 'ext': [ '.cu', '.cuh' ] },
+    'cuda': { 'flags': [ '-xcuda', '--std=gnu++14',
+                         '-nocudainc', '-nocudalib' ],
+              'ext': [ '.cu', '.cuh' ] },
     'objc': { 'flags': [ '-xobjective-c' ], 'ext': [ '.m' ] },
     'objcpp': { 'flags': [ '-xobjective-c++' ], 'ext': [ '.mm' ] },
   }
@@ -111,9 +113,10 @@ def GuessFlagsForFile( filename, filetype, flags=[] ):
   return LANGS.get( filetype, LANGS[ 'cpp' ] )[ 'flags' ] + flags
 
 
-def NixFlags( flag_list ):
-  ncc_path = os.path.join( DirectoryOfThisScript(), 'ncc' )
-  return subprocess.check_output( [ ncc_path ] + flag_list ).decode().split()
+def NixFlags():
+  nix_wrapper = os.path.join( DirectoryOfThisScript(), 'cflags.nix' )
+  command = [ 'nix', 'eval', '--raw', '-f', nix_wrapper, '' ]
+  return subprocess.check_output( command ).decode().split()
 
 
 def CFamilySettings( **kwargs ):
@@ -126,7 +129,7 @@ def CFamilySettings( **kwargs ):
 
     ncc_path = os.path.join( DirectoryOfThisScript(), 'ncc' )
     lang_flags = GuessFlagsForFile( filename, filetype )
-    final_flags = NixFlags( lang_flags + flags )
+    final_flags = lang_flags + flags + NixFlags()
     return {
       'flags': final_flags,
       'include_paths_relative_to_dir': DirectoryOfThisScript()
@@ -139,7 +142,7 @@ def CFamilySettings( **kwargs ):
   # Bear in mind that compilation_info.compiler_flags_ does NOT return a
   # python list, but a "list-like" StringVec object.
   return {
-    'flags': list( compilation_info.compiler_flags_ ),
+    'flags': list( compilation_info.compiler_flags_ ) + NixFlags(),
     'include_paths_relative_to_dir': compilation_info.compiler_working_dir_
   }
 
