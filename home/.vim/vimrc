@@ -225,6 +225,7 @@ nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
 nnoremap <silent> <Leader>tv :call vimrc#toggle_virtualedit()<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
 nnoremap <silent> <Leader>t* :call vimrc#toggle_recursive_path()<CR>
+nnoremap <silent> <Leader>t~ :set ignorecase! ignorecase?<CR>
 nnoremap <silent> <Leader>t<Space> :AirlineToggleWhitespace<CR>
 nnoremap <silent> <Leader>t<Tab> :call vimrc#toggle_show_whitespace()<CR>
 
