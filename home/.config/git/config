@@ -1,7 +1,7 @@
 [user]
 	name = midchildan
 	email = git@midchildan.org
-	signingkey = 0x8660C96E7D48C992
+	signingkey = 0x186A1EDAC5C63F83
 [push]
 	default = simple
 [merge]
