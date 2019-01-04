@@ -43,6 +43,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/git/config
   - .config/git/ignore
   - .config/tig/config
+  - .local/bin/git-annex-remote-rclone
   - .local/libexec/diff-so-fancy/git-fancy
 
 @install Install GPG Config
