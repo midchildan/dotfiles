@@ -2,12 +2,11 @@
 let s:path=system("$SHELL -ic 'echo PATH=$PATH'")
 let $PATH=matchstr(s:path, 'PATH=\zs.\{-}\ze\n')
 
-set lines=40
-set columns=120
+set columns=132
+set lines=43
 set cmdheight=1
 set cursorline
 set guifont=Monospace\ 13
 set guitablabel=%M%t
 set guioptions-=T
 set confirm
-colorscheme molokai
