@@ -2,18 +2,15 @@
 let s:path=system("$SHELL -ic 'echo PATH=$PATH'")
 let $PATH=matchstr(s:path, 'PATH=\zs.\{-}\ze\n')
 
-set termguicolors
 set cmdheight=1
 set cursorline
 set confirm
 
 if has('gui_macvim')
-  set lines=40
-  set columns=120
-  set guifont=Menlo\ Regular:h14
+  set columns=132
+  set lines=43
+  set guifont=Menlo\ Regular:h12
   set guitablabel=%M%t
   set guioptions-=T
   set transparency=15
 endif
-
-colorscheme molokai
