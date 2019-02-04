@@ -109,14 +109,24 @@ set title
 set mouse=a
 
 " colors
-if $TERM =~? '.*-256color'
-  if has('termguicolors')
-    set termguicolors
-    if !has('nvim') && $TERM =~? 'screen'
-      let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-      let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-    endif
+if has('gui_running')
+  let s:color_level = 2
+elseif $TERM !~? '.*-256color'
+  let s:color_level = 0
+elseif !has('termguicolors')
+  let s:color_level = 1
+else
+  let s:color_level = 2
+  if !has('nvim') && $TERM =~? 'screen'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   endif
+endif
+
+if s:color_level >=? 2
+  set termguicolors
+endif
+if s:color_level >=? 1
   set cursorline
   set background=dark
   colorscheme gruvbox
