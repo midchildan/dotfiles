@@ -71,6 +71,7 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @install Install Miscellaneous Config
   - .clang-format
+  - .config/bat/config
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/zathura/zathurarc
@@ -85,7 +86,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .tmux.conf
   - .wgetrc
   - Library/Application\ Support/AquaSKK/keymap.conf
-  - Library/Preferences/bat/config
 
 # Will not run unless --install-deps is specified
 @packages
