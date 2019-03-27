@@ -43,7 +43,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/git/config
   - .config/git/ignore
   - .config/tig/config
-  - .local/libexec/diff-so-fancy/git-fancy
+  - .local/bin/git-fancy
 
 @install Install GPG Config
   - shell: install -d -m 700 ~/.gnupg
