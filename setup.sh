@@ -79,6 +79,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/nixpkgs/config.nix
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
+  - .config/tilix/schemes/gruvbox-dark.json
   - .config/zathura/zathurarc
   - .ipython/profile_default/ipython_config.py
   - .local/libexec/fzf/install
