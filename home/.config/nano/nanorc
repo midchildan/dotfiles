@@ -1,6 +1,6 @@
 # General
 unset boldtext
-set const
+set constantshow
 set morespace
 set mouse
 set multibuffer
@@ -19,7 +19,7 @@ set tabsize 2
 set tabstospaces
 
 # Searching
-unset backwards
+# unset backwards # unrecognized option, a possible bug
 unset casesensitive
 
 # Syntax
