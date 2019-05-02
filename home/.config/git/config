@@ -14,7 +14,6 @@
 	program = gpg2
 [alias]
 	exec = "!exec " # run a shell command from the top directory
-	fancy = "!~/.local/libexec/diff-so-fancy/git-fancy "
 [merge "ours"]
 	driver = true
 [protocol "keybase"]

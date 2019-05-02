@@ -19,3 +19,7 @@
 	path = home/.local/opt/tmux-copycat
 	url = https://github.com/tmux-plugins/tmux-copycat.git
 	ignore = all
+[submodule "home/.local/opt/tilix-gruvbox"]
+	path = home/.local/opt/tilix-gruvbox
+	url = https://github.com/MichaelThessel/tilix-gruvbox.git
+	ignore = all
