@@ -7,12 +7,12 @@ set showmode
 set surround
 set multiple-cursors
 
-nnoremap gcc :action CommentByLineComment
+nnoremap gcc :action CommentByLineComment<CR>
 nnoremap zm zM
 nnoremap zr zR
 nnoremap Y y$
 nnoremap [c :action VcsShowPrevChangeMarker<CR>
-nnoremap ]c :actino VcsShowNextChangeMarker<CR>
+nnoremap ]c :action VcsShowNextChangeMarker<CR>
 nnoremap [e :action GotoPreviousError<CR>
 nnoremap ]e :action GotoNextError<CR>
 nnoremap <C-l> :nohlsearch<CR>
