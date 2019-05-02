@@ -280,5 +280,5 @@ case "$TERM" in
     ;;
 esac
 
-source /run/current-system/sw/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)

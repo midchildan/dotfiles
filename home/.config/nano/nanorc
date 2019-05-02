@@ -21,6 +21,3 @@ set tabstospaces
 # Searching
 unset backwards
 unset casesensitive
-
-# Syntax
-include "/run/current-system/sw/share/nano/*.nanorc"
