@@ -1,0 +1,9 @@
+bind -v
+bind "^L" ed-clear-screen
+bind "^P" ed-search-prev-history
+bind "^N" ed-search-next-history
+bind "^X" ed-sequence-lead-in
+bind "^X^R" em-inc-search-prev
+
+lldb:bind "^I" lldb-complete
+mysql:bind "^I" rl_complete

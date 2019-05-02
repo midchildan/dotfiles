@@ -41,7 +41,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/git/config
   - .config/git/ignore
   - .config/tig/config
-  - .local/libexec/diff-so-fancy/git-fancy
+  - .local/bin/git-fancy
 
 @install Install GPG Config
   - shell: install -d -m 700 ~/.gnupg
@@ -71,9 +71,12 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @install Install Miscellaneous Config
   - .clang-format
+  - .editrc
+  - .ideavimrc
   - .config/bat/config
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
+  - .config/tilix/schemes/gruvbox-dark.json
   - .config/zathura/zathurarc
   - .ipython/profile_default/ipython_config.py
   - .local/bin/rmpkg
