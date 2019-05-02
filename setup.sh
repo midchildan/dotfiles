@@ -76,7 +76,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/bat/config
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
-  - .config/tilix/schemes/gruvbox-dark.json
   - .config/zathura/zathurarc
   - .ipython/profile_default/ipython_config.py
   - .local/bin/rmpkg
