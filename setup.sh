@@ -74,6 +74,7 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @install Install Miscellaneous Config
   - .clang-format
+  - .editrc
   - .config/bat/config
   - .config/nano/nanorc
   - .config/nixpkgs/config.nix
