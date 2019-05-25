@@ -1,0 +1,20 @@
+diff --git a/home/.bash_profile b/home/.bash_profile
+index a2d5c8a..6ab7100 100644
+--- a/home/.bash_profile
++++ b/home/.bash_profile
+@@ -1,4 +1,4 @@
+-export EDITOR="vim"
++export EDITOR="nvim"
+ export LANG="en_US.UTF-8"
+ export LESS="iMR"
+ export PAGER="less"
+diff --git a/home/.zshenv b/home/.zshenv
+index 20150c1..1561f5d 100644
+--- a/home/.zshenv
++++ b/home/.zshenv
+@@ -1,4 +1,4 @@
+-export EDITOR="vim"
++export EDITOR="nvim"
+ export LANG="en_US.UTF-8"
+ export LESS="iMR"
+ export PAGER="less"
