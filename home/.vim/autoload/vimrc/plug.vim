@@ -3,7 +3,5 @@ func! vimrc#plug#go(info)
     return
   endif
 
-  if a:info.status != 'unchanged' || a:info.force
-    GoInstallBinaries
-  endif
+  GoInstallBinaries
 endf
