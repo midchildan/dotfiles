@@ -10,7 +10,6 @@ func! vimrc#plug#ycm(info)
   let completers = {
         \ 'cmake' : '--clang-completer',
         \ 'cargo' : '--rust-completer',
-        \ 'javac' : '--java-completer',
         \ 'mono' : '--cs-completer',
         \ 'npm' : '--ts-completer',
         \ }
@@ -21,6 +20,11 @@ func! vimrc#plug#ycm(info)
       call add(args, flag)
     endif
   endfor
+
+  !/usr/libexec/java_home -V >/dev/null 2>&1
+  if !v:shell_error
+    call add(args, '--java-completer')
+  endif
 
   execute "!" . join(args)
 endf
