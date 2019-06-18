@@ -2,6 +2,10 @@
 	name = midchildan
 	email = git@midchildan.org
 	signingkey = 0x186A1EDAC5C63F83
+[core]
+	# consider installing a newer version of less to avoid annoyances
+	# https://unix.stackexchange.com/q/107315
+	pager = less -FX
 [push]
 	default = simple
 [merge]
