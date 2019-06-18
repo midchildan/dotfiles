@@ -186,6 +186,7 @@ dot::download() {
 
   local src="$1" dst="$2"
   curl -fLo "$dst" --create-dirs "$src"
+  echo "Downloading $1...$(dot::_print_badge)"
 }
 
 # Clone a repository from GitHub
@@ -197,6 +198,7 @@ dot::download() {
 dot::github() {
   [[ -d "$2" ]] && return
   git clone "https://github.com/$1.git" "$2"
+  echo "Cloning $1...$(dot::_print_badge)"
 }
 
 # Automatically remove dead symlinks
@@ -233,9 +235,12 @@ dot::script() {
 
   if [[ "$1" =~ ^https?:// ]]; then
     curl "$1" -sSf | bash
+    ! (( PIPEFAIL[0] | PIPEFAIL[1] ))
   else
     bash "$@"
   fi
+
+  echo "Running $1...$(dot::_print_badge)"
 }
 
 # Run a shell command
