@@ -35,7 +35,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - download: \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
       ~/.vim/autoload/plug.vim
-  - script: "$DOTFILE_DIR/scripts/macvim.sh"
 
 @install Install Git Config
   - .config/git/config
