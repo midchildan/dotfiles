@@ -201,8 +201,6 @@ fi
 ###########
 #  Theme  #
 ###########
-setopt prompt_subst
-
 [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
 
 if [[ "$TERM" == "dumb" ]]; then
@@ -212,38 +210,8 @@ if [[ "$TERM" == "dumb" ]]; then
   return
 fi
 
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' actionformats \
-  '%b@%s%f: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
-zstyle ':vcs_info:*' formats \
-  '%b@%s%f: %F{blue}%r/%S%f' '%c%u'
-zstyle ':vcs_info:*' stagedstr "[%B%F{yellow}staged%f%b]"
-zstyle ':vcs_info:*' unstagedstr "[%B%F{red}unstaged%f%b]"
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' enable git
-
-__update_prompt() {
-  local _prompt="%(?::%F{red})%#%f" _login="%B%(!:%F{red}:)" _hname=""
-  if [[ -n "$SSH_CONNECTION" ]]; then
-    _login="%B%(!:%F{red}:%F{green})"
-    _hname="@%m"
-  fi
-
-  local _begin= _end=
-  if zstyle -T ':iterm2:osc' enable; then
-    _begin=$'%{\e]133;D;%?\a\e]133;A\a%}'
-    _end=$'%{\e]133;B\a%}'
-  fi
-
-  vcs_info
-  if [[ -n "$vcs_info_msg_0_" ]]; then
-    PROMPT="$_begin$_login$vcs_info_msg_0_"$'\n'"$_prompt%b $_end"
-    RPROMPT="$vcs_info_msg_1_"
-  else
-    PROMPT="$_begin$_login%n$_hname%f: %F{blue}%~%f"$'\n'"$_prompt%b $_end"
-    RPROMPT=""
-  fi
-}
+autoload -Uz promptinit && promptinit
+prompt essence
 
 __update_term() {
   if [[ -n "$SSH_CONNECTION" ]]; then
@@ -258,8 +226,7 @@ __update_term() {
   fi
 }
 
-add-zsh-hook precmd __update_prompt
-add-zsh-hook preexec __update_term
+add-zsh-hook precmd __update_term
 
 case "$TERM" in
   xterm-256color|screen-256color)
