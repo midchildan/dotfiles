@@ -93,8 +93,14 @@ zstyle ':completion:*:*:kill:*:processes' list-colors \
 zstyle ':completion:*:*:*:*:processes' \
   command "ps -u `whoami` -o pid,user,comm -w -w"
 
-# skip the slooow security checks (-C), it's pointless in a single-user setup
-autoload -Uz compinit && compinit -C
+autoload -Uz compinit
+# update the completion cache only once a day
+if [[ -f ~/.zcompdump(#qN.m+1) ]]; then
+  # XXX: skip the slooow security checks; it's pointless in a single-user setup
+  compinit -u
+else
+  compinit -C
+fi
 
 #################
 #  Keybindings  #
@@ -178,7 +184,7 @@ setopt long_list_jobs
 setopt no_clobber
 setopt no_flowcontrol
 autoload -Uz select-word-style && select-word-style bash
-autoload -Uz zrecompile && zrecompile -p -R ~/.zshrc -- -M ~/.zcompdump
+autoload -Uz zrecompile && zrecompile -p -R ~/.zshrc -- -M ~/.zcompdump &!
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 if is-at-least 5.2; then
   autoload -Uz bracketed-paste-url-magic && \
