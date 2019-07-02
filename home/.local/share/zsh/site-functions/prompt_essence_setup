@@ -13,6 +13,7 @@ prompt_essence_setup() {
 
   prompt_opts=(cr subst percent)
   add-zsh-hook precmd prompt_essence_precmd
+  add-zsh-hook preexec prompt_essence_preexec
 }
 
 prompt_essence_precmd() {
@@ -35,6 +36,12 @@ prompt_essence_precmd() {
   else
     PROMPT="$_begin$_login%n$_hname%f: %F{blue}%~%f"$'\n'"$_prompt%b $_end"
     RPROMPT=""
+  fi
+}
+
+prompt_essence_preexec() {
+  if zstyle -T ':iterm2:osc' enable; then
+    print -Pn "\e]133;C\a"
   fi
 }
 

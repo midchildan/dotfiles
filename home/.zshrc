@@ -232,7 +232,7 @@ __update_term() {
   fi
 
   if zstyle -T ':iterm2:osc' enable; then
-    printf "\e]1337;RemoteHost=%s@%s\a\e]1337;CurrentDir=%s\a\e]133;C\a" \
+    printf "\e]1337;RemoteHost=%s@%s\a\e]1337;CurrentDir=%s\a" \
       "$USER" "$HOST" "$PWD"
   fi
 }
