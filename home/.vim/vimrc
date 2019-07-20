@@ -127,9 +127,12 @@ if s:color_level >=? 2
   set termguicolors
 endif
 if s:color_level >=? 1
-  set cursorline
   set background=dark
-  colorscheme gruvbox
+  try
+    colorscheme gruvbox
+    set cursorline
+  catch /E185:/ " colorscheme doesn't exist
+  endtry
 endif
 
 " cursor shape
@@ -347,7 +350,9 @@ let g:ycm_rust_src_path='~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/li
 if !exists('g:ycm_semantic_triggers')
   let g:ycm_semantic_triggers = {}
 endif
-let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
+if exists('g:vimtex#re#youcompleteme')
+  let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
+endif
 
 " airline "
 let g:airline_skip_empty_sections=1
