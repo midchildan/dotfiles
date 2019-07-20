@@ -74,6 +74,7 @@ set autoindent
 set copyindent
 set preserveindent
 set formatoptions+=jmB
+set omnifunc=syntaxcomplete#Complete
 
 " jump to the last known cursor position
 au vimrc BufReadPost *
