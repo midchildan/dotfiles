@@ -73,6 +73,7 @@ set autoindent
 set copyindent
 set preserveindent
 set formatoptions+=jmB
+set omnifunc=syntaxcomplete#Complete
 
 " jump to the last known cursor position
 au vimrc BufReadPost *
@@ -125,9 +126,12 @@ if s:color_level >=? 2
   set termguicolors
 endif
 if s:color_level >=? 1
-  set cursorline
   set background=dark
-  colorscheme gruvbox
+  try
+    colorscheme gruvbox
+    set cursorline
+  catch /E185:/ " colorscheme doesn't exist
+  endtry
 endif
 
 " cursor shape
@@ -286,6 +290,11 @@ nnoremap <silent> <LocalLeader>K :YcmCompleter GetDoc<CR>
 nnoremap <silent> <LocalLeader>[i :YcmCompleter GetType<CR>
 nnoremap <silent> <LocalLeader><C-]> :YcmCompleter GoTo<CR>
 
+" 3-way merge
+nnoremap <silent> <Leader>1 :diffget LOCAL<CR>
+nnoremap <silent> <Leader>2 :diffget BASE<CR>
+nnoremap <silent> <Leader>3 :diffget REMOTE<CR>
+
 """"""""""
 "  Misc  "
 """"""""""
@@ -348,7 +357,9 @@ let g:ycm_rust_src_path='~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/li
 if !exists('g:ycm_semantic_triggers')
   let g:ycm_semantic_triggers = {}
 endif
-let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
+if exists('g:vimtex#re#youcompleteme')
+  let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
+endif
 
 " airline "
 let g:airline_skip_empty_sections=1
