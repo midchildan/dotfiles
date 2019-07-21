@@ -36,6 +36,12 @@ trap dot::_exit EXIT
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
+@defaults() {
+  _DOT_SECTION="defaults"
+  echo "$(tput bold)== ${*:-Set Defaults} ==$(tput sgr0)"
+  cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
+}
+
 @clean() {
   _DOT_SECTION="clean"
   echo "$(tput bold)== ${*:-Clean Dead Symlinks} ==$(tput sgr0)"
@@ -53,6 +59,7 @@ trap dot::_exit EXIT
   case "$_DOT_SECTION" in
     packages) dot::packages::task "$@" ;;
     install) dot::install::task "$@" ;;
+    defaults) dot::defaults::task "$@" ;;
     clean) dot::clean::task "$@" ;;
   esac
 }
@@ -95,6 +102,19 @@ dot::install::task() {
   dot::_print_badge
 
   cd "$old_pwd"
+}
+
+# Set macOS defaults
+# Globals:
+#   _DOT_LOGFILE
+# Arguments:
+#   args: argument to pass to 'defaults write'
+# Returns:
+#   None
+dot::defaults::task() {
+  echo -n "Setting $1 $2..."
+  defaults write "$@" >>"$_DOT_LOGFILE" 2>&1
+  dot::_print_badge
 }
 
 # [DEPRECATED] This function is no longer necessary since the garbage collector
