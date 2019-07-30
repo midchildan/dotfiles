@@ -123,7 +123,9 @@ autoload -Uz surround \
   && zle -N change-surround surround
 autoload -Uz vim-incarg \
   && zle -N vim-incarg \
-  && zle -N vim-decarg vim-incarg
+  && zle -N vim-decarg vim-incarg \
+  && zle -N sync-incarg vim-incarg \
+  && zle -N sync-decarg vim-incarg
 
 unalias run-help 2>/dev/null
 autoload -Uz run-help run-help-git run-help-openssl run-help-sudo
@@ -149,6 +151,8 @@ bindkey -v \
 bindkey -ra 's'
 bindkey -a \
   'gf' fzf-cd-widget \
+  'g^A' sync-incarg \
+  'g^X' sync-decarg \
   'sa' add-surround \
   'sd' delete-surround \
   'sr' change-surround \
