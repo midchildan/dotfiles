@@ -1,4 +1,4 @@
-#compdef cd..
+#compdef cud
 
 # Get parents (in reverse order)
 local i cwd_depth=${#${(ps:/:)${PWD}}} reply=()
