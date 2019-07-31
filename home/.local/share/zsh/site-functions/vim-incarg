@@ -1,5 +1,7 @@
 emulate -L zsh
 
+local match mbegin mend MATCH MBEGIN MEND
+
 # locate the digit
 integer pos=$(( CURSOR + 1 ))
 while [[ $BUFFER[pos] != [[:digit:]] ]]; do
@@ -14,14 +16,10 @@ if [[ "$WIDGET" = *-decarg ]]; then
 fi
 if [[ "$WIDGET" = sync-* ]]; then
   integer pane_index=1
-  local old_match="$MATCH"
-  local old_match_arr="$match[@]"
   if [[ -n "$TMUX_PANE" ]]; then
     pane_index="$(tmux display-message -pt "$TMUX_PANE" '#{pane_index}')"
   elif [[ "$ITERM_SESSION_ID" =~ '^w[0-9]+t[0-9]+p([0-9]+)' ]]; then
     pane_index=$match[1]
-    MATCH="$old_match"
-    match=( "$old_match_arr[@]" )
   fi
   (( ninc *= pane_index ))
 fi
@@ -49,5 +47,7 @@ esac
 
 # change the number and move the cursor after it
 integer oldlen=$#BUFFER
-BUFFER[first,last]="$(printf "%0${ndigits}d" $((BUFFER[first,last] + $ninc)))"
-(( CURSOR = last + $#BUFFER - oldlen - 1 )) || (( ? != 2 ))
+BUFFER[first,last]="$(printf "%0${ndigits}d" $((BUFFER[first,last] + ninc)))"
+(( CURSOR = last + $#BUFFER - oldlen - 1 ))
+
+return 0
