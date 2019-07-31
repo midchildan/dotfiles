@@ -30,7 +30,7 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz zmv
-autoload -Uz cd.. fuck
+autoload -Uz cud fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
 
 #################
@@ -180,7 +180,8 @@ setopt long_list_jobs
 setopt no_clobber
 setopt no_flowcontrol
 autoload -Uz select-word-style && select-word-style bash
-autoload -Uz zrecompile && zrecompile -p -R ~/.zshrc -- -M ~/.zcompdump &!
+autoload -Uz zrecompile \
+  && zrecompile -p -R ~/.zshrc -- -M ~/.zcompdump &> /dev/null &!
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 if is-at-least 5.2; then
   autoload -Uz bracketed-paste-url-magic && \
