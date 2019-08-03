@@ -245,7 +245,10 @@ fi
 ###########
 #  Theme  #
 ###########
-[[ -z "$TERM_PROGRAM" ]] && USE_POWERLINE=0
+case "$TERM_PROGRAM" in
+  "iTerm.app") USE_POWERLINE=1 ;; # iTerm provides built-in powerline glyphs
+  "") USE_POWERLINE=0 ;;
+esac
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
