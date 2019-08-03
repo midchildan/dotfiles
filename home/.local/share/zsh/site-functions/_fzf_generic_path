@@ -24,8 +24,7 @@ while true; do
     if [ -n "$matches" ]; then
       LBUFFER="$lbuf$matches$tail"
     fi
-    zle redisplay
-    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    zle reset-prompt
     break
   fi
   dir=$(dirname "$dir")
