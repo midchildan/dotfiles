@@ -17,6 +17,5 @@ if [[ -n "$selected" ]]; then
   fi
 fi
 
-zle redisplay
-typeset -f zle-line-init >/dev/null && zle zle-line-init
+zle reset-prompt
 return $ret

@@ -20,6 +20,5 @@ eval "$cmd | fzf --height 50% --reverse -m" | while read item; do
 done
 local ret=$?
 
-zle redisplay
-typeset -f zle-line-init >/dev/null && zle zle-line-init
+zle reset-prompt
 return $ret

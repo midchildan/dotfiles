@@ -168,6 +168,53 @@ for _mode in visual viopp; do
   done
 done
 
+######################
+#  Terminal Support  #
+######################
+__term_support() {
+  # set title
+  if [[ -n "$SSH_CONNECTION" ]]; then
+    print -Pn "\e]0;%m: %1~\a"
+  else
+    print -Pn "\e]0;%1~\a"
+  fi
+
+  # report working directory
+  if (( ${VTE_VERSION:-0} >= 3405 )); then () {
+    setopt localoptions extended_glob no_multibyte
+    local match mbegin mend
+    local pattern="[^A-Za-z0-9_.!~*\'\(\)-\/]"
+    local unsafepwd=( ${(s::)PWD} )
+
+    # url encode
+    printf "\e]7;file://%s%s\a" \
+      "$HOST" ${(j::)unsafepwd/(#b)($~pattern)/%${(l:2::0:)$(([##16]#match))}}
+  }; elif zstyle -T ':iterm2:osc' enable; then
+    printf "\e]1337;RemoteHost=%s@%s\a\e]1337;CurrentDir=%s\a" \
+      "$USER" "$HOST" "$PWD"
+  fi
+}
+
+__vi_cursor() {
+  local _shape=6
+  [[ "$ZLE_STATE" == *overwrite* ]] && _shape=4
+  [[ "$KEYMAP" == vicmd ]] && _shape=2
+  print -Pn "\e[$_shape q"
+}
+
+__reset_cursor() {
+  print -Pn "\e[2 q"
+}
+
+case "$TERM" in
+  xterm*|screen*|tmux*)
+    zle -N zle-line-init __vi_cursor
+    zle -N zle-keymap-select __vi_cursor
+    add-zsh-hook preexec __reset_cursor
+    add-zsh-hook precmd __term_support
+    ;;
+esac
+
 ##########
 #  Misc  #
 ##########
@@ -176,8 +223,7 @@ setopt long_list_jobs
 setopt no_clobber
 setopt no_flowcontrol
 autoload -Uz select-word-style && select-word-style bash
-autoload -Uz zrecompile \
-  && zrecompile -p -R ~/.zshrc -- -M ~/.zcompdump &> /dev/null &!
+autoload -Uz zrecompile && zrecompile -pq -R ~/.zshrc -- -M ~/.zcompdump &!
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 if is-at-least 5.2; then
   autoload -Uz bracketed-paste-url-magic && \
@@ -185,29 +231,6 @@ if is-at-least 5.2; then
 fi
 
 command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
-
-# Tell libvte terminals the working directory
-if (( ${VTE_VERSION:-0} >= 3405 )); then
-  __vte_urlencode() {
-    # Use LC_CTYPE=C to process text byte-by-byte.
-    local LC_CTYPE=C LC_ALL= _raw_url="$1" _safe_url="" _safe
-    while [[ -n "$_raw_url" ]]; do
-      _safe="${_raw_url%%[!a-zA-Z0-9/:_\.\-\!\'\(\)~]*}"
-      _safe_url+="$_safe"
-      _raw_url="${_raw_url#"$_safe"}"
-      if [[ -n "$_raw_url" ]]; then
-        _safe_url+="%$(([##16] #_raw_url))"
-        _raw_url="${_raw_url#?}"
-      fi
-    done
-    echo -E "$_safe_url"
-  }
-
-  __vte_osc7() {
-    printf "\e]7;file://%s%s\a" "$HOST" "$(__vte_urlencode "$PWD")"
-  }
-  add-zsh-hook precmd __vte_osc7
-fi
 
 ###########
 #  Theme  #
@@ -224,39 +247,6 @@ fi
 autoload -Uz promptinit && promptinit
 prompt essence
 
-__update_term() {
-  if [[ -n "$SSH_CONNECTION" ]]; then
-    print -Pn "\e]0;%m: %1~\a"
-  else
-    print -Pn "\e]0;%1~\a"
-  fi
-
-  if zstyle -T ':iterm2:osc' enable; then
-    printf "\e]1337;RemoteHost=%s@%s\a\e]1337;CurrentDir=%s\a" \
-      "$USER" "$HOST" "$PWD"
-  fi
-}
-
-add-zsh-hook precmd __update_term
-
-case "$TERM" in
-  xterm-256color|screen-256color)
-    __vi_cursor() {
-      local _shape=6
-      [[ "$ZLE_STATE" == *overwrite* ]] && _shape=4
-      [[ "$KEYMAP" == vicmd ]] && _shape=2
-      print -Pn "\e[$_shape q"
-    }
-
-    __reset_cursor() {
-      print -Pn "\e[2 q"
-    }
-
-    zle -N zle-line-init __vi_cursor
-    zle -N zle-keymap-select __vi_cursor
-    add-zsh-hook preexec __reset_cursor
-    ;;
-esac
-
+# must be run last
 source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)
