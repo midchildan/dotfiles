@@ -14,12 +14,12 @@ local snip="$( \
         --preview 'echo {}' --preview-window down:3:wrap \
 )"
 local ret="$?"
-[[ -z "$snip" ]] && return "$ret"
 
-LBUFFER="$(sed "s/ *##.*//" <<< "$snip")"
+if [[ -n "$snip" ]]; then
+  LBUFFER="$(sed "s/ *##.*//" <<< "$snip")"
+fi
 
-zle redisplay
-typeset -f zle-line-init >/dev/null && zle zle-line-init
+zle reset-prompt
 return "$ret"
 
 # vim:set et sw=2 ts=8 ft=zsh:

@@ -6,5 +6,4 @@ local matches="$(ps -ef | sed 1d |
 if [[ -n "$matches" ]]; then
   LBUFFER="$LBUFFER$matches"
 fi
-zle redisplay
-typeset -f zle-line-init >/dev/null && zle zle-line-init
+zle reset-prompt
