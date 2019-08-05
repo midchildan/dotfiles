@@ -1,5 +1,5 @@
 diff --git a/home/.tmux.conf b/home/.tmux.conf
-index f7dba3d..0658915 100644
+index 4f77d62..d7a0fd4 100644
 --- a/home/.tmux.conf
 +++ b/home/.tmux.conf
 @@ -1,3 +1,5 @@
@@ -8,7 +8,7 @@ index f7dba3d..0658915 100644
  #############
  #  general  #
  #############
-@@ -25,10 +27,8 @@ _sep_lmain2="#{?USE_POWERLINE,, }"
+@@ -26,10 +28,8 @@ _sep_lmain2="#{?USE_POWERLINE,, }"
  _sep_lsub="#{?USE_POWERLINE,,|}"
  _sep_rmain="#{?USE_POWERLINE,,}"
  _sep_rsub="#{?USE_POWERLINE,,|}"
@@ -20,8 +20,8 @@ index f7dba3d..0658915 100644
 +_seg_mode="${_curr_mode}#{?pane_synchronized,:sync,} ${_sep_rsub} "
  
  set -g status-style "fg=white,bg=black"
- set -g status-left "${_sty_stat} ${_ico_ssh}#{=7:session_name} ${_sty_sep1}${_sep_lmain2}"
-@@ -38,15 +38,6 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
+ set -g status-left "${_sty_stat} #{=7:session_name} ${_sty_sep1}${_sep_lmain2}"
+@@ -39,15 +39,6 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
  set -g window-status-current-format "${_sty_sep2}${_sep_lmain1}${_sty_stat} #I ${_sep_lsub} #W#{?window_flags,#{window_flags},} ${_sty_sep1}${_sep_lmain1}"
  set -ga update-environment "USE_POWERLINE"
  
@@ -37,7 +37,7 @@ index f7dba3d..0658915 100644
  setenv -gu _curr_mode
  setenv -gu _sty_mode
  setenv -gu _sty_stat
-@@ -58,8 +49,6 @@ setenv -gu _sep_lsub
+@@ -59,8 +50,6 @@ setenv -gu _sep_lsub
  setenv -gu _sep_rmain
  setenv -gu _sep_rsub
  setenv -gu _seg_host
@@ -46,7 +46,7 @@ index f7dba3d..0658915 100644
  setenv -gu _seg_mode
  
  #################
-@@ -102,8 +91,8 @@ bind C-b copy-mode -ue
+@@ -103,12 +92,12 @@ bind C-b copy-mode -ue
  bind C-k swap-pane -U \; switch-client -T prefix
  bind C-j swap-pane -D \; switch-client -T prefix
  bind C-n new-window \; switch-client -T prefix
@@ -56,8 +56,14 @@ index f7dba3d..0658915 100644
 +bind C-y copy-mode -e \; send C-y
  bind g switch-client -T g
  bind G display-panes \; switch-client -T prefix
+-bind n copy-mode -e \; send -X search-again
+-bind N copy-mode -e \; send -X search-reverse
++bind n copy-mode -e \; send n
++bind N copy-mode -e \; send N
  
-@@ -128,8 +117,7 @@ bind C-w switch-client -T ctrl-w
+ bind i setw synchronize-panes off \; switch-client -T root
+ bind c switch-client -T c
+@@ -132,8 +121,7 @@ bind C-w switch-client -T ctrl-w
  bind '"' switch-client -T buffer
  bind "'" command-prompt -p index "select-window -t ':%%'"
  bind . send-prefix
@@ -67,7 +73,7 @@ index f7dba3d..0658915 100644
  bind : command-prompt \; switch-client -T prefix
  bind ? list-keys
  bind Enter resize-pane -Z \; switch-client -T prefix
-@@ -139,14 +127,9 @@ bind Space next-layout \; switch-client -T prefix
+@@ -143,14 +131,9 @@ bind Space next-layout \; switch-client -T prefix
  #  copy mode  #
  ###############
  
@@ -85,3 +91,12 @@ index f7dba3d..0658915 100644
  
  ############
  #  c mode  #
+@@ -183,7 +166,7 @@ bind -T g 7 select-window -t :7 \; switch-client -T prefix
+ bind -T g 8 select-window -t :8 \; switch-client -T prefix
+ bind -T g 9 select-window -t :9 \; switch-client -T prefix
+ bind -T g b choose-tree
+-bind -T g g copy-mode -e \; send -X history-top
++bind -T g g copy-mode -e \; send g
+ bind -T g s switch-client -n \; switch-client -T prefix
+ bind -T g S switch-client -p \; switch-client -T prefix
+ bind -T g t next-window \; switch-client -T prefix
