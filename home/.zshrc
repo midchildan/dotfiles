@@ -94,6 +94,9 @@ else
   compinit -C
 fi
 
+# use --help output when no specialized completions are available
+compdef _gnu_generic -default-
+
 #################
 #  Keybindings  #
 #################
@@ -158,9 +161,9 @@ bindkey -M menuselect \
   '^J' accept-and-menu-complete \
   '^N' down-line-or-history \
   '^P' up-line-or-history \
+  '^U' undo \
   '^X^F' accept-and-infer-next-history \
-  '^X^X' vi-insert \
-  '^?' undo
+  '^X^X' vi-insert
 
 local _mode _char
 for _mode in visual viopp; do
