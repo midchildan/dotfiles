@@ -88,6 +88,8 @@ zstyle ':completion:*' menu select
 zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion:*' recent-dirs-insert fallback
 zstyle ':completion:*:functions' ignored-patterns '_*'
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:manuals.*' insert-sections true
 zstyle ':completion:*:*:kill:*:processes' list-colors \
   '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 zstyle ':completion:*:*:*:*:processes' \
@@ -102,8 +104,9 @@ else
   compinit -C
 fi
 
-# use --help output when no specialized completions are available
-compdef _gnu_generic -default-
+# define a completion widget that parses --help output
+zle -C complete-from-help complete-word _generic
+zstyle ':completion:complete-from-help:*' completer _complete _gnu_generic
 
 #################
 #  Keybindings  #
@@ -113,6 +116,7 @@ autoload -Uz edit-command-line && zle -N edit-command-line
 autoload -Uz select-bracketed && zle -N select-bracketed
 autoload -Uz select-quoted && zle -N select-quoted
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
+autoload -Uz vim-pipe && zle -N vim-pipe
 autoload -Uz fzf-complete && zle -N fzf-complete
 autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
 autoload -Uz fzf-cdr-widget && zle -N fzf-cdr-widget
@@ -149,6 +153,7 @@ bindkey -v \
   '^W' backward-kill-word \
   '^X^F' fzf-file-widget \
   '^X^J' fzf-snippet-expand \
+  '^X^O' complete-from-help \
   '^X^R' fzf-history-widget \
   '^?' backward-delete-char
 bindkey -ra 's'
@@ -161,8 +166,9 @@ bindkey -a \
   'sr' change-surround \
   'K' run-help \
   '^A' vim-incarg \
+  '^W' edit-command-line \
   '^X' vim-decarg \
-  '!' edit-command-line
+  '!' vim-pipe
 bindkey -M menuselect \
   '^B' backward-char \
   '^F' forward-char \
@@ -211,10 +217,10 @@ __term_support() {
 }
 
 __vi_cursor() {
-  local _shape=6
-  [[ "$ZLE_STATE" == *overwrite* ]] && _shape=4
-  [[ "$KEYMAP" == vicmd ]] && _shape=2
-  print -Pn "\e[$_shape q"
+  local shape=6
+  [[ "$ZLE_STATE" == *overwrite* ]] && shape=4
+  [[ "$KEYMAP" == vicmd ]] && shape=2
+  print -Pn "\e[$shape q"
 }
 
 __reset_cursor() {
