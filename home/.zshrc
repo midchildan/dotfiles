@@ -196,8 +196,10 @@ __term_support() {
   # set title
   if [[ -n "$SSH_CONNECTION" ]]; then
     print -Pn "\e]0;%m: %1~\a"
-  elif [[ "$TERM_PROGRAM" != "Apple_Terminal" ]]; then
-    print -Pn "\e]0;%1~\a"
+  else
+    local title='%1~'
+    [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && title=""
+    print -Pn "\e]0;$title\a"
   fi
 
   # report working directory
