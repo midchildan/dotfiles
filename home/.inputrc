@@ -13,8 +13,8 @@ set history-size 2000
 set bind-tty-special-chars off
 
 set keymap vi-command
-"!": edit-and-execute-command
 "\C-l": clear-screen
+"\C-w": edit-and-execute-command
 
 set keymap vi-insert
 TAB: menu-complete
