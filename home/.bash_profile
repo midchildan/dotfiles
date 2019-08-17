@@ -5,6 +5,7 @@ export LESS="iMR"
 export PAGER="less"
 
 export GOPATH=~/Documents/src/go
-export ANDROID_HOME=/usr/local/opt/android-sdk
+export ANDROID_HOME=/usr/local/share/android-sdk
+export USE_POWERLINE=0
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc

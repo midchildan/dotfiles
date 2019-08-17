@@ -6,4 +6,5 @@ export PAGER="less"
 
 export GTK_PATH=/usr/local/lib/gtk-2.0
 export GOPATH=~/Documents/src/go
-export ANDROID_HOME=/usr/local/opt/android-sdk
+export ANDROID_HOME=/usr/local/share/android-sdk
+export USE_POWERLINE=0

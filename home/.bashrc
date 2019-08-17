@@ -9,7 +9,6 @@ esac
 export CLICOLOR=1
 export GEM_HOME="$(ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
-export USE_POWERLINE=0
 
 PATH="$HOME/.local/bin:/usr/local/opt/python/libexec/bin:/usr/local/sbin:$PATH"
 PATH+=":$HOME/.cargo/bin"

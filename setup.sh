@@ -94,9 +94,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - cmake
   - cmigemo
   - fzf
-  - node
-  - ripgrep
   - zsh-completions
   - zsh-syntax-highlighting
-  - script: https://sh.rustup.rs
   - shell: vim +PlugInstall +qall
