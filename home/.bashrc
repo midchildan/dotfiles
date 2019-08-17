@@ -8,7 +8,6 @@ esac
 ###########################
 export GEM_HOME="$(ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
-export USE_POWERLINE=0
 
 PATH="$HOME/.local/bin:$PATH"
 PATH+=":$HOME/.cargo/bin"

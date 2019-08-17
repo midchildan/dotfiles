@@ -6,5 +6,6 @@ export SYSTEMD_LESS="iFRSMK"
 
 export GOPATH=~/Documents/src/go
 export ANDROID_HOME=~/.local/opt/android-sdk
+export USE_POWERLINE=0
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
