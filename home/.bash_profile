@@ -1,8 +1,8 @@
 export EDITOR="vim"
 export LANG="en_US.UTF-8"
-export LESS="iFMR"
+export LESS="iMR"
 export PAGER="less"
-export SYSTEMD_LESS="iFRSMK"
+export SYSTEMD_LESS="iRSMK"
 
 export GOPATH=~/Documents/src/go
 export ANDROID_HOME=~/.local/opt/android-sdk
