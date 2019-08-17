@@ -6,7 +6,6 @@ autoload -Uz is-at-least
 #  Environment Variables  #
 ###########################
 export GPG_TTY="$(tty)"
-export USE_POWERLINE=0
 
 typeset -U path
 path=(

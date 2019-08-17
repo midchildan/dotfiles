@@ -7,7 +7,6 @@ esac
 #  Environment Variables  #
 ###########################
 export GPG_TTY="$(tty)"
-export USE_POWERLINE=0
 export PATH="$HOME/.local/bin:$PATH:$GOPATH/bin"
 
 ###########################
