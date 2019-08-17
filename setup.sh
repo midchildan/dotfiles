@@ -100,9 +100,5 @@ source "$DOTFILE_DIR/scripts/setup"
   - build-essential
   - cmake
   - cmigemo
-  - npm
-  - nodejs
   - zsh-syntax-highlighting
-  - shell: sudo ln -s /usr/bin/nodejs /usr/local/bin/node
-  - script: https://sh.rustup.rs
   - shell: vim +PlugInstall +qall
