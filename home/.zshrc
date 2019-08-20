@@ -202,7 +202,7 @@ __term_support() {
   fi
 
   # report working directory
-  if [[ "$TERM_PROGRAM" != "iTerm.app" ]]; then () {
+  () {
     setopt localoptions extended_glob no_multibyte
     local match mbegin mend
     local pattern="[^A-Za-z0-9_.!~*\'\(\)-\/]"
@@ -211,9 +211,11 @@ __term_support() {
     # url encode
     printf "\e]7;file://%s%s\a" \
       "$HOST" ${(j::)unsafepwd/(#b)($~pattern)/%${(l:2::0:)$(([##16]#match))}}
-  }; elif zstyle -T ':iterm2:osc' enable; then
-    printf "\e]1337;RemoteHost=%s@%s\a\e]1337;CurrentDir=%s\a" \
-      "$USER" "$HOST" "$PWD"
+  }
+
+  # report current username to iTerm
+  if zstyle -T ':iterm2:osc' enable; then
+    printf "\e]1337;RemoteHost=%s@\a" "$USER"
   fi
 }
 
