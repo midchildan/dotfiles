@@ -60,8 +60,6 @@ source ~/.local/opt/fzftools/fzftools.bash
 ###########
 #  Theme  #
 ###########
-[[ -z "$TERM_PROGRAM" ]] && USE_POWERLINE=0
-
 if [[ $TERM == "dumb" ]]; then
   PS1='\u@\h:\w\$ '
   return
