@@ -245,8 +245,6 @@ command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 ###########
 #  Theme  #
 ###########
-[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
-
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
   unset zle_bracketed_paste
