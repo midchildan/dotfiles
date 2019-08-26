@@ -250,8 +250,6 @@ source /etc/zsh_command_not_found
 ###########
 #  Theme  #
 ###########
-[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
-
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
   unset zle_bracketed_paste
