@@ -65,6 +65,8 @@ if [[ $TERM == "dumb" ]]; then
   return
 fi
 
+unset LS_COLORS # clear distro defaults
+
 __prompt_color='\[\e[1m\]'
 __prompt_login='\u'
 __prompt_title=''
