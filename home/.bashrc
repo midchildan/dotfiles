@@ -80,11 +80,7 @@ if [[ $TERM == "dumb" ]]; then
   return
 fi
 
-if [[ -r ~/.dircolors ]]; then
-  eval "$(dircolors -b ~/.dircolors)"
-else
-  eval "$(dircolors -b)"
-fi
+unset LS_COLORS # clear distro defaults
 
 __prompt_color='\[\e[1m\]'
 __prompt_login='\u'
