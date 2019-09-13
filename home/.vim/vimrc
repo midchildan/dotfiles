@@ -242,8 +242,8 @@ nnoremap <silent> <Leader>tq :call vimrc#toggle_textwidth()<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
 nnoremap <silent> <Leader>t* :call vimrc#toggle_recursive_path()<CR>
 nnoremap <silent> <Leader>t~ :set ignorecase! ignorecase?<CR>
-nnoremap <silent> <Leader>t<Space> :AirlineToggleWhitespace<CR>
-nnoremap <silent> <Leader>t<Tab> :call vimrc#toggle_show_whitespace()<CR>
+nnoremap <silent> <Leader>t<Space> :call vimrc#toggle_whitespace_check()<CR>
+nnoremap <silent> <Leader>t<Tab> :call vimrc#toggle_whitespace_visibility()<CR>
 
 " FZF mappings
 imap <C-x><C-x><C-f> <Plug>(fzf-complete-path)
