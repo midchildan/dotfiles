@@ -24,6 +24,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " utilities
 Plug 'tpope/vim-fugitive'
 Plug 'machakann/vim-highlightedyank'
+Plug 'RRethy/vim-illuminate'
 Plug 'junegunn/vim-peekaboo'
 Plug 'mhinz/vim-signify'
 Plug 'junegunn/gv.vim', {'on': 'GV'}
@@ -97,6 +98,7 @@ set number
 set ruler
 set showcmd
 set noshowmode
+set listchars=tab:>\ ,trail:-,nbsp:+
 set cmdheight=1
 set laststatus=2
 set display=lastline
@@ -234,6 +236,7 @@ omap am <Plug>(textobj-sandwich-literal-query-a)
 nmap <Leader>tm <Plug>ToggleMarkbar
 nnoremap <silent> <Leader>tf :NERDTreeToggle<CR>
 nnoremap <silent> <Leader>th :setlocal bufhidden! bufhidden?<CR>
+nnoremap <silent> <Leader>tp :call vimrc#toggle_recursive_path()<CR>
 nnoremap <silent> <Leader>tl :ALEToggle<CR>
 nnoremap <silent> <Leader>ts :setlocal spell! spell?<CR>
 nnoremap <silent> <Leader>tt :TagbarToggle<CR>
@@ -241,7 +244,7 @@ nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
 nnoremap <silent> <Leader>tv :call vimrc#toggle_virtualedit()<CR>
 nnoremap <silent> <Leader>tq :call vimrc#toggle_textwidth()<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
-nnoremap <silent> <Leader>t* :call vimrc#toggle_recursive_path()<CR>
+nnoremap <silent> <Leader>t* :IlluminationToggle<CR>
 nnoremap <silent> <Leader>t~ :set ignorecase! ignorecase?<CR>
 nnoremap <silent> <Leader>t<Space> :call vimrc#toggle_whitespace_check()<CR>
 nnoremap <silent> <Leader>t<Tab> :call vimrc#toggle_whitespace_visibility()<CR>
