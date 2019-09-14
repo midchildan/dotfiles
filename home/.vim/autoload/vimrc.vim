@@ -52,7 +52,9 @@ func! vimrc#toggle_whitespace_visibility()
     endif
     setlocal nolist nocursorcolumn list?
   else
-    IndentLinesEnable
+    if exists(':IndentLinesEnable')
+      IndentLinesEnable
+    endif
     setlocal list cursorcolumn list?
   endif
 endf
