@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 DOTFILE_DIR="${DOTFILE_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
-ENABLE_GC=true
-SKIP_PACKAGES=true
 
 _DOT_LOGFILE="$(mktemp)"
+_DOT_ENABLE_GC=1
 _DOT_GCROOT="$DOTFILE_DIR/.gcroot"
+_DOT_IS_INIT=
 _DOT_LNFLAGS=""
 _DOT_SECTION=
 _DOT_PACKAGE_UPDATED=
@@ -19,6 +19,9 @@ dot::_exit() {
   rm "$_DOT_LOGFILE"
 }
 trap dot::_exit EXIT
+
+# redirect stderr to log file
+exec 2>>"$_DOT_LOGFILE"
 
 ############
 #  syntax  #
@@ -113,7 +116,7 @@ dot::clean::task() {
   echo -n "Cleaning $1..."
 
   local filepath=~/"$1"
-  [[ ! -L "$filepath" || -e "$filepath" ]] || rm "$filepath" >>"$_DOT_LOGFILE" 2>&1
+  [[ ! -L "$filepath" || -e "$filepath" ]] || rm "$filepath"
   dot::_print_badge
 }
 
@@ -153,6 +156,22 @@ dot::skip() {
   esac
 }
 
+# Skip section unless --init is specified
+# Globals:
+#   _DOT_SECTION
+#   _DOT_IS_INIT
+# Arguments:
+#   enable : Whether to skip the current section (true/false)
+# Returns:
+#   None
+dot::init() {
+  case "$1" in
+    true|yes|1) [[ -z "$_DOT_IS_INIT" ]] && dot::skip true ;;
+    false|no|0) return ;;
+    *) dot::_abort "Invalid argument: $1" ;;
+  esac
+}
+
 # Change current directory during the scope of the current section
 # Arguments:
 #   path : Path of the target directory
@@ -185,8 +204,9 @@ dot::download() {
   (( $# != 2 )) && dot::_abort "Wrong number of arguments."
 
   local src="$1" dst="$2"
-  curl -fLo "$dst" --create-dirs "$src"
-  echo "Downloading $1...$(dot::_print_badge)"
+  echo -n "Downloading $src..."
+  curl -sSfLo "$dst" --create-dirs "$src"
+  dot::_print_badge
 }
 
 # Clone a repository from GitHub
@@ -197,11 +217,13 @@ dot::download() {
 #   None
 dot::github() {
   [[ -d "$2" ]] && return
-  git clone "https://github.com/$1.git" "$2"
+  git clone --quiet "https://github.com/$1.git" "$2"
   echo "Cloning $1...$(dot::_print_badge)"
 }
 
 # Automatically remove dead symlinks
+# Globals:
+#   _DOT_ENABLE_GC
 # Arguments:
 #   enable: Whether to run the GC (true/false)
 # Returns:
@@ -210,7 +232,7 @@ dot::gc() {
   [[ "$_DOT_SECTION" != "clean" ]] && return
 
   case "$1" in
-    true|yes|1) ;;
+    true|yes|1) [[ -z "$_DOT_ENABLE_GC" ]] && return ;;
     false|no|0) return ;;
     *) dot::_abort "Invalid argument: $1" ;;
   esac
@@ -219,7 +241,7 @@ dot::gc() {
     link="$(readlink "$root")"
     if [[ -L "$link" && ! -e "$link" ]]; then
       echo -n "Cleaning $link..."
-      rm "$link" "$root" >> "$_DOT_LOGFILE" 2>&1
+      rm "$link" "$root"
       dot::_print_badge
     fi
   done
@@ -264,11 +286,13 @@ dot::shell() {
 dot::_abort() {
   local message=""
   [[ -n "$1" ]] && message="$1"
-  printf "%s():%s [ABORT] %s\n" "${FUNCNAME[1]}" "${BASH_LINENO[0]}" "$message" >&2
+  printf "%s():%s [ABORT] %s\n" "${FUNCNAME[1]}" "${BASH_LINENO[0]}" "$message"
   exit 1
 }
 
 # Creates an symlink from $src to $dst
+# Globals:
+#   _DOT_ENABLE_GC
 # Arguments:
 #   src : source path
 #   dst : destination path
@@ -279,21 +303,17 @@ dot::_ln() {
   local src="$1"
   local dst="$2"
 
-  # remove dead symlink
-  if [[ -L "$dst" && ! -e "$dst" ]]; then
-    rm "$dst" >>"$_DOT_LOGFILE" 2>&1
-  fi
   # install symlink
   if [[ ! "$dst" -ef "$src" ]]; then
-    ln -sn"$_DOT_LNFLAGS" "$src" "$dst" >>"$_DOT_LOGFILE" 2>&1 \
+    ln -sn"$_DOT_LNFLAGS" "$src" "$dst" \
       || return 1
   fi
 
   # Mark dst as GC root
+  [[ -z "$_DOT_ENABLE_GC" ]] && return
   local abs_dst="$(dot::_absolute_path "$dst")"
   local dst_hash="$(echo "$abs_dst" | shasum -a 256 | cut -d' ' -f1)"
-  ln -snf "$abs_dst" "$_DOT_GCROOT/$dst_hash" >>"$_DOT_LOGFILE" 2>&1 \
-    || return
+  ln -snf "$abs_dst" "$_DOT_GCROOT/$dst_hash" || return
 }
 
 # Indicate whether the last command succeeded
@@ -379,15 +399,52 @@ dot::_relative_path() {
   fi
 }
 
+#################
+#  subcommands  #
+#################
+
+dot::_command::uninstall() {
+  for root in "$_DOT_GCROOT"/*; do
+    link="$(readlink "$root")"
+    if [[ -L "$link" ]]; then
+      echo -n "Removing $link..."
+      rm "$link" "$root"
+      dot::_print_badge
+    fi
+  done
+
+  exit
+}
+
+dot::_command::help() {
+cat <<EOF
+usage: $0 [options] [command]
+
+options:
+  -h, --help		Print help message and exit
+      --init		Run tasks marked "init: true"
+  -f, --force		Overwrite existing symlinks
+      --disable-gc	Disable garbage collection
+
+commands:
+  install [default]
+  uninstall
+EOF
+
+exit
+}
+
 ###########################
 #  command line arguments #
 ###########################
 
 for n in "$@"; do
   case "$n" in
-    -f) _DOT_LNFLAGS+="f" ;;
-    --install-deps) SKIP_PACKAGES=false ;;
-    --disable-gc) ENABLE_GC=false ;;
+    -h|--help) dot::_command::help ;;
+    --init) _DOT_IS_INIT=1 ;;
+    -f|--force) _DOT_LNFLAGS+="f" ;;
+    --disable-gc) _DOT_ENABLE_GC= ;;
+    uninstall) dot::_command::uninstall ;;
     *) ;;
   esac
 done

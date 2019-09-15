@@ -5,7 +5,7 @@ source "$DOTFILE_DIR/scripts/setup"
 
 # Remove dead symlinks
 @clean
-  - gc: "${ENABLE_GC:-true}"
+  - gc: true
   # the rest of this section is kept for backwards compatibility
   - .gitconfig
   - .latexmkrc
@@ -16,7 +16,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .nixpkgs/config.nix
 
 @install Update Submodules
-  - shell: git submodule update --init --remote
+  - shell: git submodule --quiet update --init --remote
 
 @install Install Shell Config
   - .bash_profile
@@ -94,9 +94,9 @@ source "$DOTFILE_DIR/scripts/setup"
   - .xprofile
   - .xmonad
 
-# Will not run unless --install-deps is specified
+# Will not run unless --init is specified
 @packages
-  - skip: "${SKIP_PACKAGES:-true}"
+  - init: true
   - build-essential
   - cmake
   - cmigemo
