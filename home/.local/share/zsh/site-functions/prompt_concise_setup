@@ -1,6 +1,6 @@
-# essence prompt theme
+# concise prompt theme
 
-prompt_essence_setup() {
+prompt_concise_setup() {
   autoload -Uz vcs_info
   zstyle ':vcs_info:*' actionformats \
     '%b@%s%f: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
@@ -12,11 +12,11 @@ prompt_essence_setup() {
   zstyle ':vcs_info:*' enable git
 
   prompt_opts=(cr subst percent)
-  add-zsh-hook precmd prompt_essence_precmd
-  add-zsh-hook preexec prompt_essence_preexec
+  add-zsh-hook precmd prompt_concise_precmd
+  add-zsh-hook preexec prompt_concise_preexec
 }
 
-prompt_essence_precmd() {
+prompt_concise_precmd() {
   local _prompt="%(?::%F{red})%#%f" _login="%B%(!:%F{red}:)" _hname=""
   if [[ -n "$SSH_CONNECTION" ]]; then
     _login="%B%(!:%F{red}:%F{green})"
@@ -39,10 +39,10 @@ prompt_essence_precmd() {
   fi
 }
 
-prompt_essence_preexec() {
+prompt_concise_preexec() {
   if zstyle -T ':iterm2:osc' enable; then
     print -Pn "\e]133;C\a"
   fi
 }
 
-prompt_essence_setup "$@"
+prompt_concise_setup "$@"
