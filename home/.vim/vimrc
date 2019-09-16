@@ -126,6 +126,9 @@ endif
 
 if s:color_level >=? 2
   set termguicolors
+  if exists('+pumblend')
+    set pumblend=15 winblend=15
+  endif
 endif
 if s:color_level >=? 1
   set background=dark
