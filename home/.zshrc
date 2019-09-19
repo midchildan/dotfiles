@@ -86,14 +86,18 @@ zstyle ':completion:*:*:kill:*:processes' list-colors \
 zstyle ':completion:*:*:*:*:processes' \
   command "ps -u `whoami` -o pid,user,comm -w -w"
 
-autoload -Uz compinit
-# update the completion cache only once a day
-if [[ -f ~/.zcompdump(#qN.m+1) ]]; then
-  # XXX: skip the slooow security checks; it's pointless in a single-user setup
-  compinit -u
-else
-  compinit -C
-fi
+() {
+  setopt localoptions extended_glob
+  autoload -Uz compinit
+
+  # update the completion cache only once a day
+  if [[ -n ~/.zcompdump(#qN.m+1) ]]; then
+    # XXX: ignore compaudit warnings b/c it's pointless for most people
+    compinit -u && touch ~/.zcompdump
+  else
+    compinit -C # skip compaudit b/c it's slow
+  fi
+}
 
 # define a completion widget that parses --help output
 zle -C complete-from-help complete-word _generic
