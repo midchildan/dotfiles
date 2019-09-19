@@ -17,7 +17,10 @@ main() {
   git remote add upstream https://github.com/midchildan/dotfiles.git
 
   echo "Complete! You can commit the changes by running:"
-  echo "  git commit -am 'replace profile information' --author='$NAME <$EMAIL>'"
+  echo "  export GIT_AUTHOR_NAME=\"$NAME\""
+  echo "  export GIT_COMMITTER_NAME=\"$NAME\""
+  echo "  export EMAIL=\"$EMAIL\""
+  echo "  git commit -am 'replace profile information'"
 }
 
 create_patch() {
