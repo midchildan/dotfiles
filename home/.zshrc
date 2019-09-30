@@ -1,17 +1,21 @@
-fpath+=(~/.local/share/zsh/site-functions)
+fpath+=(~/.local/share/zsh/site-functions /usr/local/share/zsh-completions)
 autoload -Uz add-zsh-hook
 autoload -Uz is-at-least
 
 ###########################
 #  Environment Variables  #
 ###########################
+export CLICOLOR=1
 export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$(tty)"
 export USE_POWERLINE=0
+export PATH=/usr/lib/icecc/bin:$PATH
 
 typeset -U path
 path=(
   ~/.local/bin
+  /usr/local/opt/python/libexec/bin
+  /usr/local/sbin
   $path
   ~/.cargo/bin
   "$GEM_HOME/bin"
@@ -19,21 +23,29 @@ path=(
   "$GOPATH/bin"
 )
 
-source ~/.nix-profile/etc/profile.d/nix.sh
-
 ###########################
 #  Aliases and Functions  #
 ###########################
+unalias run-help
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias ls='ls -F --color=auto'
+alias ls='ls -F'
 alias ll='ls -lh'
 alias la='ls -lAh'
 alias emacs='emacs -nw'
 alias ema='emacs -nw'
 alias emacsgui='\emacs'
-alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
+alias qlook='qlmanage -p'
+alias sudoedit='sudo -e'
+alias emacs='emacs -nw'
+alias ema='emacs -nw'
+alias emacsgui='\emacs'
+alias emasc="emacs"
+alias eamcs="emacs"
+alias vrish="virsh"
+alias sl="ls"
+alias gti="git"
 autoload -Uz zmv
 autoload -Uz cd.. fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
@@ -127,11 +139,17 @@ bindkey -e \
   '^O' fzf-cdr-widget \
   '^P' history-beginning-search-backward \
   '^U' backward-kill-line \
+  '^k' kill-line\
   '^W' backward-kill-word \
+  '^l' kill-word \
   '^X^F' fzf-file-widget \
   '^X^J' fzf-snippet-expand \
   '^X^R' fzf-history-widget \
-  '^?' backward-delete-char
+  '^?' backward-delete-char\
+  '^j' forward-word\
+  '^h' backward-word\
+  
+
 bindkey -ra 's'
 bindkey -a \
   'gf' fzf-cd-widget \
@@ -165,6 +183,7 @@ done
 ##########
 #  Misc  #
 ##########
+setopt no_beep
 setopt interactive_comments
 setopt long_list_jobs
 setopt no_clobber
@@ -177,11 +196,8 @@ if is-at-least 5.2; then
     zle -N bracketed-paste bracketed-paste-url-magic
 fi
 
-command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
-source /etc/zsh_command_not_found
-
-# Tell libvte terminals the working directory
-if (( ${VTE_VERSION:-0} >= 3405 )); then
+# Tell Apple Terminal the working directory
+if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
   __vte_urlencode() {
     # Use LC_CTYPE=C to process text byte-by-byte.
     local LC_CTYPE=C LC_ALL= _raw_url="$1" _safe_url="" _safe
@@ -201,6 +217,7 @@ if (( ${VTE_VERSION:-0} >= 3405 )); then
     printf "\e]7;file://%s%s\a" "$HOST" "$(__vte_urlencode "$PWD")"
   }
   add-zsh-hook precmd __vte_osc7
+  __vte_osc7
 fi
 
 ###########
@@ -208,7 +225,7 @@ fi
 ###########
 setopt prompt_subst
 
-[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
+[[ -z "$TERM_PROGRAM" ]] && USE_POWERLINE=0
 
 if [[ "$TERM" == "dumb" ]]; then
   PROMPT="%n: %~%# "
@@ -254,7 +271,9 @@ __update_term() {
   if [[ -n "$SSH_CONNECTION" ]]; then
     print -Pn "\e]0;%m: %1~\a"
   else
-    print -Pn "\e]0;%1~\a"
+    local title=""
+    [[ "$TERM_PROGRAM" != "Apple_Terminal" ]] && title="%1~"
+    print -Pn "\e]0;$title\a"
   fi
 
   if zstyle -T ':iterm2:osc' enable; then
