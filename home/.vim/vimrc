@@ -82,7 +82,7 @@ au vimrc BufReadPost *
   \ |   exe "normal! g`\""
   \ | endif
 
-" enable brackted paste mode
+" enable bracketed paste mode
 if !has('nvim') && has('patch-8.0.0238') && $TERM =~? 'screen'
   let &t_BE = "\<Esc>[?2004h"
   let &t_BD = "\<Esc>[?2004l"

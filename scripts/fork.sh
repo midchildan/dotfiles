@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+DOTFILE_DIR="${DOTFILE_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+
 main() {
   local branch="$(git rev-parse --abbrev-ref HEAD)"
   if [[ "$branch" != "master" ]]; then
@@ -11,7 +13,8 @@ main() {
   read -p "Enter your GPG key id (leave empty if none): " GPGKEYID
 
   echo "Patching..."
-  create_patch | git apply -
+  patch::git
+  patch::gpg
 
   echo "Registering remote 'upstream'..."
   git remote add upstream https://github.com/midchildan/dotfiles.git
@@ -23,62 +26,30 @@ main() {
   echo "  git commit -am 'replace profile information'"
 }
 
-create_patch() {
-cat <<EOF
-diff --git a/home/.config/git/config b/home/.config/git/config
-index bd3a4ff..d2fc75b 100644
---- a/home/.config/git/config
-+++ b/home/.config/git/config
-@@ -1,$((${#GPGKEYID} ? 7 : 15)) +1,$((${#GPGKEYID} ? 7 : 12)) @@
- [user]
--	name = midchildan
--	email = git@midchildan.org
--	signingkey = 0x186A1EDAC5C63F83
-+	name = $NAME
-+	email = $EMAIL
-EOF
+patch::git() {
+  git::config user.name "$NAME"
+  git::config user.email "$EMAIL"
+  if [[ -n "$GPGKEYID" ]]; then
+    git::config commit.gpgsign true
+    git::config user.signingkey "$GPGKEYID"
+  else
+    git::config --unset-all commit.gpgsign
+    git::config --unset-all user.signingkey
+  fi
+}
 
-[[ -n "$GPGKEYID" ]] && cat <<EOF
-+	signingkey = $GPGKEYID
-EOF
+patch::gpg() {
+  if [[ -n "$GPGKEYID" ]]; then
+    sed -i '' -e "s/^default-key.*/default-key $GPGKEYID" \
+      "$DOTFILE_DIR/home/.gnupg/gpg.conf"
+  else
+    sed -i '' -e '/^default-key/d' -e '/./,$!d' \
+      "$DOTFILE_DIR/home/.gnupg/gpg.conf"
+  fi
+}
 
-cat <<EOF
- [push]
- 	default = simple
- [merge]
-EOF
-
-[[ -z "$GPGKEYID" ]] && cat <<EOF
- 	tool = vimdiff
- [rebase]
- 	autosquash = true
--[commit]
--	gpgsign = true
- [alias]
- 	exec = "!exec " # run a shell command from the top directory
- [merge "ours"]
-EOF
-
-cat <<EOF
-diff --git a/home/.gnupg/gpg.conf b/home/.gnupg/gpg.conf
-index 9c98bf6..7cfae77 100644
---- a/home/.gnupg/gpg.conf
-+++ b/home/.gnupg/gpg.conf
-@@ -1,5 +1,$((${#GPGKEYID} ? 5 : 3)) @@
--default-key FEF0AE2D544934825F0640AA186A1EDAC5C63F83
--
-EOF
-
-[[ -n "$GPGKEYID" ]] && cat <<EOF
-+default-key $GPGKEYID
-+
-EOF
-
-cat <<EOF
- ##############
- #  Behavior  #
- ##############
-EOF
+git::config() {
+  git config --file "$DOTFILE_DIR/home/.config/git/config" "$@"
 }
 
 main

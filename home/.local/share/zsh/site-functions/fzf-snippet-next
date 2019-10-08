@@ -5,11 +5,13 @@ if command -v perl > /dev/null 2>&1; then
   strp="$(
     echo "$BUFFER" \
       | perl -n0777e \
-          'printf "%d:%s\n", pos()-length($&), $& while /\{\{[^{}]*\}\}/g' \
+          'printf "%d:%s\n", pos()-length($&), $& while /\{\{.*?\}\}/g' \
       | head -1
   )"
 else
-  # macos version of grep seems to have a bug that always prints 0 as the offset
+  # XXX(1): macos grep has a bug that always prints 0 as the offset
+  # XXX(2): disallow '{' or '}' inside placeholders, since non-greedy matches
+  #         may not be supported
   strp="$(echo "$BUFFER" | grep -b -o '{{[^{}]*}}' | head -1)"
 fi
 if [[ -z "$strp" ]]; then
