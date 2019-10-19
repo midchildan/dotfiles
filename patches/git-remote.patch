@@ -1,0 +1,17 @@
+diff --git a/home/.config/git/config b/home/.config/git/config
+index aaca59c..5c6797e 100644
+--- a/home/.config/git/config
++++ b/home/.config/git/config
+@@ -1,3 +1,12 @@
++# vim:set noet fdm=marker fen:
++
++### CAUTION: these settings are exclusively for remote servers {{{ ###
++[receive]
++	denyCurrentBranch = updateInstead
++[url "https://github.com/"]
++	insteadOf = git@github.com:
++### }}} ###
++
+ [user]
+ 	name = midchildan
+ 	email = git@midchildan.org
