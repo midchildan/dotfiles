@@ -13,7 +13,7 @@ This script also registers a remote named `upstream` and points it to
 run this script in the `master` branch.
 
 ```console
-$ git clone https://github.com/<your-username>/dotfiles.git ~/Document/dotfiles
+$ git clone https://github.com/${USER}/dotfiles.git ~/Documents/dotfiles
 $ cd ~/Documents/dotfiles
 $ ./scripts/fork.sh
 Enter your name: John Doe
