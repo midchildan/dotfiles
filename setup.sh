@@ -67,7 +67,7 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @install Install Spacemacs Config
   - github: syl20bnr/spacemacs ~/.emacs.d
-  - .spacemacs
+  - .spacemacs.d/init.el
 
 @install Install VSCode Config
   - shell: install -d -m 700 ~/.config/Code
