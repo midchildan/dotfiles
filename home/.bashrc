@@ -6,15 +6,11 @@ esac
 ###########################
 #  Environment Variables  #
 ###########################
-export GEM_HOME="$(ruby -e 'print Gem.user_dir')"
-export GPG_TTY="$(tty)"
-
-PATH="$HOME/.local/bin:$PATH"
-PATH+=":$HOME/.cargo/bin"
-PATH+=":$GEM_HOME/bin"
-PATH+=":$(python3 -c 'import site; print(site.getuserbase())')/bin"
-PATH+=":$GOPATH/bin"
-export PATH
+export EDITOR="vim"
+export LANG="en_US.UTF-8"
+export LESS="iMR"
+export PAGER="less"
+export SYSTEMD_LESS="iRSMK"
 
 ###########################
 #  Aliases and Functions  #
@@ -26,18 +22,9 @@ alias egrep='egrep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
-alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 command -v hub > /dev/null 2>&1 && alias git='hub'
 
-#############
-#  History  #
-#############
-HISTCONTROL=ignoreboth
-HISTSIZE=1000
-HISTFILESIZE=2000
-shopt -s cmdhist
-shopt -s lithist
-shopt -s histappend
+[[ -f "$DOTDIR/.tmux.conf" ]] && alias tmux="tmux -f '$DOTDIR/.tmux.conf'"
 
 ##########
 #  Misc  #
@@ -56,8 +43,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-source ~/.local/opt/fzftools/fzftools.bash
 
 # Tell libvte terminals the working directory
 if (( "${VTE_VERSION:-0}" >= 3405 )); then

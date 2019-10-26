@@ -1,105 +1,48 @@
 #!/usr/bin/env bash
 
-DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$DOTFILE_DIR/scripts/setup"
+URL="https://github.com/midchildan/dotfiles/archive/gh-pages.tar.gz"
 
-# Remove dead symlinks
-@clean
-  - gc: true
-  # the rest of this section is kept for backwards compatibility
-  - .gitconfig
-  - .latexmkrc
-  - .vimrc
-  - .gvimrc
-  - .config/shell/common.snip
-  - .mikutter/plugin
-  - .nixpkgs/config.nix
+main() {
+  export dotdir="$(mktemp -d)"
 
-@install Update Submodules
-  - shell: git submodule --quiet update --init --remote
+  echo "Downloading dotfiles..."
+  download "$URL" | tar xzf - -C "$dotdir" --strip-components=1 \
+    || abort "unable to download dotfiles"
 
-@install Install Shell Config
-  - .bash_profile
-  - .bashrc
-  - .bash_logout
-  - .zshenv
-  - .zshrc
-  - .zlogout
-  - .inputrc
-  - .config/shell/snippets/common.snip
-  - .config/shell/snippets/linux.snip
-  - .config/shell/templates
-  - .config/shell/templates.csv
-  - .local/share/zsh/site-functions
+  echo "Setting environment variables..."
+  export DOTDIR="$dotdir/home"
+  export INPUTRC="$DOTDIR/.inputrc"
+  export SCREENRC="$DOTDIR/.screenrc"
+  export MYVIMRC="$DOTDIR/.vim/vimrc"
+  export VIMINIT='source $MYVIMRC'
+  export ZDOTDIR="$DOTDIR"
 
-@install Install Vim Config
-  - .vim
-  - .config/nvim
-  - download: \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
-      ~/.vim/autoload/plug.vim
+  echo "Launching $SHELL..."
+  case "$SHELL" in
+    *bash)
+      exec "$SHELL" --rcfile "$dotdir/home/.bashrc" ;;
+    *)
+      exec $SHELL ;;
+  esac
+}
 
-@install Install Git Config
-  - .config/git/config
-  - .config/git/ignore
-  - .config/tig/config
-  - .local/bin/git-deploy
-  - .local/bin/git-fancy
+abort() {
+  echo "[ERROR] $*" >&2
+  exit 1
+}
 
-@install Install GPG Config
-  - shell: install -d -m 700 ~/.gnupg
-  - chmod: 700 .gnupg
-  - chmod: 600 .gnupg/gpg.conf
-  - chmod: 600 .gnupg/gpg-agent.conf
-  - .gnupg/gpg.conf
-  - .gnupg/gpg-agent.conf
+has() {
+  command -v "$1" > /dev/null
+}
 
-@install Install GDB Config
-  - .gdbinit
-  - .local/bin/gef
-  - .local/bin/peda
-  - .local/bin/pwndbg
+download() {
+  if has curl; then
+    curl -sSfL "$1"
+  elif has wget; then
+    wget -qO- "$1"
+  else
+    abort "curl or wget is required"
+  fi
+}
 
-@install Install LaTeX Config
-  - .config/latexmk/latexmkrc
-  - .local/bin/platexmk
-  - .local/bin/uplatexmk
-
-@install Install Spacemacs Config
-  - github: syl20bnr/spacemacs ~/.emacs.d
-  - .spacemacs.d/init.el
-
-@install Install VSCode Config
-  - shell: install -d -m 700 ~/.config/Code
-  - .config/Code/User/settings.json
-
-@install Install Miscellaneous Config
-  - .clang-format
-  - .editrc
-  - .ideavimrc
-  - .config/bat/config
-  - .config/nano/nanorc
-  - .config/nixpkgs/config.nix
-  - .config/ranger/rc.conf
-  - .config/ranger/scope.sh
-  - .config/tilix/schemes/gruvbox-dark.json
-  - .config/zathura/zathurarc
-  - .ipython/profile_default/ipython_config.py
-  - .local/libexec/fzf/install
-  - .local/opt/fzftools
-  - .local/opt/tmux-copycat
-  - .screenrc
-  - .tern-config
-  - .tmux.conf
-  - .wgetrc
-  - .xprofile
-  - .xmonad
-
-# Will not run unless --init is specified
-@packages
-  - init: true
-  - build-essential
-  - cmake
-  - cmigemo
-  - zsh-syntax-highlighting
-  - shell: vim +PlugInstall +qall
+main "$@"
