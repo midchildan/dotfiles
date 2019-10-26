@@ -3,24 +3,23 @@
 URL="https://github.com/midchildan/dotfiles/archive/gh-pages.tar.gz"
 
 main() {
-  export dotdir="$(mktemp -d)"
+  export DOTDIR="$(mktemp -d)"
 
   echo "Downloading dotfiles..."
-  download "$URL" | tar xzf - -C "$dotdir" --strip-components=1 \
+  download "$URL" | tar xzf - -C "$DOTDIR" --strip-components=1 \
     || abort "unable to download dotfiles"
 
   echo "Setting environment variables..."
-  export DOTDIR="$dotdir/home"
   export INPUTRC="$DOTDIR/.inputrc"
   export SCREENRC="$DOTDIR/.screenrc"
-  export MYVIMRC="$DOTDIR/.vim/vimrc"
+  export MYVIMRC="$DOTDIR/.vimrc"
   export VIMINIT='source $MYVIMRC'
   export ZDOTDIR="$DOTDIR"
 
   echo "Launching $SHELL..."
   case "$SHELL" in
     *bash)
-      exec "$SHELL" --rcfile "$dotdir/home/.bashrc" ;;
+      exec "$SHELL" --rcfile "$DOTDIR/.bashrc" ;;
     *)
       exec $SHELL ;;
   esac
