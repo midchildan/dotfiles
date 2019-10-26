@@ -1,0 +1,10 @@
+include:
+  - .bashrc
+  - .inputrc
+  - .screenrc
+  - .tmux.conf
+  - .vimrc
+  - .zshrc
+
+exclude:
+  - UNLICENSE
