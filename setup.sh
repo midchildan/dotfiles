@@ -3,7 +3,22 @@
 URL="https://github.com/midchildan/dotfiles/archive/gh-pages.tar.gz"
 
 main() {
-  export DOTDIR="$(mktemp -d)"
+  local shell="$SHELL"
+  local dotdir=
+
+  while getopts "s:d:h" OPT; do
+    case "$OPT" in
+      s) shell="$OPTARG" ;;
+      d) dotdir="$OPTARG" ;;
+      h|*) usage; return 1 ;;
+    esac
+  done
+
+  if [[ -n "$dotdir" ]]; then
+    export DOTDIR="$dotdir"
+  else
+    export DOTDIR="$(mktemp -d)"
+  fi
 
   echo "Downloading dotfiles..."
   download "$URL" | tar xzf - -C "$DOTDIR" --strip-components=1 \
@@ -16,13 +31,23 @@ main() {
   export VIMINIT='source $MYVIMRC'
   export ZDOTDIR="$DOTDIR"
 
-  echo "Launching $SHELL..."
-  case "$SHELL" in
+  echo "Launching $shell..."
+  case "$shell" in
     *bash)
-      exec "$SHELL" --rcfile "$DOTDIR/.bashrc" ;;
+      exec "$shell" --rcfile "$DOTDIR/.bashrc" ;;
     *)
-      exec $SHELL ;;
+      exec $shell ;;
   esac
+}
+
+usage() {
+cat <<EOF
+usage: $(basename "$0") [-d <dir>] [-s <shell>]
+
+options:
+  -d <dir>	specify download directory
+  -s <shell>	specify shell (default: \$SHELL)
+EOF
 }
 
 abort() {
