@@ -1,0 +1,19 @@
+---
+layout: default
+---
+{{ content }}
+<script>
+  document.querySelectorAll('code').forEach(elem => {
+    elem.onclick = _ => {
+      if (document.selection) {
+        const range = document.body.createTextRange();
+        range.moveToElementText(elem);
+        range.select();
+      } else if (window.getSelection) {
+        const range = document.createRange();
+        range.selectNode(elem);
+        window.getSelection().addRange(range);
+      }
+    }
+  });
+</script>

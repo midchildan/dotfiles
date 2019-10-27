@@ -1,73 +1,44 @@
-# dotfiles
+# Portable Dotfiles
 
-dotfiles for my personal use.
+A collection of single file dotfiles for one-off remote Linux sessions. For
+any other uses, see [the full dotfiles
+repository](https://github.com/midchildan/dotfiles).
 
-## Installation
+## Quick Start
 
-### Step 1: Setup your repository
+Download the dotfiles into a temporary directory and start a new shell.
 
-First, fork this repository and clone it to your location of choice. A helper
-script is provided to help you change profile information for git, gpg, etc.
-This script also registers a remote named `upstream` and points it to
-[midchildan/dotfiles](https://github.com/midchildan/dotfiles). Make sure you
-run this script in the `master` branch.
-
-```console
-$ git clone https://github.com/${USER}/dotfiles.git ~/Documents/dotfiles
-$ cd ~/Documents/dotfiles
-$ ./scripts/fork.sh
-Enter your name: John Doe
-Enter your email: john@example.com
-Enter your GPG key id (leave empty if none):
-Patching...
-Registering remote 'upstream'...
-Complete! You can commit the changes by running:
-  export GIT_AUTHOR_NAME="John Doe"
-  export GIT_COMMITTER_NAME="John Doe"
-  export EMAIL="john@example.com"
-  git commit -am 'replace profile information'
-$ export GIT_AUTHOR_NAME="John Doe"
-$ export GIT_COMMITTER_NAME="John Doe"
-$ export EMAIL="john@example.com"
-$ git commit -am 'replace profile information'
+```sh
+source <(curl -sSfL https://www.midchildan.org/dotfiles/setup.sh)
 ```
 
-### Step 2: Checkout the relevant branch
+## bash
 
-Next, using the table in the [Supported Platforms](#supported-platforms)
-section, checkout the most relevant branch for your platform. It is recommended
-that you create a `local` branch specific to your computer and check it out to
-a separate path for deployment. This way, you can work on different branches
-without affecting your current configuration.  Also, don't forget to merge
-changes you've made at Step 1.
-
-```console
-$ git checkout nixos
-$ git merge master  # merge changes from Step 1
-$ git branch --track local  # create local branch
-$ git worktree add ~/.config/dotfiles local  # checkout local branch
+```sh
+bash --rcfile <(curl -sSfL https://www.midchildan.org/dotfiles/.bashrc)
 ```
 
-### Step 3: Run the setup script
+## zsh
 
-Finally, run the setup script. This script should be run each time changes are
-made to your dotfiles. The `--init` flag means that this is the first time
-you've run this script.
-
-```console
-$ cd ~/.config/dotfiles
-$ ./setup.sh --init
+```sh
+zsh -d
+source <(curl -sSfL https://www.midchildan.org/dotfiles/.zshrc)
 ```
 
-## Supported platforms
+## vim
 
-|branch |platform      |
-|-------|--------------|
-|master |Debian, Ubuntu|
-|osx    |macOS         |
-|nixos  |NixOS         |
-|centos7|CentOS 7      |
+```sh
+vim -u <(curl -sSfL https://www.midchildan.org/dotfiles/.vimrc)
+```
 
-Changes common to all platforms should first be made in `master`, and then
-merged into the remaining branches. `master` should never merge changes from
-other platform-specific branches or chaos would ensue.
+## screen
+
+```sh
+screen -c <(curl -sSfL https://www.midchildan.org/dotfiles/.screenrc)
+```
+
+## tmux
+
+```sh
+tmux -f <(curl -sSfL https://www.midchildan.org/dotfiles/.tmux.conf)
+```

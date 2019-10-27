@@ -1,3 +1,14 @@
+title: Portable Dotfiles
+description: dotfiles for one-off remote Linux sessions
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "page"
+
 include:
   - .bashrc
   - .inputrc
