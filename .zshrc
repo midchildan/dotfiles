@@ -112,7 +112,7 @@ bindkey -M menuselect \
   '^X^F' accept-and-infer-next-history \
   '^X^X' vi-insert
 
-() {
+if bindkey -l viopp &> /dev/null; then () {
   local mode key
   for mode in visual viopp; do
     for key in {a,i}${(s..)^:-'()[]{}<>bB'}; do
@@ -122,7 +122,7 @@ bindkey -M menuselect \
       bindkey -M $mode $key select-quoted
     done
   done
-}
+}; fi
 
 ######################
 #  Terminal Support  #

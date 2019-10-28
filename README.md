@@ -21,7 +21,7 @@ bash --rcfile <(curl -sSfL https://www.midchildan.org/dotfiles/.bashrc)
 ## zsh
 
 ```sh
-zsh -d
+ZDOTDIR=/dev/null zsh
 source <(curl -sSfL https://www.midchildan.org/dotfiles/.zshrc)
 ```
 
