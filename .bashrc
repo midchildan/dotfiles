@@ -26,6 +26,37 @@ command -v hub > /dev/null 2>&1 && alias git='hub'
 
 [[ -f "$DOTDIR/.tmux.conf" ]] && alias tmux="tmux -f '$DOTDIR/.tmux.conf'"
 
+#################
+#  Keybindings  #
+#################
+# XXX: keybindings should be kept in sync with .inputrc
+# completion
+bind 'set colored-stats on'
+bind 'set completion-ignore-case on'
+bind 'set completion-map-case on'
+bind 'set menu-complete-display-prefix on'
+bind 'set show-all-if-ambiguous on'
+bind 'set skip-completed-text on'
+bind 'set visible-stats on'
+
+# editing
+bind 'set editing-mode vi'
+bind 'set history-size 2000'
+bind 'set bind-tty-special-chars off'
+
+bind 'set keymap vi-command'
+bind '"\C-l": clear-screen'
+bind '"\C-w": edit-and-execute-command'
+
+bind 'set keymap vi-insert'
+bind 'TAB: menu-complete'
+bind '"\e[Z": menu-complete-backward'
+bind '"\C-p": history-search-backward'
+bind '"\C-n": history-search-forward'
+bind '"\C-w": backward-kill-word'
+bind '"\C-x\C-f": complete-filename'
+bind '"\C-x\C-n": dynamic-complete-history'
+
 ##########
 #  Misc  #
 ##########

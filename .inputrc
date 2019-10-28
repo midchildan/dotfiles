@@ -1,3 +1,5 @@
+# XXX: keep in sync with .bashrc
+
 # completion
 set colored-stats on
 set completion-ignore-case on
