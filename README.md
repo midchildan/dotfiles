@@ -68,6 +68,10 @@ $ ./setup.sh --init
 |nixos  |NixOS         |
 |centos7|CentOS 7      |
 
+In addition to the platforms listed above, support for one-off remote Linux
+sessions is included in the `gh-pages` branch. See
+[here](https://www.midchildan.org/dotfiles) for details.
+
 Changes common to all platforms should first be made in `master`, and then
 merged into the remaining branches. `master` should never merge changes from
 other platform-specific branches or chaos would ensue.
