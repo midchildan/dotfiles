@@ -175,15 +175,17 @@ bindkey -M menuselect \
   '^X^F' accept-and-infer-next-history \
   '^X^X' vi-insert
 
-local _mode _char
-for _mode in visual viopp; do
-  for _char in {a,i}${(s..)^:-'()[]{}<>bB'}; do
-    bindkey -M $_mode $_char select-bracketed
+() {
+  local mode key
+  for mode in visual viopp; do
+    for key in {a,i}${(s..)^:-'()[]{}<>bB'}; do
+      bindkey -M $mode $key select-bracketed
+    done
+    for key in {a,i}{\',\",\`}; do
+      bindkey -M $mode $key select-quoted
+    done
   done
-  for _char in {a,i}{\',\",\`}; do
-    bindkey -M $_mode $_char select-quoted
-  done
-done
+}
 
 ######################
 #  Terminal Support  #
@@ -201,7 +203,7 @@ __term_support() {
     setopt localoptions extended_glob no_multibyte
     local match mbegin mend
     local pattern="[^A-Za-z0-9_.!~*\'\(\)-\/]"
-    local unsafepwd=( ${(s::)PWD} )
+    local unsafepwd; unsafepwd=( ${(s::)PWD} )
 
     # url encode
     printf "\e]7;file://%s%s\a" \
