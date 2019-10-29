@@ -1,40 +1,47 @@
 #!/usr/bin/env bash
 
 URL="https://github.com/midchildan/dotfiles/archive/gh-pages.tar.gz"
+IGNOREFILES=(
+  README.md
+  UNLICENSE
+)
+
+setup_environment() {
+  export DOTROOT="$1"
+  export INPUTRC="$DOTROOT/.inputrc"
+  export SCREENRC="$DOTROOT/.screenrc"
+  export MYVIMRC="$DOTROOT/.vimrc"
+  export VIMINIT='source $MYVIMRC'
+  export ZDOTDIR="$DOTROOT"
+}
 
 main() {
   local shell="$SHELL"
-  local dotdir=
+  local dotroot=
 
   while getopts "s:d:h" OPT; do
     case "$OPT" in
       s) shell="$OPTARG" ;;
-      d) dotdir="$OPTARG" ;;
+      d) dotroot="$OPTARG" ;;
       h|*) usage; return 1 ;;
     esac
   done
 
-  if [[ -n "$dotdir" ]]; then
-    export DOTDIR="$dotdir"
-  else
-    export DOTDIR="$(mktemp -d)"
-  fi
+  [[ -z "$dotroot" ]] && dotroot="$(mktemp -d)"
 
   echo "Downloading dotfiles..."
-  download "$URL" | tar xzf - -C "$DOTDIR" --strip-components=1 \
-    || abort "unable to download dotfiles"
+  if ! download "$URL" | extract_to "$dotroot"; then
+    log::error "unable to download dotfiles"
+    return 1
+  fi
 
   echo "Setting environment variables..."
-  export INPUTRC="$DOTDIR/.inputrc"
-  export SCREENRC="$DOTDIR/.screenrc"
-  export MYVIMRC="$DOTDIR/.vimrc"
-  export VIMINIT='source $MYVIMRC'
-  export ZDOTDIR="$DOTDIR"
+  setup_environment "$dotroot"
 
   echo "Launching $shell..."
   case "$shell" in
     *bash)
-      exec "$shell" --rcfile "$DOTDIR/.bashrc" ;;
+      exec "$shell" --rcfile "$dotroot/.bashrc" ;;
     *)
       exec $shell ;;
   esac
@@ -50,9 +57,8 @@ options:
 EOF
 }
 
-abort() {
+log::error() {
   echo "[ERROR] $*" >&2
-  exit 1
 }
 
 has() {
@@ -67,6 +73,10 @@ download() {
   else
     abort "curl or wget is required"
   fi
+}
+
+extract_to() {
+  tar xzf - -C "$1" --strip-components=1 "${IGNOREFILES[@]/#/--exclude=}"
 }
 
 main "$@"
