@@ -60,7 +60,7 @@ zstyle ':completion:*:*:*:*:processes' \
   command "ps -u `whoami` -o pid,user,comm -w -w"
 
 # XXX: may be slow since caching is disabled
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -D
 
 # define a completion widget that parses --help output
 zle -C complete-from-help complete-word _generic
