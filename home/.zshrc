@@ -163,13 +163,14 @@ bindkey -a \
   '!' vim-pipe
 bindkey -M menuselect \
   '^B' backward-char \
+  '^E' undo \
   '^F' forward-char \
   '^J' accept-and-menu-complete \
   '^N' down-line-or-history \
   '^P' up-line-or-history \
-  '^U' undo \
   '^X^F' accept-and-infer-next-history \
-  '^X^X' vi-insert
+  '^X^X' vi-insert \
+  '^Y' accept-line
 
 () {
   local mode key

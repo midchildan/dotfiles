@@ -54,6 +54,14 @@ source "$DOTFILE_DIR/scripts/setup"
   - .gnupg/gpg.conf
   - .gnupg/gpg-agent.conf
 
+@install Install SSH Config
+  - shell: install -d -m 700 ~/.ssh
+  - chmod: 700 .ssh
+  - .ssh/config
+  - .ssh/config.d/10-canonicalize.conf
+  - .ssh/config.d/80-git.conf
+  - .ssh/config.d/90-general.conf
+
 @install Install GDB Config
   - .gdbinit
   - .local/bin/gef
