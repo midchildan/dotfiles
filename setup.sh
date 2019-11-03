@@ -52,6 +52,14 @@ source "$DOTFILE_DIR/scripts/setup"
   - .gnupg/gpg-agent.conf
   - Library/LaunchAgents/org.gnupg.gpg-agent.plist
 
+@install Install SSH Config
+  - shell: install -d -m 700 ~/.ssh
+  - chmod: 700 .ssh
+  - .ssh/config
+  - .ssh/config.d/10-canonicalize.conf
+  - .ssh/config.d/80-git.conf
+  - .ssh/config.d/90-general.conf
+
 @install Install GTK Config
   - .gtkrc-2.0
   - .themes/zuki-themes
