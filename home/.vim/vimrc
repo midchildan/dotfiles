@@ -354,7 +354,7 @@ let g:ycm_extra_conf_vim_data=[
   \ 'g:ycm_python_sys_path']
 
 if has('nvim')
-  let g:ycm_server_python_interpreter='nvim-python'
+  let g:ycm_server_python_interpreter='nvim-python3'
 endif
 let g:ycm_python_interpreter_path = ''
 let g:ycm_python_sys_path = []
