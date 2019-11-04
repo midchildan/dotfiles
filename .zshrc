@@ -22,7 +22,7 @@ alias la='ls -lAh'
 autoload -Uz zmv
 command -v hub > /dev/null 2>&1 && alias git='hub'
 
-[[ -f "$DOTDIR/.tmux.conf" ]] && alias tmux="tmux -f '$DOTDIR/.tmux.conf'"
+[[ -f "$DOTROOT/.tmux.conf" ]] && alias tmux="tmux -f '$DOTROOT/.tmux.conf'"
 
 #################
 #  Directories  #
