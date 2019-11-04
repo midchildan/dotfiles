@@ -97,6 +97,13 @@ if (( "${VTE_VERSION:-0}" >= 3405 )); then
   PROMPT_COMMAND="__vte_osc7;$PROMPT_COMMAND"
 fi
 
+# for macOS
+if [[ "$OSTYPE" == darwin* ]]; then
+  export CLICOLOR=1
+  export COPYFILE_DISABLE=1
+  alias ls='ls -F'
+fi
+
 ###########
 #  Theme  #
 ###########

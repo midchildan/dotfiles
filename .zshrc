@@ -190,6 +190,13 @@ fi
 
 command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 
+# for macOS
+if [[ "$OSTYPE" == darwin* ]]; then
+  export CLICOLOR=1
+  export COPYFILE_DISABLE=1
+  alias ls='ls -F'
+fi
+
 ###########
 #  Theme  #
 ###########
