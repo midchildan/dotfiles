@@ -5,6 +5,7 @@ set nocompatible
 filetype plugin indent on
 syntax enable
 
+silent! packadd! cfilter
 if !has('nvim')
   packadd! matchit
   runtime ftplugin/man.vim
