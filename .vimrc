@@ -5,9 +5,11 @@ set nocompatible
 filetype plugin indent on
 syntax enable
 
-silent! packadd! cfilter
+if exists(':packadd') ==# 2
+  silent! packadd! cfilter
+endif
 if !has('nvim')
-  packadd! matchit
+  runtime macros/matchit.vim
   runtime ftplugin/man.vim
 endif
 
@@ -69,8 +71,10 @@ set path+=** " XXX: substitute for fuzzy finders
 " cursor shape
 if !has('nvim') && $TERM =~? '\(xterm\|screen\)'
   let &t_SI = "\<Esc>[6 q"
-  let &t_SR = "\<Esc>[4 q"
   let &t_EI = "\<Esc>[2 q"
+  if exists('+t_SR')
+    let &t_SR = "\<Esc>[4 q"
+  endif
 endif
 
 if exists('+inccommand')
