@@ -53,12 +53,13 @@ source "$DOTFILE_DIR/scripts/setup"
   - Library/LaunchAgents/org.gnupg.gpg-agent.plist
 
 @install Install SSH Config
-  - shell: install -d -m 700 ~/.ssh
+  - shell: install -d -m 700 ~/.ssh ~/.ssh/sockets
   - chmod: 700 .ssh
   - .ssh/config
   - .ssh/config.d/10-canonicalize.conf
   - .ssh/config.d/80-git.conf
   - .ssh/config.d/90-general.conf
+  - .ssh/config.d/90-multiplexing.conf
 
 @install Install GTK Config
   - .gtkrc-2.0

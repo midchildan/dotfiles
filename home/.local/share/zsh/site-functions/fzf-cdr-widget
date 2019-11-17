@@ -1,19 +1,24 @@
-# vim:set et sw=2 ts=8 ft=zsh:
+emulate -L zsh
 
-local -a reply
-autoload -Uz chpwd_recent_filehandler && chpwd_recent_filehandler $reply
+autoload -Uz fzf-widgets && fzf-widgets || return 1
+FZF_CTRL_R_OPTS="--reverse"
 
-setopt localoptions pipefail 2> /dev/null
-local dir="$(for line in $reply; do echo "$line"; done | fzf --height 50% --reverse +m)"
-if [[ -z "$dir" ]]; then
-  zle redisplay
-  return 0
-fi
-cd "$dir"
-unset dir
-local ret=$?
+fzf-cdr-widget() {
+  emulate -L zsh
 
-autoload -Uz rerun-precmd && zle -N rerun-precmd
-zle rerun-precmd
-zle reset-prompt
-return $ret
+  local -a reply
+  autoload -Uz chpwd_recent_filehandler && chpwd_recent_filehandler $reply
+
+  setopt localoptions pipefail 2> /dev/null
+  local dir="$(for line in $reply; do echo "$line"; done | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd) +m)"
+  if [[ -z "$dir" ]]; then
+    zle redisplay
+    return 0
+  fi
+  cd "$dir"
+  local ret=$?
+  zle fzf-redraw-prompt
+  return $ret
+}
+
+fzf-cdr-widget
