@@ -19,11 +19,12 @@ emulate -L zsh
   for f in "$fzfscripts[@]"; do
     if [[ -f "$f" ]]; then
       source "$f"
-      break
+      function fzf-widgets() {}
+      return
     fi
   done
 } always {
   unfunction bindkey
 }
 
-function fzf-widgets() {}
+return 1

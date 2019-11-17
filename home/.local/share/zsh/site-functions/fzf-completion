@@ -21,9 +21,12 @@ emulate -L zsh
   for f in "$fzfscripts[@]"; do
     if [[ -f "$f" ]]; then
       source "$f"
-      break
+      zle fzf-completion
+      return
     fi
   done
 } always {
   unfunction bindkey
 }
+
+zle "$fzf_default_completion"

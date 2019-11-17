@@ -1,6 +1,6 @@
 emulate -L zsh
 
-if ! (command -v fzf > /dev/null 2>&1) || [[ "$TERM" = "dumb" ]]; then
+if ! (command -v fzf &> /dev/null) || [[ "$TERM" = "dumb" ]]; then
   zle history-incremental-search-backward
   return
 fi
