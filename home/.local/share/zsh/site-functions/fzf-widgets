@@ -1,0 +1,29 @@
+emulate -L zsh
+
+{
+  function bindkey() {}
+
+  local fzfscripts
+  if command -v fzf-share &> /dev/null; then
+    fzfscripts=( "$(fzf-share)/shell/key-bindings.zsh" )
+  else
+    fzfscripts=(
+      ~/.vim/plugged/fzf/shell/key-bindings.zsh
+      /usr/local/opt/fzf/shell/key-bindings.zsh
+      /usr/share/doc/fzf/examples/key-bindings.zsh
+      ~/.local/opt/fzf/shell/key-bindings.zsh
+    )
+  fi
+
+  local f
+  for f in "$fzfscripts[@]"; do
+    if [[ -f "$f" ]]; then
+      source "$f"
+      break
+    fi
+  done
+} always {
+  unfunction bindkey
+}
+
+function fzf-widgets() {}

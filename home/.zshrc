@@ -109,7 +109,7 @@ autoload -Uz select-bracketed && zle -N select-bracketed
 autoload -Uz select-quoted && zle -N select-quoted
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
 autoload -Uz vim-pipe && zle -N vim-pipe
-autoload -Uz fzf-complete && zle -N fzf-complete
+autoload -Uz fzf-completion && zle -N fzf-completion
 autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
 autoload -Uz fzf-cdr-widget && zle -N fzf-cdr-widget
 autoload -Uz fzf-file-widget && zle -N fzf-file-widget
@@ -136,7 +136,7 @@ bindkey -v \
   '^B' copy-earlier-word \
   '^Gu' split-undo \
   '^H' backward-delete-char \
-  '^I' fzf-complete \
+  '^I' fzf-completion \
   '^J' fzf-snippet-next \
   '^N' history-beginning-search-forward \
   '^O' fzf-cdr-widget \

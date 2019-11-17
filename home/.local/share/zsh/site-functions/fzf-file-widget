@@ -1,6 +1,6 @@
-# vim:set et sw=2 ts=8 ft=zsh:
+emulate -L zsh
 
-if ! (command -v fzf > /dev/null 2>&1) || [[ "$TERM" = "dumb" ]]; then
+if ! (command -v fzf &> /dev/null) || [[ "$TERM" = "dumb" ]]; then
   if ! (zle -al complete-file); then
     zle -C complete-file complete-word _generic &&
       zstyle ':completion:complete-file:*' completer _files
@@ -9,16 +9,6 @@ if ! (command -v fzf > /dev/null 2>&1) || [[ "$TERM" = "dumb" ]]; then
   return
 fi
 
-local cmd="command find -L .  \\( -path '*/\\.*' \
-  -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' -o -fstype 'sysfs' \
-  \\) -prune -o -type f -print -o -type d -print -o -type l -print \
-  2> /dev/null | cut -b3-"
-
-setopt localoptions pipefail 2> /dev/null
-eval "$cmd | fzf --height 50% --reverse -m" | while read item; do
-  LBUFFER+="$(echo -n "${(q)item} ")"
-done
-local ret=$?
-
-zle reset-prompt
-return $ret
+if autoload -Uz fzf-widgets && fzf-widgets; then
+  fzf-file-widget
+fi
