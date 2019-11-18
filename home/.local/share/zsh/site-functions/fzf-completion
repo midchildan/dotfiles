@@ -1,13 +1,13 @@
 emulate -L zsh
 
-[[ -z fzf_default_completion ]] && fzf_default_completion=expand-or-complete
+[[ -z "$fzf_default_completion" ]] && fzf_default_completion=expand-or-complete
 
 {
   function bindkey() {}
 
   local fzfscripts
   if command -v fzf-share &> /dev/null; then
-    fzfscripts=( "$(fzf-share)/shell/completion.zsh" )
+    fzfscripts=( "$(fzf-share)/completion.zsh" )
   else
     fzfscripts=(
       ~/.vim/plugged/fzf/shell/completion.zsh
