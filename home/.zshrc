@@ -83,11 +83,12 @@ zmodload -i zsh/complist
   setopt localoptions extended_glob
   autoload -Uz compinit
 
-  [[ -d ~/.cache/zsh/completion ]] || mkdir -p ~/.cache/zsh/completion
+  [[ -d ~/Library/Caches/zsh/completion ]] \
+    || mkdir -p ~/Library/Caches/zsh/completion
 
   zstyle ':completion:*' menu select
   zstyle ':completion:*' use-cache true
-  zstyle ':completion:*' cache-path ~/.cache/zsh/completion
+  zstyle ':completion:*' cache-path ~/Library/Caches/zsh/completion
   zstyle ':completion:*' list-colors ''
   zstyle ':completion:*' recent-dirs-insert fallback
   # case-insensitive (all),partial-word and then substring completion
@@ -104,11 +105,12 @@ zmodload -i zsh/complist
   zstyle ':completion:*:*:*:users' ignored-patterns '_*'
 
   # update the completion cache only once a day
-  if [[ -n ~/.cache/zsh/compdump(#qN.m+1) ]]; then
+  if [[ -n ~/Library/Caches/zsh/compdump(#qN.m+1) ]]; then
     # XXX: ignore compaudit warnings b/c it's pointless for most people
-    compinit -u -d ~/.cache/zsh/compdump && touch ~/.cache/zsh/compdump
+    compinit -u -d ~/Library/Caches/zsh/compdump \
+      && touch ~/Library/Caches/zsh/compdump
   else
-    compinit -C -d ~/.cache/zsh/compdump # skip compaudit b/c it's slow
+    compinit -C -d ~/Library/Caches/zsh/compdump # skip compaudit b/c it's slow
   fi
 
   compdef rcd=ssh
@@ -262,7 +264,7 @@ setopt no_clobber
 setopt no_flowcontrol
 autoload -Uz select-word-style && select-word-style bash
 autoload -Uz zrecompile && \
-  zrecompile -pq -R ~/.zshrc -- -M ~/.cache/zsh/compdump &!
+  zrecompile -pq -R ~/.zshrc -- -M ~/Library/Caches/zsh/compdump &!
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 if is-at-least 5.2; then
   autoload -Uz bracketed-paste-url-magic && \
