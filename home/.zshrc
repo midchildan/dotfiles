@@ -71,32 +71,36 @@ setopt menu_complete
 setopt list_packed
 zmodload -i zsh/complist
 
-# case-insensitive (all),partial-word and then substring completion
-zstyle ':completion:*' matcher-list \
-  'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' menu select
-zstyle ':completion::complete:*' use-cache 1
-zstyle ':completion:*' recent-dirs-insert fallback
-zstyle ':completion:*:functions' ignored-patterns '_*'
-zstyle ':completion:*:manuals' separate-sections true
-zstyle ':completion:*:manuals.*' insert-sections true
-zstyle ':completion:*:*:kill:*:processes' list-colors \
-  '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-zstyle ':completion:*:*:*:*:processes' \
-  command "ps -u `whoami` -o pid,user,comm -w -w"
-
 () {
   setopt localoptions extended_glob
   autoload -Uz compinit
 
+  [[ -d ~/.cache/zsh/completion ]] || mkdir -p ~/.cache/zsh/completion
+
+  zstyle ':completion:*' menu select
+  zstyle ':completion:*' use-cache true
+  zstyle ':completion:*' cache-path ~/.cache/zsh/completion
+  zstyle ':completion:*' list-colors ''
+  zstyle ':completion:*' recent-dirs-insert fallback
+  # case-insensitive (all),partial-word and then substring completion
+  zstyle ':completion:*' matcher-list \
+    'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+  zstyle ':completion:*:functions' ignored-patterns '(_*|prompt_*)'
+  zstyle ':completion:*:manuals' separate-sections true
+  zstyle ':completion:*:manuals.(^1*)' insert-sections true
+  zstyle ':completion:*:*:kill:*:processes' list-colors \
+    '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+  zstyle ':completion:*:*:*:*:processes' \
+    command "ps -u `whoami` -o pid,user,comm -w -w"
+  zstyle ':completion:*:*:*:users' ignored-patterns '_*'
+
   # update the completion cache only once a day
-  if [[ -n ~/.zcompdump(#qN.m+1) ]]; then
+  if [[ -n ~/.cache/zsh/compdump(#qN.m+1) ]]; then
     # XXX: ignore compaudit warnings b/c it's pointless for most people
-    compinit -u && touch ~/.zcompdump
+    compinit -u -d ~/.cache/zsh/compdump && touch ~/.cache/zsh/compdump
   else
-    compinit -C # skip compaudit b/c it's slow
+    compinit -C -d ~/.cache/zsh/compdump # skip compaudit b/c it's slow
   fi
 
   compdef rcd=ssh
@@ -247,7 +251,8 @@ setopt long_list_jobs
 setopt no_clobber
 setopt no_flowcontrol
 autoload -Uz select-word-style && select-word-style bash
-autoload -Uz zrecompile && zrecompile -pq -R ~/.zshrc -- -M ~/.zcompdump &!
+autoload -Uz zrecompile && \
+  zrecompile -pq -R ~/.zshrc -- -M ~/.cache/zsh/compdump &!
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 if is-at-least 5.2; then
   autoload -Uz bracketed-paste-url-magic && \
