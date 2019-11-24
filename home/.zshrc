@@ -98,6 +98,8 @@ zstyle ':completion:*:*:*:*:processes' \
   else
     compinit -C # skip compaudit b/c it's slow
   fi
+
+  compdef rcd=ssh
 }
 
 # define a completion widget that parses --help output
