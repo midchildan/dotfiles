@@ -62,6 +62,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .ssh/config.d/80-git.conf
   - .ssh/config.d/90-general.conf
   - .ssh/config.d/90-multiplexing.conf
+  - .local/bin/rcd
 
 @install Install GDB Config
   - .gdbinit
