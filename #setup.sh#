@@ -32,10 +32,12 @@ main() {
   git submodule update --init --remote
 
   echo "$(tput bold)== Pruning dead symlinks ==$(tput sgr0)"
-  setup::prune
+  setup::prune 
 
   echo "$(tput bold)== Installing configuration ==$(tput sgr0)"
   setup::shell
+  setup::vim
+  setup::gpg
   setup::misc
 
   if [[ -n "$install_deps" ]]; then
@@ -63,6 +65,25 @@ setup::shell() {
   install::default ".local/share/zsh/site-functions"
 }
 
+setup::vim() {
+  install::default ".vim"
+  install::default ".config/nvim"
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+}
+
+setup::gpg() {
+  if [[ ! -d ~/.gnupg ]]; then
+    mkdir ~/.gnupg
+    chmod 700 ~/.gnupg
+  fi
+  chmod 700 "$DOTFILE_DIR/home/.gnupg"
+  chmod 600 "$DOTFILE_DIR/home/.gnupg/gpg-agent.conf"
+  chmod 600 "$DOTFILE_DIR/home/.gnupg/gpg.conf"
+  install::default ".gnupg/gpg-agent.conf"
+  install::default ".gnupg/gpg.conf"
+}
+
 setup::misc() {
   install::default ".clang-format"
   install::default ".config/git/config"
@@ -75,6 +96,8 @@ setup::misc() {
   install::default ".ipython/profile_default/ipython_config.py"
   install::default ".local/libexec/fzf/install"
   install::default ".local/opt/fzftools"
+  install::default ".local/opt/tmux-copycat"
+  install::default ".mikutter/plugin"
   install::default ".nixpkgs/config.nix"
   install::default ".screenrc"
   install::default ".tern-config"
@@ -85,17 +108,29 @@ setup::misc() {
 
   # gdb
   install::default ".gdbinit"
+  install::default ".local/bin/gef"
+  install::default ".local/bin/peda"
   install::default ".local/bin/pwndbg"
 
   # LaTeX
   install::default ".config/latexmk/latexmkrc"
   install::default ".local/bin/platexmk"
   install::default ".local/bin/uplatexmk"
+
+  # spacemacs
+  [[ ! -d ~/.emacs.d ]] && git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+  install::default ".spacemacs"
+
+  # vscode
+  install::default ".config/Code/User/settings.json"
+  chmod 700 ~/.config/Code
 }
 
 setup::prune() {
   prune ".gitconfig"
   prune ".latexmkrc"
+  prune ".vimrc"
+  prune ".gvimrc"
   prune ".config/shell/common.snip"
 }
 
@@ -110,6 +145,8 @@ setup::deps() {
     zsh-syntax-highlighting
   sudo ln -s /usr/bin/nodejs /usr/local/bin/node
   curl https://sh.rustup.rs -sSf | sh
+
+  vim +PlugInstall +qall
 }
 
 ######################
