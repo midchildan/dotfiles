@@ -43,24 +43,30 @@ setopt menu_complete
 setopt list_packed
 zmodload -i zsh/complist
 
-# case-insensitive (all),partial-word and then substring completion
-zstyle ':completion:*' matcher-list \
-  'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+() {
+  setopt localoptions extended_glob
+  autoload -Uz compinit
 
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' menu select
-zstyle ':completion::complete:*' use-cache 1
-zstyle ':completion:*' recent-dirs-insert fallback
-zstyle ':completion:*:functions' ignored-patterns '_*'
-zstyle ':completion:*:manuals' separate-sections true
-zstyle ':completion:*:manuals.*' insert-sections true
-zstyle ':completion:*:*:kill:*:processes' list-colors \
-  '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-zstyle ':completion:*:*:*:*:processes' \
-  command "ps -u `whoami` -o pid,user,comm -w -w"
+  zstyle ':completion:*' menu select
+  zstyle ':completion:*' use-cache false
+  zstyle ':completion:*' list-colors ''
+  zstyle ':completion:*' recent-dirs-insert fallback
+  # case-insensitive (all),partial-word and then substring completion
+  zstyle ':completion:*' matcher-list \
+    'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
-# XXX: may be slow since caching is disabled
-autoload -Uz compinit && compinit -D
+  zstyle ':completion:*:functions' ignored-patterns '(_*|prompt_*)'
+  zstyle ':completion:*:manuals' separate-sections true
+  zstyle ':completion:*:manuals.(^1*)' insert-sections true
+  zstyle ':completion:*:*:kill:*:processes' list-colors \
+    '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+  zstyle ':completion:*:*:*:*:processes' \
+    command "ps -u `whoami` -o pid,user,comm -w -w"
+  zstyle ':completion:*:*:*:users' ignored-patterns '_*'
+
+  # XXX: may be slow since caching is disabled
+  autoload -Uz compinit && compinit -D
+}
 
 # define a completion widget that parses --help output
 zle -C complete-from-help complete-word _generic
