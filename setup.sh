@@ -110,6 +110,7 @@ setup::deps() {
     zsh-syntax-highlighting
   sudo ln -s /usr/bin/nodejs /usr/local/bin/node
   curl https://sh.rustup.rs -sSf | sh
+  sudo snap install ripgrep --classic
 }
 
 ######################
