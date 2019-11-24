@@ -8,3 +8,5 @@ export GOPATH=~/Documents/src/go
 export ANDROID_HOME=~/.local/opt/android-sdk
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
+
+export PATH="$HOME/.cargo/bin:$PATH"
