@@ -107,7 +107,9 @@ setup::deps() {
     cmigemo \
     npm \
     nodejs \
-    zsh-syntax-highlighting
+    zsh-syntax-highlighting\
+    emacs\
+    ruby
   sudo ln -s /usr/bin/nodejs /usr/local/bin/node
   curl https://sh.rustup.rs -sSf | sh
   sudo snap install ripgrep --classic
