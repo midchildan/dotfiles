@@ -65,10 +65,3 @@
 	  (cdr ls)))) ;; show current directory
 
 
-
-
-
-
-
-
->>>>>>> local

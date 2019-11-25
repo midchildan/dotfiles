@@ -54,6 +54,7 @@ setup::shell() {
   install::default ".bash_logout"
   install::default ".zshenv"
   install::default ".zshrc"
+  install::default ".emacs.d"
   install::default ".zlogout"
   install::default ".inputrc"
   install::default ".config/shell/snippets/common.snip"
@@ -112,7 +113,9 @@ setup::deps() {
     ruby
   sudo ln -s /usr/bin/nodejs /usr/local/bin/node
   curl https://sh.rustup.rs -sSf | sh
-  sudo snap install ripgrep --classic
+  curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
+  sudo dpkg -i ripgrep_11.0.2_amd64.deb
+  rm ripgrep_11.0.2_amd64.deb
 }
 
 ######################
