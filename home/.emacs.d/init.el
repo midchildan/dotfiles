@@ -41,6 +41,7 @@
 (custom-set-faces
 '(hl-line ((t (:background "color-236"))))
 )
+(menu-bar-mode -1)
 
 
 ;; edit
