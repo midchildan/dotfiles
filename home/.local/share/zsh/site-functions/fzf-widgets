@@ -1,31 +1,36 @@
 emulate -L zsh
 
-{
-  function bindkey() {}
+local fzfscripts
+if command -v fzf-share &> /dev/null; then
+  fzfscripts=( "$(fzf-share)/key-bindings.zsh" )
+else
+  fzfscripts=(
+    ~/.vim/plugged/fzf/shell/key-bindings.zsh
+    /usr/local/opt/fzf/shell/key-bindings.zsh
+    /usr/share/doc/fzf/examples/key-bindings.zsh
+    ~/.local/opt/fzf/shell/key-bindings.zsh
+  )
+fi
 
-  local fzfscripts
-  if command -v fzf-share &> /dev/null; then
-    fzfscripts=( "$(fzf-share)/key-bindings.zsh" )
-  else
-    fzfscripts=(
-      ~/.vim/plugged/fzf/shell/key-bindings.zsh
-      /usr/local/opt/fzf/shell/key-bindings.zsh
-      /usr/share/doc/fzf/examples/key-bindings.zsh
-      ~/.local/opt/fzf/shell/key-bindings.zsh
-    )
+local file
+for file in "$fzfscripts[@]"; do
+  if [[ -f "$file" ]]; then
+    FZF_CTRL_R_OPTS="${FZF_CTRL_R_OPTS:---reverse}"
+
+    {
+      function bindkey() {} # don't let fzf change my keybindings
+      source "$file"
+    } always {
+      unfunction bindkey
+    }
+
+    # FIXME: temporary workaround for junegunn/fzf#1774
+    functions[_fzf-redraw-prompt]=$functions[fzf-redraw-prompt]
+    function fzf-redraw-prompt() { dir="" _fzf-redraw-prompt; }
+
+    function fzf-widgets() {} # guard against multiple invocations
+    return
   fi
-
-  local f
-  for f in "$fzfscripts[@]"; do
-    if [[ -f "$f" ]]; then
-      FZF_CTRL_R_OPTS="${FZF_CTRL_R_OPTS:---reverse}"
-      source "$f"
-      function fzf-widgets() {}
-      return
-    fi
-  done
-} always {
-  unfunction bindkey
-}
+done
 
 return 1

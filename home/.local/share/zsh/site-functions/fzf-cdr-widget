@@ -15,6 +15,7 @@ fzf-cdr-widget() {
     return 0
   fi
   cd "$dir"
+  unset dir
   local ret=$?
   zle fzf-redraw-prompt
   return $ret
