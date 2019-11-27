@@ -24,7 +24,7 @@ main() {
   fi
 
   git -C "$dotrepo" archive --format=tar.gz "$src" | send "$host:$dest"
-  ssh "$@"
+  exec ssh "$@"
 }
 
 # deploy dotfiles to remote

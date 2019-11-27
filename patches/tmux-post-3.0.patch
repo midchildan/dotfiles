@@ -1,0 +1,32 @@
+diff --git a/home/.tmux.conf b/home/.tmux.conf
+index 2c1f72a..2869167 100644
+--- a/home/.tmux.conf
++++ b/home/.tmux.conf
+@@ -39,14 +39,10 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
+ set -g window-status-current-format "${_sty_sep2}${_sep_lmain1}${_sty_stat} #I ${_sep_lsub} #W#{?window_flags,#{window_flags},} ${_sty_sep1}${_sep_lmain1}"
+ set -ga update-environment "USE_POWERLINE"
+ 
+-set-hook -g 'after-new-window' \
+-  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
+-set-hook -g 'after-kill-pane' \
+-  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
+-set-hook -g 'pane-exited' \
+-  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
+-set-hook -g 'after-split-window' \
+-  'if -b "[ \#{window_panes} -gt 1 ]" "set pane-border-status top"'
++set-hook -g "window-layout-changed" {
++  if -b "[ '#{window_panes}' -gt 1 ]" \
++    "set pane-border-status top" "set pane-border-status off"
++}
+ 
+ setenv -gu _curr_mode
+ setenv -gu _sty_mode
+@@ -204,7 +200,7 @@ bind -T Z Z detach-client
+ #################
+ 
+ bind -T buffer p choose-buffer
+-bind -T buffer + choose-buffer 'run "tmux show-buffer -b \'%%\' | xclip -i -sel clip"'
++bind -T buffer + choose-buffer { run "tmux show-buffer -b '%%' | xclip -i -sel clip" }
+ 
+ #################
+ #  ctrl-w mode  #
