@@ -33,6 +33,11 @@ exec 2>>"$_DOT_LOGFILE"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
+@shell() {
+  _DOT_SECTION="shell"
+  echo "$(tput bold)== ${*:-Run Shell Commands} ==$(tput sgr0)"
+}
+
 @install() {
   _DOT_SECTION="install"
   echo "$(tput bold)== ${*:-Install Files} ==$(tput sgr0)"
@@ -61,6 +66,7 @@ exec 2>>"$_DOT_LOGFILE"
 
   case "$_DOT_SECTION" in
     packages) dot::packages::task "$@" ;;
+    shell) dot::shell::task "$@" ;;
     install) dot::install::task "$@" ;;
     defaults) dot::defaults::task "$@" ;;
     clean) dot::clean::task "$@" ;;
@@ -105,6 +111,18 @@ dot::install::task() {
   dot::_print_badge
 
   cd "$old_pwd"
+}
+
+# Run a shell command
+# Globals:
+#   DOTFILE_DIR
+#   _DOT_LOGFILE
+# Arguments:
+#   path_to_file : file to install
+# Returns:
+#   None
+dot::shell::task() {
+  dot::shell "$@"
 }
 
 # Set macOS defaults
@@ -291,7 +309,9 @@ dot::script() {
 # Returns:
 #   None
 dot::shell() {
-  "$@"
+  echo -n "Running $@..."
+  "$@" >> "$_DOT_LOGFILE"
+  dot::_print_badge
 }
 
 #############

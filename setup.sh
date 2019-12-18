@@ -6,16 +6,9 @@ source "$DOTFILE_DIR/scripts/setup"
 # Remove dead symlinks
 @clean
   - gc: true
-  # the rest of this section is kept for backwards compatibility
-  - .gitconfig
-  - .latexmkrc
-  - .vimrc
-  - .gvimrc
-  - .config/shell/common.snip
-  - .mikutter/plugin
 
-@install Update Submodules
-  - shell: git submodule --quiet update --init --remote
+@shell Update Submodules
+  - git submodule --quiet update --init --remote
 
 @install Install Shell Config
   - .bash_profile
