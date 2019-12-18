@@ -27,6 +27,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'RRethy/vim-illuminate'
 Plug 'junegunn/vim-peekaboo'
 Plug 'mhinz/vim-signify'
+Plug 'wellle/context.vim', {'on': 'ContextToggle'}
 Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'Yggdroot/indentLine', {'on': 'IndentLinesEnable'}
 Plug 'Yilin-Yang/vim-markbar', {'on': '<Plug>ToggleMarkbar'}
@@ -47,6 +48,9 @@ Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'LnL7/vim-nix', {'for': 'nix'}
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'lervag/vimtex'
+
+" just for fun
+Plug 'vim/killersheep', {'on': 'KillKillKill'}
 
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
@@ -247,6 +251,7 @@ nnoremap <silent> <Leader>tt :TagbarToggle<CR>
 nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
 nnoremap <silent> <Leader>tv :call vimrc#toggle_virtualedit()<CR>
 nnoremap <silent> <Leader>tq :call vimrc#toggle_textwidth()<CR>
+nnoremap <silent> <Leader>tz :ContextToggle<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
 nnoremap <silent> <Leader>t* :IlluminationToggle<CR>
 nnoremap <silent> <Leader>t~ :set ignorecase! ignorecase?<CR>
