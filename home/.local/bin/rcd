@@ -12,6 +12,7 @@ main() {
       s) src="$OPTARG" ;;
       d) dest="$OPTARG" ;;
       g) dotrepo="$OPTARG" ;;
+      c) mode="scp" ;;
       p) mode="print" ;;
       h|?) usage ;;
     esac
@@ -26,7 +27,7 @@ main() {
 
   git -C "$dotrepo" archive --format=tar.gz "$src" | {
     case "$mode" in
-      ssh) send "$host:$dest" ;;
+      ssh|scp) send "$host:$dest" ;;
       print) printscript "${dest:-\$HOME}" ;;
     esac
   }
@@ -135,6 +136,7 @@ options:
   -d DIR	Remote destination (default: "")
   -s TREEISH 	Tree-ish identifier from the dotfiles repo (default: "gh-pages")
   -g DIR	Path to the dotfiles repo (default: automatic)
+  -c		Copy dotfiles to remote and exit
   -p		Print a self-contained script for deploying dotfiles and exit
 
 arguments:
