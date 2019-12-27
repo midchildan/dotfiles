@@ -86,6 +86,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/ranger/scope.sh
   - .config/tilix/schemes/gruvbox-dark.json
   - .config/zathura/zathurarc
+  - .docker/config.json
   - .ipython/profile_default/ipython_config.py
   - .local/libexec/fzf/install
   - .local/opt/fzftools
