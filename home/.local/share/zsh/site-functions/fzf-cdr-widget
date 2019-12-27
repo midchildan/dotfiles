@@ -13,6 +13,11 @@ fzf-cdr-widget() {
   if [[ -z "$dir" ]]; then
     zle redisplay
     return 0
+  elif [[ ! -d "$dir" ]]; then
+    autoload -Uz cdr && { cdr -P "$dir"; cdr -P "$dir/**" }
+    zle redisplay
+    zle -M "No such directory: $dir"
+    return 0
   fi
   cd "$dir"
   unset dir
