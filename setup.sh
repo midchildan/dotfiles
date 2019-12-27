@@ -80,6 +80,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/zathura/zathurarc
+  - .docker/config.json
   - .ipython/profile_default/ipython_config.py
   - .local/bin/rmpkg
   - .local/bin/imgcat

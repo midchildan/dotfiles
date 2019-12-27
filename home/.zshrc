@@ -2,6 +2,9 @@ fpath+=(~/.local/share/zsh/site-functions /usr/local/share/zsh-completions)
 autoload -Uz add-zsh-hook
 autoload -Uz is-at-least
 
+[[ -d ~/Library/Caches/zsh/completion ]] \
+  || mkdir -p ~/Library/Caches/zsh/completion
+
 ###########################
 #  Environment Variables  #
 ###########################
@@ -53,6 +56,7 @@ autoload -Uz chpwd_recent_dirs cdr
 chpwd_functions=(chpwd_recent_dirs)
 zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-max 500
+zstyle ':chpwd:*' recent-dirs-file ~/Library/Caches/zsh/cdhistory
 
 #############
 #  History  #
@@ -82,9 +86,6 @@ zmodload -i zsh/complist
 () {
   setopt localoptions extended_glob
   autoload -Uz compinit
-
-  [[ -d ~/Library/Caches/zsh/completion ]] \
-    || mkdir -p ~/Library/Caches/zsh/completion
 
   zstyle ':completion:*' menu select
   zstyle ':completion:*' use-cache true
