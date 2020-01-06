@@ -14,11 +14,20 @@
 (global-set-key (kbd "C-l") 'kill-word)
 (global-set-key (kbd "C-x C-a") 'recenter)
 (global-set-key (kbd "C-q") 'scroll-down-command)
-(global-set-key (kbd "C-*") 'goto-line)
+(global-set-key (kbd "C-x C-g") 'goto-line)
 (global-set-key (kbd "M-*") 'pop-tag-mark)
 (global-set-key (kbd "C-z") 'flycheck-next-error)
 (global-set-key (kbd "C-o") 'other-window)
 
+;; scroll
+(defun gcm-scroll-down ()
+  (interactive)
+  (scroll-up 1))
+(defun gcm-scroll-up ()
+  (interactive)
+  (scroll-down 1))
+(global-set-key (kbd "C-z") 'gcm-scroll-up)
+(global-set-key (kbd "C-m") 'gcm-scroll-down)
 
 ;; move
 (setq scroll-conservatively 1)
