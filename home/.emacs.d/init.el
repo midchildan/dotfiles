@@ -26,8 +26,8 @@
 (defun gcm-scroll-up ()
   (interactive)
   (scroll-down 1))
-(global-set-key (kbd "C-z") 'gcm-scroll-up)
-(global-set-key (kbd "C-m") 'gcm-scroll-down)
+(global-set-key (kbd "M-z") 'gcm-scroll-up)
+(global-set-key (kbd "C-z") 'gcm-scroll-down)
 
 ;; move
 (setq scroll-conservatively 1)
