@@ -104,3 +104,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - init: true
   - nix-cflags
   - shell: vim +PlugInstall +qall
+
+@install Install Git Hooks
+  - init: true
+  - shell: git config core.hooksPath scripts/githooks

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# This hook is meant to be used in conjuction with git-deploy [1] to deploy
+# dotfiles to a remote with a simple git push.
+#
+# [1] See home/.local/bin/git-deploy
+
+source ./setup.sh
