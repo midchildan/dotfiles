@@ -106,3 +106,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - cmigemo
   - zsh-syntax-highlighting
   - shell: vim +PlugInstall +qall
+
+@install Install Git Hooks
+  - init: true
+  - shell: git config core.hooksPath scripts/githooks
