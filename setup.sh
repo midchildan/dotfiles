@@ -93,7 +93,8 @@ source "$DOTFILE_DIR/scripts/setup"
   - .wgetrc
   - Library/Application\ Support/AquaSKK/keymap.conf
 
-# Will not run unless --init is specified
+# The below will not run unless --init is specified
+
 @packages
   - init: true
   - cmake
@@ -103,6 +104,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - zsh-syntax-highlighting
   - shell: vim +PlugInstall +qall
 
-@install Install Git Hooks
+@githooks
   - init: true
-  - shell: git config core.hooksPath scripts/githooks
+  - post-receive
