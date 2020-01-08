@@ -36,6 +36,7 @@ exec 2>>"$_DOT_LOGFILE"
 @shell() {
   _DOT_SECTION="shell"
   echo "$(tput bold)== ${*:-Run Shell Commands} ==$(tput sgr0)"
+  cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
 @install() {
@@ -47,6 +48,12 @@ exec 2>>"$_DOT_LOGFILE"
 @clean() {
   _DOT_SECTION="clean"
   echo "$(tput bold)== ${*:-Clean Dead Symlinks} ==$(tput sgr0)"
+  cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
+}
+
+@githooks() {
+  _DOT_SECTION="githooks"
+  echo "$(tput bold)== ${*:-Register Git Hooks} ==$(tput sgr0)"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
@@ -63,6 +70,7 @@ exec 2>>"$_DOT_LOGFILE"
     shell) dot::shell::task "$@" ;;
     install) dot::install::task "$@" ;;
     clean) dot::clean::task "$@" ;;
+    githooks) dot::githooks::task "$@" ;;
   esac
 }
 
@@ -90,12 +98,11 @@ dot::install::task() {
   fi
 
   local dir="$(dirname "$1")"
-  local old_pwd="$(pwd)"
   if [[ -n "$dir" ]] && [[ "$dir" != "." ]]; then
     [[ ! -d ~/"$dir" ]] && mkdir -p ~/"$dir"
-    cd ~/"$dir"
+    pushd ~/"$dir"
   else
-    cd
+    pushd ~
   fi
 
   local fname="$(basename "$1")"
@@ -103,7 +110,7 @@ dot::install::task() {
   dot::_ln "$(dot::_relative_path "$src")" "$fname"
   dot::_print_badge
 
-  cd "$old_pwd"
+  popd
 }
 
 # Run a shell command
@@ -135,6 +142,40 @@ dot::clean::task() {
 
   local filepath=~/"$1"
   [[ ! -L "$filepath" || -e "$filepath" ]] || rm "$filepath"
+  dot::_print_badge
+}
+
+# Symlinks $DOTFILE_DIR/scripts/githooks/$hook into $GIT_DIR/hook
+# Globals:
+#   DOTFILE_DIR
+#   _DOT_LOGFILE
+# Arguments:
+#   hook : hook to install
+# Returns:
+#   None
+dot::githooks::task() {
+  [[ "$#" != 1 ]] && dot::_abort "Wrong number of arguments."
+  [[ "$1" == /* ]] && dot::_abort "Cannot use absoulte path."
+
+  echo -n "Registering $1 hook..."
+  local hook="$1"
+  local src="$DOTFILE_DIR/scripts/githooks/$hook"
+
+  if [[ ! -e "$src" ]]; then
+    echo "$src does not exist" >>"$_DOT_LOGFILE"
+    dot::_print_badge::failed
+    return
+  fi
+  if [[ ! -d .git/hooks ]]; then
+    echo "$DOTFILE_DIR/.git/hooks is not a directory" >> "$_DOT_LOGFILE"
+    dot::_print_badge::failed
+    return
+  fi
+
+  pushd .git/hooks
+  dot::_ln "$(dot::_relative_path "$src")" "$hook"
+  popd
+
   dot::_print_badge
 }
 
@@ -389,6 +430,30 @@ dot::_absolute_path() {
 dot::_relative_path() {
   [[ "$#" != 1 ]] && dot::_abort "Wrong number of arguments."
   realpath --no-symlinks --relative-to=. "$1"
+}
+
+# Wrapper for pushd
+# Returns:
+#   None
+pushd() {
+  builtin pushd "$@" > /dev/null
+}
+
+# Wrapper for popd
+# Returns:
+#   None
+popd() {
+  builtin popd "$@" > /dev/null
+}
+
+# Wrapper for tput
+# Returns:
+#   None
+tput() {
+  case "$TERM" in
+    ""|dumb) return ;;
+    *) command tput "$@" ;;
+  esac
 }
 
 #################
