@@ -98,7 +98,8 @@ source "$DOTFILE_DIR/scripts/setup"
   - .xprofile
   - .xmonad
 
-# Will not run unless --init is specified
+# The below will not run unless --init is specified
+
 @packages
   - init: true
   - build-essential
@@ -107,6 +108,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - zsh-syntax-highlighting
   - shell: vim +PlugInstall +qall
 
-@install Install Git Hooks
+@githooks
   - init: true
-  - shell: git config core.hooksPath scripts/githooks
+  - post-receive
