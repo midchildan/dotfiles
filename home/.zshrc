@@ -31,7 +31,7 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz zmv
-autoload -Uz cud fuck
+autoload -Uz br cud fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
 command -v hub > /dev/null 2>&1 && alias git='hub'
 
