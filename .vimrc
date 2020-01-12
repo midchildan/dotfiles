@@ -108,8 +108,11 @@ let maplocalleader="\<Space>\<Space>"
 nnoremap <Space> \
 xnoremap <Space> \
 
-" a more logical mapping for Y
+" make Y consistent with C and D
 nnoremap Y y$
+" make & preserve flags and create a visual mode equivalent
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
 " break undo before deleting a whole line
 inoremap <C-u> <C-g>u<C-u>
 " a more powerful <C-l>
