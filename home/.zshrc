@@ -40,7 +40,7 @@ alias la='ls -lAh'
 alias qlook='qlmanage -p'
 alias sudoedit='sudo -e'
 autoload -Uz zmv
-autoload -Uz cud fuck
+autoload -Uz br cud fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
 command -v hub > /dev/null 2>&1 && alias git='hub'
 
