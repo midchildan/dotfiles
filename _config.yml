@@ -5,7 +5,7 @@ defaults:
   -
     scope:
       path: ""
-      type: "posts"
+      type: "pages"
     values:
       layout: "page"
 
