@@ -145,6 +145,7 @@ bindkey -rv '^[,' '^[/' '^[~'
 bindkey -v \
   '^A' smart-insert-last-word \
   '^B' copy-earlier-word \
+  '^E' history-incremental-search-forward \
   '^Gu' split-undo \
   '^H' backward-delete-char \
   '^I' fzf-completion \
@@ -158,6 +159,7 @@ bindkey -v \
   '^X^J' fzf-snippet-expand \
   '^X^O' complete-from-help \
   '^X^R' fzf-history-widget \
+  '^Y' history-incremental-search-backward \
   '^?' backward-delete-char
 bindkey -ra 's'
 bindkey -a \
