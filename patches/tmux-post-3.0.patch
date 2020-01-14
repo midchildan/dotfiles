@@ -1,5 +1,5 @@
 diff --git a/home/.tmux.conf b/home/.tmux.conf
-index 2c1f72a..2869167 100644
+index 2c1f72a..a98de13 100644
 --- a/home/.tmux.conf
 +++ b/home/.tmux.conf
 @@ -39,14 +39,10 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
@@ -21,6 +21,15 @@ index 2c1f72a..2869167 100644
  
  setenv -gu _curr_mode
  setenv -gu _sty_mode
+@@ -80,7 +76,7 @@ set -g status-keys vi
+ set -g escape-time 0
+ 
+ # mouse
+-bind -n MouseDrag1Status swap-window -t=
++bind -n MouseDrag1Status swap-window -d -t=
+ bind -n WheelUpPane if -Ft= "#{||:#{mouse_any_flag},#{pane_in_mode}}" \
+   "select-pane -t=; send -M" \
+   "if -Ft= '#{alternate_on}' 'select-pane -t=; send -t= Up' 'select-pane -t=; copy-mode -e; send -M'"
 @@ -204,7 +200,7 @@ bind -T Z Z detach-client
  #################
  
