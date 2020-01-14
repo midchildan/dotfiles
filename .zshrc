@@ -93,6 +93,7 @@ bindkey -rv '^[,' '^[/' '^[~'
 bindkey -v \
   '^A' smart-insert-last-word \
   '^B' copy-earlier-word \
+  '^E' history-incremental-search-forward \
   '^Gu' split-undo \
   '^H' backward-delete-char \
   '^N' history-beginning-search-forward \
@@ -100,6 +101,7 @@ bindkey -v \
   '^U' backward-kill-line \
   '^W' backward-kill-word \
   '^X^O' complete-from-help \
+  '^Y' history-incremental-search-backward \
   '^?' backward-delete-char
 bindkey -ra 's'
 bindkey -a \
