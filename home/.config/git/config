@@ -22,5 +22,5 @@
 	newNormal = green bold
 	newHighlight = green bold 22
 [ghq]
-	root = ~/Documents/src/repos
 	root = ~/Documents/src/go/src
+	root = ~/Documents/src/repos
