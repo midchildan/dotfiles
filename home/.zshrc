@@ -123,6 +123,7 @@ autoload -Uz fzf-file-widget && zle -N fzf-file-widget
 autoload -Uz fzf-history-widget && zle -N fzf-history-widget
 autoload -Uz fzf-snippet-expand && zle -N fzf-snippet-expand
 autoload -Uz fzf-snippet-next && zle -N fzf-snippet-next
+autoload -Uz toggle-leading-space && zle -N toggle-leading-space
 autoload -Uz surround \
   && zle -N delete-surround surround \
   && zle -N add-surround surround \
@@ -149,6 +150,7 @@ bindkey -v \
   '^N' history-beginning-search-forward \
   '^O' fzf-cdr-widget \
   '^P' history-beginning-search-backward \
+  '^T' toggle-leading-space \
   '^U' backward-kill-line \
   '^W' backward-kill-word \
   '^X^F' fzf-file-widget \
