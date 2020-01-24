@@ -1,0 +1,23 @@
+emulate -L zsh
+
+# ZLE widget for inserting/removing a leading space in the current buffer
+#
+# Read up on HIST_IGNORE_SPACE to see why this might come in handy
+# http://zsh.sourceforge.net/Doc/Release/Options.html
+
+setopt localoptions extended_glob
+
+local origlen=$#BUFFER
+local origcur=$CURSOR
+
+if [[ $BUFFER[1] = [[:blank:]] ]]; then
+  BUFFER="${BUFFER##[[:blank:]]##}"
+else
+  BUFFER=" $BUFFER"
+fi
+
+if (( CURSOR == origcur )); then
+  (( CURSOR += $#BUFFER - origlen ))
+fi
+
+return 0
