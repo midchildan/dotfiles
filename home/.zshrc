@@ -7,7 +7,7 @@ autoload -Uz is-at-least
 ###########################
 #  Environment Variables  #
 ###########################
-export GPG_TTY="$(tty)"
+export GPG_TTY="$TTY"
 
 typeset -U path
 path=(
@@ -29,7 +29,6 @@ alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz zmv
 autoload -Uz br cud fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
-command -v hub > /dev/null 2>&1 && alias git='hub'
 
 #################
 #  Directories  #
@@ -89,7 +88,7 @@ zmodload -i zsh/complist
   zstyle ':completion:*:*:kill:*:processes' list-colors \
     '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
   zstyle ':completion:*:*:*:*:processes' \
-    command "ps -u `whoami` -o pid,user,comm -w -w"
+    command "ps -u $USER -o pid,user,comm -w -w"
   zstyle ':completion:*:*:*:users' ignored-patterns '_*'
 
   # update the completion cache only once a day
