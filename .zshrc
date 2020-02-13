@@ -20,7 +20,6 @@ alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
 autoload -Uz zmv
-command -v hub > /dev/null 2>&1 && alias git='hub'
 
 [[ -f "$DOTROOT/.tmux.conf" ]] && alias tmux="tmux -f '$DOTROOT/.tmux.conf'"
 
@@ -61,7 +60,7 @@ zmodload -i zsh/complist
   zstyle ':completion:*:*:kill:*:processes' list-colors \
     '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
   zstyle ':completion:*:*:*:*:processes' \
-    command "ps -u `whoami` -o pid,user,comm -w -w"
+    command "ps -u $USER -o pid,user,comm -w -w"
   zstyle ':completion:*:*:*:users' ignored-patterns '_*'
 
   # XXX: may be slow since caching is disabled

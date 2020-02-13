@@ -22,7 +22,6 @@ alias egrep='egrep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
-command -v hub > /dev/null 2>&1 && alias git='hub'
 
 [[ -f "$DOTROOT/.tmux.conf" ]] && alias tmux="tmux -f '$DOTROOT/.tmux.conf'"
 
