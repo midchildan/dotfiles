@@ -32,7 +32,6 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 alias qlook='qlmanage -p'
 alias sudoedit='sudo -e'
-command -v hub > /dev/null 2>&1 && alias git='hub'
 
 #############
 #  History  #

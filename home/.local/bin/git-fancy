@@ -4,7 +4,7 @@ main() {
   cd "${GIT_PREFIX:-.}"
   git "${1:-diff}" "${@:2}" \
     | diff-so-fancy \
-    | less --pattern '^(Date|added|deleted|modified):'
+    | less +g --pattern '^(Date|added|deleted|modified):'
 }
 
 git() {
