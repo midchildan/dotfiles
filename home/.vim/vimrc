@@ -43,6 +43,7 @@ Plug 'morhetz/gruvbox'
 Plug 'midchildan/molokai'
 
 " filetypes
+Plug 'midchildan/ft-confluence.vim'
 Plug 'fatih/vim-go', {'for': 'go', 'do': function('vimrc#plug#go'),
   \ 'on': ['GoInstallBinaries', 'GoUpdateBinaries']}
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
