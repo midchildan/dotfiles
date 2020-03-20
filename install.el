@@ -1,17 +1,18 @@
+;;; MELPA
+(defvar my-favorite-package-list
+  '(hiwin
+    monokai-theme)
+  "packages to be installed")
+
 (require 'package)
-
-; find package information from following archives
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
-
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (package-initialize)
+(unless package-archive-contents (package-refresh-contents))
+(dolist (pkg my-favorite-package-list)
+  (unless (package-installed-p pkg)
+    (package-install pkg)))
 
-(mapcar (lambda (package)
-          ; install package if not already installed
-          (unless (package-installed-p package)
-            (package-install package)))
-
-        ; list of packages to be installed
-        '(hiwin
-          monokai-theme))
+;;; web-mode
+(require 'web-mode)
+;; 以下web-modeの設定
