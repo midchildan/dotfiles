@@ -49,6 +49,8 @@ main() {
 ###########
 
 setup::shell() {
+  mv ~/.bashrc ~/.bashrc.old
+  mv ~/.bash_logout ~/.bash_logout.old
   install::default ".bash_profile"
   install::default ".bashrc"
   install::default ".bash_logout"
@@ -116,12 +118,12 @@ setup::deps() {
   curl https://sh.rustup.rs -sSf | sh
   curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb\
       && sudo dpkg -i ripgrep_11.0.2_amd64.deb
-  curl -LJO https://github.com/sharkdp/bat/releases/download/v0.9.0/bat_0.12.1_amd64.deb\
+  wget https://github.com/sharkdp/bat/releases/download/v0.12.1/bat_0.12.1_amd64.deb\
        && sudo dpkg -i bat_0.12.1_amd64.deb
   rm ripgrep_11.0.2_amd64.deb
   emacs --script install.el
   git clone https://github.com/eth-p/bat-extras.git\
-      && sudo ./build.sh --install || rm -rf bat-extras
+      && sudo ./bat-extras/build.sh --install
 }
 
 ######################
