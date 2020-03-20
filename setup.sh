@@ -110,12 +110,18 @@ setup::deps() {
     nodejs \
     zsh-syntax-highlighting\
     emacs\
-    ruby
+    ruby\
+    htop
   sudo ln -s /usr/bin/nodejs /usr/local/bin/node
   curl https://sh.rustup.rs -sSf | sh
-  curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
-  sudo dpkg -i ripgrep_11.0.2_amd64.deb
+  curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb\
+      && sudo dpkg -i ripgrep_11.0.2_amd64.deb
+  curl -LJO https://github.com/sharkdp/bat/releases/download/v0.9.0/bat_0.12.1_amd64.deb\
+       && sudo dpkg -i bat_0.12.1_amd64.deb
   rm ripgrep_11.0.2_amd64.deb
+  emacs --script install.el
+  git clone https://github.com/eth-p/bat-extras.git\
+      && sudo ./build.sh --install || rm -rf bat-extras
 }
 
 ######################
