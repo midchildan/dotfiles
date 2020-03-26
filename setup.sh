@@ -55,10 +55,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .ssh/config.d/90-multiplexing.conf
   - .local/bin/rcd
 
-@install Install GTK Config
-  - .gtkrc-2.0
-  - .themes/zuki-themes
-
 @install Install LaTeX Config
   - .config/latexmk/latexmkrc
   - .local/bin/platexmk
