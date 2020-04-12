@@ -16,7 +16,7 @@
 (setq doom-font (font-spec :family "monospace" :size 12)
       doom-theme 'doom-gruvbox
       display-line-numbers-type t
-      frame-title-format '("%b")
+      frame-title-format t
       icon-title-format frame-title-format
       which-key-idle-delay 0.05)
 (add-to-list 'default-frame-alist '(width . 132))

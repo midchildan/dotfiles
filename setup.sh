@@ -98,6 +98,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - cmake
   - cmigemo
   - fzf
+  - ripgrep
   - zsh-completions
   - zsh-syntax-highlighting
   - shell: vim +PlugInstall +qall
