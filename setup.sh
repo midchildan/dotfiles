@@ -60,9 +60,11 @@ source "$DOTFILE_DIR/scripts/setup"
   - .local/bin/platexmk
   - .local/bin/uplatexmk
 
-@install Install Spacemacs Config
-  - github: syl20bnr/spacemacs ~/.emacs.d
-  - .spacemacs.d/init.el
+@install Install Emacs Config
+  - github: hlissner/doom-emacs ~/.emacs.d
+  - .config/doom/init.el
+  - .config/doom/config.el
+  - .config/doom/packages.el
 
 @install Install VSCode Config
   - shell: install -d -m 700 ~/Library/Application\ Support/Code
@@ -99,6 +101,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - zsh-completions
   - zsh-syntax-highlighting
   - shell: vim +PlugInstall +qall
+  - shell: ~/.emacs.d/bin/doom -y sync
 
 @githooks
   - init: true
