@@ -102,7 +102,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - zsh-completions
   - zsh-syntax-highlighting
   - shell: vim +PlugInstall +qall
-  - shell: ~/.emacs.d/bin/doom -y sync
+  - shell: ~/.emacs.d/bin/doom -y install --no-config
 
 @githooks
   - init: true
