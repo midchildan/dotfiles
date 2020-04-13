@@ -86,6 +86,7 @@ esac
 #  Theme  #
 ###########
 if [[ $TERM == "dumb" ]]; then
+  unset CLICOLOR
   PS1='\u@\h:\w\$ '
   return
 fi

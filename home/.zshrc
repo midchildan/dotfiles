@@ -283,6 +283,7 @@ fi
 ###########
 if [[ "$TERM" == "dumb" ]]; then
   unsetopt zle prompt_cr prompt_subst
+  unset CLICOLOR
   add-zsh-hook -d precmd
   add-zsh-hook -d preexec
   PROMPT="%n: %~%# "
