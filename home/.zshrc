@@ -241,6 +241,9 @@ case "$TERM" in
     add-zsh-hook preexec __reset_cursor
     add-zsh-hook precmd __term_support
     ;;
+  eterm*)
+    zstyle ':iterm2:osc' enable false
+    ;;
 esac
 
 ##########
@@ -265,9 +268,10 @@ command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 #  Theme  #
 ###########
 if [[ "$TERM" == "dumb" ]]; then
+  unsetopt zle prompt_cr prompt_subst
+  add-zsh-hook -d precmd
+  add-zsh-hook -d preexec
   PROMPT="%n: %~%# "
-  unset zle_bracketed_paste
-  bindkey -v '^J' accept-line
   return
 fi
 

@@ -107,7 +107,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - init: true
   - nix-cflags
   - shell: vim +PlugInstall +qall
-  - shell: ~/.emacs.d/bin/doom -y sync
+  - shell: ~/.emacs.d/bin/doom -y install --no-config
 
 @githooks
   - init: true
