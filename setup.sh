@@ -94,7 +94,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .local/opt/fzftools
   - .local/opt/tmux-copycat
   - .screenrc
-  - .tern-config
   - .tmux.conf
   - .wgetrc
   - .xprofile

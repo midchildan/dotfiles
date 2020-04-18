@@ -8,7 +8,7 @@ endf
 
 func! vimrc#plug#ycm(info)
   let completers = {
-        \ 'cmake' : '--clang-completer',
+        \ 'cmake' : '--clangd-completer',
         \ 'cargo' : '--rust-completer',
         \ 'javac' : '--java-completer',
         \ 'mono' : '--cs-completer',

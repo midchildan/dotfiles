@@ -303,10 +303,17 @@ xmap g= <Plug>(EasyAlign)
 nmap s <Nop>
 xmap s <Nop>
 
-" youcompleteme
-nnoremap <silent> <LocalLeader>K :YcmCompleter GetDoc<CR>
-nnoremap <silent> <LocalLeader>[i :YcmCompleter GetType<CR>
-nnoremap <silent> <LocalLeader><C-]> :YcmCompleter GoTo<CR>
+" YouCompleteMe
+nnoremap <silent> <CR>cf :YcmCompleter FixIt<CR>
+nnoremap <silent> <CR>cw :YcmCompleter RefactorRename<CR>
+xnoremap <silent> <CR>gq  :YcmCompleter Format<CR>
+nnoremap <silent> <CR>gq :YcmCompleter Format<CR>
+nnoremap <silent> <CR>l :YcmDiags<CR>
+nnoremap <silent> <CR>K :YcmCompleter GetDoc<CR>
+nnoremap <silent> <CR>* :YcmCompleter GoToReferences<CR>
+nnoremap <silent> <CR>[l :YcmShowDetailedDiagnostic<CR>
+nnoremap <silent> <CR>[t :YcmCompleter GetType<CR>
+nnoremap <silent> <CR><C-]> :YcmCompleter GoTo<CR>
 
 " 3-way merge
 nnoremap <silent> <Leader>1 :diffget LOCAL<CR>
@@ -358,7 +365,7 @@ let g:UltiSnipsExpandTrigger='<C-x><C-j>'
 " YouCompleteMe "
 let g:ycm_key_list_select_completion=[]
 let g:ycm_key_list_previous_completion=[]
-let g:ycm_key_invoke_completion=''
+let g:ycm_key_invoke_completion='<C-x><C-x><C-x>'
 let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
 let g:ycm_extra_conf_vim_data=[
   \ '&filetype',
@@ -369,9 +376,10 @@ let g:ycm_python_interpreter_path = ''
 let g:ycm_python_sys_path = []
 let g:ycm_rust_src_path='~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 
-if !exists('g:ycm_semantic_triggers')
-  let g:ycm_semantic_triggers = {}
-endif
+let g:ycm_semantic_triggers =  {
+  \   'c': [ 're!\w{4}', '_' ],
+  \   'python': [ 're!\bfrom ', 're!\bimport ' ],
+  \   'vim' : [ 're!^', 're!\bset(?:l(?:ocal)?)? ' ] }
 if exists('g:vimtex#re#youcompleteme')
   let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
 endif
