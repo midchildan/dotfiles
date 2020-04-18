@@ -1,15 +1,8 @@
-func! vimrc#plug#go(info)
-  if !executable('go')
-    return
-  endif
-
-  GoInstallBinaries
-endf
-
 func! vimrc#plug#ycm(info)
   let completers = {
-        \ 'cmake' : '--clang-completer',
+        \ 'cmake' : '--clangd-completer',
         \ 'cargo' : '--rust-completer',
+        \ 'go' : '--go-completer',
         \ 'mono' : '--cs-completer',
         \ 'npm' : '--ts-completer',
         \ }
@@ -21,6 +14,7 @@ func! vimrc#plug#ycm(info)
     endif
   endfor
 
+  " macOS specific way of detecting java
   !/usr/libexec/java_home -V >/dev/null 2>&1
   if !v:shell_error
     call add(args, '--java-completer')

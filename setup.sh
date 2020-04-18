@@ -86,7 +86,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .local/opt/tmux-copycat
   - .nanorc
   - .screenrc
-  - .tern-config
   - .tmux.conf
   - .wgetrc
   - Library/Application\ Support/AquaSKK/keymap.conf
