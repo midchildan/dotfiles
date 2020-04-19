@@ -40,14 +40,16 @@ Thumbs.db
 ####################
 #  Editor configs  #
 ####################
-# vim
-.ycm_extra_conf.py
+# emacs
+.\#*
 # vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+# language servers
+.clangd/
 # sourcetrail
 *.srctrlbm
 *.srctrldb
