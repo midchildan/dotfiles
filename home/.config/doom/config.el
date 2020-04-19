@@ -13,7 +13,7 @@
 
 
 ;; UI
-(setq doom-font (font-spec :family "monospace" :size 12)
+(setq doom-font (font-spec :family "Menlo" :size 12)
       doom-theme 'doom-gruvbox
       display-line-numbers-type t
       frame-title-format t
