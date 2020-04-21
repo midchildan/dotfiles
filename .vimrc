@@ -103,7 +103,7 @@ set noundofile
 "  Keybindings  "
 """""""""""""""""
 let mapleader="\<Space>"
-let maplocalleader="\<Space>\<Space>"
+let maplocalleader="\<CR>"
 " XXX: Workaround for <Nop> bug in vim/vim#1548, neovim/neovim#6241
 nnoremap <Space> \
 xnoremap <Space> \
