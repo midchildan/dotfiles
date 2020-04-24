@@ -26,6 +26,7 @@
 ;; Editing
 (setq-default indent-tabs-mode nil
               tab-width 2)
+(add-to-list 'auto-mode-alist '("\\.ldg\\'" . ledger-mode))
 
 ;; Misc
 (setq org-directory "~/Documents/org")
