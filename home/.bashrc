@@ -15,6 +15,7 @@ PATH+=":$HOME/.cargo/bin"
 PATH+=":$GEM_HOME/bin"
 PATH+=":$(python3 -c 'import site; print(site.getuserbase())')/bin"
 PATH+=":$GOPATH/bin"
+PATH+=":$HOME/.emacs.d/bin"
 export PATH
 
 if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
