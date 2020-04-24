@@ -14,6 +14,7 @@ path=(
   ~/.local/bin
   $path
   "$GOPATH/bin"
+  ~/.emacs.d/bin
 )
 
 ###########################

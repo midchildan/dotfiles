@@ -7,7 +7,7 @@ esac
 #  Environment Variables  #
 ###########################
 export GPG_TTY="$(tty)"
-export PATH="$HOME/.local/bin:$PATH:$GOPATH/bin"
+export PATH="$HOME/.local/bin:$PATH:$GOPATH/bin:$HOME/.emacs.d/bin"
 
 ###########################
 #  Aliases and Functions  #
