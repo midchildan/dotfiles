@@ -18,6 +18,7 @@ path=(
   "$GEM_HOME/bin"
   "$(python3 -c 'import site; print(site.getuserbase())')/bin"
   "$GOPATH/bin"
+  ~/.emacs.d/bin
 )
 
 ###########################
