@@ -270,8 +270,8 @@ command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 ###########
 if [[ "$TERM" == "dumb" ]]; then
   unsetopt zle prompt_cr prompt_subst
-  add-zsh-hook -d precmd
-  add-zsh-hook -d preexec
+  add-zsh-hook -D precmd '*'
+  add-zsh-hook -D preexec '*'
   PROMPT="%n: %~%# "
   return
 fi
