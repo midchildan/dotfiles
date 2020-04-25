@@ -275,8 +275,8 @@ source /etc/zsh_command_not_found
 ###########
 if [[ "$TERM" == "dumb" ]]; then
   unsetopt zle prompt_cr prompt_subst
-  add-zsh-hook -d precmd
-  add-zsh-hook -d preexec
+  add-zsh-hook -D precmd '*'
+  add-zsh-hook -D preexec '*'
   PROMPT="%n: %~%# "
   return
 fi
