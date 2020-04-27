@@ -3,3 +3,4 @@ _config.yml export-ignore
 _layouts export-ignore
 index.md export-ignore
 setup.sh export-ignore
+patches export-ignore

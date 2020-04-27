@@ -21,7 +21,20 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 autoload -Uz zmv
 
-[[ -f "$DOTROOT/.tmux.conf" ]] && alias tmux="tmux -f '$DOTROOT/.tmux.conf'"
+::tmux() {
+  if [[ -z "$_TMUXVER" && -f "$DOTROOT/.tmux.conf" && "$1" != "current" ]]; then
+    curl -sSfL "https://www.midchildan.org/dotfiles/patches/tmux-"$1".patch" \
+      | patch -d "$DOTROOT" -p1 \
+      && _TMUXVER="$1"
+  fi
+  command tmux -f "$DOTROOT/.tmux.conf" "${@:2}"
+}
+
+tmux-2.4() { ::tmux 2.4 "$@"; }
+tmux-2.6() { ::tmux 2.6 "$@"; }
+tmux-3.0() { ::tmux 3.0 "$@"; }
+tmux-3.1() { ::tmux 3.1 "$@"; }
+tmux() { ::tmux current "$@"; }
 
 #################
 #  Directories  #
