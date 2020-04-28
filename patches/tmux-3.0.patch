@@ -1,5 +1,5 @@
 diff --git a/home/.tmux.conf b/home/.tmux.conf
-index 2c1f72a..a98de13 100644
+index 6d76972..6e7ea81 100644
 --- a/home/.tmux.conf
 +++ b/home/.tmux.conf
 @@ -39,14 +39,10 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
@@ -30,12 +30,12 @@ index 2c1f72a..a98de13 100644
  bind -n WheelUpPane if -Ft= "#{||:#{mouse_any_flag},#{pane_in_mode}}" \
    "select-pane -t=; send -M" \
    "if -Ft= '#{alternate_on}' 'select-pane -t=; send -t= Up' 'select-pane -t=; copy-mode -e; send -M'"
-@@ -204,7 +200,7 @@ bind -T Z Z detach-client
+@@ -223,7 +219,7 @@ bind -T Z Any switch-client -T prefix
  #################
  
- bind -T buffer p choose-buffer
--bind -T buffer + choose-buffer 'run "tmux show-buffer -b \'%%\' | xclip -i -sel clip"'
-+bind -T buffer + choose-buffer { run "tmux show-buffer -b '%%' | xclip -i -sel clip" }
+ bind -T buffer p choose-buffer -Z
+-bind -T buffer + choose-buffer -Z 'run "tmux show-buffer -b \'%%\' | xclip -i -sel clip"'
++bind -T buffer + choose-buffer -Z { run "tmux show-buffer -b '%%' | xclip -i -sel clip" }
+ bind -T buffer Any switch-client -T prefix
  
- #################
- #  ctrl-w mode  #
+ ###################
