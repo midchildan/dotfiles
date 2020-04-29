@@ -14,7 +14,7 @@ Plug 'easymotion/vim-easymotion', {'on': [
 
 " completion and linting
 Plug 'w0rp/ale'
-Plug 'junegunn/fzf' | Plug 'junegunn/fzf.vim'
+Plug '~/.nix-profile/share/vim-plugins/fzf' | Plug 'junegunn/fzf.vim'
 Plug '~/.nix-profile/share/vim-plugins/youcompleteme'
 Plug 'rdnetto/YCM-generator', {'branch': 'stable',
   \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
