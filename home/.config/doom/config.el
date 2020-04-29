@@ -12,7 +12,8 @@
 ;; they are implemented.
 
 
-;; UI
+;;; UI
+
 (setq doom-font (font-spec :family "Menlo" :size 12)
       doom-theme 'doom-gruvbox
       display-line-numbers-type t
@@ -23,15 +24,18 @@
 (add-to-list 'default-frame-alist '(height . 46))
 (defun doom-dashboard-widget-banner nil)
 
-;; Editing
+;;; Editing
+
 (setq standard-indent 2
       ledger-post-account-alignment-column standard-indent
-      ledger-post-amount-alignment-column 0)
+      ledger-post-amount-alignment-column 0
+      sh-basic-offset standard-indent)
 (setq-default indent-tabs-mode nil
               tab-width standard-indent)
 (add-to-list 'auto-mode-alist '("\\.ldg\\'" . ledger-mode))
 
-;; Misc
+;;; Misc
+
 (setq org-directory "~/Documents/org")
 
 ;; Local Variables:
