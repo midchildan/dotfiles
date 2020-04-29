@@ -12,8 +12,11 @@
 ;; they are implemented.
 
 
-;; UI
-(setq doom-font (font-spec :family "monospace" :size 12)
+;;; UI
+
+(setq ;; the preferrable font size varies across displays due to missing
+      ;; autoscaling support in GTK Emacs
+      doom-font (font-spec :family "monospace")
       doom-theme 'doom-gruvbox
       display-line-numbers-type t
       frame-title-format '("%b")
@@ -23,7 +26,8 @@
 (add-to-list 'default-frame-alist '(height . 46))
 (defun doom-dashboard-widget-banner nil)
 
-;; Editing
+;;; Editing
+
 (setq standard-indent 2
       ledger-post-account-alignment-column standard-indent
       ledger-post-amount-alignment-column 0)
@@ -31,7 +35,8 @@
               tab-width standard-indent)
 (add-to-list 'auto-mode-alist '("\\.ldg\\'" . ledger-mode))
 
-;; Misc
+;;; Misc
+
 (setq org-directory "~/Documents/org")
 
 ;; Local Variables:
