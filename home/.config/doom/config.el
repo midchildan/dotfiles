@@ -30,7 +30,8 @@
 
 (setq standard-indent 2
       ledger-post-account-alignment-column standard-indent
-      ledger-post-amount-alignment-column 0)
+      ledger-post-amount-alignment-column 0
+      sh-basic-offset standard-indent)
 (setq-default indent-tabs-mode nil
               tab-width standard-indent)
 (add-to-list 'auto-mode-alist '("\\.ldg\\'" . ledger-mode))
