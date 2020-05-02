@@ -378,6 +378,8 @@ if has('nvim')
 endif
 if executable('python')
   let g:ycm_python_interpreter_path = 'python'
+else
+  let g:ycm_python_interpreter_path = ''
 endif
 let g:ycm_python_sys_path = []
 let g:ycm_rust_src_path='~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
