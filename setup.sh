@@ -105,8 +105,9 @@ source "$DOTFILE_DIR/scripts/setup"
 @packages
   - init: true
   - nix-cflags
+  - emacs-all-the-icons-fonts
   - shell: vim +PlugInstall +qall
-  - shell: ~/.emacs.d/bin/doom -y install --no-config
+  - shell: ~/.emacs.d/bin/doom sync
 
 @githooks
   - init: true
