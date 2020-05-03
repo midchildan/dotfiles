@@ -38,7 +38,8 @@ autoscaling support out-of-the-box.
 ** Frame
 Frame is the term Emacs uses to refer to GUI windows.
 *** Title
-Use the buffer name as the title.
+Use the default title provided by Emacs. With the Cocoa build, it shows a nice
+little icon of the current file alongside the buffer name.
 
 #+BEGIN_SRC emacs-lisp
 (setq frame-title-format t
