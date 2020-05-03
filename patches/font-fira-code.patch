@@ -1,0 +1,26 @@
+diff --git a/home/.config/doom/config.org b/home/.config/doom/config.org
+index 78fdcc3..6e90559 100644
+--- a/home/.config/doom/config.org
++++ b/home/.config/doom/config.org
+@@ -36,7 +36,7 @@ if you don't specify it in the settings, but I find it a little too large for my
+ likings.
+ 
+ #+BEGIN_SRC emacs-lisp
+-(setq doom-font (font-spec :family "monospace"))
++(setq doom-font (font-spec :family "Fira Code"))
+ #+END_SRC
+ ** Frame
+ Frame is the term Emacs uses to refer to GUI windows.
+diff --git a/home/.vim/gvimrc b/home/.vim/gvimrc
+index 77a99c9..fecfb35 100644
+--- a/home/.vim/gvimrc
++++ b/home/.vim/gvimrc
+@@ -6,7 +6,7 @@ set columns=132
+ set lines=43
+ set cmdheight=1
+ set cursorline
+-set guifont=Monospace\ 13
++set guifont=FiraCode-Regular:h12
+ set guitablabel=%M%t
+ set guioptions-=T
+ set confirm
