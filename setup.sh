@@ -63,7 +63,7 @@ source "$DOTFILE_DIR/scripts/setup"
 @install Install Emacs Config
   - github: hlissner/doom-emacs ~/.emacs.d
   - .config/doom/init.el
-  - .config/doom/config.el
+  - .config/doom/config.org
   - .config/doom/packages.el
 
 @install Install VSCode Config

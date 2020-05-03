@@ -1,0 +1,158 @@
+#+TITLE: Doom Emacs Configuration
+
+* Getting Started
+This document is used to generate the configuration file for [[https://github.com/hlissner/doom-emacs][Doom Emacs]]. Don't
+forget to run ~doom sync~ to generate the configuration file when you fetch
+the lastest version of this file using git. It might be worthwhile to put it in
+=$DOTFILES_DIR/setup.sh=, but I don't have any plans to do so any time soon
+because I don't have Emacs installed on all of my computers.
+
+If you want fancy stuff like code completion or symbol lookups when editing code
+blocks in this document, you can use [[help:org-edit-special][org-edit-special]] (bound to =C-c '=) on the
+desired code block to achieve this. Additionally, you can use [[help:apropos][apropos]] (bound to
+=SPC h a=) or the likes to lookup a lisp symbol under the cursor without having
+to open a special buffer.
+* UI Settings
+** Theme
+Use the [[https://github.com/morhetz/gruvbox][gruvbox]] theme as usual. Additionally, get rid of the banner.
+
+#+BEGIN_SRC emacs-lisp
+(setq doom-theme 'doom-gruvbox)
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-banner)
+#+END_SRC
+** Fonts
+Menlo is a nice font which is available in the default installation of macOS.
+Just whatever you do, don't use plain Monospace because you'll have a tough
+time squinting at a Courier New. There's also a patch for replacing fonts to
+Fira Code in =$DOTFILES_DIR/patches/font-fira-code.patch=. It's also a nice
+font, and is slightly less dense compared to Menlo. It's only a
+~brew cask install homebrew/cask-fonts/font-fira-code~ away.
+
+Unlike the GTK build of Emacs, I can safely specify the font size with the Cocoa
+build without having to care much about different displays due to excellent
+autoscaling support out-of-the-box.
+
+#+BEGIN_SRC emacs-lisp
+(setq doom-font (font-spec :family "Menlo" :size 12))
+#+END_SRC
+** Frame
+Frame is the term Emacs uses to refer to GUI windows.
+*** Title
+Use the buffer name as the title.
+
+#+BEGIN_SRC emacs-lisp
+(setq frame-title-format t
+      icon-title-format frame-title-format)
+#+END_SRC
+*** Size
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'default-frame-alist '(width . 132))
+(add-to-list 'default-frame-alist '(height . 46))
+#+END_SRC
+** Informational Stuff
+Display line numbers.
+
+#+BEGIN_SRC emacs-lisp
+(setq display-line-numbers-type t)
+#+END_SRC
+
+I'd like [[https://github.com/justbur/emacs-which-key][which-key]] to show up instantly, but setting ~which-key-idle-delay~ to
+~0~ is [[https://github.com/justbur/emacs-which-key/issues/134][known to cause problems]]. So set it to a value that's close enough to zero
+instead.
+
+#+BEGIN_SRC emacs-lisp
+(setq which-key-idle-delay 0.01)
+#+END_SRC
+* Editing
+** Indentation
+Unfortunately, configuring indentation in Emacs is not as straightforward as
+Vim. Ideally, I would use the following for the global defaults and make some
+adjustments per filetype because that's what I've used for my existing files.
+
+| config         | value |
+|----------------+-------|
+| hard tab width |     8 |
+| soft tab width |     2 |
+| indent type    | space |
+
+A bit of research shows that Emacs do have settings shown below that's supposed
+to make this possible:
+
+| config             | vim equivalent |
+|--------------------+----------------|
+| ~tab-width~        | ~tabstop~      |
+| ~tab-stop-list~    | ~softtabstop~  |
+| ~standard-indent~  | ~shiftwidth~   |
+| ~indent-tabs-mode~ | ~expandtab~    |
+
+However, this doesn't really seem to work in practice because of two reasons:
+
+- each major mode has its own way of configuring indentation
+- doom relies heavily on ~tab-width~ to configure indentation
+
+So as a compromise, I'll settle with the following for Emacs:
+
+| config         | value |
+|----------------+-------|
+| hard tab width |     2 |
+| soft tab width |     2 |
+| indent type    | space |
+
+Indent settings for more filetypes would be added as necessary.
+
+#+BEGIN_SRC emacs-lisp
+(setq standard-indent 2
+      js-indent-level standard-indent
+      ledger-post-account-alignment-column standard-indent
+      ledger-post-amount-alignment-column 0
+      sh-basic-offset standard-indent)
+(setq-default indent-tabs-mode nil
+              tab-width standard-indent)
+#+END_SRC
+** Cutting and Pasting
+Emacs by default syncs with the system clipboard when cutting or pasting text.
+This can be really annoying if you do things like paste from the clipboard after
+a =c w= in normal mode, because the clipboard will be overwritten before you can
+paste its contents. The following line should disable this behavior:
+
+#+BEGIN_SRC emacs-lisp
+(setq select-enable-clipboard nil)
+#+END_SRC
+
+Doom uses [[https://github.com/spudlyo/clipetty][clipetty]] so that it can use OSC 52 to sync with the clipboard on TTY
+Emacs. But the thing is, stock Emacs already does this with [[https://github.com/emacs-mirror/emacs/blob/master/lisp/term/xterm.el][xterm.el]] and its
+derivatives, [[https://github.com/emacs-mirror/emacs/blob/master/lisp/term/screen.el][screen.el]] and [[https://github.com/emacs-mirror/emacs/blob/master/lisp/term/tmux.el][tmux.el]]. It's just that you'll likely have to enable
+clipboard syncing manually through [[help:xterm-extra-capabilities][xterm-extra-capabilities]] and friends because
+terminal feature detection is so unreliable. What clipetty does differently from
+stock Emacs is that it forgoes any sort of feature detection and unconditionally
+emits OSC 52, potentially causing problems for terminals that doesn't support
+it. But the most problematic aspect of clipetty is that it ignores the value of
+=select-enable-clipboard=, which I configured above, and hooks into every cut
+operation. This is a real deal breaker for me, so I'll disable it with the
+following line:
+
+#+BEGIN_SRC emacs-lisp
+(remove-hook 'tty-setup-hook 'doom-init-clipboard-in-tty-emacs-h)
+#+END_SRC
+
+I'll end this section by setting up keybindings for copying and pasting using
+the system clipboard. This might better belong in the keybindings section, but
+I'll leave it here for now.
+
+#+BEGIN_SRC emacs-lisp
+(map! :v "s-c" (lambda! (evil-yank ?+))
+      :nvi "s-v" (lambda! (evil-paste-from-register ?+)))
+(define-key! :keymaps '(evil-ex-completion-map)
+             "s-v" (lambda! (evil-paste-from-register ?+)))
+(define-key! :keymaps +default-minibuffer-maps
+             "s-v" (lambda! (evil-paste-from-register ?+)))
+#+END_SRC
+* Filetypes
+** Filetype Detection
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.ldg\\'" . ledger-mode))
+#+END_SRC
+** Org Mode
+#+BEGIN_SRC emacs-lisp
+(setq org-directory "~/Documents/org")
+#+END_SRC
