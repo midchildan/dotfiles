@@ -102,8 +102,8 @@
        ;;latex
        ledger
        markdown
-       ;;nix
-       (org +dragndrop)
+       nix
+       (org +dragndrop +roam)
        ;;python
        ;;rest
        ;;rust
