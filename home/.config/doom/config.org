@@ -150,12 +150,36 @@ I'll leave it here for now.
 (define-key! :keymaps +default-minibuffer-maps
              "s-v" (lambda! (evil-paste-from-register ?+)))
 #+END_SRC
-* Filetypes
+* Major Modes
 ** Filetype Detection
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.ldg\\'" . ledger-mode))
 #+END_SRC
-** Org Mode
+** Magit
+Tell Magit where to look for repositories. Since I use a =domain/user/project=
+layout for organizing my repositories, the max depth should be set to 3.
+
 #+BEGIN_SRC emacs-lisp
-(setq org-directory "~/Documents/org")
+(setq magit-repository-directories
+      '(("~/Documents/src/repos" . 3) ("~/Documents/src/go/src" . 3)))
+#+END_SRC
+** Org Mode
+Set default location for placing org files
+
+#+BEGIN_SRC emacs-lisp
+(setq org-directory "~/Documents/org/"
+      org-archive-location (concat org-directory ".archive/%s::")
+      org-roam-directory (concat org-directory "notes/"))
+#+END_SRC
+
+Enable org-habit
+
+#+BEGIN_SRC emacs-lisp
+(after! org (add-to-list 'org-modules 'org-habit t))
+#+END_SRC
+
+Show inline images by default
+
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-with-inline-images t)
 #+END_SRC
