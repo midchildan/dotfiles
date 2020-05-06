@@ -30,7 +30,6 @@ alias egrep='egrep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
-alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 autoload -Uz zmv
 autoload -Uz br cud fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen

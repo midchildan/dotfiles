@@ -27,7 +27,6 @@ alias egrep='egrep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
-alias xmonad-replace='nohup xmonad --replace &> /dev/null &'
 
 #############
 #  History  #
