@@ -139,7 +139,7 @@ dot::shell::task() {
 #   None
 dot::defaults::task() {
   echo -n "Setting $1 $2..."
-  defaults write "$@"
+  defaults write "$1" "$2" -"$3" "${@:4}"
   dot::_print_badge
 }
 
