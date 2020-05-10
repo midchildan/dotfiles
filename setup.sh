@@ -98,7 +98,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .tmux.conf
   - .wgetrc
   - .xprofile
-  - .xmonad
 
 # The below will not run unless --init is specified
 
