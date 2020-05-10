@@ -155,6 +155,17 @@ I'll leave it here for now.
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.ldg\\'" . ledger-mode))
 #+END_SRC
+** Calendar
+Localize holidays for Japan
+
+#+BEGIN_SRC emacs-lisp
+(use-package! japanese-holidays
+  :after holidays
+  :config
+  (setq calendar-holidays (append japanese-holidays
+                                  holiday-local-holidays
+                                  holiday-other-holidays)))
+#+END_SRC
 ** Magit
 Tell Magit where to look for repositories. Since I use a =domain/user/project=
 layout for organizing my repositories, the max depth should be set to 3.
