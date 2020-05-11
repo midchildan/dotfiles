@@ -141,12 +141,23 @@ the system clipboard. This might better belong in the keybindings section, but
 I'll leave it here for now.
 
 #+BEGIN_SRC emacs-lisp
-(map! :v "s-c" (lambda! (evil-yank ?+))
-      :nvi "s-v" (lambda! (evil-paste-from-register ?+)))
-(define-key! :keymaps '(evil-ex-completion-map)
-             "s-v" (lambda! (evil-paste-from-register ?+)))
-(define-key! :keymaps +default-minibuffer-maps
-             "s-v" (lambda! (evil-paste-from-register ?+)))
+(defun rc-clipboard-yank ()
+  "Copies the active region to the system clipboard."
+  (interactive)
+  (when (region-active-p)
+    (gui-set-selection 'CLIPBOARD
+                       (buffer-substring (region-beginning) (region-end)))))
+
+(defun rc-clipboard-paste ()
+  "Pastes text from the system clipboard."
+  (interactive)
+  (let ((text (gui-get-selection 'CLIPBOARD)))
+    (when text (insert-for-yank text))))
+
+(map! :v "s-c" #'rc-clipboard-yank
+      :nvi "s-v" #'rc-clipboard-paste)
+(define-key! :keymaps '(evil-ex-completion-map) "s-v" #'rc-clipboard-paste)
+(define-key! :keymaps +default-minibuffer-maps "s-v" #'rc-clipboard-paste)
 #+END_SRC
 * Major Modes
 ** Filetype Detection
