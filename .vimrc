@@ -50,6 +50,7 @@ endif
 """"""""
 "  UI  "
 """"""""
+set hidden
 set colorcolumn=81
 set number
 set ruler
@@ -115,6 +116,11 @@ nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 " break undo before deleting a whole line
 inoremap <C-u> <C-g>u<C-u>
+
+" handy mapping for :noh
+nnoremap <silent> <BS> :nohlsearch<CR>
+" switch to the next modified buffer
+nnoremap <silent> <Leader>b :bmodified<CR>
 " a more powerful <C-l>
 nnoremap <silent> <Leader><C-l> :noh<CR>:dif<CR>:syn sync fromstart<CR>:redr!<CR>
 
@@ -149,7 +155,7 @@ xnoremap <silent> a, gg0oG$
 onoremap <silent> a, :<C-u>exe "normal! m`"<Bar>keepjumps normal! ggVG<CR>
 
 " toggles
-nnoremap <silent> <Leader>th :setlocal bufhidden! bufhidden?<CR>
+nnoremap <silent> <Leader>th :set bufhidden! bufhidden?<CR>
 nnoremap <silent> <Leader>ts :setlocal spell! spell?<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
 nnoremap <silent> <Leader>t~ :set ignorecase! ignorecase?<CR>
