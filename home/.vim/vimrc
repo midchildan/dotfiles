@@ -205,6 +205,8 @@ xnoremap & :&&<CR>
 " break undo before deleting a whole line
 inoremap <C-u> <C-g>u<C-u>
 
+" handy mapping for :noh
+nnoremap <silent> <BS> :nohlsearch<CR>
 " switch to the next modified buffer
 nnoremap <silent> <Leader>b :bmodified<CR>
 " a more powerful <C-l>
