@@ -211,6 +211,12 @@ Enable org-habit
 (after! org (add-to-list 'org-modules 'org-habit t))
 #+END_SRC
 
+Set the initial fold level. Only the headlines should be visible.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-folded 'content)
+#+END_SRC
+
 Show inline images by default
 
 #+BEGIN_SRC emacs-lisp
