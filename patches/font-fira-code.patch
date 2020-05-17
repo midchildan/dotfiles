@@ -1,5 +1,5 @@
 diff --git a/home/.config/doom/config.org b/home/.config/doom/config.org
-index 78fdcc3..6e90559 100644
+index 642c22e..dad4bcb 100644
 --- a/home/.config/doom/config.org
 +++ b/home/.config/doom/config.org
 @@ -36,7 +36,7 @@ if you don't specify it in the settings, but I find it a little too large for my
@@ -11,6 +11,28 @@ index 78fdcc3..6e90559 100644
  #+END_SRC
  ** Frame
  Frame is the term Emacs uses to refer to GUI windows.
+diff --git a/home/.config/kitty/kitty.conf b/home/.config/kitty/kitty.conf
+index e5f4602..66b99e8 100644
+--- a/home/.config/kitty/kitty.conf
++++ b/home/.config/kitty/kitty.conf
+@@ -2,16 +2,12 @@
+ 
+ #: Fonts {{{
+ 
+-font_family      monospace
++font_family      Fira Code
+ bold_font        auto
+ italic_font      auto
+ bold_italic_font auto
+ font_size 12.0
+ 
+-# Use the PowerlineSymbols font for rendering Powerline codepoints. Comment
+-# this out if your font already supports Powerline glyphs.
+-symbol_map U+E0A0-U+E0A3,U+E0C0-U+E0C7 PowerlineSymbols
+-
+ # Disable multi-character ligatures when the curosr is over them.
+ disable_ligatures cursor
+ 
 diff --git a/home/.vim/gvimrc b/home/.vim/gvimrc
 index 77a99c9..fecfb35 100644
 --- a/home/.vim/gvimrc

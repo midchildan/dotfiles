@@ -1,26 +1,24 @@
-diff --git a/home/.bashrc b/home/.bashrc
-index 1297248..ec74a7c 100644
---- a/home/.bashrc
-+++ b/home/.bashrc
-@@ -8,7 +8,7 @@ esac
- ###########################
- export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
- export GPG_TTY="$(tty)"
+diff --git a/home/.bash_profile b/home/.bash_profile
+index 5f54fe9..f712f92 100644
+--- a/home/.bash_profile
++++ b/home/.bash_profile
+@@ -8,7 +8,7 @@ export GOPATH=~/Documents/src/go
+ export ANDROID_HOME=~/.local/opt/android-sdk
+ 
+ # whether to make use of powerline fonts
 -export USE_POWERLINE=0
 +export USE_POWERLINE=1
+ [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
  
- PATH="$HOME/.local/bin:$PATH"
- PATH+=":$HOME/.cargo/bin"
-diff --git a/home/.zshrc b/home/.zshrc
-index df180aa..53e8e8d 100644
---- a/home/.zshrc
-+++ b/home/.zshrc
-@@ -7,7 +7,7 @@ autoload -Uz is-at-least
- ###########################
- export GEM_HOME="$(/usr/bin/ruby -e 'print Gem.user_dir')"
- export GPG_TTY="$(tty)"
+ [[ -f ~/.bashrc ]] && . ~/.bashrc
+diff --git a/home/.zshenv b/home/.zshenv
+index 3fe8258..034b283 100644
+--- a/home/.zshenv
++++ b/home/.zshenv
+@@ -8,5 +8,5 @@ export GOPATH=~/Documents/src/go
+ export ANDROID_HOME=~/.local/opt/android-sdk
+ 
+ # whether to make use of powerline fonts
 -export USE_POWERLINE=0
 +export USE_POWERLINE=1
- 
- typeset -U path
- path=(
+ [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0

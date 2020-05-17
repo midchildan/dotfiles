@@ -37,6 +37,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/tig/config
   - .local/bin/git-deploy
   - .local/bin/git-fancy
+  - .local/bin/git-kitty
 
 @install Install GPG Config
   - shell: install -d -m 700 ~/.gnupg
@@ -82,6 +83,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .editrc
   - .ideavimrc
   - .config/bat/config
+  - .config/kitty/kitty.conf
   - .config/nano/nanorc
   - .config/nixpkgs/config.nix
   - .config/ranger/rc.conf
@@ -105,6 +107,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - build-essential
   - cmake
   - cmigemo
+  - fonts-powerline
   - zsh-syntax-highlighting
   - shell: vim +PlugInstall +qall
   - shell: ~/.emacs.d/bin/doom -y install --no-config
