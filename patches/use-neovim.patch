@@ -1,5 +1,5 @@
 diff --git a/home/.bashrc b/home/.bashrc
-index 754684e..1479822 100644
+index f3befff..9ea1842 100644
 --- a/home/.bashrc
 +++ b/home/.bashrc
 @@ -8,7 +8,7 @@
@@ -9,15 +9,15 @@ index 754684e..1479822 100644
 -export EDITOR="vim"
 +export EDITOR="nvim"
  export LANG="en_US.UTF-8"
- export LESS="iMR"
+ export LESS="iFMR"
  export PAGER="less"
 diff --git a/home/.zshenv b/home/.zshenv
-index 3fe8258..0d73e55 100644
+index bbf412a..03b1e89 100644
 --- a/home/.zshenv
 +++ b/home/.zshenv
 @@ -1,4 +1,4 @@
 -export EDITOR="vim"
 +export EDITOR="nvim"
  export LANG="en_US.UTF-8"
- export LESS="iMR"
+ export LESS="iFMR"
  export PAGER="less"
