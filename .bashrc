@@ -1,16 +1,24 @@
-case $- in
-  *i*) ;;
-  *) return;;
-esac
+##########################
+#  Early Initialization  #
+##########################
 
-###########################
-#  Environment Variables  #
-###########################
+# Setup some environment variables before the interactivity check. This is the
+# only place where you can place startup commands that will be picked up by
+# non-interactive SSH sessions.
+#
+# https://www.gnu.org/software/bash/manual/bash.html#Invoked-by-remote-shell-daemon
+
 export EDITOR="vim"
 export LANG="en_US.UTF-8"
 export LESS="iMR"
 export PAGER="less"
 export SYSTEMD_LESS="iRSMK"
+
+# skip the rest for non-interactive sessions
+case $- in
+  *i*) ;;
+  *) return ;;
+esac
 
 ###########################
 #  Aliases and Functions  #
