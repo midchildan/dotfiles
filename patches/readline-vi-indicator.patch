@@ -1,5 +1,5 @@
 diff --git a/home/.inputrc b/home/.inputrc
-index 6ca1ea5..45b3ec0 100644
+index c198c5b..8c2bdad 100644
 --- a/home/.inputrc
 +++ b/home/.inputrc
 @@ -11,6 +11,10 @@ set visible-stats on
@@ -12,4 +12,4 @@ index 6ca1ea5..45b3ec0 100644
 +set emacs-mode-string "\e[6 q"
  
  set keymap vi-command
- "!": edit-and-execute-command
+ "\C-l": clear-screen

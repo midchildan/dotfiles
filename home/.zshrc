@@ -257,8 +257,8 @@ case "$TERM" in
     zle -N zle-keymap-select __vi_cursor
     add-zsh-hook preexec __reset_cursor
     add-zsh-hook precmd __term_support
-    ;;
-  eterm*)
+    ;|
+  eterm*|xterm-kitty)
     zstyle ':iterm2:osc' enable false
     ;;
 esac

@@ -118,7 +118,7 @@ set mouse=a
 " colors
 if has('gui_running')
   let s:color_level = 2
-elseif $TERM !~? '.*-256color'
+elseif &t_Co < 256 && $TERM !~? '.*-256color'
   let s:color_level = 0
 elseif $TERM_PROGRAM ==? 'Apple_Terminal'
   let s:color_level = 1

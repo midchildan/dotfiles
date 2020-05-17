@@ -11,6 +11,28 @@ index 1e21cb7..769015a 100644
  #+END_SRC
  ** Frame
  Frame is the term Emacs uses to refer to GUI windows.
+diff --git a/home/.config/kitty/kitty.conf b/home/.config/kitty/kitty.conf
+index e5f4602..66b99e8 100644
+--- a/home/.config/kitty/kitty.conf
++++ b/home/.config/kitty/kitty.conf
+@@ -2,16 +2,12 @@
+ 
+ #: Fonts {{{
+ 
+-font_family      monospace
++font_family      Fira Code
+ bold_font        auto
+ italic_font      auto
+ bold_italic_font auto
+ font_size 12.0
+ 
+-# Use the PowerlineSymbols font for rendering Powerline codepoints. Comment
+-# this out if your font already supports Powerline glyphs.
+-symbol_map U+E0A0-U+E0A3,U+E0C0-U+E0C7 PowerlineSymbols
+-
+ # Disable multi-character ligatures when the curosr is over them.
+ disable_ligatures cursor
+ 
 diff --git a/home/.vim/gvimrc b/home/.vim/gvimrc
 index 2c5605f..02be9c1 100644
 --- a/home/.vim/gvimrc

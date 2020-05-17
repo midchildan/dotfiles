@@ -354,6 +354,26 @@ dot::shell() {
   dot::_print_badge
 }
 
+# Installs a package using Homebrew Cask
+# Globals:
+#   _DOT_SECTION
+#   _DOT_PACKAGE_UPDATED
+# Arguments:
+#   package_name : name of package
+# Returns:
+#   None
+dot::cask() {
+  if [[ "$_DOT_SECTION" != "packages" ]]; then
+    echo "The cask directive only work inside a @package section" >&2
+    return
+  fi
+  if [[ -z "$_DOT_PACKAGE_UPDATED" ]]; then
+    _DOT_PACKAGE_UPDATED=true
+    brew update
+  fi
+  brew cask install "$1"
+}
+
 #############
 #  helpers  #
 #############

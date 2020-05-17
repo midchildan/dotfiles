@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+main() {
+  cd "${GIT_PREFIX:-.}" || return
+
+  local subcommand="${1:-difftool}"
+  local args=("${@:2}")
+
+  if [[ "$subcommand" == "difftool" ]]; then
+    args=("--no-symlinks" "--dir-diff" "${args[@]}")
+    [[ "$TERM" != "xterm-kitty" ]] && args=("-g" "${args[@]}")
+  fi
+
+  git "$subcommand" "${args[@]}"
+}
+
+git() {
+  exec git \
+    -c "diff.tool=kitty" \
+    -c "diff.guitool=kitty.gui" \
+    -c "difftool.prompt=false" \
+    -c "difftool.trustExitCode=true" \
+    "$@"
+}
+
+main "$@"

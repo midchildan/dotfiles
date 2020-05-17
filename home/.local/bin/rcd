@@ -32,8 +32,14 @@ main() {
     esac
   }
 
+  # run ssh
   if [[ "$mode" == "ssh" ]]; then
-    exec ssh "$@"
+    # copy terminfo files to the remote server when using kitty
+    if [[ "$TERM" == "xterm-kitty" ]] && command -v kitty &> /dev/null; then
+      exec kitty +kitten ssh "$@"
+    else
+      exec ssh "$@"
+    fi
   fi
 }
 
