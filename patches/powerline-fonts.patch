@@ -1,25 +1,26 @@
 diff --git a/home/.bashrc b/home/.bashrc
-index 754684e..9cf038a 100644
+index dcd2c64..e592579 100644
 --- a/home/.bashrc
 +++ b/home/.bashrc
 @@ -18,7 +18,7 @@ export GOPATH=~/Documents/src/go
- export ANDROID_HOME=~/.local/opt/android-sdk
+ export ANDROID_HOME=/usr/local/share/android-sdk
  
  # whether to make use of powerline fonts
 -export USE_POWERLINE=0
 +export USE_POWERLINE=1
- [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
- 
- # skip the rest for non-interactive sessions
+ case "$TERM:$TERM_PROGRAM" in
+   xterm-kitty:) USE_POWERLINE=1 ;; # kitty can use the powerline font directly
+   *:iTerm.app) USE_POWERLINE=1 ;; # iTerm provides built-in powerline glyphs
 diff --git a/home/.zshenv b/home/.zshenv
-index be84095..5af256f 100644
+index 0467b1b..3a1db79 100644
 --- a/home/.zshenv
 +++ b/home/.zshenv
-@@ -8,6 +8,6 @@ export GOPATH=~/Documents/src/go
- export ANDROID_HOME=~/.local/opt/android-sdk
+@@ -9,7 +9,7 @@ export GOPATH=~/Documents/src/go
+ export ANDROID_HOME=/usr/local/share/android-sdk
  
  # whether to make use of powerline fonts
 -export USE_POWERLINE=0
 +export USE_POWERLINE=1
- [[ "$TERM" == "xterm-kitty" ]] && USE_POWERLINE=1
- [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
+ case "$TERM:$TERM_PROGRAM" in
+   xterm-kitty:) USE_POWERLINE=1 ;; # kitty can use the powerline font directly
+   *:iTerm.app) USE_POWERLINE=1 ;; # iTerm provides built-in powerline glyphs

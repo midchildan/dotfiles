@@ -1,5 +1,5 @@
 diff --git a/home/.config/doom/config.org b/home/.config/doom/config.org
-index 1e21cb7..769015a 100644
+index 95a8e8c..636ae3d 100644
 --- a/home/.config/doom/config.org
 +++ b/home/.config/doom/config.org
 @@ -33,7 +33,7 @@ build without having to care much about different displays due to excellent
@@ -12,14 +12,14 @@ index 1e21cb7..769015a 100644
  ** Frame
  Frame is the term Emacs uses to refer to GUI windows.
 diff --git a/home/.config/kitty/kitty.conf b/home/.config/kitty/kitty.conf
-index e5f4602..66b99e8 100644
+index 366dfc0..e180c95 100644
 --- a/home/.config/kitty/kitty.conf
 +++ b/home/.config/kitty/kitty.conf
 @@ -2,16 +2,12 @@
  
  #: Fonts {{{
  
--font_family      monospace
+-font_family      Menlo
 +font_family      Fira Code
  bold_font        auto
  italic_font      auto
