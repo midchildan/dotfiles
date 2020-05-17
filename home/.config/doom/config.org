@@ -66,6 +66,17 @@ instead.
 #+BEGIN_SRC emacs-lisp
 (setq which-key-idle-delay 0.01)
 #+END_SRC
+
+Highlight the target region for evil edit operations for a full second. Having a
+clear visual feedback is especially important when yanking text because evil
+motions and text objects can behave very differently depending on which emacs
+modes are enabled. The default duration is too short to make sure that I'm
+operating on the right region.
+
+#+BEGIN_SRC emacs-lisp
+(setq evil-goggles-duration 1
+      evil-goggles-pulse t)
+#+END_SRC
 * Editing
 ** Indentation
 Unfortunately, configuring indentation in Emacs is not as straightforward as
@@ -198,6 +209,12 @@ Enable org-habit
 
 #+BEGIN_SRC emacs-lisp
 (after! org (add-to-list 'org-modules 'org-habit t))
+#+END_SRC
+
+Set the initial fold level. Only the headlines should be visible.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-folded 'content)
 #+END_SRC
 
 Show inline images by default

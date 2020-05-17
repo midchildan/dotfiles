@@ -21,6 +21,10 @@
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
+[difftool "kitty"]
+	cmd = kitty +kitten diff $LOCAL $REMOTE
+[difftool "kitty.gui"]
+	cmd = kitty kitty +kitten diff $LOCAL $REMOTE
 [ghq]
 	root = ~/Documents/src/go/src
 	root = ~/Documents/src/repos
