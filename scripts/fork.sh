@@ -43,13 +43,13 @@ patch::gpg() {
 
   if [[ -z "$GPGKEYID" ]]; then
     # if no keyid is specified, remove keyid setting
-    sed -i -e '/^default-key/d' -e '/./,$!d' "$confpath"
+    sed -i '' -e '/^default-key/d' -e '/./,$!d' "$confpath"
   elif grep -q '^default-key' "$confpath"; then
     # if there's an existing keyid setting, replace it
-    sed -i -e "s/^default-key.*/default-key $GPGKEYID/" "$confpath"
+    sed -i '' -e "s/^default-key.*/default-key $GPGKEYID/" "$confpath"
   else
     # add keyid setting
-    sed -i -e "1 i default-key $GPGKEYID\n" "$confpath"
+    sed -i '' -e '1 i \'$'\n'"default-key $GPGKEYID"$'\\\n\\\n' "$confpath"
   fi
 }
 
