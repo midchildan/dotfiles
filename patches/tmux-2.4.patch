@@ -1,8 +1,14 @@
 diff --git a/.tmux.conf b/.tmux.conf
-index a868a70..711aee2 100644
+index 989bbf8..8eb7aa6 100644
 --- a/.tmux.conf
 +++ b/.tmux.conf
-@@ -26,10 +26,8 @@ _sep_lmain2="#{?USE_POWERLINE,, }"
+@@ -1,4 +1,4 @@
+-# for tmux 2.8
++# for tmux 2.4
+ 
+ #############
+ #  general  #
+@@ -28,10 +28,8 @@ _sep_lmain2="#{?USE_POWERLINE,, }"
  _sep_lsub="#{?USE_POWERLINE,,|}"
  _sep_rmain="#{?USE_POWERLINE,,}"
  _sep_rsub="#{?USE_POWERLINE,,|}"
@@ -15,7 +21,7 @@ index a868a70..711aee2 100644
  
  set -g status-style "fg=white,bg=black"
  set -g status-left "${_sty_stat} #{=7:session_name} ${_sty_sep1}${_sep_lmain2}"
-@@ -39,15 +37,6 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
+@@ -41,15 +39,6 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
  set -g window-status-current-format "${_sty_sep2}${_sep_lmain1}${_sty_stat} #I ${_sep_lsub} #W#{?window_flags,#{window_flags},} ${_sty_sep1}${_sep_lmain1}"
  set -ga update-environment "USE_POWERLINE"
  
@@ -31,7 +37,7 @@ index a868a70..711aee2 100644
  setenv -gu _curr_mode
  setenv -gu _sty_mode
  setenv -gu _sty_stat
-@@ -59,8 +48,6 @@ setenv -gu _sep_lsub
+@@ -61,8 +50,6 @@ setenv -gu _sep_lsub
  setenv -gu _sep_rmain
  setenv -gu _sep_rsub
  setenv -gu _seg_host
@@ -40,7 +46,7 @@ index a868a70..711aee2 100644
  setenv -gu _seg_mode
  
  #################
-@@ -104,12 +91,12 @@ bind C-b copy-mode -ue
+@@ -106,12 +93,12 @@ bind C-b copy-mode -ue
  bind C-k swap-pane -U \; switch-client -T prefix
  bind C-j swap-pane -D \; switch-client -T prefix
  bind C-n new-window \; switch-client -T prefix
@@ -57,7 +63,7 @@ index a868a70..711aee2 100644
  
  bind i setw synchronize-panes off \; switch-client -T root
  bind c switch-client -T c
-@@ -136,26 +123,19 @@ bind C-w switch-client -T ctrl-w
+@@ -138,26 +125,19 @@ bind C-w switch-client -T ctrl-w
  bind '"' switch-client -T buffer
  bind "'" command-prompt -p index "select-window -t ':%%'"
  bind . send-prefix
@@ -88,7 +94,7 @@ index a868a70..711aee2 100644
  
  ############
  #  c mode  #
-@@ -165,7 +145,6 @@ bind -T c s command-prompt -I "#S" "rename-session '%%'" \;\
+@@ -167,7 +147,6 @@ bind -T c s command-prompt -I "#S" "rename-session '%%'" \;\
    switch-client -T prefix
  bind -T c w command-prompt -I "#W" "rename-window '%%'" \;\
    switch-client -T prefix
@@ -96,7 +102,7 @@ index a868a70..711aee2 100644
  
  ############
  #  d mode  #
-@@ -173,7 +152,6 @@ bind -T c Any switch-client -T prefix
+@@ -175,7 +154,6 @@ bind -T c Any switch-client -T prefix
  
  bind -T d b delete-buffer \; switch-client -T prefix
  bind -T d m select-pane -M \; switch-client -T prefix
@@ -104,7 +110,7 @@ index a868a70..711aee2 100644
  
  ############
  #  g mode  #
-@@ -189,11 +167,10 @@ bind -T g 6 select-window -t :6 \; switch-client -T prefix
+@@ -191,11 +169,10 @@ bind -T g 6 select-window -t :6 \; switch-client -T prefix
  bind -T g 7 select-window -t :7 \; switch-client -T prefix
  bind -T g 8 select-window -t :8 \; switch-client -T prefix
  bind -T g 9 select-window -t :9 \; switch-client -T prefix
@@ -118,7 +124,7 @@ index a868a70..711aee2 100644
  
  ############
  #  t mode  #
-@@ -202,27 +179,21 @@ bind -T g Any switch-client -T prefix
+@@ -204,27 +181,21 @@ bind -T g Any switch-client -T prefix
  bind -T t a setw monitor-activity \;\
    display-message 'monitor-activity #{?monitor-activity,on,off}' \;\
    switch-client -T prefix
@@ -149,7 +155,7 @@ index a868a70..711aee2 100644
  
  ###################
  #  lbracket mode  #
-@@ -230,7 +201,6 @@ bind -T buffer Any switch-client -T prefix
+@@ -232,7 +203,6 @@ bind -T buffer Any switch-client -T prefix
  
  bind -T lbracket a previous-window -a \; switch-client -T prefix
  bind -T lbracket s switch-client -p \; switch-client -T prefix
@@ -157,7 +163,7 @@ index a868a70..711aee2 100644
  
  ###################
  #  rbracket mode  #
-@@ -238,7 +208,6 @@ bind -T lbracket Any switch-client -T prefix
+@@ -240,7 +210,6 @@ bind -T lbracket Any switch-client -T prefix
  
  bind -T rbracket a next-window -a \; switch-client -T prefix
  bind -T rbracket s switch-client -n \; switch-client -T prefix
@@ -165,7 +171,7 @@ index a868a70..711aee2 100644
  
  #################
  #  ctrl-w mode  #
-@@ -268,5 +237,3 @@ bind -T ctrl-w C-v split-window -h -c "#{pane_current_path}" \;\
+@@ -270,5 +239,3 @@ bind -T ctrl-w C-v split-window -h -c "#{pane_current_path}" \;\
    switch-client -T prefix
  bind -T ctrl-w C-w select-pane -t :.+ \; switch-client -T prefix
  bind -T ctrl-w / command-prompt "find-window '%%'"
