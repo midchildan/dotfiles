@@ -385,8 +385,8 @@ let g:ycm_rust_src_path='~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rus
 
 let g:ycm_semantic_triggers =  {
   \   'c': [ 're!\w{4}', '_' ],
-  \   'python': [ 're!\bfrom ', 're!\bimport ' ],
-  \   'vim' : [ 're!^', 're!\bset(?:l(?:ocal)?)? ' ] }
+  \   'python': [ 're!\bfrom ', 're!\bimport (?:\w+, )*' ],
+  \   'vim' : [ 're!^', 're!\bset(?:l(?:ocal)?)? (?:\w+[!?]? )*' ] }
 if exists('g:vimtex#re#youcompleteme')
   let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
 endif
