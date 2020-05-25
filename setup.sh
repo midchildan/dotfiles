@@ -77,6 +77,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .ideavimrc
   - .config/bat/config
   - .config/kitty/kitty.conf
+  - .config/nixpkgs/config.nix
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/zathura/zathurarc
