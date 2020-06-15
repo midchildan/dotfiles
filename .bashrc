@@ -77,6 +77,47 @@ bind '"\C-w": backward-kill-word'
 bind '"\C-x\C-f": complete-filename'
 bind '"\C-x\C-n": dynamic-complete-history'
 
+######################
+#  Terminal Support  #
+######################
+case "$TERM" in
+  xterm*|screen*|tmux*)
+    __vte_urlencode() {
+      # Use LC_CTYPE=C to process text byte-by-byte.
+      local LC_CTYPE=C LC_ALL= raw_url="$1" safe
+      while [[ -n "$raw_url" ]]; do
+        safe="${raw_url%%[!a-zA-Z0-9/:_\.\-\!\'\(\)~]*}"
+        printf "%s" "$safe"
+        raw_url="${raw_url#"$safe"}"
+        if [[ -n "$raw_url" ]]; then
+          printf "%%%02X" "'$raw_url"
+          raw_url="${raw_url#?}"
+        fi
+      done
+    }
+
+    # report working directory
+    __vte_osc7() {
+      printf "\e]7;file://%s%s\a" "${HOSTNAME:-}" "$(__vte_urlencode "$PWD")"
+    }
+
+    # deal with missing line feeds from previous command
+    __print_missing_lf() {
+      # XXX: This might not sit well with misbehaving terminals. It also messes
+      # up output on window resize, but I decided to just live with it for now
+      # because only a few applications fail to output a trailing newline.
+      # FWIW zsh also exhibits this behavior.
+      #
+      # Reference:
+      # https://www.vidarholen.net/contents/blog/?p=878
+      # https://unix.stackexchange.com/questions/60459
+      printf "\\e[7m\$\\e[0m%$((COLUMNS - 1))s\\r\\e[K"
+    }
+
+    PROMPT_COMMAND="__print_missing_lf;__vte_osc7;$PROMPT_COMMAND"
+    ;;
+esac
+
 ##########
 #  Misc  #
 ##########
@@ -94,31 +135,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-# Report the working directory
-case "$TERM" in
-  xterm*|screen*|tmux*)
-    __vte_urlencode() {
-      # Use LC_CTYPE=C to process text byte-by-byte.
-      local LC_CTYPE=C LC_ALL= raw_url="$1" safe
-      while [[ -n "$raw_url" ]]; do
-        safe="${raw_url%%[!a-zA-Z0-9/:_\.\-\!\'\(\)~]*}"
-        printf "%s" "$safe"
-        raw_url="${raw_url#"$safe"}"
-        if [[ -n "$raw_url" ]]; then
-          printf "%%%02X" "'$raw_url"
-          raw_url="${raw_url#?}"
-        fi
-      done
-    }
-
-    __vte_osc7() {
-      printf "\e]7;file://%s%s\a" "${HOSTNAME:-}" "$(__vte_urlencode "$PWD")"
-    }
-
-    PROMPT_COMMAND="__vte_osc7;$PROMPT_COMMAND"
-    ;;
-esac
 
 # for macOS
 if [[ "$OSTYPE" == darwin* ]]; then
