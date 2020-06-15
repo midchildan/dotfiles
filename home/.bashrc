@@ -19,6 +19,7 @@ export ANDROID_HOME=~/.local/opt/android-sdk
 
 # whether to make use of powerline fonts
 export USE_POWERLINE=0
+[[ "$TERM" == "xterm-kitty" ]] && USE_POWERLINE=1
 [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
 
 # skip the rest for non-interactive sessions
