@@ -72,21 +72,9 @@ shopt -s cmdhist
 shopt -s lithist
 shopt -s histappend
 
-##########
-#  Misc  #
-##########
-shopt -s checkjobs 2>/dev/null
-shopt -s checkwinsize
-shopt -s globstar 2>/dev/null
-stty -ixoff -ixon # disable flow control
-
-if [ -f /usr/local/etc/bash_completion ]; then
-  . /usr/local/etc/bash_completion
-fi
-
-source ~/.local/opt/fzftools/fzftools.bash
-
-# Report the working directory
+######################
+#  Terminal Support  #
+######################
 case "$TERM" in
   xterm*|screen*|tmux*)
     __vte_urlencode() {
@@ -103,13 +91,41 @@ case "$TERM" in
       done
     }
 
+    # report working directory
     __vte_osc7() {
       printf "\e]7;file://%s%s\a" "${HOSTNAME:-}" "$(__vte_urlencode "$PWD")"
     }
 
-    PROMPT_COMMAND="__vte_osc7;$PROMPT_COMMAND"
+    # deal with missing line feeds from previous command
+    __print_missing_lf() {
+      # XXX: This might not sit well with misbehaving terminals. It also messes
+      # up output on window resize, but I decided to just live with it for now
+      # because only a few applications fail to output a trailing newline.
+      # FWIW zsh also exhibits this behavior.
+      #
+      # Reference:
+      # https://www.vidarholen.net/contents/blog/?p=878
+      # https://unix.stackexchange.com/questions/60459
+      printf "\\e[7m\$\\e[0m%$((COLUMNS - 1))s\\r\\e[K"
+    }
+
+    PROMPT_COMMAND="__print_missing_lf;__vte_osc7;$PROMPT_COMMAND"
     ;;
 esac
+
+##########
+#  Misc  #
+##########
+shopt -s checkjobs 2>/dev/null
+shopt -s checkwinsize
+shopt -s globstar 2>/dev/null
+stty -ixoff -ixon # disable flow control
+
+if [ -f /usr/local/etc/bash_completion ]; then
+  . /usr/local/etc/bash_completion
+fi
+
+source ~/.local/opt/fzftools/fzftools.bash
 
 ###########
 #  Theme  #

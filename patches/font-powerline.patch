@@ -1,5 +1,5 @@
 diff --git a/home/.bashrc b/home/.bashrc
-index dcd2c64..e592579 100644
+index 3a1d96a..01e9b6f 100644
 --- a/home/.bashrc
 +++ b/home/.bashrc
 @@ -18,7 +18,7 @@ export GOPATH=~/Documents/src/go
