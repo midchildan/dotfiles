@@ -1,5 +1,5 @@
 diff --git a/home/.bashrc b/home/.bashrc
-index 754684e..9cf038a 100644
+index c555033..564552e 100644
 --- a/home/.bashrc
 +++ b/home/.bashrc
 @@ -18,7 +18,7 @@ export GOPATH=~/Documents/src/go
@@ -8,9 +8,9 @@ index 754684e..9cf038a 100644
  # whether to make use of powerline fonts
 -export USE_POWERLINE=0
 +export USE_POWERLINE=1
+ [[ "$TERM" == "xterm-kitty" ]] && USE_POWERLINE=1
  [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
  
- # skip the rest for non-interactive sessions
 diff --git a/home/.zshenv b/home/.zshenv
 index be84095..5af256f 100644
 --- a/home/.zshenv
