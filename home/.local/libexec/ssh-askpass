@@ -1,0 +1,35 @@
+#!/usr/bin/env osascript -l JavaScript
+
+// A rudimentary implentation of ssh-askpass for macOS.
+//
+// Although macOS doesn't include ssh-askpass by default, it's a very good idea
+// to have one from a security perspective if you use features like SSH agent
+// forwarding. It can prevent your SSH keys being used without your knowledge
+// by remote servers.
+
+function run(argv) {
+  const app = Application.currentApplication();
+  app.includeStandardAdditions = true;
+
+  const message = argv.join(" ").trim() || "Enter password:";
+  const requiresInput = (message.slice(-1) === ":");
+  const isPassword = message.includes("pass");
+
+  const dialogOptions = {
+    withIcon: "caution",
+    withTitle: "ssh-askpass",
+  };
+
+  if (requiresInput) {
+    const userResponse = app.displayDialog(message, {
+      defaultAnswer: "",
+      hiddenAnswer: isPassword,
+      ...dialogOptions
+    });
+    console.log(userResponse.textReturned);
+  } else {
+    app.displayDialog(message, dialogOptions);
+  }
+}
+
+// vim:set et sw=2 ft=javascript:

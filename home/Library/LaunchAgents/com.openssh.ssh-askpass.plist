@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Sets $SSH_ASKPASS
+
+  XXX: This script also sets $DISPLAY when XQuartz isn't installed because
+  ssh-askpass doesn't get called when $DISPLAY is unset, even on macs.
+-->
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.openssh.ssh-askpass</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/bin/bash</string>
+      <string>-c</string>
+      <string>
+        /bin/launchctl setenv SSH_ASKPASS ~/.local/libexec/ssh-askpass
+        if [[ ! -d /opt/X11 &amp;&amp; -z "$DISPLAY" ]]; then
+          /bin/launchctl setenv DISPLAY /dev/null:0
+        fi
+      </string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+  </dict>
+</plist>

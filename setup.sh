@@ -55,6 +55,8 @@ source "$DOTFILE_DIR/scripts/setup"
   - .ssh/config.d/90-general.conf
   - .ssh/config.d/90-multiplexing.conf
   - .local/bin/rcd
+  - .local/libexec/ssh-askpass
+  - Library/LaunchAgents/com.openssh.ssh-askpass.plist
 
 @install Install LaTeX Config
   - .config/latexmk/latexmkrc
