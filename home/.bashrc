@@ -61,6 +61,7 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 alias qlook='qlmanage -p'
 alias sudoedit='sudo -e'
+alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 
 #############
 #  History  #
