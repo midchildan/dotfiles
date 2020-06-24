@@ -43,6 +43,7 @@ alias egrep='egrep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
+alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 
 #############
 #  History  #

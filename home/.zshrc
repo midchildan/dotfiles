@@ -26,6 +26,7 @@ alias egrep='egrep --color=auto'
 alias ls='ls -F --color=auto'
 alias ll='ls -lh'
 alias la='ls -lAh'
+alias ssha='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 autoload -Uz zmv
 autoload -Uz br cud fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
