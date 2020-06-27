@@ -40,7 +40,7 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 alias qlook='qlmanage -p'
 alias sudoedit='sudo -e'
-alias ssha='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
+alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 autoload -Uz zmv
 autoload -Uz br cud fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen

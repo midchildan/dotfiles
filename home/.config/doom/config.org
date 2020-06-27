@@ -75,6 +75,23 @@ operating on the right region.
 (setq evil-goggles-duration 1
       evil-goggles-pulse t)
 #+END_SRC
+** Ivy
+[[https://github.com/abo-abo/swiper][Ivy]] is a fuzzy finder for Emacs used throughtout the Doom UI.
+
+Let's start by configuring Ivy's matching algorithm. ~ivy--regex-plus~ will
+replace spaces with the regex ~.*~.
+
+#+BEGIN_SRC emacs-lisp
+(setq ivy-re-builders-alist '((t . ivy--regex-plus)))
+#+END_SRC
+
+Next, specify the UI for showing actions to be performed on an Ivy selection. At
+the time of writing, the default UI wouldn't show all available actions, so just
+change it to something that does:
+
+#+BEGIN_SRC emacs-lisp
+(setq ivy-read-action-function #'ivy-hydra-read-action)
+#+END_SRC
 * Editing
 ** Indentation
 Unfortunately, configuring indentation in Emacs is not as straightforward as
@@ -193,6 +210,16 @@ layout for organizing my repositories, the max depth should be set to 3.
 #+BEGIN_SRC emacs-lisp
 (setq magit-repository-directories
       '(("~/Documents/src/repos" . 3) ("~/Documents/src/go/src" . 3)))
+#+END_SRC
+
+Add a command in the "push" menu to push to a remote without an explicit
+refspec. This is useful if you want to use a refspec that you've specified in
+your gitconfig.
+
+#+BEGIN_SRC emacs-lisp
+(after! magit
+  (transient-append-suffix 'magit-push "r"
+    '("R" "implicit refspecs" magit-push-to-remote)))
 #+END_SRC
 ** Org Mode
 Set default location for placing org files
