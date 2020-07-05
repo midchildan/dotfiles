@@ -4,12 +4,14 @@ autoload -Uz fzf-widgets && fzf-widgets || return 1
 
 fzf-cdr-widget() {
   emulate -L zsh
+  setopt localoptions pipefail no_aliases 2> /dev/null
 
   local -a reply
   autoload -Uz chpwd_recent_filehandler && chpwd_recent_filehandler $reply
 
-  setopt localoptions pipefail 2> /dev/null
-  local dir="$(for line in $reply; do echo "$line"; done | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS" $(__fzfcmd) +m)"
+  local fzfopts="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS"
+  local dir="$(for line in $reply; do echo "$line"; done \
+    | FZF_DEFAULT_OPTS="$fzfopts" $(__fzfcmd) +m)"
   if [[ -z "$dir" ]]; then
     zle redisplay
     return 0
