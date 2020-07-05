@@ -229,6 +229,7 @@ Set default location for placing org files
 #+BEGIN_SRC emacs-lisp
 (setq org-directory "~/Documents/org/"
       org-archive-location (concat org-directory ".archive/%s::")
+      org-roam-db-location (concat doom-cache-dir "org-roam.db")
       org-roam-directory (concat org-directory "notes/"))
 #+END_SRC
 
