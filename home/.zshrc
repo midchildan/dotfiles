@@ -119,6 +119,7 @@ autoload -Uz vim-pipe && zle -N vim-pipe
 autoload -Uz fzf-completion && zle -N fzf-completion
 autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
 autoload -Uz fzf-cdr-widget && zle -N fzf-cdr-widget
+autoload -Uz fzf-cd-repo-widget && zle -N fzf-cd-repo-widget
 autoload -Uz fzf-file-widget && zle -N fzf-file-widget
 autoload -Uz fzf-history-widget && zle -N fzf-history-widget
 autoload -Uz fzf-snippet-expand && zle -N fzf-snippet-expand
@@ -144,6 +145,8 @@ bindkey -v \
   '^B' copy-earlier-word \
   '^E' history-incremental-search-forward \
   '^Gu' split-undo \
+  '^G^F' fzf-cd-widget \
+  '^G^P' fzf-cd-repo-widget \
   '^H' backward-delete-char \
   '^I' fzf-completion \
   '^J' fzf-snippet-next \
@@ -161,7 +164,6 @@ bindkey -v \
   '^?' backward-delete-char
 bindkey -ra 's'
 bindkey -a \
-  'gf' fzf-cd-widget \
   'g^A' sync-incarg \
   'g^X' sync-decarg \
   'sa' add-surround \
