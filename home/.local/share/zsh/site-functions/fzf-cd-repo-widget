@@ -1,0 +1,45 @@
+emulate -L zsh
+
+autoload -Uz fzf-widgets && fzf-widgets || return 1
+
+fzf-cd-repo-widget() {
+  emulate -L zsh
+  setopt localoptions pipefail no_aliases 2> /dev/null
+
+  local repo has_ghq=
+  command -v ghq &> /dev/null && has_ghq=1
+  {
+    if [[ -n "$has_ghq" ]]; then
+      ghq list
+    else
+      local reporoot
+      git config --get-all ghq.root | while IFS= read -r reporoot; do
+        if [[ -d ${~reporoot} ]]; then
+          find -L ${~reporoot} -mindepth 3 -maxdepth 3 -type d -print
+        fi
+      done
+    fi
+  } | {
+    local fzfopts="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS"
+    FZF_DEFAULT_OPTS="$fzfopts" $(__fzfcmd) +m
+  } | IFS= read -r repo
+
+  local dir
+  if [[ -z "$repo" ]]; then
+    zle redisplay
+    return 0
+  elif [[ -n "$has_ghq" ]]; then
+    ghq list -e -p "$repo" | IFS= read -r dir
+  else
+    dir="$repo"
+  fi
+
+  cd "$dir"
+  local ret=$?
+  unset dir repo
+  zle fzf-redraw-prompt
+
+  return $ret
+}
+
+fzf-cd-repo-widget

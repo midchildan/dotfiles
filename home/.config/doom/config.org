@@ -221,12 +221,29 @@ your gitconfig.
   (transient-append-suffix 'magit-push "r"
     '("R" "implicit refspecs" magit-push-to-remote)))
 #+END_SRC
+
+Add a keybinding to browse files in other git projects. It works similarly to
+=SPC p p= (bound to [[elisp:(projectile-switch-project)][projectile-switch-project]]), but it can find projects not
+visited before. It looks for git projects in ~magit-repository-directories~.
+
+#+BEGIN_SRC emacs-lisp
+(defun rc-browse-in-git-repo ()
+  (interactive)
+  (doom-project-browse (magit-read-repository)))
+
+(map! :after magit
+      :leader
+      :prefix "g"
+      :desc "Browse other git projects"
+      "p" #'rc-browse-in-git-repo)
+#+END_SRC
 ** Org Mode
 Set default location for placing org files
 
 #+BEGIN_SRC emacs-lisp
 (setq org-directory "~/Documents/org/"
       org-archive-location (concat org-directory ".archive/%s::")
+      org-roam-db-location (concat doom-cache-dir "org-roam.db")
       org-roam-directory (concat org-directory "notes/"))
 #+END_SRC
 
