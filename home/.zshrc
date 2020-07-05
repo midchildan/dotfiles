@@ -149,6 +149,8 @@ bindkey -v \
   '^B' copy-earlier-word \
   '^E' history-incremental-search-forward \
   '^Gu' split-undo \
+  '^G^F' fzf-cd-widget \
+  '^G^P' fzf-cd-repo-widget \
   '^H' backward-delete-char \
   '^I' fzf-completion \
   '^J' fzf-snippet-next \
@@ -166,8 +168,6 @@ bindkey -v \
   '^?' backward-delete-char
 bindkey -ra 's'
 bindkey -a \
-  'gf' fzf-cd-widget \
-  'gp' fzf-cd-repo-widget \
   'g^A' sync-incarg \
   'g^X' sync-decarg \
   'sa' add-surround \
