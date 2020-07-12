@@ -5,18 +5,20 @@ if grep -q "{{" <<< "$BUFFER"; then
   return
 fi
 
-local snip="$( \
-  # color command names & comments before piping to fzf
-  cat ~/.config/shell/snippets/*.snip \
-    | sed -e "s/^\([a-zA-Z0-9_-]\{1,\}\) /$(tput setaf 255)\1$(tput sgr0) /" \
-        -e "s/ *\(##\) *\(.*\)/$(tput setaf 8)  \1 \2$(tput sgr0)/" \
-    | fzf --height 50% --reverse +m --ansi -q "$LBUFFER" \
-        --preview 'echo {}' --preview-window down:3:wrap \
-)"
-local ret="$?"
+local snippet=
+perl -MTerm::ANSIColor=colored -0777 -ne \
+  'print "$2 ", colored("## $1\n", q/bright_black/) while /^- (.*):\n\n\`(.*)\`$/mg' \
+  ~/.config/shell/snippets/*/*.md \
+  | fzf --height 50% --reverse +m --ansi -q "$LBUFFER" \
+      --preview 'echo {}' --preview-window down:3:wrap \
+  | IFS= read -r snippet
 
-if [[ -n "$snip" ]]; then
-  LBUFFER="$(sed "s/ *##.*//" <<< "$snip")"
+local ret
+if [[ -n "$snippet" ]]; then
+  LBUFFER="$(sed "s/ *##.*//" <<< "$snippet")"
+  ret=0
+else
+  ret=1
 fi
 
 zle reset-prompt
