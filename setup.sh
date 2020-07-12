@@ -17,7 +17,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .zshrc
   - .inputrc
   - .config/shell/snippets/common
-  - .config/shell/snippets/linux
+  - .config/shell/snippets/osx
   - .config/shell/snippets/main/snippets.md
   - .config/shell/templates
   - .config/shell/templates.csv
