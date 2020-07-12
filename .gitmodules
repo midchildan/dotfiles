@@ -23,3 +23,7 @@
 	path = home/.local/opt/tilix-gruvbox
 	url = https://github.com/MichaelThessel/tilix-gruvbox.git
 	ignore = all
+[submodule "home/.local/opt/tldr"]
+	path = home/.local/opt/tldr
+	url = https://github.com/tldr-pages/tldr.git
+	ignore = all
