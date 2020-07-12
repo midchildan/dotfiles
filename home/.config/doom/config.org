@@ -205,11 +205,14 @@ Localize holidays for Japan
 #+END_SRC
 ** Magit
 Tell Magit where to look for repositories. Since I use a =domain/user/project=
-layout for organizing my repositories, the max depth should be set to 3.
+layout for organizing my repositories, the max depth should be set to 3. Also
+inform projectile about it.
 
 #+BEGIN_SRC emacs-lisp
 (setq magit-repository-directories
-      '(("~/Documents/src/repos" . 3) ("~/Documents/src/go/src" . 3)))
+        '(("~/Documents/src/repos" . 3) ("~/Documents/src/go/src" . 3))
+      projectile-project-search-path
+        (mapcar #'car magit-repository-directories))
 #+END_SRC
 
 Add a command in the "push" menu to push to a remote without an explicit

@@ -16,11 +16,13 @@ source "$DOTFILE_DIR/scripts/setup"
   - .zshenv
   - .zshrc
   - .inputrc
-  - .config/shell/snippets/common.snip
-  - .config/shell/snippets/macos.snip
+  - .config/shell/snippets/common
+  - .config/shell/snippets/linux
+  - .config/shell/snippets/main/snippets.md
   - .config/shell/templates
   - .config/shell/templates.csv
   - .local/share/zsh/site-functions
+  - .local/opt/tldr
 
 @install Install Vim Config
   - .vim

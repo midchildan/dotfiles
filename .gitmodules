@@ -6,3 +6,7 @@
 	path = home/.local/opt/tmux-copycat
 	url = https://github.com/tmux-plugins/tmux-copycat.git
 	ignore = all
+[submodule "home/.local/opt/tldr"]
+	path = home/.local/opt/tldr
+	url = https://github.com/tldr-pages/tldr.git
+	ignore = all
