@@ -33,12 +33,14 @@ alias la='ls -lAh'
 alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 
 ::tmux() {
-  if [[ -z "$_TMUXVER" && -f "$DOTROOT/.tmux.conf" && "$1" != "current" ]]; then
-    curl -sSfL "https://midchildan.org/dotfiles/patches/tmux-"$1".patch" \
-      | patch -d "$DOTROOT" -p1 \
+  local baseurl="https://www.midchildan.org/dotfiles/patches"
+  local confdir="${DOTROOT:-$HOME}"
+  if [[ -z "$_TMUXVER" && -f "$confdir/.tmux.conf" && "$1" != "current" ]]; then
+    curl -sSfL "$baseurl/tmux-$1.patch" \
+      | patch -d "$confdir" -p1 \
       && _TMUXVER="$1"
   fi
-  command tmux -f "$DOTROOT/.tmux.conf" "${@:2}"
+  command tmux -f "$confdir/.tmux.conf" "${@:2}"
 }
 
 tmux-2.4() { ::tmux 2.4 "$@"; }
