@@ -297,7 +297,7 @@ fi
 unset LS_COLORS # clear distro defaults
 
 autoload -Uz promptinit && promptinit
-prompt concise
+prompt dashboard
 
 # must be run last
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
