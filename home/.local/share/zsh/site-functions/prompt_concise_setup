@@ -2,16 +2,17 @@
 
 prompt_concise_setup() {
   autoload -Uz vcs_info
-  zstyle ':vcs_info:*' actionformats \
-    '%b@%s%f: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
+  zstyle ':vcs_info:*' enable git
+  zstyle ':vcs_info:*' check-for-changes true
+  zstyle ':vcs_info:*' max-exports 2
   zstyle ':vcs_info:*' formats \
     '%b@%s%f: %F{blue}%r/%S%f' '%c%u'
+  zstyle ':vcs_info:*' actionformats \
+    '%b@%s%f: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
   zstyle ':vcs_info:*' stagedstr "[%B%F{yellow}staged%f%b]"
   zstyle ':vcs_info:*' unstagedstr "[%B%F{red}unstaged%f%b]"
-  zstyle ':vcs_info:*' check-for-changes true
-  zstyle ':vcs_info:*' enable git
 
-  prompt_opts=(cr subst percent)
+  prompt_opts=(cr percent)
   add-zsh-hook precmd prompt_concise_precmd
   add-zsh-hook preexec prompt_concise_preexec
 }
@@ -46,3 +47,5 @@ prompt_concise_preexec() {
 }
 
 prompt_concise_setup "$@"
+
+# vim:set et sw=2 ft=zsh:
