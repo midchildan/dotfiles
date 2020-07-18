@@ -111,6 +111,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - cmigemo
   - fonts-powerline
   - neovim
+  - nodejs
   - zsh-syntax-highlighting
   - shell: nvim +PlugInstall +qall
   - shell: ~/.emacs.d/bin/doom -y install --no-config

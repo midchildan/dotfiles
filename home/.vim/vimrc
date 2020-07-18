@@ -16,9 +16,10 @@ Plug 'easymotion/vim-easymotion', {'on': [
 Plug 'w0rp/ale'
 Plug 'junegunn/fzf', {'dir': '~/.local/opt/fzf', 'do': '~/.local/libexec/fzf/install'}
 Plug 'junegunn/fzf.vim'
-Plug 'Valloric/YouCompleteMe', { 'do': function('vimrc#plug#ycm')}
-Plug 'rdnetto/YCM-generator', {'branch': 'stable',
-  \ 'on': ['YcmGenerateConfig', 'CCGenerateConfig']}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc-snippets'
+" XXX: coc-snippets isn't completely compatible w/ UltiSnips snippets
+" Run ':CocInstall coc-ultisnips' to show UltiSnips snippets
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " utilities
@@ -43,6 +44,7 @@ Plug 'morhetz/gruvbox'
 Plug 'midchildan/molokai'
 
 " filetypes
+" TODO: Add more coc extensions. For the time being, install w/ :CocInstall.
 Plug 'midchildan/ft-confluence.vim'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'LnL7/vim-nix', {'for': 'nix'}
@@ -104,6 +106,7 @@ set number
 set ruler
 set showcmd
 set noshowmode
+set shortmess+=c
 set listchars=tab:>\ ,trail:-,nbsp:+
 set cmdheight=1
 set laststatus=2
@@ -243,6 +246,14 @@ xnoremap <silent> il <Esc>^vg_
 onoremap <silent> il :<C-u>normal! ^vg_<CR>
 xnoremap <silent> a, gg0oG$
 onoremap <silent> a, :<C-u>exe "normal! m`"<Bar>keepjumps normal! ggVG<CR>
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
 " XXX: Same feature as vim/vim#958
 xmap im <Plug>(textobj-sandwich-literal-query-i)
 omap im <Plug>(textobj-sandwich-literal-query-i)
@@ -309,19 +320,21 @@ xmap g= <Plug>(EasyAlign)
 nmap s <Nop>
 xmap s <Nop>
 
-" YouCompleteMe
-nnoremap <silent> <Leader>cf :YcmCompleter FixIt<CR>
-nnoremap <silent> <Leader>cw :YcmCompleter RefactorRename<CR>
-xnoremap <silent> <Leader>gq :YcmCompleter Format<CR>
-nnoremap <silent> <Leader>gq :YcmCompleter Format<CR>
-nnoremap <silent> <Leader>gd :YcmCompleter GoToDefinition<CR>
-nnoremap <silent> <Leader>gD :YcmCompleter GoToDeclaration<CR>
-nnoremap <silent> <Leader>gt :YcmCompleter GetType<CR>
-nnoremap <silent> <Leader>g] :YcmCompleter GoTo<CR>
-nnoremap <silent> <Leader>gl :YcmDiags<CR>
-nnoremap <silent> <Leader>gL :YcmShowDetailedDiagnostic<CR>
-nnoremap <silent> <Leader>* :YcmCompleter GoToReferences<CR>
-nnoremap <silent> <Leader>K :YcmCompleter GetDoc<CR>
+" coc
+inoremap <silent><expr> <Tab> vimrc#coc#tab()
+nmap <Leader>a <Plug>(coc-codeaction-selected)
+xmap <Leader>a <Plug>(coc-codeaction-selected)
+nmap <Leader>cf <Plug>(coc-fix-current)
+nmap <Leader>cw <Plug>(coc-rename)
+xmap <Leader>gq <Plug>(coc-format-selected)
+nmap <Leader>gq <Plug>(coc-format-selected)
+nmap <silent> <Leader>gd <Plug>(coc-definition)
+nmap <silent> <Leader>gD <Plug>(coc-declaration)
+nmap <silent> <Leader>gt <Plug>(coc-type-definition)
+nmap <silent> <Leader>g] <Plug>(coc-implementation)
+nmap <silent> <Leader>* <Plug>(coc-references)
+nnoremap <silent> <Leader>K :call CocAction('doHover')<CR>
+nnoremap <silent> <Leader><Leader> :CocList commands<CR>
 
 " 3-way merge
 nnoremap <silent> <Leader>1 :diffget LOCAL<CR>
@@ -371,28 +384,6 @@ let g:EditorConfig_exclude_patterns=['fugitive://.*', '\(M\|m\|GNUm\)akefile']
 
 " UltiSnips "
 let g:UltiSnipsExpandTrigger='<C-x><C-j>'
-
-" YouCompleteMe "
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
-let g:ycm_key_invoke_completion='<C-x><C-x><C-x>'
-let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf.py'
-let g:ycm_extra_conf_vim_data=[
-  \ '&filetype',
-  \ 'g:ycm_python_interpreter_path',
-  \ 'g:ycm_python_sys_path']
-
-let g:ycm_python_interpreter_path = ''
-let g:ycm_python_sys_path = []
-let g:ycm_rust_src_path='~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
-
-let g:ycm_semantic_triggers =  {
-  \   'c': [ 're!\w{4}', '_' ],
-  \   'python': [ 're!\bfrom ', 're!\bimport (?:\w+, )*' ],
-  \   'vim' : [ 're!^', 're!\bset(?:l(?:ocal)?)? (?:\w+[!?]? )*' ] }
-if exists('g:vimtex#re#youcompleteme')
-  let g:ycm_semantic_triggers.tex = g:vimtex#re#youcompleteme
-endif
 
 " airline "
 let g:airline_skip_empty_sections=1
