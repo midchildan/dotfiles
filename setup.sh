@@ -105,10 +105,12 @@ source "$DOTFILE_DIR/scripts/setup"
   - cmigemo
   - fzf
   - ripgrep
+  - neovim
+  - nodejs
   - zsh-completions
   - zsh-syntax-highlighting
   - cask: homebrew/cask-fonts/font-powerline-symbols
-  - shell: vim +PlugInstall +qall
+  - shell: nvim +PlugInstall +qall
   - shell: ~/.emacs.d/bin/doom -y install --no-config
 
 @githooks
