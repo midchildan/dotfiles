@@ -23,12 +23,15 @@ alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 autoload -Uz zmv
 
 ::tmux() {
-  local baseurl="https://www.midchildan.org/dotfiles/patches"
-  local confdir="${DOTROOT:-$HOME}"
+  local baseurl confdir="${DOTROOT:-$HOME}"
+  zstyle -s ':dotfiles' baseurl baseurl
   if [[ -z "$_TMUXVER" && -f "$confdir/.tmux.conf" && "$1" != "current" ]]; then
-    curl -sSfL "$baseurl/tmux-$1.patch" \
-      | patch -d "$confdir" -p1 \
-      && _TMUXVER="$1"
+    if [[ -n "$baseurl" ]]; then
+      curl -sSfL "$baseurl/tmux-$1.patch" | patch -d "$confdir" -p1 \
+        && _TMUXVER="$1"
+    else
+      echo "[WARN] baseurl not set" >&2
+    fi
   fi
   command tmux -f "$confdir/.tmux.conf" "${@:2}"
 }
@@ -207,6 +210,7 @@ setopt interactive_comments
 setopt long_list_jobs
 setopt no_clobber
 setopt no_flowcontrol
+zstyle ':dotfiles' baseurl 'https://www.midchildan.org/dotfiles'
 autoload -Uz select-word-style && select-word-style bash
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 if is-at-least 5.2; then
@@ -235,5 +239,20 @@ if [[ "$TERM" == "dumb" ]]; then
 fi
 
 unset LS_COLORS # clear distro defaults
+
+::prompt() {
+  local baseurl
+  zstyle -s ':dotfiles' baseurl baseurl
+  if [[ -n "$baseurl" ]]; then
+    source <(curl -sSfL "$baseurl/extras/prompt_${1}_setup")
+  else
+    echo "[WARN] baseurl not set" >&2
+  fi
+}
+
+prompt_concise_setup() { ::prompt concise; }
+prompt_dashboard_setup() { ::prompt dashboard; }
+autoload -Uz promptinit && promptinit
+prompt_themes+=(concise dashboard) # XXX: hack to register prompts not in fpath
 
 PROMPT='%B%(!:%F{red}:%F{green})%n@%m%f: %F{blue}%~%f'$'\n''%(?::%F{red})%#%f%b '
