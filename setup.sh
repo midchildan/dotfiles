@@ -109,7 +109,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - init: true
   - nix-cflags
   - emacs-all-the-icons-fonts
-  - shell: vim +PlugInstall +qall
+  - shell: nvim +PlugInstall +qall
   - shell: ~/.emacs.d/bin/doom sync
 
 @githooks
