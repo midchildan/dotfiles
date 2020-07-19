@@ -8,7 +8,7 @@
 #
 # https://www.gnu.org/software/bash/manual/bash.html#Invoked-by-remote-shell-daemon
 
-export EDITOR="vim"
+export EDITOR="nvim"
 export LANG="en_US.UTF-8"
 export LESS="iMR"
 export PAGER="less"
