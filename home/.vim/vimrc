@@ -275,11 +275,11 @@ inoremap <silent> <C-x><C-x><C-j> <Esc>:Snippets<CR>
 nnoremap <silent> <Leader>gb :Buffers<CR>
 nnoremap <silent> <Leader>gf :Files<CR>
 nnoremap <silent> <Leader>gp :GitFiles<CR>
+nnoremap <silent> <Leader>gK :Helptags<CR>
 nnoremap <silent> <Leader>g/ :Lines<CR>
 nnoremap <silent> <Leader>g<C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
 nnoremap <silent> <Leader>q: :History:<CR>
 nnoremap <silent> <Leader>q/ :History/<CR>
-nnoremap <silent> <Leader>K :Helptags<CR>
 nnoremap <silent> <Leader>' :Marks<CR>
 nnoremap <silent> <Leader>/ :BLines<CR>
 nnoremap <silent> <Leader>: :Commands<CR>
@@ -310,16 +310,18 @@ nmap s <Nop>
 xmap s <Nop>
 
 " YouCompleteMe
-nnoremap <silent> <Leader><Leader>cf :YcmCompleter FixIt<CR>
-nnoremap <silent> <Leader><Leader>cw :YcmCompleter RefactorRename<CR>
-xnoremap <silent> <Leader><Leader>gq  :YcmCompleter Format<CR>
-nnoremap <silent> <Leader><Leader>gq :YcmCompleter Format<CR>
-nnoremap <silent> <Leader><Leader>l :YcmDiags<CR>
-nnoremap <silent> <Leader><Leader>K :YcmCompleter GetDoc<CR>
-nnoremap <silent> <Leader><Leader>* :YcmCompleter GoToReferences<CR>
-nnoremap <silent> <Leader><Leader>[l :YcmShowDetailedDiagnostic<CR>
-nnoremap <silent> <Leader><Leader>[t :YcmCompleter GetType<CR>
-nnoremap <silent> <Leader><Leader><C-]> :YcmCompleter GoTo<CR>
+nnoremap <silent> <Leader>cf :YcmCompleter FixIt<CR>
+nnoremap <silent> <Leader>cw :YcmCompleter RefactorRename<CR>
+xnoremap <silent> <Leader>gq :YcmCompleter Format<CR>
+nnoremap <silent> <Leader>gq :YcmCompleter Format<CR>
+nnoremap <silent> <Leader>gd :YcmCompleter GoToDefinition<CR>
+nnoremap <silent> <Leader>gD :YcmCompleter GoToDeclaration<CR>
+nnoremap <silent> <Leader>gt :YcmCompleter GetType<CR>
+nnoremap <silent> <Leader>g] :YcmCompleter GoTo<CR>
+nnoremap <silent> <Leader>gl :YcmDiags<CR>
+nnoremap <silent> <Leader>gL :YcmShowDetailedDiagnostic<CR>
+nnoremap <silent> <Leader>* :YcmCompleter GoToReferences<CR>
+nnoremap <silent> <Leader>K :YcmCompleter GetDoc<CR>
 
 " 3-way merge
 nnoremap <silent> <Leader>1 :diffget LOCAL<CR>
