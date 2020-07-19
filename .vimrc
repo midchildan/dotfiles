@@ -56,6 +56,7 @@ set number
 set ruler
 set showcmd
 set noshowmode
+set shortmess+=c
 set listchars=tab:>\ ,trail:-,nbsp:+
 set cmdheight=1
 set laststatus=2
