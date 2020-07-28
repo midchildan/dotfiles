@@ -1,4 +1,4 @@
-# My favorite snippets
+# Common snippets
 
 > This file contains command examples used by our snippet expansion widget for
 > zsh. It's triggered by pressing `^X^J` in insert mode, and the placeholders
@@ -19,13 +19,21 @@
 
 `python3 -m http.server {{8000}} --bind {{127.0.0.1}}`
 
+- Start an httpbin server:
+
+`gunicorn -b {{localhost}}:{{8080}} httpbin:app -k gevent`
+
 - Start an OpenSSL test HTTP server:
 
 `openssl s_server -accept {{4443}} -www`
 
-- Start an httpbin server:
+- Show diagnostic information for remote TLS servers:
 
-`gunicorn -b {{localhost}}:{{8080}} httpbin:app -k gevent`
+`openssl s_client -connect {{localhost:443}} < /dev/null`
+
+- Generate a random string of length n:
+
+`openssl rand -base64 {{n}} | head -c{{n}}`
 
 - Shorten a GitHub URL:
 
