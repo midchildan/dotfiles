@@ -252,7 +252,10 @@ unset LS_COLORS # clear distro defaults
 
 prompt_concise_setup() { ::prompt concise; }
 prompt_dashboard_setup() { ::prompt dashboard; }
-autoload -Uz promptinit && promptinit
-prompt_themes+=(concise dashboard) # XXX: hack to register prompts not in fpath
+prompt_portable_setup() { # stripped down version of the "concise" theme
+  PROMPT='%B%(!:%F{red}:%F{green})%n@%m%f: %F{blue}%~%f'$'\n''%(?::%F{red})%#%f%b '
+}
 
-PROMPT='%B%(!:%F{red}:%F{green})%n@%m%f: %F{blue}%~%f'$'\n''%(?::%F{red})%#%f%b '
+autoload -Uz promptinit && promptinit
+prompt_themes+=(concise dashboard portable) # XXX: register prompts not in fpath
+prompt portable
