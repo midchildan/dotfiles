@@ -93,6 +93,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .local/opt/fzftools
   - .local/opt/tmux-copycat
   - .nanorc
+  - .prettierrc
   - .screenrc
   - .tmux.conf
   - .wgetrc

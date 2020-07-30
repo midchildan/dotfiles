@@ -1,9 +1,9 @@
 diff --git a/home/.tmux.conf b/home/.tmux.conf
-index 4d44529..cb04071 100644
+index 194b98a..cb04071 100644
 --- a/home/.tmux.conf
 +++ b/home/.tmux.conf
 @@ -1,4 +1,4 @@
--# for tmux 2.8
+-# for tmux 3.0
 +# for tmux 2.4
  
  #############
@@ -21,23 +21,19 @@ index 4d44529..cb04071 100644
  
  set -g status-style "fg=white,bg=black"
  set -g status-left "${_sty_stat} #{=7:session_name} ${_sty_sep1}${_sep_lmain2}"
-@@ -41,15 +39,6 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
+@@ -41,11 +39,6 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
  set -g window-status-current-format "${_sty_sep2}${_sep_lmain1}${_sty_stat} #I ${_sep_lsub} #W#{?window_flags,#{window_flags},} ${_sty_sep1}${_sep_lmain1}"
  set -ga update-environment "USE_POWERLINE"
  
--set-hook -g 'after-new-window' \
--  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
--set-hook -g 'after-kill-pane' \
--  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
--set-hook -g 'pane-exited' \
--  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
--set-hook -g 'after-split-window' \
--  'if -b "[ \#{window_panes} -gt 1 ]" "set pane-border-status top"'
+-set-hook -g "window-layout-changed" {
+-  if -b "[ '#{window_panes}' -gt 1 ]" \
+-    "set pane-border-status top" "set pane-border-status off"
+-}
 -
  setenv -gu _curr_mode
  setenv -gu _sty_mode
  setenv -gu _sty_stat
-@@ -61,8 +50,6 @@ setenv -gu _sep_lsub
+@@ -57,8 +50,6 @@ setenv -gu _sep_lsub
  setenv -gu _sep_rmain
  setenv -gu _sep_rsub
  setenv -gu _seg_host
@@ -46,7 +42,16 @@ index 4d44529..cb04071 100644
  setenv -gu _seg_mode
  
  #################
-@@ -106,12 +93,12 @@ bind C-b copy-mode -ue
+@@ -78,7 +69,7 @@ set -g status-keys vi
+ set -g escape-time 0
+ 
+ # mouse
+-bind -n MouseDrag1Status swap-window -d -t=
++bind -n MouseDrag1Status swap-window -t=
+ bind -n WheelUpPane if -Ft= "#{||:#{mouse_any_flag},#{pane_in_mode}}" \
+   "select-pane -t=; send -M" \
+   "if -Ft= '#{alternate_on}' 'select-pane -t=; send -t= Up' 'select-pane -t=; copy-mode -e; send -M'"
+@@ -102,12 +93,12 @@ bind C-b copy-mode -ue
  bind C-k swap-pane -U \; switch-client -T prefix
  bind C-j swap-pane -D \; switch-client -T prefix
  bind C-n new-window \; switch-client -T prefix
@@ -63,7 +68,7 @@ index 4d44529..cb04071 100644
  
  bind i setw synchronize-panes off \; switch-client -T root
  bind c switch-client -T c
-@@ -139,26 +126,19 @@ bind C-w switch-client -T ctrl-w
+@@ -135,26 +126,19 @@ bind C-w switch-client -T ctrl-w
  bind '"' switch-client -T buffer
  bind "'" command-prompt -p index "select-window -t ':%%'"
  bind . send-prefix
@@ -94,7 +99,7 @@ index 4d44529..cb04071 100644
  
  ############
  #  c mode  #
-@@ -168,7 +148,6 @@ bind -T c s command-prompt -I "#S" "rename-session '%%'" \;\
+@@ -164,7 +148,6 @@ bind -T c s command-prompt -I "#S" "rename-session '%%'" \;\
    switch-client -T prefix
  bind -T c w command-prompt -I "#W" "rename-window '%%'" \;\
    switch-client -T prefix
@@ -102,7 +107,7 @@ index 4d44529..cb04071 100644
  
  ############
  #  d mode  #
-@@ -176,7 +155,6 @@ bind -T c Any switch-client -T prefix
+@@ -172,7 +155,6 @@ bind -T c Any switch-client -T prefix
  
  bind -T d b delete-buffer \; switch-client -T prefix
  bind -T d m select-pane -M \; switch-client -T prefix
@@ -110,7 +115,7 @@ index 4d44529..cb04071 100644
  
  ############
  #  g mode  #
-@@ -192,12 +170,11 @@ bind -T g 6 select-window -t :6 \; switch-client -T prefix
+@@ -188,12 +170,11 @@ bind -T g 6 select-window -t :6 \; switch-client -T prefix
  bind -T g 7 select-window -t :7 \; switch-client -T prefix
  bind -T g 8 select-window -t :8 \; switch-client -T prefix
  bind -T g 9 select-window -t :9 \; switch-client -T prefix
@@ -125,7 +130,7 @@ index 4d44529..cb04071 100644
  
  ############
  #  t mode  #
-@@ -206,27 +183,21 @@ bind -T g Any switch-client -T prefix
+@@ -202,27 +183,21 @@ bind -T g Any switch-client -T prefix
  bind -T t a setw monitor-activity \;\
    display-message 'monitor-activity #{?monitor-activity,on,off}' \;\
    switch-client -T prefix
@@ -149,14 +154,14 @@ index 4d44529..cb04071 100644
  #################
  
 -bind -T buffer p choose-buffer -Z
--bind -T buffer + choose-buffer -Z 'run "tmux show-buffer -b \'%%\' | xclip -i -sel clip"'
+-bind -T buffer + choose-buffer -Z { run "tmux show-buffer -b '%%' | xclip -i -sel clip" }
 -bind -T buffer Any switch-client -T prefix
 +bind -T buffer p choose-buffer
 +bind -T buffer + choose-buffer 'run "tmux show-buffer -b \'%%\' | xclip -i -sel clip"'
  
  ###################
  #  lbracket mode  #
-@@ -234,7 +205,6 @@ bind -T buffer Any switch-client -T prefix
+@@ -230,7 +205,6 @@ bind -T buffer Any switch-client -T prefix
  
  bind -T lbracket a previous-window -a \; switch-client -T prefix
  bind -T lbracket s switch-client -p \; switch-client -T prefix
@@ -164,7 +169,7 @@ index 4d44529..cb04071 100644
  
  ###################
  #  rbracket mode  #
-@@ -242,7 +212,6 @@ bind -T lbracket Any switch-client -T prefix
+@@ -238,7 +212,6 @@ bind -T lbracket Any switch-client -T prefix
  
  bind -T rbracket a next-window -a \; switch-client -T prefix
  bind -T rbracket s switch-client -n \; switch-client -T prefix
@@ -172,7 +177,7 @@ index 4d44529..cb04071 100644
  
  #################
  #  ctrl-w mode  #
-@@ -272,8 +241,6 @@ bind -T ctrl-w C-v split-window -h -c "#{pane_current_path}" \;\
+@@ -268,8 +241,6 @@ bind -T ctrl-w C-v split-window -h -c "#{pane_current_path}" \;\
    switch-client -T prefix
  bind -T ctrl-w C-w select-pane -t :.+ \; switch-client -T prefix
  bind -T ctrl-w / command-prompt "find-window '%%'"
@@ -181,7 +186,7 @@ index 4d44529..cb04071 100644
  
  ##################
  #  copycat mode  #
-@@ -290,4 +257,3 @@ bind -T copycat 1 run "~/.local/opt/tmux-copycat/scripts/copycat_mode_start.sh \
+@@ -286,4 +257,3 @@ bind -T copycat 1 run "~/.local/opt/tmux-copycat/scripts/copycat_mode_start.sh \
  bind -T copycat 4 run "~/.local/opt/tmux-copycat/scripts/copycat_mode_start.sh \
    '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}'"
  bind -T copycat g run "~/.local/opt/tmux-copycat/scripts/copycat_git_special.sh #{pane_current_path}"

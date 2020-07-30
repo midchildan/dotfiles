@@ -1,33 +1,14 @@
 diff --git a/home/.tmux.conf b/home/.tmux.conf
-index 4d44529..30e2a63 100644
+index 194b98a..30e2a63 100644
 --- a/home/.tmux.conf
 +++ b/home/.tmux.conf
 @@ -1,4 +1,4 @@
--# for tmux 2.8
+-# for tmux 3.0
 +# for tmux 3.1
  
  #############
  #  general  #
-@@ -41,14 +41,10 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
- set -g window-status-current-format "${_sty_sep2}${_sep_lmain1}${_sty_stat} #I ${_sep_lsub} #W#{?window_flags,#{window_flags},} ${_sty_sep1}${_sep_lmain1}"
- set -ga update-environment "USE_POWERLINE"
- 
--set-hook -g 'after-new-window' \
--  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
--set-hook -g 'after-kill-pane' \
--  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
--set-hook -g 'pane-exited' \
--  'if -b "[ \#{window_panes} -eq 1 ]" "set pane-border-status off"'
--set-hook -g 'after-split-window' \
--  'if -b "[ \#{window_panes} -gt 1 ]" "set pane-border-status top"'
-+set-hook -g "window-layout-changed" {
-+  if -b "[ '#{window_panes}' -gt 1 ]" \
-+    "set pane-border-status top" "set pane-border-status off"
-+}
- 
- setenv -gu _curr_mode
- setenv -gu _sty_mode
-@@ -72,7 +68,7 @@ setenv -gu _seg_mode
+@@ -68,7 +68,7 @@ setenv -gu _seg_mode
  # prefix
  set -g prefix C-z
  unbind -a -T prefix
@@ -36,16 +17,7 @@ index 4d44529..30e2a63 100644
  
  # vi bindings
  set -g mode-keys vi
-@@ -82,7 +78,7 @@ set -g status-keys vi
- set -g escape-time 0
- 
- # mouse
--bind -n MouseDrag1Status swap-window -t=
-+bind -n MouseDrag1Status swap-window -d -t=
- bind -n WheelUpPane if -Ft= "#{||:#{mouse_any_flag},#{pane_in_mode}}" \
-   "select-pane -t=; send -M" \
-   "if -Ft= '#{alternate_on}' 'select-pane -t=; send -t= Up' 'select-pane -t=; copy-mode -e; send -M'"
-@@ -94,57 +90,69 @@ bind -n WheelDownPane if -Ft= "#{||:#{?alternate_on,#{mouse_any_flag},1},#{pane_
+@@ -90,57 +90,69 @@ bind -n WheelDownPane if -Ft= "#{||:#{?alternate_on,#{mouse_any_flag},1},#{pane_
  #  prefix mode  #
  #################
  
@@ -165,7 +137,7 @@ index 4d44529..30e2a63 100644
  bind Any switch-client -T prefix
  
  ###############
-@@ -153,6 +161,7 @@ bind Any switch-client -T prefix
+@@ -149,6 +161,7 @@ bind Any switch-client -T prefix
  
  bind -T copy-mode-vi v send -X begin-selection
  bind -T copy-mode-vi y send -X copy-pipe-and-cancel "xclip -i -sel clip"
@@ -173,7 +145,7 @@ index 4d44529..30e2a63 100644
  bind -T copy-mode-vi / command-prompt -ip "(search up)" \
    -I"#{pane_search_string}" "send -X search-backward-incremental \"%%%\""
  bind -T copy-mode-vi ? command-prompt -ip "(search down)" \
-@@ -164,130 +173,172 @@ bind -T copy-mode-vi C-v send -X begin-selection \;\
+@@ -160,130 +173,172 @@ bind -T copy-mode-vi C-v send -X begin-selection \;\
  #  c mode  #
  ############
  
@@ -278,7 +250,7 @@ index 4d44529..30e2a63 100644
  #################
  
 -bind -T buffer p choose-buffer -Z
--bind -T buffer + choose-buffer -Z 'run "tmux show-buffer -b \'%%\' | xclip -i -sel clip"'
+-bind -T buffer + choose-buffer -Z { run "tmux show-buffer -b '%%' | xclip -i -sel clip" }
 +bind -T buffer -N "Choose a paste buffer from a list" p choose-buffer -Z
 +bind -T buffer -N "Choose a paste buffer from a list and copy to clipboard" \
 +  + choose-buffer -Z { run "tmux show-buffer -b '%%' | xclip -i -sel clip" }
