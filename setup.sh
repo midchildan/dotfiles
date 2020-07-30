@@ -16,7 +16,7 @@ setup_environment() {
 }
 
 main() {
-  local shell="$SHELL"
+  local shell="${SHELL:-sh}"
   local dotroot=
 
   while getopts "s:d:h" OPT; do
@@ -71,7 +71,8 @@ download() {
   elif has wget; then
     wget -qO- "$1"
   else
-    abort "curl or wget is required"
+    log::error "curl or wget is required"
+    return 1
   fi
 }
 
