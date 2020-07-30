@@ -38,7 +38,7 @@ autoload -Uz zmv
 
 tmux-2.4() { ::tmux 2.4 "$@"; }
 tmux-2.6() { ::tmux 2.6 "$@"; }
-tmux-3.0() { ::tmux 3.0 "$@"; }
+tmux-2.8() { ::tmux 2.8 "$@"; }
 tmux-3.1() { ::tmux 3.1 "$@"; }
 tmux() { ::tmux current "$@"; }
 
