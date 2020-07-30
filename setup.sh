@@ -99,6 +99,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .local/libexec/fzf/install
   - .local/opt/fzftools
   - .local/opt/tmux-copycat
+  - .prettierrc
   - .screenrc
   - .tmux.conf
   - .wgetrc
