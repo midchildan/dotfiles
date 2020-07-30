@@ -1,5 +1,5 @@
 title: Portable Dotfiles
-description: dotfiles for one-off remote Linux sessions
+description: dotfiles for one-time shell sessions
 
 defaults:
   -

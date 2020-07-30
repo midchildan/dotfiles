@@ -1,8 +1,17 @@
 # Portable Dotfiles
 
-A collection of single file dotfiles for one-off remote Linux sessions. For
-any other uses, see [the full dotfiles
-repository](https://github.com/midchildan/dotfiles).
+A collection of single file dotfiles for one-time shell sessions. Convenient
+when dealing with disposable shell sessions or SSH servers with only default
+configs for frequently used unix tools.
+
+This only aims to provide the bare minimum amount of configuration required to
+obtain a usable shell environment, and is intended for single use. For a more
+complete solution, see the
+[full dotfiles repository](https://github.com/midchildan/dotfiles) which this
+is based on.
+
+The dotfiles are distributed under the terms of the
+[Unlicense](https://unlicense.org).
 
 ## Quick Start
 
@@ -14,9 +23,9 @@ This could be overridden with the `-s` option.
 source <(curl -sSfL https://www.midchildan.org/dotfiles/setup.sh)
 ```
 
-It is also possible to download the dotfiles to a preferred location using the
-`-d` option. However, this should be used with caution as it would overwrite any
-existing files.
+It is also possible to download the dotfiles permanantly to a preferred location
+using the `-d` option. However, this should be used with caution as it would
+overwrite any existing files.
 
 ```sh
 source <(curl -sSfL https://www.midchildan.org/dotfiles/setup.sh) -d ~
