@@ -43,10 +43,10 @@ alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
   command tmux -f "$confdir/.tmux.conf" "${@:2}"
 }
 
-tmux-2.4() { ::tmux 2.4 "$@"; }
 tmux-2.6() { ::tmux 2.6 "$@"; }
 tmux-2.8() { ::tmux 2.8 "$@"; }
 tmux-3.1() { ::tmux 3.1 "$@"; }
+tmux-3.0() { ::tmux current "$@"; }
 tmux() { ::tmux current "$@"; }
 
 #################

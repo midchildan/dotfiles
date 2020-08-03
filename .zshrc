@@ -27,7 +27,7 @@ autoload -Uz zmv
   zstyle -s ':dotfiles' baseurl baseurl
   if [[ -z "$_TMUXVER" && -f "$confdir/.tmux.conf" && "$1" != "current" ]]; then
     if [[ -n "$baseurl" ]]; then
-      curl -sSfL "$baseurl/tmux-$1.patch" | patch -d "$confdir" -p1 \
+      curl -sSfL "$baseurl/patches/tmux-$1.patch" | patch -d "$confdir" -p1 \
         && _TMUXVER="$1"
     else
       echo "[WARN] baseurl not set" >&2
