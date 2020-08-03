@@ -23,7 +23,7 @@ prompt_dashboard_precmd() {
     pbegin=$'%{\e]133;D;%?\a\e]133;A\a%}'
     pend=$'%{\e]133;B\a%}'
   fi
-  if [[ -n "$USE_POWERLINE" ]]; then
+  if [[ "$USE_POWERLINE" == 1 ]]; then
     vcs_icon=' '
     nix_icon='❆ '
     prompt_mark='❯'
