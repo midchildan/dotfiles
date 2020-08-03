@@ -35,6 +35,10 @@
 
 `openssl rand -base64 {{n}} | head -c{{n}}`
 
+- Lookup the manpage for a specific version of tmux:
+
+`curl -sSfL https://raw.githubusercontent.com/tmux/tmux/{{2.8}}/tmux.1 | nroff -mdoc | less`
+
 - Shorten a GitHub URL:
 
 `curl -i https://git.io -F 'url={{url}}' -F 'code={{code}}'`
