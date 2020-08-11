@@ -1,3 +1,5 @@
+emulate -L zsh
+
 autoload -Uz fzf-snippet-next
 
 if grep -q "{{" <<< "$BUFFER"; then
@@ -5,7 +7,12 @@ if grep -q "{{" <<< "$BUFFER"; then
   return
 fi
 
-local snippet=
+if ! command -v perl > /dev/null 2>&1; then
+  zle -M "perl not in PATH"
+  return 1
+fi
+
+local snippet
 perl -MTerm::ANSIColor=colored -0777 -ne \
   'print "$2 ", colored("## $1\n", q/bright_black/) while /^- (.*):\n\n\`(.*)\`$/mg' \
   ~/.config/shell/snippets/*/*.md \
@@ -23,5 +30,3 @@ fi
 
 zle reset-prompt
 return "$ret"
-
-# vim:set et sw=2 ts=8 ft=zsh:

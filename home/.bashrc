@@ -34,6 +34,8 @@ esac
 export GPG_TTY="$(tty)"
 export PATH="$HOME/.local/bin:$PATH:$GOPATH/bin:$HOME/.emacs.d/bin"
 
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
+
 ###########################
 #  Aliases and Functions  #
 ###########################
