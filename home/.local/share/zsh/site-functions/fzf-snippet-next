@@ -1,39 +1,36 @@
 emulate -L zsh
 
-local strp
-if command -v perl > /dev/null 2>&1; then
-  strp="$(
-    echo "$BUFFER" \
-      | perl -n0777e \
-          'printf "%d:%s\n", pos()-length($&), $& while /\{\{.*?\}\}/g' \
-      | head -1
-  )"
-else
-  # XXX(1): macos grep has a bug that always prints 0 as the offset
-  # XXX(2): disallow '{' or '}' inside placeholders, since non-greedy matches
-  #         may not be supported
-  strp="$(echo "$BUFFER" | grep -b -o '{{[^{}]*}}' | head -1)"
+if ! command -v perl > /dev/null 2>&1; then
+  zle -M "perl not in PATH"
+  return 1
 fi
-if [[ -z "$strp" ]]; then
-  if [[ $WIDGET = fzf-snippet-next-or-accept-line ]]; then
+
+local snippet
+perl -n0777e \
+  'printf "%d:%s\n", pos()-length($&), $& while /\{\{.*?\}\}/g' <<< "$BUFFER" \
+  | IFS= read -r snippet
+
+# fallback behavior when no snippet is active
+if [[ -z "$snippet" ]]; then
+  if [[ "$WIDGET" == fzf-snippet-next-or-accept-line ]]; then
     zle accept-line
   else
     zle .self-insert
   fi
-  return "$?"
+  return 0
 fi
 
-local pos="$(echo "$strp" | cut -d':' -f1)"
-local placeholder="$(echo "$strp" | cut -d':' -f2)"
+local pos="$(cut -d: -f1 <<< "$snippet")"
+local placeholder="$(cut -d: -f2- <<< "$snippet")"
+local len=$#placeholder
 
-if [[ -n "$1" ]]; then
-  BUFFER="$(echo "$BUFFER" | sed -e 's/{{//' -e 's/}}//')"
-  CURSOR=$(( $pos + ${#placeholder} -4 ))
+if [[ "$WIDGET" == *-accept ]]; then
+  BUFFER="$BUFFER[1,pos]$BUFFER[pos+3,pos+len-2]$BUFFER[pos+len+1,$#BUFFER]"
+  CURSOR=$(( pos + len - 4 ))
 else
-  BUFFER="$(echo "$BUFFER" | sed "s/${placeholder:gs@/@\\/}//")"
+  BUFFER="$BUFFER[1,pos]$BUFFER[pos+len+1,$#BUFFER]"
   CURSOR="$pos"
 fi
-local ret="$?"
 
 zle reset-prompt
-return "$ret"
+return 0
