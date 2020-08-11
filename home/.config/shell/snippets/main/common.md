@@ -11,6 +11,10 @@
 
 `autoreconf -if`
 
+- Count the number of files in a directory:
+
+`find {{path/to/directory}} -type f -printf . | wc -c`
+
 - Manage ignore files for a local copy of a git repository:
 
 `git exec $EDITOR .git/info/exclude`
