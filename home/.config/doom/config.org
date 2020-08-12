@@ -148,22 +148,6 @@ paste its contents. The following line should disable this behavior:
 (setq select-enable-clipboard nil)
 #+END_SRC
 
-Doom uses [[https://github.com/spudlyo/clipetty][clipetty]] so that it can use OSC 52 to sync with the clipboard on TTY
-Emacs. But the thing is, stock Emacs already does this with [[https://github.com/emacs-mirror/emacs/blob/master/lisp/term/xterm.el][xterm.el]] and its
-derivatives, [[https://github.com/emacs-mirror/emacs/blob/master/lisp/term/screen.el][screen.el]] and [[https://github.com/emacs-mirror/emacs/blob/master/lisp/term/tmux.el][tmux.el]]. It's just that you'll likely have to enable
-clipboard syncing manually through [[help:xterm-extra-capabilities][xterm-extra-capabilities]] and friends because
-terminal feature detection is so unreliable. What clipetty does differently from
-stock Emacs is that it forgoes any sort of feature detection and unconditionally
-emits OSC 52, potentially causing problems for terminals that doesn't support
-it. But the most problematic aspect of clipetty is that it ignores the value of
-=select-enable-clipboard=, which I configured above, and hooks into every cut
-operation. This is a real deal breaker for me, so I'll disable it with the
-following line:
-
-#+BEGIN_SRC emacs-lisp
-(remove-hook 'tty-setup-hook 'doom-init-clipboard-in-tty-emacs-h)
-#+END_SRC
-
 I'll end this section by setting up keybindings for copying and pasting using
 the system clipboard. This might better belong in the keybindings section, but
 I'll leave it here for now.
