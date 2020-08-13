@@ -86,6 +86,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .editrc
   - .ideavimrc
   - .config/bat/config
+  - .config/broot/launcher/refused
   - .config/kitty/kitty.conf
   - .config/nano/nanorc
   - .config/nixpkgs/config.nix
@@ -112,7 +113,8 @@ source "$DOTFILE_DIR/scripts/setup"
   - nix-cflags
   - emacs-all-the-icons-fonts
   - shell: nvim +PlugInstall +qall
-  - shell: ~/.emacs.d/bin/doom sync
+  - shell: nvim -c 'CocInstall -sync coc-ultisnips|q'
+  - shell: ~/.emacs.d/bin/doom -y install --no-config
 
 @githooks
   - init: true

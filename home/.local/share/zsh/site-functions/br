@@ -1,6 +1,6 @@
 emulate -L zsh
 
-if [[ -f ~/.config/broot/launcher/bash/br ]]; then
-  source ~/.config/broot/launcher/bash/br
+if command -v broot &> /dev/null; then
+  source <(broot --print-shell-function zsh)
   br "$@"
 fi
