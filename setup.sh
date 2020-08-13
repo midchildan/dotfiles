@@ -117,6 +117,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - nodejs
   - zsh-syntax-highlighting
   - shell: nvim +PlugInstall +qall
+  - shell: nvim -c 'CocInstall -sync coc-ultisnips|q'
   - shell: ~/.emacs.d/bin/doom -y install --no-config
 
 @githooks
