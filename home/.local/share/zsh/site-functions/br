@@ -1,7 +1,6 @@
 emulate -L zsh
 
-# XXX: The path might change with https://github.com/Canop/broot/issues/103
-if [[ -f ~/Library/Preferences/org.dystroy.broot/launcher/bash/br ]]; then
-  source ~/Library/Preferences/org.dystroy.broot/launcher/bash/br
+if command -v broot &> /dev/null; then
+  source <(broot --print-shell-function zsh)
   br "$@"
 fi
