@@ -1,6 +1,6 @@
 emulate -L zsh
 
-if ! command -v thefuck; then
+if ! command -v thefuck &> /dev/null; then
   echo "thefuck not installed" >&2
   return 1
 fi

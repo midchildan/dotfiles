@@ -1,5 +1,5 @@
 diff --git a/home/.tmux.conf b/home/.tmux.conf
-index 194b98a..6d0d41b 100644
+index a33eaa4..0243d68 100644
 --- a/home/.tmux.conf
 +++ b/home/.tmux.conf
 @@ -1,4 +1,4 @@
@@ -8,8 +8,8 @@ index 194b98a..6d0d41b 100644
  
  #############
  #  general  #
-@@ -41,10 +41,14 @@ set -g window-status-format " #I ${_sep_lsub} #W#{?window_flags,#{window_flags},
- set -g window-status-current-format "${_sty_sep2}${_sep_lmain1}${_sty_stat} #I ${_sep_lsub} #W#{?window_flags,#{window_flags},} ${_sty_sep1}${_sep_lmain1}"
+@@ -48,10 +48,14 @@ set -g window-status-format " #I ${tmux_lsub} ${tmux_window}"
+ set -g window-status-current-format "${tmux_sbegin}#I ${tmux_lsub} ${tmux_window}${tmux_send}"
  set -ga update-environment "USE_POWERLINE"
  
 -set-hook -g "window-layout-changed" {
@@ -25,9 +25,9 @@ index 194b98a..6d0d41b 100644
 +set-hook -g 'after-split-window' \
 +  'if -b "[ \#{window_panes} -gt 1 ]" "set pane-border-status top"'
  
- setenv -gu _curr_mode
- setenv -gu _sty_mode
-@@ -78,7 +82,7 @@ set -g status-keys vi
+ setenv -gu tmux_color
+ setenv -gu tmux_style
+@@ -87,7 +91,7 @@ set -g status-keys vi
  set -g escape-time 0
  
  # mouse
@@ -36,7 +36,7 @@ index 194b98a..6d0d41b 100644
  bind -n WheelUpPane if -Ft= "#{||:#{mouse_any_flag},#{pane_in_mode}}" \
    "select-pane -t=; send -M" \
    "if -Ft= '#{alternate_on}' 'select-pane -t=; send -t= Up' 'select-pane -t=; copy-mode -e; send -M'"
-@@ -141,7 +145,6 @@ bind : command-prompt \; switch-client -T prefix
+@@ -150,7 +154,6 @@ bind : command-prompt \; switch-client -T prefix
  bind ? list-keys
  bind Enter resize-pane -Z \; switch-client -T prefix
  bind Space next-layout \; switch-client -T prefix
@@ -44,7 +44,7 @@ index 194b98a..6d0d41b 100644
  
  ###############
  #  copy mode  #
-@@ -164,7 +167,6 @@ bind -T c s command-prompt -I "#S" "rename-session '%%'" \;\
+@@ -173,7 +176,6 @@ bind -T c s command-prompt -I "#S" "rename-session '%%'" \;\
    switch-client -T prefix
  bind -T c w command-prompt -I "#W" "rename-window '%%'" \;\
    switch-client -T prefix
@@ -52,7 +52,7 @@ index 194b98a..6d0d41b 100644
  
  ############
  #  d mode  #
-@@ -172,7 +174,6 @@ bind -T c Any switch-client -T prefix
+@@ -181,7 +183,6 @@ bind -T c Any switch-client -T prefix
  
  bind -T d b delete-buffer \; switch-client -T prefix
  bind -T d m select-pane -M \; switch-client -T prefix
@@ -60,7 +60,7 @@ index 194b98a..6d0d41b 100644
  
  ############
  #  g mode  #
-@@ -188,12 +189,11 @@ bind -T g 6 select-window -t :6 \; switch-client -T prefix
+@@ -197,12 +198,11 @@ bind -T g 6 select-window -t :6 \; switch-client -T prefix
  bind -T g 7 select-window -t :7 \; switch-client -T prefix
  bind -T g 8 select-window -t :8 \; switch-client -T prefix
  bind -T g 9 select-window -t :9 \; switch-client -T prefix
@@ -74,7 +74,7 @@ index 194b98a..6d0d41b 100644
  
  ############
  #  t mode  #
-@@ -205,24 +205,21 @@ bind -T t a setw monitor-activity \;\
+@@ -214,24 +214,21 @@ bind -T t a setw monitor-activity \;\
  bind -T t b setw monitor-bell \;\
    display-message 'monitor-bell #{?monitor-bell,on,off}' \;\
    switch-client -T prefix
@@ -102,7 +102,7 @@ index 194b98a..6d0d41b 100644
  
  ###################
  #  lbracket mode  #
-@@ -230,7 +227,6 @@ bind -T buffer Any switch-client -T prefix
+@@ -239,7 +236,6 @@ bind -T buffer Any switch-client -T prefix
  
  bind -T lbracket a previous-window -a \; switch-client -T prefix
  bind -T lbracket s switch-client -p \; switch-client -T prefix
@@ -110,7 +110,7 @@ index 194b98a..6d0d41b 100644
  
  ###################
  #  rbracket mode  #
-@@ -238,7 +234,6 @@ bind -T lbracket Any switch-client -T prefix
+@@ -247,7 +243,6 @@ bind -T lbracket Any switch-client -T prefix
  
  bind -T rbracket a next-window -a \; switch-client -T prefix
  bind -T rbracket s switch-client -n \; switch-client -T prefix
@@ -118,7 +118,7 @@ index 194b98a..6d0d41b 100644
  
  #################
  #  ctrl-w mode  #
-@@ -268,8 +263,6 @@ bind -T ctrl-w C-v split-window -h -c "#{pane_current_path}" \;\
+@@ -277,8 +272,6 @@ bind -T ctrl-w C-v split-window -h -c "#{pane_current_path}" \;\
    switch-client -T prefix
  bind -T ctrl-w C-w select-pane -t :.+ \; switch-client -T prefix
  bind -T ctrl-w / command-prompt "find-window '%%'"
@@ -127,7 +127,7 @@ index 194b98a..6d0d41b 100644
  
  ##################
  #  copycat mode  #
-@@ -286,4 +279,3 @@ bind -T copycat 1 run "~/.local/opt/tmux-copycat/scripts/copycat_mode_start.sh \
+@@ -295,4 +288,3 @@ bind -T copycat 1 run "~/.local/opt/tmux-copycat/scripts/copycat_mode_start.sh \
  bind -T copycat 4 run "~/.local/opt/tmux-copycat/scripts/copycat_mode_start.sh \
    '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}'"
  bind -T copycat g run "~/.local/opt/tmux-copycat/scripts/copycat_git_special.sh #{pane_current_path}"
