@@ -90,7 +90,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/kitty/kitty.conf
   - .config/nano/nanorc
   - .config/nixpkgs/config.nix
-  - .config/nixpkgs/overlays/nix-cflags
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/tilix/schemes/gruvbox-dark.json
@@ -110,7 +109,6 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @packages
   - init: true
-  - nix-cflags
   - emacs-all-the-icons-fonts
   - shell: nvim +PlugInstall +qall
   - shell: nvim -c 'CocInstall -sync coc-ultisnips|q'
