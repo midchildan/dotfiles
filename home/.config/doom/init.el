@@ -89,6 +89,9 @@
        ;;tmux
        ;;upload
 
+       :os
+       macos
+
        :lang
        ;;assembly
        ;;cc
