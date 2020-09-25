@@ -19,6 +19,10 @@
 
 `git exec $EDITOR .git/info/exclude`
 
+- Trigger a rebuild of GitHub Pages for the specified repository:
+
+`gh api -X POST repos/{{:owner/:repo}}/pages/builds`
+
 - Serve the current directory over HTTP:
 
 `python3 -m http.server {{8000}} --bind {{127.0.0.1}}`

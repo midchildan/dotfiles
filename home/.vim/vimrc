@@ -22,6 +22,7 @@ Plug 'neoclide/coc-snippets'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " utilities
+Plug 'direnv/direnv.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'machakann/vim-highlightedyank'
 Plug 'RRethy/vim-illuminate'
