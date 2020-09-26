@@ -109,12 +109,13 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @packages
   - init: true
-  - build-essential
-  - cmake
   - cmigemo
+  - direnv
   - fonts-powerline
+  - fzf
   - neovim
   - nodejs
+  - ripgrep
   - zsh-syntax-highlighting
   - shell: nvim +PlugInstall +qall
   - shell: nvim -c 'CocInstall -sync coc-ultisnips|q'
