@@ -104,12 +104,12 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @packages
   - init: true
-  - cmake
   - cmigemo
+  - direnv
   - fzf
-  - ripgrep
   - neovim
   - nodejs
+  - ripgrep
   - zsh-completions
   - zsh-syntax-highlighting
   - cask: homebrew/cask-fonts/font-powerline-symbols

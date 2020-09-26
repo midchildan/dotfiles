@@ -402,6 +402,12 @@ let g:markbar_enable_peekaboo=v:false
 " undotree "
 let g:undotree_WindowLayout=2
 
+" direnv "
+" TODO: remove once https://github.com/direnv/direnv.vim/pull/25 is resolved
+if !executable('direnv')
+  let g:loaded_direnv=1
+endif
+
 " VimR "
 if has('gui_vimr')
   source ~/.config/nvim/ginit.vim
