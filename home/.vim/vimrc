@@ -407,8 +407,3 @@ let g:undotree_WindowLayout=2
 if !executable('direnv')
   let g:loaded_direnv=1
 endif
-
-" VimR "
-if has('gui_vimr')
-  source ~/.config/nvim/ginit.vim
-endif
