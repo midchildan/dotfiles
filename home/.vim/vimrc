@@ -15,7 +15,7 @@ Plug 'easymotion/vim-easymotion', {'on': [
 " completion and linting
 Plug 'w0rp/ale'
 Plug '~/.nix-profile/share/vim-plugins/fzf' | Plug 'junegunn/fzf.vim'
-Plug '~/.nix-profile/share/vim-plugins/coc-nvim', {'branch': 'release'}
+Plug '~/.nix-profile/share/vim-plugins/coc-nvim'
 Plug '~/.nix-profile/share/vim-plugins/coc-snippets'
 " XXX: coc-snippets isn't completely compatible w/ UltiSnips snippets
 " Run ':CocInstall coc-ultisnips' to show UltiSnips snippets
@@ -401,3 +401,9 @@ let g:markbar_enable_peekaboo=v:false
 
 " undotree "
 let g:undotree_WindowLayout=2
+
+" direnv "
+" TODO: remove once https://github.com/direnv/direnv.vim/pull/25 is resolved
+if !executable('direnv')
+  let g:loaded_direnv=1
+endif

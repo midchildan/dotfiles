@@ -107,6 +107,7 @@ source "$DOTFILE_DIR/scripts/setup"
 
 # The below will not run unless --init is specified
 
+# TODO: add home-manager configuration
 @packages
   - init: true
   - emacs-all-the-icons-fonts
