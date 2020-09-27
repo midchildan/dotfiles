@@ -80,6 +80,7 @@ source "$DOTFILE_DIR/scripts/setup"
 @install Install Miscellaneous Config
   - .clang-format
   - .editrc
+  - .gemrc
   - .ideavimrc
   - .config/bat/config
   - .config/broot/launcher/refused

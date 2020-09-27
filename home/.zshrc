@@ -9,21 +9,23 @@ autoload -Uz is-at-least
 #  Environment Variables  #
 ###########################
 export CLICOLOR=1
-export GEM_HOME="$(ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$TTY"
 
 typeset -U path
-path=(
-  ~/.local/bin
-  /usr/local/opt/python/libexec/bin
-  /usr/local/sbin
-  $path
-  ~/.cargo/bin
-  "$GEM_HOME/bin"
-  "$(python3 -c 'import site; print(site.getuserbase())')/bin"
-  "$GOPATH/bin"
-  ~/.emacs.d/bin
-)
+() {
+  setopt localoptions null_glob
+  path=(
+    ~/.local/bin
+    /usr/local/opt/python/libexec/bin
+    /usr/local/sbin
+    $path
+    ~/.cargo/bin
+    ~/Library/Python/*/bin
+    ~/.gem/ruby/*/bin
+    "$GOPATH/bin"
+    ~/.emacs.d/bin
+  )
+}
 
 if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
   source ~/.nix-profile/etc/profile.d/nix.sh
