@@ -15,6 +15,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .bashrc
   - .zshenv
   - .zshrc
+  - .hushlogin
   - .inputrc
   - .config/shell/snippets/common
   - .config/shell/snippets/osx
