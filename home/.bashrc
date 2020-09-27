@@ -32,7 +32,13 @@ esac
 #  Environment Variables  #
 ###########################
 export GPG_TTY="$(tty)"
-export PATH="$HOME/.local/bin:$PATH:$GOPATH/bin:$HOME/.emacs.d/bin"
+
+export PATH="$(shopt -s nullglob; printf "%s:" \
+  ~/.local/bin \
+  "$PATH" \
+  "$GOPATH/bin" \
+  ~/.emacs.d/bin \
+)"
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
 

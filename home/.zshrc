@@ -10,12 +10,15 @@ autoload -Uz is-at-least
 export GPG_TTY="$TTY"
 
 typeset -U path
-path=(
-  ~/.local/bin
-  $path
-  "$GOPATH/bin"
-  ~/.emacs.d/bin
-)
+() {
+  setopt localoptions null_glob
+  path=(
+    ~/.local/bin
+    $path
+    "$GOPATH/bin"
+    ~/.emacs.d/bin
+  )
+}
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 
