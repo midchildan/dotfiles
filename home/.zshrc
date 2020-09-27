@@ -7,19 +7,20 @@ autoload -Uz is-at-least
 ###########################
 #  Environment Variables  #
 ###########################
-export GEM_HOME="$(ruby -e 'print Gem.user_dir')"
 export GPG_TTY="$TTY"
 
 typeset -U path
-path=(
-  ~/.local/bin
-  $path
-  ~/.cargo/bin
-  "$GEM_HOME/bin"
-  "$(python3 -c 'import site; print(site.getuserbase())')/bin"
-  "$GOPATH/bin"
-  ~/.emacs.d/bin
-)
+() {
+  setopt localoptions null_glob
+  path=(
+    ~/.local/bin
+    $path
+    ~/.cargo/bin
+    ~/.gem/ruby/*/bin
+    "$GOPATH/bin"
+    ~/.emacs.d/bin
+  )
+}
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 
