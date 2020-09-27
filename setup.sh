@@ -97,7 +97,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/zathura/zathurarc
   - .docker/config.json
   - .ipython/profile_default/ipython_config.py
-  - .local/libexec/fzf/install
   - .local/opt/fzftools
   - .local/opt/tmux-copycat
   - .prettierrc
