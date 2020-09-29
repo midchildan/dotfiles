@@ -49,6 +49,13 @@ tmux-3.1() { ::tmux 3.1 "$@"; }
 tmux-3.0() { ::tmux current "$@"; }
 tmux() { ::tmux current "$@"; }
 
+if ! command -v neofetch >/dev/null 2>&1; then
+  neofetch() {
+    curl -sSfL "https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch" \
+      | bash -s -- --no_config "$@"
+  }
+fi
+
 #################
 #  Keybindings  #
 #################
