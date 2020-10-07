@@ -2,7 +2,7 @@
 
 IGNOREFILES=(
   README.md
-  UNLICENSE
+  LICENSE
 )
 
 main() {
