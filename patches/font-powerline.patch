@@ -1,9 +1,9 @@
 diff --git a/home/.bashrc b/home/.bashrc
-index c555033..564552e 100644
+index d53dddc..588914f 100644
 --- a/home/.bashrc
 +++ b/home/.bashrc
-@@ -18,7 +18,7 @@ export GOPATH=~/Documents/src/go
- export ANDROID_HOME=~/.local/opt/android-sdk
+@@ -17,7 +17,7 @@ export SYSTEMD_LESS="iRSMK"
+ export GOPATH=~/Documents/src/go
  
  # whether to make use of powerline fonts
 -export USE_POWERLINE=0
@@ -12,11 +12,11 @@ index c555033..564552e 100644
  [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
  
 diff --git a/home/.zshenv b/home/.zshenv
-index be84095..5af256f 100644
+index 6cb2b82..4f603eb 100644
 --- a/home/.zshenv
 +++ b/home/.zshenv
-@@ -8,6 +8,6 @@ export GOPATH=~/Documents/src/go
- export ANDROID_HOME=~/.local/opt/android-sdk
+@@ -7,6 +7,6 @@ export SYSTEMD_LESS="iRSMK"
+ export GOPATH=~/Documents/src/go
  
  # whether to make use of powerline fonts
 -export USE_POWERLINE=0
