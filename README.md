@@ -11,7 +11,7 @@ complete solution, see the
 is based on.
 
 The dotfiles are distributed under the terms of the
-[Unlicense](https://unlicense.org).
+[MIT No Attribution License](https://github.com/aws/mit-0).
 
 ## Quick Start
 

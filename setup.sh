@@ -3,7 +3,7 @@
 URL="https://github.com/midchildan/dotfiles/archive/gh-pages.tar.gz"
 IGNOREFILES=(
   README.md
-  UNLICENSE
+  LICENSE
 )
 
 setup_environment() {
