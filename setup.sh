@@ -91,6 +91,8 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/kitty/kitty.conf
   - .config/nano/nanorc
   - .config/nixpkgs/config.nix
+  - .config/nixpkgs/home.nix
+  - .config/nixpkgs/home.d/dotfiles.nix
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/tilix/schemes/gruvbox-dark.json
@@ -107,10 +109,13 @@ source "$DOTFILE_DIR/scripts/setup"
 
 # The below will not run unless --init is specified
 
-# TODO: add home-manager configuration
 @packages
   - init: true
-  - emacs-all-the-icons-fonts
+  - shell: nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+  - shell: nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+  - shell: nix-channel --update
+  - shell: export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
+  - shell: nix-shell '<home-manager>' -A install
   - shell: nvim +PlugInstall +qall
   - shell: nvim -c 'CocInstall -sync coc-ultisnips|q'
   - shell: ~/.emacs.d/bin/doom -y install --no-config
