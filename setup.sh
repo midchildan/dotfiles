@@ -109,16 +109,16 @@ source "$DOTFILE_DIR/scripts/setup"
 
 # The below will not run unless --init is specified
 
-@packages
+@shell Install Packages
   - init: true
-  - shell: nix-channel --add https://nixos.org/channels/nixpkgs-unstable
-  - shell: nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-  - shell: nix-channel --update
-  - shell: export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
-  - shell: nix-shell '<home-manager>' -A install
-  - shell: nvim +PlugInstall +qall
-  - shell: nvim -c 'CocInstall -sync coc-ultisnips|q'
-  - shell: ~/.emacs.d/bin/doom -y install --no-config
+  - nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+  - nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+  - nix-channel --update
+  - export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
+  - nix-shell '<home-manager>' -A install
+  - nvim +PlugInstall +qall
+  - nvim -c 'CocInstall -sync coc-ultisnips|q'
+  - ~/.emacs.d/bin/doom -y install --no-config
 
 @githooks
   - init: true
