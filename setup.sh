@@ -116,7 +116,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - zsh-syntax-highlighting
   - cask: homebrew/cask-fonts/font-powerline-symbols
   - shell: nvim +PlugInstall +qall
-  - shell: nvim -c 'CocInstall -sync coc-ultisnips|q'
+  - shell: nvim -c 'CocInstall -sync coc-ultisnips | qall'
   - shell: ~/.emacs.d/bin/doom -y install --no-config
 
 @githooks
