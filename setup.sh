@@ -117,7 +117,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
   - nix-shell '<home-manager>' -A install
   - nvim +PlugInstall +qall
-  - nvim -c 'CocInstall -sync coc-ultisnips|q'
+  - nvim -c 'CocInstall -sync coc-ultisnips | qall'
   - ~/.emacs.d/bin/doom -y install --no-config
 
 @githooks
