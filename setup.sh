@@ -118,7 +118,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - ripgrep
   - zsh-syntax-highlighting
   - shell: nvim +PlugInstall +qall
-  - shell: nvim -c 'CocInstall -sync coc-ultisnips|q'
+  - shell: nvim -c 'CocInstall -sync coc-ultisnips | qall'
   - shell: ~/.emacs.d/bin/doom -y install --no-config
 
 @githooks
