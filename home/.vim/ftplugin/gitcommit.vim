@@ -1,3 +1,5 @@
+let b:EditorConfig_disable=1
+
 " save commit message to register l (l:last)
 func! s:save_commitmsg()
   let @l=''
