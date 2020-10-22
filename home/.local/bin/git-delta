@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if ! command -v delta &> /dev/null; then
+  echo '[FATAL] delta not in $PATH' >&2
+  exit 1
+fi
+
+cd "${GIT_PREFIX:-.}"
+git -c core.pager=delta "${1:-diff}" "${@:2}"

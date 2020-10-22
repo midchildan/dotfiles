@@ -8,6 +8,8 @@
 	pager = less -FX
 [commit]
 	gpgsign = true
+[diff]
+	colorMoved = default
 [merge]
 	tool = vimdiff
 [mergetool]
@@ -39,6 +41,8 @@
 	path = nvim
 [protocol "keybase"]
 	allow = always
+[delta]
+	line-numbers = true
 [ghq]
 	root = ~/Documents/src/go/src
 	root = ~/Documents/src/repos
