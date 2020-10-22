@@ -35,6 +35,7 @@ source "$DOTFILE_DIR/scripts/setup"
       ~/.vim/autoload/plug.vim
 
 @install Install Git Config
+  - .config/git/attributes
   - .config/git/config
   - .config/git/ignore
   - .config/tig/config
