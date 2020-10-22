@@ -66,7 +66,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .gdbinit
   - .local/bin/gef
   - .local/bin/peda
-  - .local/bin/pwndbg
 
 @install Install LaTeX Config
   - .config/latexmk/latexmkrc
