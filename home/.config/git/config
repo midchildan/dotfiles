@@ -5,6 +5,7 @@
 [commit]
 	gpgsign = true
 [diff]
+	algorithm = histogram
 	colorMoved = default
 [merge]
 	tool = vimdiff
