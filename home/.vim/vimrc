@@ -118,6 +118,7 @@ set wildignorecase
 set nofoldenable
 set title
 set mouse=a
+set diffopt=filler,internal,algorithm:histogram,indent-heuristic
 
 " colors
 if has('gui_running')
