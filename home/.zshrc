@@ -16,7 +16,7 @@ typeset -U path
   setopt localoptions null_glob
   path=(
     ~/.local/bin
-    /usr/local/opt/python/libexec/bin
+    /usr/local/opt/python@3/libexec/bin
     /usr/local/sbin
     $path
     ~/.cargo/bin

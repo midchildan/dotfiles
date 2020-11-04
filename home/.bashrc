@@ -39,7 +39,7 @@ export GPG_TTY="$(tty)"
 
 export PATH="$(shopt -s nullglob; printf "%s:" \
   ~/.local/bin \
-  /usr/local/opt/python/libexec/bin \
+  /usr/local/opt/python@3/libexec/bin \
   /usr/local/sbin \
   "$PATH" \
   ~/.cargo/bin \
