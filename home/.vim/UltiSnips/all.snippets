@@ -1,0 +1,13 @@
+# Same priority as all.snippets in honza/vim-snippets. It's slightly lower than
+# the priority set for other filetypes.
+priority -60
+
+global !p
+def datetime_now_iso8601_utc():
+	from datetime import datetime, timezone
+	return datetime.now(tz=timezone.utc).isoformat(timespec='seconds')
+endglobal
+
+snippet diso8601 "ISO 8601 format datetime in UTC" w
+`!p snip.rv = datetime_now_iso8601_utc()`
+endsnippet
