@@ -60,3 +60,12 @@ stdenv.mkDerivation rec {
 	$4
 }
 endsnippet
+
+snippet news "Home Manager news entry" b
+{
+	time = "`!p snip.rv = datetime_now_iso8601_utc()`";
+	message = ''
+		${1:A new module is available: '$2'}
+	'';
+}
+endsnippet
