@@ -10,3 +10,7 @@ export GOPATH=~/Documents/src/go
 export USE_POWERLINE=0
 [[ "$TERM" == "xterm-kitty" ]] && USE_POWERLINE=1
 [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
+
+if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
+  source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+fi

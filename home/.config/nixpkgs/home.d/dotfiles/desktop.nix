@@ -16,11 +16,13 @@ with lib;
       kitty
       libreoffice
       manpages
+      sourcetrail
       sqlite # needed for org-roam w/ doom emacs
       virtmanager
       vlc
       vscode
       xclip
+      youtube-dl
 
       # consider removing this and installing this system-wide instead
       emacs-all-the-icons-fonts

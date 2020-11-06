@@ -21,6 +21,10 @@ export USE_POWERLINE=0
 [[ "$TERM" == "xterm-kitty" ]] && USE_POWERLINE=1
 [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
 
+if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
+  source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+fi
+
 # skip the rest for non-interactive sessions
 case $- in
   *i*) ;;
@@ -38,13 +42,6 @@ export PATH="$(shopt -s nullglob; printf "%s:" \
   "$GOPATH/bin" \
   ~/.emacs.d/bin \
 )"
-
-if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
-  source ~/.nix-profile/etc/profile.d/nix.sh
-fi
-if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
-  source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-fi
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
 

@@ -28,5 +28,15 @@
         Note, this is part of dotfiles and not a standard home-manager module.
       '';
     }
+    {
+      time = "2020-11-06T14:44:02+00:00";
+      message = ''
+        A new module is available: 'programs.dotfiles.debugTools'
+
+        If you enable this module on a non-NixOS distribution, make sure to
+        enable the 'config.targets.genericLinux' option in your Home Manager
+        configuration or installation would fail.
+      '';
+    }
   ];
 }
