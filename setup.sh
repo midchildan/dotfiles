@@ -93,7 +93,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/nano/nanorc
   - .config/nixpkgs/config.nix
   - .config/nixpkgs/home.nix
-  - .config/nixpkgs/home.d/dotfiles.nix
+  - .config/nixpkgs/home.d/dotfiles
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/tilix/schemes/gruvbox-dark.json

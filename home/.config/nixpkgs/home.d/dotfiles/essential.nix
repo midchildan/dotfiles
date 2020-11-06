@@ -1,4 +1,6 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
+
+with lib;
 
 {
   options.programs.dotfiles.essential.enable = mkEnableOption
