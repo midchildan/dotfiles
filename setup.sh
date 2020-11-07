@@ -86,6 +86,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .ideavimrc
   - .config/bat/config
   - .config/broot/launcher/refused
+  - .config/containers/containers.conf
   - .config/kitty/kitty.conf
   - .config/nixpkgs/config.nix
   - .config/ranger/rc.conf

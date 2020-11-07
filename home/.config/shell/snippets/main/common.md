@@ -54,3 +54,7 @@
 - Watch an ASCII animation of Star Wars:
 
 `nc towel.blinkenlights.nl 23`
+
+- Send terminfo files for the kitty terminal to an SSH server:
+
+`kitty +kitten ssh {{server_name}}`
