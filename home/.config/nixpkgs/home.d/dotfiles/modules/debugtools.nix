@@ -16,7 +16,7 @@ in {
       ++ optional cfg.desktop.enable radare2-cutter
       ++ (with nixos.linuxPackages; [
         bcc
-        (nixos.callPackage ./pkgs/bpftrace.nix { })
+        (nixos.callPackage ../pkgs/bpftrace.nix { })
       ]);
   };
 }

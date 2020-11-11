@@ -16,7 +16,7 @@ let
     isConfFile || isConfDir;
 in
 {
-  # import all files matching ~/.config/nixpkgs/home/{*.nix,*/default.nix}
+  # import all files matching ~/.config/nixpkgs/home.d/{*.nix,*/default.nix}
   imports = map toAbsolute (filter isValidConfigPath hmDirFiles);
 
   programs.home-manager.enable = true;

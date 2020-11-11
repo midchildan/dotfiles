@@ -12,7 +12,6 @@ with lib;
       firefox-bin
       emacs
       gimp
-      github-cli
       kitty
       libreoffice
       manpages

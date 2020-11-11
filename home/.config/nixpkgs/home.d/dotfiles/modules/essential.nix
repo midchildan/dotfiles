@@ -11,7 +11,6 @@ with lib;
       [
         bat
         broot
-        clang-tools
         cmigemo
         dnsutils
         file
@@ -32,8 +31,6 @@ with lib;
         ranger
         tig
         tmux
-        tokei
-        universal-ctags
         wget
         nodePackages.prettier
       ] ++ (with pkgs.gitAndTools; [ delta diff-so-fancy git-absorb ]);
