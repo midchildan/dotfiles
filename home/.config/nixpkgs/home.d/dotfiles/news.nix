@@ -44,5 +44,13 @@
         A new module is available: 'programs.dotfiles.development'
       '';
     }
+    {
+      time = "2020-11-11T14:45:47+00:00";
+      message = ''
+        A new option is available: 'programs.dotfiles.enableAll'
+
+        This enables all modules available under programs.dotfiles.
+      '';
+    }
   ];
 }
