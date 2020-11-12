@@ -1,4 +1,4 @@
 {
   "diagnostic.displayByAle": true,
-  "go.goplsPath": "~/.nix-profile/bin/gopls"
+  "go.goplsPath": "gopls"
 }
