@@ -32,6 +32,7 @@ with lib;
         tig
         tmux
         wget
+        whois
         nodePackages.prettier
       ] ++ (with pkgs.gitAndTools; [ delta diff-so-fancy git-absorb ]);
   };
