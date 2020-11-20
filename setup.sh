@@ -125,6 +125,8 @@ setup::deps() {
   git clone  --depth 1 https://github.com/eth-p/bat-extras.git\
       && sudo ./bat-extras/build.sh --install
   sudo apt install fzf
+  mkdir -p ~/.vim/autoload && \
+      curl https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -o ~/.vim/autoload/plug.vim
 }
 
 ######################
