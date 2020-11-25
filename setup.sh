@@ -57,6 +57,7 @@ setup::shell() {
   install::default ".zshenv"
   install::default ".zshrc"
   install::default ".emacs.d"
+  install::default ".vimrc"
   install::default ".zlogout"
   install::default ".inputrc"
   install::default ".config/shell/snippets/common.snip"
@@ -122,8 +123,12 @@ setup::deps() {
        && sudo dpkg -i bat_0.12.1_amd64.deb
   rm ripgrep_11.0.2_amd64.deb
   emacs --script install.el
-  git clone https://github.com/eth-p/bat-extras.git\
+  git clone  --depth 1 https://github.com/eth-p/bat-extras.git\
       && sudo ./bat-extras/build.sh --install
+  sudo apt install fzf
+  mkdir -p ~/.vim/autoload && \
+      curl https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -o ~/.vim/autoload/plug.vim
+  vim -c PlugInstall -c q -c q
 }
 
 ######################
