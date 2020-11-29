@@ -14,9 +14,9 @@ Plug 'easymotion/vim-easymotion', {'on': [
 
 " completion and linting
 Plug 'w0rp/ale'
-Plug '/usr/share/doc/fzf/examples' | Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neoclide/coc-snippets'
+Plug '~/.nix-profile/share/vim-plugins/fzf' | Plug 'junegunn/fzf.vim'
+Plug '~/.nix-profile/share/vim-plugins/coc-nvim'
+Plug '~/.nix-profile/share/vim-plugins/coc-snippets'
 " XXX: coc-snippets isn't completely compatible w/ UltiSnips snippets
 " Run ':CocInstall coc-ultisnips' to show UltiSnips snippets
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'

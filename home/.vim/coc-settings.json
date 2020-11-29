@@ -1,3 +1,4 @@
 {
-  "diagnostic.displayByAle": true
+  "diagnostic.displayByAle": true,
+  "go.goplsPath": "gopls"
 }

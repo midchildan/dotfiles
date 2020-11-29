@@ -21,6 +21,10 @@ export USE_POWERLINE=0
 [[ "$TERM" == "xterm-kitty" ]] && USE_POWERLINE=1
 [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
 
+if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
+  source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+fi
+
 # skip the rest for non-interactive sessions
 case $- in
   *i*) ;;
@@ -35,8 +39,6 @@ export GPG_TTY="$(tty)"
 export PATH="$(shopt -s nullglob; printf "%s:" \
   ~/.local/bin \
   "$PATH" \
-  ~/.cargo/bin \
-  ~/.gem/ruby/*/bin \
   "$GOPATH/bin" \
   ~/.emacs.d/bin \
 )"
@@ -46,7 +48,6 @@ command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
 ###########################
 #  Aliases and Functions  #
 ###########################
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'

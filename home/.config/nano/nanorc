@@ -21,6 +21,3 @@ set tabstospaces
 # Searching
 # unset backwards # unrecognized option, a possible bug
 unset casesensitive
-
-# Syntax
-include "/usr/share/nano/*.nanorc"

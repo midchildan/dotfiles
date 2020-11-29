@@ -66,7 +66,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .gdbinit
   - .local/bin/gef
   - .local/bin/peda
-  - .local/bin/pwndbg
 
 @install Install LaTeX Config
   - .config/latexmk/latexmkrc
@@ -90,9 +89,12 @@ source "$DOTFILE_DIR/scripts/setup"
   - .ideavimrc
   - .config/bat/config
   - .config/broot/launcher/refused
+  - .config/containers/containers.conf
   - .config/kitty/kitty.conf
   - .config/nano/nanorc
   - .config/nixpkgs/config.nix
+  - .config/nixpkgs/home.nix
+  - .config/nixpkgs/home.d/dotfiles
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/tilix/schemes/gruvbox-dark.json
@@ -109,19 +111,16 @@ source "$DOTFILE_DIR/scripts/setup"
 
 # The below will not run unless --init is specified
 
-@packages
+@shell Install Packages
   - init: true
-  - cmigemo
-  - direnv
-  - fonts-powerline
-  - fzf
-  - neovim
-  - nodejs
-  - ripgrep
-  - zsh-syntax-highlighting
-  - shell: nvim +PlugInstall +qall
-  - shell: nvim -c 'CocInstall -sync coc-ultisnips | qall'
-  - shell: ~/.emacs.d/bin/doom -y install --no-config
+  - nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+  - nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+  - nix-channel --update
+  - export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
+  - nix-shell '<home-manager>' -A install
+  - nvim +PlugInstall +qall
+  - nvim -c 'CocInstall -sync coc-ultisnips | qall'
+  - ~/.emacs.d/bin/doom -y install --no-config
 
 @githooks
   - init: true

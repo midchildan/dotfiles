@@ -184,9 +184,9 @@ dot::githooks::task() {
 dot::packages::task() {
   if [[ -z "$_DOT_PACKAGE_UPDATED" ]]; then
     _DOT_PACKAGE_UPDATED=true
-    sudo apt-get update
+    nix-channel --update
   fi
-  sudo apt-get install -y "$1"
+  nix-env -i "$1"
 }
 
 # Skip section
@@ -416,21 +416,7 @@ dot::_print_badge::failed() {
 #   coreutils, python, ruby, or perl
 dot::_absolute_path() {
   [[ "$#" != 1 ]] && dot::_abort "Wrong number of arguments."
-  if command -v realpath >/dev/null 2>&1; then
-    realpath -s "$1"
-  elif command -v perl >/dev/null 2>&1; then
-    perl -e "use File::Spec; print File::Spec->rel2abs(\$ARGV[0])" "$1"
-  elif command -v ruby >/dev/null 2>&1; then
-    ruby -e \
-      "require 'pathname'; print(Pathname.new(ARGV[0]).expand_path())" "$1"
-  elif command -v python3 >/dev/null 2>&1; then
-    python3 -c "import os,sys; print(os.path.abspath(sys.argv[1]), end='')" "$1"
-  elif command -v python2 >/dev/null 2>&1; then
-    python2 -c \
-      "from __future__ import print_function; import os,sys; print(os.path.abspath(sys.argv[1]), end='')" "$1"
-  else
-    dot::_abort "Needs coreutils, python, ruby, or perl."
-  fi
+  realpath -s "$1"
 }
 
 # Prints the relative path from the current directory to the given path
@@ -442,21 +428,7 @@ dot::_absolute_path() {
 #   coreutils, python, ruby, or perl
 dot::_relative_path() {
   [[ "$#" != 1 ]] && dot::_abort "Wrong number of arguments."
-  if command -v realpath >/dev/null 2>&1; then
-    realpath --no-symlinks --relative-to=. "$1"
-  elif command -v perl >/dev/null 2>&1; then
-    perl -e "use File::Spec; print File::Spec->abs2rel(\$ARGV[0])" "$1"
-  elif command -v ruby >/dev/null 2>&1; then
-    ruby -e \
-      "require 'pathname'; print(Pathname.new(ARGV[0]).relative_path_from(Pathname.getwd))" "$1"
-  elif command -v python3 >/dev/null 2>&1; then
-    python3 -c "import os,sys; print(os.path.relpath(sys.argv[1]), end='')" "$1"
-  elif command -v python2 >/dev/null 2>&1; then
-    python2 -c \
-      "from __future__ import print_function; import os; print(os.path.relpath(sys.argv[1]), end='')" "$1"
-  else
-    dot::_abort "Needs coreutils, python, ruby, or perl."
-  fi
+  realpath --no-symlinks --relative-to=. "$1"
 }
 
 # Wrapper for pushd

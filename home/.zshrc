@@ -15,12 +15,14 @@ typeset -U path
   path=(
     ~/.local/bin
     $path
-    ~/.cargo/bin
-    ~/.gem/ruby/*/bin
     "$GOPATH/bin"
     ~/.emacs.d/bin
   )
 }
+
+if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
+  source ~/.nix-profile/etc/profile.d/nix.sh
+fi
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 
@@ -276,7 +278,6 @@ if is-at-least 5.2; then
 fi
 
 command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
-source /etc/zsh_command_not_found
 
 ###########
 #  Theme  #
@@ -295,5 +296,5 @@ autoload -Uz promptinit && promptinit
 prompt dashboard
 
 # must be run last
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)
