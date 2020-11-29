@@ -13,7 +13,7 @@ by bringing with it a high number of up-to-date packages that
 [outnumbers any other package repositories](https://repology.org/repositories/statistics/newest).
 
 See [here](https://nixos.org/learn.html) to get started. For usage with this
-dotfiles, see <docs/nix.md>.
+dotfiles, see [docs/nix.md](docs/nix.md).
 
 ## Installation
 
@@ -74,11 +74,10 @@ $ ./setup.sh --init
 
 ## Supported platforms
 
-| branch  | platform         |
-| ------- | ---------------- |
-| master  | Linux            |
-| osx     | macOS            |
-| centos7 | CentOS 7 w/o Nix |
+| branch | platform |
+| ------ | -------- |
+| master | Linux    |
+| osx    | macOS    |
 
 In addition to the platforms listed above, support for one-off remote Linux
 sessions is included in the `gh-pages` branch. This is useful in cases where
