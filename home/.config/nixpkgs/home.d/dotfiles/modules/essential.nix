@@ -2,7 +2,8 @@
 
 with lib;
 
-{
+let inherit (pkgs.stdenv.hostPlatform) isDarwin;
+in {
   options.programs.dotfiles.essential.enable =
     mkEnableOption "Essential packages for servers and desktops alike";
 
@@ -12,18 +13,14 @@ with lib;
         bat
         broot
         cmigemo
-        dnsutils
-        file
         fd
         fselect
         ghq
-        git
         httpie
         jq
         lsof
         magic-wormhole
         neofetch
-        netcat
         nixfmt
         nkf
         nyancat
@@ -32,8 +29,8 @@ with lib;
         tig
         tmux
         wget
-        whois
         nodePackages.prettier
-      ] ++ (with pkgs.gitAndTools; [ delta diff-so-fancy git-absorb ]);
+      ] ++ optionals (!isDarwin) [ dnsutils file git netcat whois ]
+      ++ (with pkgs.gitAndTools; [ delta diff-so-fancy git-absorb ]);
   };
 }
