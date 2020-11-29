@@ -10,6 +10,11 @@ source "$DOTFILE_DIR/scripts/setup"
 @shell Update Submodules
   - git submodule --quiet update --init --remote
 
+@install Install Nix Config
+  - .config/nixpkgs/config.nix
+  - .config/nixpkgs/home.nix
+  - .config/nixpkgs/home.d/dotfiles
+
 @install Install Shell Config
   - .bash_profile
   - .bashrc
@@ -88,7 +93,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/broot/launcher/refused
   - .config/containers/containers.conf
   - .config/kitty/kitty.conf
-  - .config/nixpkgs/config.nix
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/zathura/zathurarc
@@ -107,20 +111,20 @@ source "$DOTFILE_DIR/scripts/setup"
 
 # The below will not run unless --init is specified
 
-@packages
+@shell Install Packages
   - init: true
-  - cmigemo
-  - direnv
-  - fzf
-  - neovim
-  - nodejs
-  - ripgrep
-  - zsh-completions
-  - zsh-syntax-highlighting
+  - nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+  - nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+  - nix-channel --update
+  - export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
+  - nix-shell '<home-manager>' -A install
+  - nvim +PlugInstall +qall
+  - nvim -c 'CocInstall -sync coc-ultisnips | qall'
+  - ~/.emacs.d/bin/doom -y install --no-config
+
+@packages Install Fonts
+  - init: true
   - cask: homebrew/cask-fonts/font-powerline-symbols
-  - shell: nvim +PlugInstall +qall
-  - shell: nvim -c 'CocInstall -sync coc-ultisnips | qall'
-  - shell: ~/.emacs.d/bin/doom -y install --no-config
 
 @githooks
   - init: true

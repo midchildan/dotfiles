@@ -204,9 +204,9 @@ dot::githooks::task() {
 dot::packages::task() {
   if [[ -z "$_DOT_PACKAGE_UPDATED" ]]; then
     _DOT_PACKAGE_UPDATED=true
-    brew update
+    nix-channel --update
   fi
-  brew install "$1"
+  nix-env -i "$1"
 }
 
 # Skip section

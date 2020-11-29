@@ -1,4 +1,4 @@
 {
   "diagnostic.displayByAle": true,
-  "clangd.path": "/usr/local/opt/llvm/bin/clangd"
+  "go.goplsPath": "gopls"
 }
