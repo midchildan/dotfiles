@@ -2,13 +2,12 @@
 
 main() {
   cd "${GIT_PREFIX:-.}"
-  git "${1:-diff}" "${@:2}" \
-    | diff-so-fancy \
-    | less +g --pattern '^(Date|added|deleted|modified):'
+  git "${1:-diff}" "${@:2}"
 }
 
 git() {
   command git \
+    -c "core.pager=diff-so-fancy | less -+F +g --pattern '^(Date|added|deleted|modified):'" \
     -c "color.ui=always" \
     -c "color.diff.meta=yellow" \
     -c "color.diff.frag=magenta bold" \

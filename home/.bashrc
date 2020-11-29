@@ -10,9 +10,9 @@
 
 export EDITOR="nvim"
 export LANG="en_US.UTF-8"
-export LESS="iMR"
+export LESS="iFMR"
 export PAGER="less"
-export SYSTEMD_LESS="iRSMK"
+export SYSTEMD_LESS="iFRSMK"
 
 export GOPATH=~/Documents/src/go
 
