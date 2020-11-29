@@ -4,7 +4,7 @@ with lib;
 
 {
   options.programs.dotfiles.essential.enable =
-    mkEnableOption "Essential packages for servers and desktops";
+    mkEnableOption "Essential packages for servers and desktops alike";
 
   config = mkIf config.programs.dotfiles.essential.enable {
     home.packages = with pkgs;

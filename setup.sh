@@ -10,6 +10,11 @@ source "$DOTFILE_DIR/scripts/setup"
 @shell Update Submodules
   - git submodule --quiet update --init --remote
 
+@install Install Nix Config
+  - .config/nixpkgs/config.nix
+  - .config/nixpkgs/home.nix
+  - .config/nixpkgs/home.d/dotfiles
+
 @install Install Shell Config
   - .bash_profile
   - .bashrc
@@ -92,9 +97,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/containers/containers.conf
   - .config/kitty/kitty.conf
   - .config/nano/nanorc
-  - .config/nixpkgs/config.nix
-  - .config/nixpkgs/home.nix
-  - .config/nixpkgs/home.d/dotfiles
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/tilix/schemes/gruvbox-dark.json

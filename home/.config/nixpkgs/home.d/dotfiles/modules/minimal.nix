@@ -6,7 +6,7 @@ with lib;
   options.programs.dotfiles.minimal.enable = mkOption {
     type = types.bool;
     default = true;
-    description = "The bare minimal packages to make the dotfiles useful";
+    description = "The bare minimum packages to make the dotfiles useful";
   };
 
   config = mkIf config.programs.dotfiles.minimal.enable {

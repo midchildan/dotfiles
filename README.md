@@ -2,6 +2,19 @@
 
 dotfiles for my personal use.
 
+## Requirements
+
+### Nix Package Manager
+
+The [Nix package manager](https://nixos.org) works across macOS and various
+Linux distributions, and can co-exist with native package managers. Having it
+installed would ensure that this dotfiles would work on a wide range of systems
+by bringing with it a high number of up-to-date packages that
+[outnumbers any other package repositories](https://repology.org/repositories/statistics/newest).
+
+See [here](https://nixos.org/learn.html) to get started. For usage with this
+dotfiles, see <docs/nix.md>.
+
 ## Installation
 
 ### Step 1: Setup your repository
@@ -61,12 +74,11 @@ $ ./setup.sh --init
 
 ## Supported platforms
 
-|branch |platform               |
-|-------|-----------------------|
-|master |Debian, Ubuntu         |
-|osx    |macOS                  |
-|centos7|CentOS 7               |
-|nixos  |Any Linux distro w/ Nix|
+| branch  | platform         |
+| ------- | ---------------- |
+| master  | Linux            |
+| osx     | macOS            |
+| centos7 | CentOS 7 w/o Nix |
 
 In addition to the platforms listed above, support for one-off remote Linux
 sessions is included in the `gh-pages` branch. This is useful in cases where
