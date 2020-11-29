@@ -4,7 +4,8 @@ with lib;
 
 let
   cfg = config.programs.dotfiles;
-  isGenericLinux = config.targets.genericLinux.enable;
+  isLinux = pkgs.stdenv.hostPlatform.isLinux;
+  isGenericLinux = (config.targets.genericLinux.enable or false);
   nixos = if isGenericLinux then pkgs else (import <nixos> { });
 in {
   options.programs.dotfiles.debugTools.enable =
@@ -13,8 +14,8 @@ in {
   config = mkIf cfg.debugTools.enable {
     home.packages = with pkgs;
       [ binutils nmap pwndbg radare2 socat valgrind ]
-      ++ optional cfg.desktop.enable radare2-cutter
-      ++ (with nixos.linuxPackages; [
+      ++ optional (isLinux && cfg.desktop.enable) radare2-cutter
+      ++ optionals isLinux (with nixos.linuxPackages; [
         bcc
         (nixos.callPackage ../pkgs/bpftrace.nix { })
       ]);
