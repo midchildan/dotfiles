@@ -114,6 +114,7 @@ source "$DOTFILE_DIR/scripts/setup"
 @shell Install Packages
   - init: true
   - script: install-home-manager.sh
+  - brew install pinentry-mac
   - nvim +PlugInstall +qall
   - nvim -c 'CocInstall -sync coc-ultisnips | qall'
   - ~/.emacs.d/bin/doom -y install --no-config

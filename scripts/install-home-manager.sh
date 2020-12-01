@@ -47,8 +47,6 @@ writeInitialConfig() {
   home.username = "$USER";
   home.homeDirectory = "$HOME";
 
-  targets.genericLinux.enable = ${IS_GENERIC_LINUX:-false};
-
   # This option determines which Home Manager release the current configuration
   # is compatible with.
   home.stateVersion = "$(home-manager --version)";

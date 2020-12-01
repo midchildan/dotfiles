@@ -9,7 +9,8 @@
       <string>/bin/bash</string>
       <string>-c</string>
       <string>
-        eval $(/usr/local/bin/gpg-agent --daemon)
+        export PATH="$HOME/.nix-profile/bin:/usr/local/bin:$PATH"
+        eval $(gpg-agent --daemon)
         /bin/launchctl setenv GPG_AGENT_INFO $GPG_AGENT_INFO
       </string>
     </array>
