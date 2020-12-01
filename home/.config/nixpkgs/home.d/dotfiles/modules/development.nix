@@ -9,6 +9,6 @@ in {
   config = mkIf config.profiles.development.enable {
     home.packages = with pkgs;
       [ clang-tools github-cli gopls tokei universal-ctags ]
-      ++ optionals isDarwin [ gnupg pinentry_mac ];
+      ++ optional isDarwin gnupg;
   };
 }
