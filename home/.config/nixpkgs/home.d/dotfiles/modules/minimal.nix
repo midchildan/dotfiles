@@ -3,6 +3,7 @@
 with lib;
 
 let
+  inherit (pkgs.stdenv.hostPlatform) isDarwin;
   isGenericLinux = (config.targets.genericLinux.enable or false);
   extraPkgs = import ../pkgs { inherit pkgs; };
 in {

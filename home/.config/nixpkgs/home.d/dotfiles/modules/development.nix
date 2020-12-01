@@ -2,7 +2,8 @@
 
 with lib;
 
-{
+let inherit (pkgs.stdenv.hostPlatform) isDarwin;
+in {
   options.profiles.development.enable = mkEnableOption "Development packages";
 
   config = mkIf config.profiles.development.enable {
