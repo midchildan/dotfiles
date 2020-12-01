@@ -12,11 +12,11 @@ with lib;
     ./news.nix
   ];
 
-  options.programs.dotfiles.enableAll =
-    mkEnableOption "Enable all modules available under programs.dotfiles";
+  options.profiles.enableAll =
+    mkEnableOption "Enable all profiles provided by the dotfiles";
 
-  config = mkIf config.programs.dotfiles.enableAll {
-    programs.dotfiles = {
+  config = mkIf config.profiles.enableAll {
+    profiles = {
       essential.enable = mkDefault true;
       debugTools.enable = mkDefault true;
       desktop.enable = mkDefault true;

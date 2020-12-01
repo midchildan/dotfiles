@@ -52,5 +52,14 @@
         This enables all modules available under programs.dotfiles.
       '';
     }
+    {
+      time = "2020-12-01T01:11:00+00:00";
+      message = ''
+        Rename option 'programs.dotfiles' -> 'profiles'
+
+        Make sure to adjust your Home Manager settings in
+        ~/.config/nixpkgs/home.d/ accordingly.
+      '';
+    }
   ];
 }

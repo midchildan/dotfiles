@@ -113,11 +113,7 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @shell Install Packages
   - init: true
-  - nix-channel --add https://nixos.org/channels/nixpkgs-unstable
-  - nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-  - nix-channel --update
-  - export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
-  - nix-shell '<home-manager>' -A install
+  - script: install-home-manager.sh
   - nvim +PlugInstall +qall
   - nvim -c 'CocInstall -sync coc-ultisnips | qall'
   - ~/.emacs.d/bin/doom -y install --no-config

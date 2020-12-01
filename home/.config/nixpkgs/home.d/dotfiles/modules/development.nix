@@ -2,17 +2,13 @@
 
 with lib;
 
-{
-  options.programs.dotfiles.development.enable =
-    mkEnableOption "Development packages";
+let inherit (pkgs.stdenv.hostPlatform) isDarwin;
+in {
+  options.profiles.development.enable = mkEnableOption "Development packages";
 
-  config = mkIf config.programs.dotfiles.development.enable {
-    home.packages = with pkgs; [
-      clang-tools
-      github-cli
-      gopls
-      tokei
-      universal-ctags
-    ];
+  config = mkIf config.profiles.development.enable {
+    home.packages = with pkgs;
+      [ clang-tools github-cli gopls tokei universal-ctags ]
+      ++ optional isDarwin gnupg;
   };
 }

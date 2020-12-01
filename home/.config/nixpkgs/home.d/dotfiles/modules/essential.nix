@@ -4,10 +4,10 @@ with lib;
 
 let inherit (pkgs.stdenv.hostPlatform) isDarwin;
 in {
-  options.programs.dotfiles.essential.enable =
+  options.profiles.essential.enable =
     mkEnableOption "Essential packages for servers and desktops alike";
 
-  config = mkIf config.programs.dotfiles.essential.enable {
+  config = mkIf config.profiles.essential.enable {
     home.packages = with pkgs;
       [
         bat
@@ -29,8 +29,10 @@ in {
         tig
         tmux
         wget
+        zsh-completions
         nodePackages.prettier
-      ] ++ optionals (!isDarwin) [ dnsutils file git netcat whois ]
-      ++ (with pkgs.gitAndTools; [ delta diff-so-fancy git-absorb ]);
+      ] ++ (with pkgs.gitAndTools; [ delta diff-so-fancy git-absorb ])
+      ++ optionals (!isDarwin) [ dnsutils file git netcat whois ]
+      ++ optional isDarwin watch;
   };
 }

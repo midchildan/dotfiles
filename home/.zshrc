@@ -1,4 +1,4 @@
-fpath+=(~/.local/share/zsh/site-functions /usr/local/share/zsh-completions)
+typeset -U fpath; fpath+=~/.local/share/zsh/site-functions
 autoload -Uz add-zsh-hook
 autoload -Uz is-at-least
 
@@ -84,6 +84,10 @@ setopt magic_equal_subst
 setopt menu_complete
 setopt list_packed
 zmodload -i zsh/complist
+
+if [[ -n "$NIX_PROFILES" ]]; then
+  fpath+=(${(z)^NIX_PROFILES}/share/zsh/{site-functions,$ZSH_VERSION/functions,vendor-completions})
+fi
 
 () {
   setopt localoptions extended_glob

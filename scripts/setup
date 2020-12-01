@@ -337,7 +337,7 @@ dot::script() {
     curl "$1" -sSf | bash
     ! (( PIPEFAIL[0] | PIPEFAIL[1] ))
   else
-    bash "$@"
+    bash "$DOTFILE_DIR/scripts/$1" "${@:2}"
   fi
 
   echo "Running $1...$(dot::_print_badge)"
