@@ -80,7 +80,7 @@ setopt list_packed
 zmodload -i zsh/complist
 
 if [[ -n "$NIX_PROFILES" ]]; then
-  fpath+=${(z)^NIX_PROFILES}/share/zsh/{site-functions,$ZSH_VERSION/functions,vendor-completions}
+  fpath+=(${(z)^NIX_PROFILES}/share/zsh/{site-functions,$ZSH_VERSION/functions,vendor-completions})
 fi
 
 () {
