@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./profiles
-    ./news.nix
+    ./pinentry-mac.nix
   ];
 }
