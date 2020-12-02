@@ -4,10 +4,10 @@ with lib;
 
 let inherit (pkgs.stdenv.hostPlatform) isDarwin;
 in {
-  options.profiles.essential.enable =
+  options.dotfiles.profiles.essential.enable =
     mkEnableOption "Essential packages for servers and desktops alike";
 
-  config = mkIf config.profiles.essential.enable {
+  config = mkIf config.dotfiles.profiles.essential.enable {
     home.packages = with pkgs;
       [
         bat

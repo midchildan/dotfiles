@@ -61,5 +61,14 @@
         ~/.config/nixpkgs/home.d/ accordingly.
       '';
     }
+    {
+      time = "2020-12-02T18:36:47+00:00";
+      message = ''
+        Rename option 'profiles' -> 'dotfiles.profiles'
+
+        Make sure to adjust your Home Manager settings in
+        ~/.config/nixpkgs/home.d/ accordingly.
+      '';
+    }
   ];
 }

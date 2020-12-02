@@ -4,10 +4,10 @@ with lib;
 
 let inherit (pkgs.stdenv.hostPlatform) isLinux;
 in {
-  options.profiles.desktop.enable =
+  options.dotfiles.profiles.desktop.enable =
     mkEnableOption "Essential packages for NixOS desktops";
 
-  config = mkIf config.profiles.desktop.enable {
+  config = mkIf config.dotfiles.profiles.desktop.enable {
     home.packages = with pkgs;
       [ emacs youtube-dl ] ++ optionals isLinux [
         anki

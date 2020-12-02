@@ -1,0 +1,7 @@
+{ ... }:
+
+{
+  imports = [
+    ./pinentry-mac.nix
+  ];
+}

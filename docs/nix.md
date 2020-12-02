@@ -30,29 +30,29 @@ below. The actual code can be found in
 [home/.config/nixpkgs/home.d/dotfiles](../home/.config/nixpkgs/home.d/dotfiles).
 
 <dl>
-  <dt>profiles.minimal.enable</dt>
+  <dt>dotfiles.profiles.minimal.enable</dt>
   <dd>
     Installs the bare minimum amount of packages needed for the dotfiles to
     function. Enabled by default.
   </dd>
-  <dt>profiles.essential.enable</dt>
+  <dt>dotfiles.profiles.essential.enable</dt>
   <dd>
     Installs essential packages for servers and desktops alike. Disabled by
     default.
   </dd>
-  <dt>profiles.development.enable</dt>
+  <dt>dotfiles.profiles.development.enable</dt>
   <dd>
     Installs development packages. Disabled by default.
   </dd>
-  <dt>profiles.debugTools.enable</dt>
+  <dt>dotfiles.profiles.debugTools.enable</dt>
   <dd>
     Installs debugging tools. Disabled by default.
   </dd>
-  <dt>profiles.desktop.enable</dt>
+  <dt>dotfiles.profiles.desktop.enable</dt>
   <dd>
     Installs essential packages for NixOS desktops. Disabled by default.
   </dd>
-  <dt>profiles.enableAll</dt>
+  <dt>dotfiles.profiles.enableAll</dt>
   <dd>
     Enables all of the above. Disabled by default.
   </dd>
