@@ -78,5 +78,17 @@
         This installs pinentry-mac to /usr/local/bin. Only available on macOS.
       '';
     }
+    {
+      time = "2020-12-03T16:49:51+00:00";
+      message = ''
+        A new module is available: 'dotfiles.manpages'
+
+        This module installs manual pages without hiding the operating system's
+        existing manual pages. This module was written because the manual pages
+        for XCode Command Line Tools on macOS were not showing up with the
+        default Home Manager configuration. A similar issue was reported at
+        https://github.com/nix-community/home-manager/issues/432
+      '';
+    }
   ];
 }
