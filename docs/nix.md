@@ -50,7 +50,8 @@ below. The actual code can be found in
   </dd>
   <dt>dotfiles.profiles.desktop.enable</dt>
   <dd>
-    Installs essential packages for NixOS desktops. Disabled by default.
+    Installs essential packages for desktop environemnts. It can be enabled for
+    both Linux and macOS. Disabled by default.
   </dd>
   <dt>dotfiles.profiles.enableAll</dt>
   <dd>
