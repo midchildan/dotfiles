@@ -3,8 +3,9 @@
 with lib;
 
 let
-  inherit (pkgs.stdenv.hostPlatform) isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) isLinux isDarwin;
   isGenericLinux = (config.targets.genericLinux.enable or false);
+  isNixOS = isLinux && !isGenericLinux;
   extraPkgs = import ../pkgs { inherit pkgs; };
 in {
   options.dotfiles.profiles.minimal.enable = mkOption {
@@ -24,5 +25,7 @@ in {
       enable = true;
       withNodeJs = true;
     };
+
+    dotfiles.manpages.enable = mkDefault (!isNixOS);
   };
 }
