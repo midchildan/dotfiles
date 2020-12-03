@@ -26,6 +26,7 @@ in {
         nyancat
         p7zip
         ranger
+        ripgrep-all
         tig
         tmux
         wget
