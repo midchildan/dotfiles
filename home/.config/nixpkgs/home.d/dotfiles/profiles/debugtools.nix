@@ -14,8 +14,13 @@ in {
 
   config = mkIf cfg.debugTools.enable {
     home.packages = with pkgs;
-      [ binutils nmap pwndbg radare2 socat valgrind ]
-      ++ optionals isLinux [ nixos.linuxPackages.bcc extraNixos.bpftrace ]
-      ++ optional (isLinux && cfg.desktop.enable) radare2-cutter;
+      [ nmap socat ] ++ optionals isLinux [
+        binutils
+        pwndbg
+        radare2
+        valgrind
+        nixos.linuxPackages.bcc
+        extraNixos.bpftrace
+      ] ++ optional (isLinux && cfg.desktop.enable) radare2-cutter;
   };
 }
