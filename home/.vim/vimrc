@@ -1,6 +1,9 @@
 """"""""""""""""""""
 "  Initialization  "
 """"""""""""""""""""
+set t_u7=
+set t_RV=
+
 call plug#begin('~/.vim/plugged')
 " editing
 Plug 'junegunn/vim-easy-align'
@@ -291,3 +294,5 @@ endfor
 
 " " undotree "
 " let g:undotree_WindowLayout=2
+
+set belloff=all
