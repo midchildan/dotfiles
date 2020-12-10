@@ -9,7 +9,7 @@ in {
 
   config = mkIf config.dotfiles.profiles.development.enable {
     home.packages = with pkgs;
-      [ clang-tools github-cli gopls tokei universal-ctags ]
+      [ clang-tools github-cli go gopls tokei universal-ctags ]
       ++ optional isDarwin gnupg;
 
     dotfiles.pinentry-mac.enable = mkDefault isDarwin;
