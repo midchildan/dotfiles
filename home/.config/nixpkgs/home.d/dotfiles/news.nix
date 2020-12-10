@@ -90,5 +90,17 @@
         https://github.com/nix-community/home-manager/issues/432
       '';
     }
+    {
+      time = "2020-12-10T16:34:37+00:00";
+      message = ''
+        A new option is available: 'dotfiles.fixes.localeArchive.enable'
+
+        When enabled, this prevents broken locale support when Home Manager
+        packages require a locale archive format that is incompatible with what
+        the host system provides.
+
+        See also https://github.com/NixOS/nixpkgs/issues/38991
+      '';
+    }
   ];
 }
