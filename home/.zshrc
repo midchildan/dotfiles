@@ -54,7 +54,7 @@ zstyle ':chpwd:*' recent-dirs-file ~/.cache/zsh/cdhistory
 #############
 #  History  #
 #############
-HISTFILE=~/.zsh_history
+HISTFILE=~/.cache/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
 
