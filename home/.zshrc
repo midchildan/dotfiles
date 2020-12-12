@@ -7,6 +7,10 @@ autoload -Uz is-at-least
 ###########################
 #  Environment Variables  #
 ###########################
+if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
+  source ~/.nix-profile/etc/profile.d/nix.sh
+fi
+
 export GPG_TTY="$TTY"
 
 typeset -U path
@@ -19,10 +23,6 @@ typeset -U path
     ~/.emacs.d/bin
   )
 }
-
-if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
-  source ~/.nix-profile/etc/profile.d/nix.sh
-fi
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 
@@ -280,8 +280,6 @@ if is-at-least 5.2; then
   autoload -Uz bracketed-paste-url-magic && \
     zle -N bracketed-paste bracketed-paste-url-magic
 fi
-
-command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 
 ###########
 #  Theme  #

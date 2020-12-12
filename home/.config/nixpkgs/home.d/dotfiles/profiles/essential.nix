@@ -33,7 +33,9 @@ in {
         zsh-completions
         nodePackages.prettier
       ] ++ (with pkgs.gitAndTools; [ delta diff-so-fancy git-absorb ])
-      ++ optionals (!isDarwin) [ dnsutils file git netcat whois ]
+      ++ optionals (!isDarwin) [ dnsutils file git netcat whois kitty.terminfo ]
       ++ optional isDarwin watch;
+
+    programs.lesspipe.enable = mkDefault true;
   };
 }
