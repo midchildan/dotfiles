@@ -1,6 +1,6 @@
 typeset -U fpath; fpath+=~/.local/share/zsh/site-functions
-autoload -Uz add-zsh-hook
-autoload -Uz is-at-least
+autoload -Uz add-zsh-hook is-at-least
+zmodload -i zsh/parameter
 
 [[ -d ~/.cache/zsh/completion ]] || mkdir -p ~/.cache/zsh/completion
 
@@ -14,17 +14,14 @@ fi
 export GPG_TTY="$TTY"
 
 typeset -U path
-() {
-  setopt localoptions null_glob
-  path=(
-    ~/.local/bin
-    $path
-    "$GOPATH/bin"
-    ~/.emacs.d/bin
-  )
-}
+path=(
+  ~/.local/bin
+  $path
+  "$GOPATH/bin"
+  ~/.emacs.d/bin
+)
 
-command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
+(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
 ###########################
 #  Aliases and Functions  #

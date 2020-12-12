@@ -1,4 +1,5 @@
 emulate -L zsh
+zmodload -i zsh/parameter
 
 [[ -z "$fzf_default_completion" ]] && fzf_default_completion=expand-or-complete
 
@@ -6,7 +7,7 @@ emulate -L zsh
   function bindkey() {}
 
   local fzfscripts
-  if command -v fzf-share &> /dev/null; then
+  if (( $+commands[fzf-share] )); then
     fzfscripts=( "$(fzf-share)/completion.zsh" )
   else
     fzfscripts=(

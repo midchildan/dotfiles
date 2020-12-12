@@ -1,6 +1,7 @@
 emulate -L zsh
+zmodload -i zsh/parameter
 
-if ! command -v thefuck &> /dev/null; then
+if ! (( $+commands[thefuck] )); then
   echo "thefuck not installed" >&2
   return 1
 fi

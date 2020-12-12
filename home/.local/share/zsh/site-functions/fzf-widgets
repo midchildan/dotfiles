@@ -1,7 +1,8 @@
 emulate -L zsh
+zmodload -i zsh/parameter
 
 local fzfscripts
-if command -v fzf-share &> /dev/null; then
+if (( $+commands[fzf-share] )); then
   fzfscripts=( "$(fzf-share)/key-bindings.zsh" )
 else
   fzfscripts=(

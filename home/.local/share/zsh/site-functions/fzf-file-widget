@@ -1,6 +1,7 @@
 emulate -L zsh
+zmodload -i zsh/parameter
 
-if ! (command -v fzf &> /dev/null) || [[ "$TERM" = "dumb" ]]; then
+if ! (( $+commands[fzf] )) || [[ "$TERM" = "dumb" ]]; then
   if ! (zle -al complete-file); then
     zle -C complete-file complete-word _generic &&
       zstyle ':completion:complete-file:*' completer _files
