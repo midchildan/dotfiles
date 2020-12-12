@@ -1,8 +1,8 @@
 diff --git a/home/.bashrc b/home/.bashrc
-index d53dddc..588914f 100644
+index 7783b77..8e00bd9 100644
 --- a/home/.bashrc
 +++ b/home/.bashrc
-@@ -17,7 +17,7 @@ export SYSTEMD_LESS="iRSMK"
+@@ -17,7 +17,7 @@ export SYSTEMD_LESS="iFRSMK"
  export GOPATH=~/Documents/src/go
  
  # whether to make use of powerline fonts
@@ -12,10 +12,10 @@ index d53dddc..588914f 100644
  [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
  
 diff --git a/home/.zshenv b/home/.zshenv
-index 6cb2b82..4f603eb 100644
+index 3c80a8a..25aca9f 100644
 --- a/home/.zshenv
 +++ b/home/.zshenv
-@@ -7,6 +7,6 @@ export SYSTEMD_LESS="iRSMK"
+@@ -7,7 +7,7 @@ export SYSTEMD_LESS="iFRSMK"
  export GOPATH=~/Documents/src/go
  
  # whether to make use of powerline fonts
@@ -23,3 +23,4 @@ index 6cb2b82..4f603eb 100644
 +export USE_POWERLINE=1
  [[ "$TERM" == "xterm-kitty" ]] && USE_POWERLINE=1
  [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
+ 
