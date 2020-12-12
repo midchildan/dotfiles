@@ -18,9 +18,9 @@ export GPG_TTY="$TTY"
 typeset -U path
 path=(
   ~/.local/bin
-  /usr/local/opt/python@3/libexec/bin
-  /usr/local/sbin
   $path
+  /usr/local/sbin
+  /usr/local/opt/python@3/libexec/bin
   "$GOPATH/bin"
   ~/.emacs.d/bin
 )
@@ -60,7 +60,7 @@ zstyle ':chpwd:*' recent-dirs-file ~/Library/Caches/zsh/cdhistory
 #############
 #  History  #
 #############
-HISTFILE=~/.cache/zsh/history
+HISTFILE=~/Library/Caches/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
 

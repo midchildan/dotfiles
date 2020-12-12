@@ -14,7 +14,6 @@ export LANG="en_US.UTF-8"
 export LESS="iFMR"
 export PAGER="less"
 
-export GTK_PATH=/usr/local/lib/gtk-2.0
 export GOPATH=~/Documents/src/go
 
 # whether to make use of powerline fonts
@@ -43,19 +42,12 @@ export GPG_TTY="$(tty)"
 
 export PATH="$(shopt -s nullglob; printf "%s:" \
   ~/.local/bin \
-  /usr/local/opt/python@3/libexec/bin \
-  /usr/local/sbin \
   "$PATH" \
+  /usr/local/sbin \
+  /usr/local/opt/python@3/libexec/bin \
   "$GOPATH/bin" \
   ~/.emacs.d/bin \
 )"
-
-if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
-  source ~/.nix-profile/etc/profile.d/nix.sh
-fi
-if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
-  source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-fi
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
 

@@ -4,7 +4,6 @@ export LANG="en_US.UTF-8"
 export LESS="iFMR"
 export PAGER="less"
 
-export GTK_PATH=/usr/local/lib/gtk-2.0
 export GOPATH=~/Documents/src/go
 
 # whether to make use of powerline fonts
