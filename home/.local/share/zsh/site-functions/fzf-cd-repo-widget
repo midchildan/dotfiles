@@ -1,4 +1,5 @@
 emulate -L zsh
+zmodload -i zsh/parameter
 
 autoload -Uz fzf-widgets && fzf-widgets || return 1
 
@@ -7,7 +8,7 @@ fzf-cd-repo-widget() {
   setopt localoptions pipefail no_aliases 2> /dev/null
 
   local repo has_ghq=
-  command -v ghq &> /dev/null && has_ghq=1
+  (( $+commands[ghq] )) && has_ghq=1
   {
     if [[ -n "$has_ghq" ]]; then
       ghq list

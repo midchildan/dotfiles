@@ -1,6 +1,6 @@
 typeset -U fpath; fpath+=~/.local/share/zsh/site-functions
-autoload -Uz add-zsh-hook
-autoload -Uz is-at-least
+autoload -Uz add-zsh-hook is-at-least
+zmodload -i zsh/parameter
 
 [[ -d ~/Library/Caches/zsh/completion ]] \
   || mkdir -p ~/Library/Caches/zsh/completion
@@ -8,27 +8,24 @@ autoload -Uz is-at-least
 ###########################
 #  Environment Variables  #
 ###########################
-export CLICOLOR=1
-export GPG_TTY="$TTY"
-
-typeset -U path
-() {
-  setopt localoptions null_glob
-  path=(
-    ~/.local/bin
-    /usr/local/opt/python@3/libexec/bin
-    /usr/local/sbin
-    $path
-    "$GOPATH/bin"
-    ~/.emacs.d/bin
-  )
-}
-
 if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
   source ~/.nix-profile/etc/profile.d/nix.sh
 fi
 
-command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
+export CLICOLOR=1
+export GPG_TTY="$TTY"
+
+typeset -U path
+path=(
+  ~/.local/bin
+  /usr/local/opt/python@3/libexec/bin
+  /usr/local/sbin
+  $path
+  "$GOPATH/bin"
+  ~/.emacs.d/bin
+)
+
+(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
 ###########################
 #  Aliases and Functions  #
@@ -63,7 +60,7 @@ zstyle ':chpwd:*' recent-dirs-file ~/Library/Caches/zsh/cdhistory
 #############
 #  History  #
 #############
-HISTFILE=~/.zsh_history
+HISTFILE=~/.cache/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
 
@@ -289,8 +286,6 @@ if is-at-least 5.2; then
   autoload -Uz bracketed-paste-url-magic && \
     zle -N bracketed-paste bracketed-paste-url-magic
 fi
-
-command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 
 ###########
 #  Theme  #

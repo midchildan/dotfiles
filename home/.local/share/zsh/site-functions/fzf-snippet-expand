@@ -1,4 +1,5 @@
 emulate -L zsh
+zmodload -i zsh/parameter
 
 autoload -Uz fzf-snippet-next
 
@@ -7,7 +8,7 @@ if grep -q "{{" <<< "$BUFFER"; then
   return
 fi
 
-if ! command -v perl > /dev/null 2>&1; then
+if ! (( $+commands[perl] )); then
   zle -M "perl not in PATH"
   return 1
 fi

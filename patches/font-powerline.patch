@@ -1,5 +1,5 @@
 diff --git a/home/.bashrc b/home/.bashrc
-index 00d0cb7..e004e55 100644
+index 2349d86..21684da 100644
 --- a/home/.bashrc
 +++ b/home/.bashrc
 @@ -18,7 +18,7 @@ export GTK_PATH=/usr/local/lib/gtk-2.0
@@ -12,7 +12,7 @@ index 00d0cb7..e004e55 100644
    xterm-kitty:) USE_POWERLINE=1 ;; # kitty can use the powerline font directly
    *:iTerm.app) USE_POWERLINE=1 ;; # iTerm provides built-in powerline glyphs
 diff --git a/home/.zshenv b/home/.zshenv
-index fc2584c..296e7c1 100644
+index 3c82c21..0bab432 100644
 --- a/home/.zshenv
 +++ b/home/.zshenv
 @@ -8,7 +8,7 @@ export GTK_PATH=/usr/local/lib/gtk-2.0

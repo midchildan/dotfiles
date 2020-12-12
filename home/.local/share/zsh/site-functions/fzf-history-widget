@@ -1,6 +1,7 @@
 emulate -L zsh
+zmodload -i zsh/parameter
 
-if ! (command -v fzf &> /dev/null) || [[ "$TERM" = "dumb" ]]; then
+if ! (( $+commands[fzf] )) || [[ "$TERM" = "dumb" ]]; then
   zle history-incremental-search-backward
   return
 fi

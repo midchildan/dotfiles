@@ -1,7 +1,8 @@
 emulate -L zsh
+zmodload -i zsh/parameter
 
 local fzfscripts
-if command -v fzf-share &> /dev/null; then
+if (( $+commands[fzf-share] )); then
   fzfscripts=( "$(fzf-share)/key-bindings.zsh" )
 else
   fzfscripts=(
@@ -23,10 +24,6 @@ for file in "$fzfscripts[@]"; do
     } always {
       unfunction bindkey
     }
-
-    # FIXME: temporary workaround for junegunn/fzf#1774
-    functions[_fzf-redraw-prompt]=$functions[fzf-redraw-prompt]
-    function fzf-redraw-prompt() { dir="" _fzf-redraw-prompt; }
 
     function fzf-widgets() {} # guard against multiple invocations
     return

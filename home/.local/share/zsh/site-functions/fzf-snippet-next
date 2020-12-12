@@ -1,6 +1,7 @@
 emulate -L zsh
+zmodload -i zsh/parameter
 
-if ! command -v perl > /dev/null 2>&1; then
+if ! (( $+commands[perl] )); then
   zle -M "perl not in PATH"
   return 1
 fi

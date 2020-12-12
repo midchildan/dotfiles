@@ -102,5 +102,14 @@
         See also https://github.com/NixOS/nixpkgs/issues/38991
       '';
     }
+    {
+      time = "2020-12-12T16:18:03+00:00";
+      message = ''
+        Remove option 'dotfiles.fixes.localeArchive.enable
+
+        The configuration that was introduced by this option would be applied
+        without the need of explicit configuration.
+      '';
+    }
   ];
 }
