@@ -48,12 +48,18 @@ Thumbs.db
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+###############
+#  Dev tools  #
+###############
 # language servers
 .clangd/
 # sourcetrail
 *.srctrlbm
 *.srctrldb
 *.srctrlprj
+# direnv
+.direnv/
 
 ##########
 #  Tags  #
