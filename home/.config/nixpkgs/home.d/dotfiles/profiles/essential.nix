@@ -27,6 +27,7 @@ in {
         p7zip
         ranger
         ripgrep-all
+        thefuck
         tig
         tmux
         wget

@@ -115,7 +115,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - init: true
   - script: install-home-manager.sh
   - nvim +PlugInstall +qall
-  - nvim -c 'CocInstall -sync coc-ultisnips | qall'
   - ~/.emacs.d/bin/doom -y install --no-config
 
 @packages Install Fonts
