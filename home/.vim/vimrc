@@ -15,11 +15,13 @@ Plug 'easymotion/vim-easymotion', {'on': [
 " completion and linting
 Plug 'w0rp/ale'
 Plug '~/.nix-profile/share/vim-plugins/fzf' | Plug 'junegunn/fzf.vim'
-Plug '~/.nix-profile/share/vim-plugins/coc-nvim'
-Plug '~/.nix-profile/share/vim-plugins/coc-snippets'
-" XXX: coc-snippets isn't completely compatible w/ UltiSnips snippets
-" Run ':CocInstall coc-ultisnips' to show UltiSnips snippets
+" XXX: coc-snippets can't completely replace UltiSnips
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+" load coc and related plugins installed through Nix
+for s:plugpath in glob('~/.nix-profile/share/vim-plugins/coc-*', v:true, v:true)
+  call plug#(s:plugpath)
+endfor
 
 " utilities
 Plug 'direnv/direnv.vim'
@@ -66,6 +68,8 @@ endif
 augroup vimrc
   autocmd!
 augroup END
+
+let s:has_rg = executable('rg')
 
 """""""""""""
 "  Editing  "
@@ -342,23 +346,27 @@ nnoremap <silent> <Leader>1 :diffget LOCAL<CR>
 nnoremap <silent> <Leader>2 :diffget BASE<CR>
 nnoremap <silent> <Leader>3 :diffget REMOTE<CR>
 
-""""""""""
-"  Misc  "
-""""""""""
-let g:tex_flavor='latex'
-
-" See :h :DiffOrig
-command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-  \ | wincmd p | diffthis
-
-" QuickFix "
-au vimrc QuickfixCmdPost [^lA-Z]* botright cwindow
-au vimrc QuickfixCmdPost l* botright lwindow
-
-let s:has_rg = executable('rg')
-if s:has_rg
-  set grepprg=rg\ --vimgrep\ --hidden
+"""""""""""""
+"  Plugins  "
+"""""""""""""
+" airline "
+let g:airline_skip_empty_sections=1
+if $USE_POWERLINE
+  let g:airline_powerline_fonts=1
 endif
+
+" CoC "
+" these plugins aren't yet packaged in Nix
+let g:coc_global_extensions =
+      \ ['coc-clangd', 'coc-cmake', 'coc-pyright', 'coc-ultisnips']
+
+" EasyMotion"
+let g:EasyMotion_do_mapping=0
+let g:EasyMotion_smartcase=1
+let g:EasyMotion_use_migemo=1
+
+" EditorConfig "
+let g:EditorConfig_exclude_patterns=['fugitive://.*']
 
 " FZF "
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
@@ -375,23 +383,6 @@ else
     \ call fzf#vim#grep('grep -r --line-number '.shellescape(<q-args>).' *', 0, <bang>0)
 endif
 
-" EasyMotion"
-let g:EasyMotion_do_mapping=0
-let g:EasyMotion_smartcase=1
-let g:EasyMotion_use_migemo=1
-
-" EditorConfig "
-let g:EditorConfig_exclude_patterns=['fugitive://.*']
-
-" UltiSnips "
-let g:UltiSnipsExpandTrigger='<C-x><C-j>'
-
-" airline "
-let g:airline_skip_empty_sections=1
-if $USE_POWERLINE
-  let g:airline_powerline_fonts=1
-endif
-
 " indentLine "
 let g:indentLine_enabled=0
 let g:indentLine_setColors=0
@@ -400,5 +391,25 @@ let g:indentLine_concealcursor=''
 " markbar "
 let g:markbar_enable_peekaboo=v:false
 
+" UltiSnips "
+let g:UltiSnipsExpandTrigger='<C-x><C-j>'
+
 " undotree "
 let g:undotree_WindowLayout=2
+
+""""""""""
+"  Misc  "
+""""""""""
+let g:tex_flavor='latex'
+
+" See :h :DiffOrig
+command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+  \ | wincmd p | diffthis
+
+" QuickFix "
+au vimrc QuickfixCmdPost [^lA-Z]* botright cwindow
+au vimrc QuickfixCmdPost l* botright lwindow
+
+if s:has_rg
+  set grepprg=rg\ --vimgrep\ --hidden
+endif

@@ -17,7 +17,7 @@ in {
   config = mkIf config.dotfiles.profiles.minimal.enable {
     home.packages = with pkgs;
       [ direnv fzf less ripgrep zsh-syntax-highlighting ]
-      ++ (with pkgs.vimPlugins; [ coc-nvim coc-snippets ])
+      ++ (with pkgs.vimPlugins; [ coc-nvim coc-snippets coc-json ])
       ++ optional isGenericLinux extraPkgs.nixpath
       ++ optional (isGenericLinux || isDarwin) nix-zsh-completions;
 
