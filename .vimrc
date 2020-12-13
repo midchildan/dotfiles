@@ -17,6 +17,8 @@ augroup vimrc
   autocmd!
 augroup END
 
+let s:has_rg = executable('rg')
+
 """""""""""""
 "  Editing  "
 """""""""""""
@@ -182,7 +184,6 @@ command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
 au vimrc QuickfixCmdPost [^lA-Z]* botright cwindow
 au vimrc QuickfixCmdPost l* botright lwindow
 
-let s:has_rg = executable('rg')
 if s:has_rg
   set grepprg=rg\ --vimgrep\ --hidden
 endif

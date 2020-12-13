@@ -1,5 +1,4 @@
-autoload -Uz add-zsh-hook
-autoload -Uz is-at-least
+autoload -Uz add-zsh-hook is-at-least
 
 ###########################
 #  Environment Variables  #
