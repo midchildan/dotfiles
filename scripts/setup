@@ -186,7 +186,7 @@ dot::packages::task() {
     _DOT_PACKAGE_UPDATED=true
     nix-channel --update
   fi
-  nix-env -i "$1"
+  nix-env -iA "$1"
 }
 
 # Skip section
