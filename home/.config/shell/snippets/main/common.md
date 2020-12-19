@@ -11,6 +11,14 @@
 
 `autoreconf -if`
 
+- Lookup the manpage for a specific version of tmux:
+
+`curl -sSfL https://raw.githubusercontent.com/tmux/tmux/{{2.8}}/tmux.1 | nroff -mdoc | less`
+
+- Shorten a GitHub URL:
+
+`curl -i https://git.io -F 'url={{url}}' -F 'code={{code}}'`
+
 - Count the number of files in a directory:
 
 `find {{path/to/directory}} -type f -printf . | wc -c`
@@ -23,13 +31,33 @@
 
 `gh api -X POST repos/{{:owner/:repo}}/pages/builds`
 
-- Serve the current directory over HTTP:
+- Start gpg-agent. Try this when Git fails to sign commits:
 
-`python3 -m http.server {{8000}} --bind {{127.0.0.1}}`
+`gpg-connect-agent /bye`
+
+- Reload gpg-agent:
+
+`gpg-connect-agent reloadagent /bye`
+
+- Try this when SSH authentication with gpg-agent hangs:
+
+`gpg-connect-agent updatestartuptty /bye`
+
+- List commands for gpg-agent:
+
+`gpg-connect-agent help /bye`
 
 - Start an httpbin server:
 
 `gunicorn -b {{localhost}}:{{8080}} httpbin:app -k gevent`
+
+- Send terminfo files for the kitty terminal to an SSH server:
+
+`kitty +kitten ssh {{server_name}}`
+
+- Watch an ASCII animation of Star Wars:
+
+`nc towel.blinkenlights.nl 23`
 
 - Start an OpenSSL test HTTP server:
 
@@ -43,18 +71,10 @@
 
 `openssl rand -base64 {{n}} | head -c{{n}}`
 
-- Lookup the manpage for a specific version of tmux:
+- Serve the current directory over HTTP:
 
-`curl -sSfL https://raw.githubusercontent.com/tmux/tmux/{{2.8}}/tmux.1 | nroff -mdoc | less`
+`python3 -m http.server {{8000}} --bind {{127.0.0.1}}`
 
-- Shorten a GitHub URL:
+- Format JSON:
 
-`curl -i https://git.io -F 'url={{url}}' -F 'code={{code}}'`
-
-- Watch an ASCII animation of Star Wars:
-
-`nc towel.blinkenlights.nl 23`
-
-- Send terminfo files for the kitty terminal to an SSH server:
-
-`kitty +kitten ssh {{server_name}}`
+`python3 -m json.tool {{input.json}}`
