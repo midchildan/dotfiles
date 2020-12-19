@@ -2,9 +2,9 @@
 # outdated zsh package. Consider setting this as your login shell if the system
 # provided zsh is giving you a hard time.
 
-{ stdenv, makeWrapper, glibcLocales, zsh }:
+{ stdenvNoCC, makeWrapper, glibcLocales, zsh }:
 
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   inherit (zsh) name;
 
   nativeBuildInputs = [ makeWrapper ];
@@ -20,7 +20,7 @@ stdenv.mkDerivation {
       --set LOCALE_ARCHIVE_2_27 "${glibcLocales}/lib/locale/locale-archive"
   '';
 
-  meta = with stdenv.lib; {
+  meta = with stdenvNoCC.lib; {
     inherit (zsh.meta) description homepage license;
     platforms = platforms.linux;
   };

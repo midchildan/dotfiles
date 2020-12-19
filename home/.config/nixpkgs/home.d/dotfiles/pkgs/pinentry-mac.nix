@@ -1,6 +1,6 @@
-{ stdenv, makeWrapper, pinentry_mac }:
+{ stdenvNoCC, makeWrapper, pinentry_mac }:
 
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   inherit (pinentry_mac) name;
 
   nativeBuildInputs = [ makeWrapper ];

@@ -9,7 +9,7 @@ in {
 
   config = mkIf config.dotfiles.profiles.development.enable {
     home.packages = with pkgs;
-      [ cargo clang-tools github-cli go gopls tokei universal-ctags ]
+      [ cargo clang-tools github-cli go gopls shellcheck tokei universal-ctags ]
       ++ (with pkgs.vimPlugins; [ coc-go coc-rust-analyzer coc-tsserver ])
       ++ optional isDarwin gnupg;
 
