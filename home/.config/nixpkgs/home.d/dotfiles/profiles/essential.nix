@@ -44,7 +44,5 @@ in {
         whois
         extraPkgs.terminfo-collection
       ] ++ optional isDarwin watch;
-
-    programs.lesspipe.enable = mkDefault true;
   };
 }
