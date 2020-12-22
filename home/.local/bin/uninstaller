@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+TMPDIR="$(mktemp -d)"
+
+
+cleanup() {
+  rm -rf "$TMPDIR"
+}
+trap cleanup EXIT
+
+main() {
+  case "$1" in
+    -h|--help) usage; exit ;;
+  esac
+
+  for pkgname in "$@"; do
+    createCask "$pkgname" > "$TMPDIR/uninstaller.rb"
+    brew uninstall --cask --force "$TMPDIR/uninstaller.rb"
+  done
+}
+
+createCask() {
+cat <<EOF
+cask 'uninstaller' do
+  name 'uninstaller'
+
+  uninstall pkgutil: [ '$1' ]
+end
+EOF
+}
+
+usage() {
+cat >&2 <<EOF
+unintaller -- Uninstall software installed through .pkg packages
+
+Homebrew Cask needs to be installed for this command to work.
+
+Usage:
+
+  Uninstall packages
+  $ ${0##*/} [package-id] ...
+
+  Show this message
+  $ ${0##*/} --help
+
+EOF
+}
+
+main "$@"

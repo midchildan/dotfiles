@@ -98,8 +98,8 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/zathura/zathurarc
   - .docker/config.json
   - .ipython/profile_default/ipython_config.py
-  - .local/bin/rmpkg
   - .local/bin/imgcat
+  - .local/bin/uninstaller
   - .local/opt/fzftools
   - .local/opt/tmux-copycat
   - .nanorc
