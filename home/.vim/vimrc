@@ -53,6 +53,8 @@ Plug 'midchildan/ft-confluence.vim'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'LnL7/vim-nix', {'for': 'nix'}
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
+Plug 'martinda/Jenkinsfile-vim-syntax', {'for': 'Jenkinsfile'}
+Plug 'nathanaelkane/vim-indent-guides'
 
 " just for fun
 Plug 'vim/killersheep', {'on': 'KillKillKill'}
@@ -120,6 +122,8 @@ set cursorline
 colorscheme molokai
 
 set number
+
+let g:indent_guides_enable_on_vim_startup = 1
 """"""""""""
 "  Search  "
 """"""""""""
@@ -143,9 +147,9 @@ endfor
 """""""""""""""""
 "  Keybindings  "
 """""""""""""""""
-" let mapleader="\<Space>"
+let mapleader="\<Space>"
 " let maplocalleader="\<Space>\<Space>"
-" " XXX: Workaround for <Nop> bug in vim/vim#1548, neovim/neovim#6241
+" XXX: Workaround for <Nop> bug in vim/vim#1548, neovim/neovim#6241
 " nnoremap <Space> \
 " xnoremap <Space> \
 
@@ -208,20 +212,20 @@ endfor
 " nnoremap <silent> <Leader><C-o> :History<CR>
 " nnoremap <silent> <Leader><C-]> :BTags <C-r>=expand("<cword>")<CR><CR>
 
-" " easymotion
-" nmap <Leader>j <Plug>(easymotion-j)
-" xmap <Leader>j <Plug>(easymotion-j)
-" omap <Leader>j <Plug>(easymotion-j)
-" nmap <Leader>k <Plug>(easymotion-k)
-" xmap <Leader>k <Plug>(easymotion-k)
-" omap <Leader>k <Plug>(easymotion-k)
-" nmap <Leader>s <Plug>(easymotion-s2)
-" xmap <Leader>s <Plug>(easymotion-s2)
-" omap <Leader>s <Plug>(easymotion-s2)
-" nmap <Leader>s <Plug>(easymotion-overwin-f2)
-" nmap g/ <Plug>(easymotion-sn)
-" xmap g/ <Plug>(easymotion-sn)
-" omap g/ <Plug>(easymotion-tn)
+" easymotion
+nmap <Leader>j <Plug>(easymotion-j)
+xmap <Leader>j <Plug>(easymotion-j)
+omap <Leader>j <Plug>(easymotion-j)
+nmap <Leader>k <Plug>(easymotion-k)
+xmap <Leader>k <Plug>(easymotion-k)
+omap <Leader>k <Plug>(easymotion-k)
+nmap <Leader>s <Plug>(easymotion-s2)
+xmap <Leader>s <Plug>(easymotion-s2)
+omap <Leader>s <Plug>(easymotion-s2)
+nmap <Leader>s <Plug>(easymotion-overwin-f2)
+nmap g/ <Plug>(easymotion-sn)
+xmap g/ <Plug>(easymotion-sn)
+omap g/ <Plug>(easymotion-tn)
 
 " " vim-easy-align
 " nmap g= <Plug>(EasyAlign)
