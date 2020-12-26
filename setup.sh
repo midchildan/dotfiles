@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2215
 
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# shellcheck source=scripts/setup
 source "$DOTFILE_DIR/scripts/setup"
 
 # Remove dead symlinks
