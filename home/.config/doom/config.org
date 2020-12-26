@@ -253,6 +253,11 @@ Show inline images by default
 #+BEGIN_SRC emacs-lisp
 (setq org-startup-with-inline-images t)
 #+END_SRC
+* Plugins
+** Yankpad
+#+begin_src emacs-lisp
+(use-package! yankpad :defer-incrementally t)
+#+end_src
 * Workarounds
 ** TODO Fix for org inline images breaking org-babel
 Issue in [[https://github.com/hlissner/doom-emacs/issues/3185][hlissner/doom-emacs#3185]]
