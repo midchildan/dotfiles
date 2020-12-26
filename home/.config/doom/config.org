@@ -38,6 +38,14 @@ likings.
 #+BEGIN_SRC emacs-lisp
 (setq doom-font (font-spec :family "monospace"))
 #+END_SRC
+** Lines
+Make long lines wrap instead of truncating it. Wrap at window width instead
+of at the word boundary.
+
+#+begin_src emacs-lisp
+(setq-default truncate-lines nil
+              word-wrap nil)
+#+end_src
 ** Frame
 Frame is the term Emacs uses to refer to GUI windows.
 *** Title
