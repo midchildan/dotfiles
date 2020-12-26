@@ -12,7 +12,7 @@ in {
 
   config = mkIf config.dotfiles.profiles.desktop.enable {
     home.packages = with pkgs;
-      [ emacs ffmpeg-full youtube-dl ] ++ optionals isLinux [
+      [ emacs ] ++ optionals isLinux [
         anki
         firefox-bin
         gimp

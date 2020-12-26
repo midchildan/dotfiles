@@ -25,7 +25,6 @@ in {
         neofetch
         nixfmt
         nkf
-        nyancat
         p7zip
         ranger
         ripgrep-all
