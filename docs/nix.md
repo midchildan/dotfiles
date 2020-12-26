@@ -40,6 +40,10 @@ below. The actual code can be found in
     Installs essential packages for servers and desktops alike. Disabled by
     default.
   </dd>
+  <dt>dotfiles.profiles.extras.enable</dt>
+  <dd>
+    Installs nice to have packages. Disabled by default.
+  </dd>
   <dt>dotfiles.profiles.development.enable</dt>
   <dd>
     Installs development packages. Disabled by default.

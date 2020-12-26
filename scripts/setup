@@ -27,36 +27,42 @@ exec 2>>"$_DOT_LOGFILE"
 #  syntax  #
 ############
 
+# shellcheck disable=SC2120
 @packages() {
   _DOT_SECTION="packages"
   echo "$(tput bold)== ${*:-Install Packages} ==$(tput sgr0)"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
+# shellcheck disable=SC2120
 @shell() {
   _DOT_SECTION="shell"
   echo "$(tput bold)== ${*:-Run Shell Commands} ==$(tput sgr0)"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
+# shellcheck disable=SC2120
 @install() {
   _DOT_SECTION="install"
   echo "$(tput bold)== ${*:-Install Files} ==$(tput sgr0)"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
+# shellcheck disable=SC2120
 @defaults() {
   _DOT_SECTION="defaults"
   echo "$(tput bold)== ${*:-Set Defaults} ==$(tput sgr0)"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
+# shellcheck disable=SC2120
 @clean() {
   _DOT_SECTION="clean"
   echo "$(tput bold)== ${*:-Clean Dead Symlinks} ==$(tput sgr0)"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
+# shellcheck disable=SC2120
 @githooks() {
   _DOT_SECTION="githooks"
   echo "$(tput bold)== ${*:-Register Git Hooks} ==$(tput sgr0)"
@@ -103,20 +109,22 @@ dot::install::task() {
     return
   fi
 
-  local dir="$(dirname "$1")"
+  local dir
+  dir="$(dirname "$1")"
   if [[ -n "$dir" ]] && [[ "$dir" != "." ]]; then
     [[ ! -d ~/"$dir" ]] && mkdir -p ~/"$dir"
-    pushd ~/"$dir"
+    pushd ~/"$dir" || dot::_abort "can't enter dir ~/$dir"
   else
-    pushd ~
+    pushd ~ || dot::_abort "can't enter dir ~"
   fi
 
-  local fname="$(basename "$1")"
-  local src="$DOTFILE_DIR/home/$1"
+  local fname src
+  fname="$(basename "$1")"
+  src="$DOTFILE_DIR/home/$1"
   dot::_ln "$(dot::_relative_path "$src")" "$fname"
   dot::_print_badge
 
-  popd
+  popd || dot::_abort "Failed to change directory"
 }
 
 # Run a shell command
@@ -187,9 +195,9 @@ dot::githooks::task() {
     return
   fi
 
-  pushd .git/hooks
+  pushd .git/hooks || dot::_abort "can't enter dir .git/hooks"
   dot::_ln "$(dot::_relative_path "$src")" "$hook"
-  popd
+  popd || dot::_abort "Failed to change directory"
 
   dot::_print_badge
 }
@@ -253,7 +261,7 @@ dot::init() {
 #   None
 dot::cd() {
   (( $# != 1 )) && dot::_abort "Wrong number of arguments."
-  cd "$1"
+  cd "$1" || dot::_abort "can't enter dir $1"
 }
 
 # Changes file permissions for $DOTFILE_DIR/home/$path_to_file
@@ -349,7 +357,7 @@ dot::script() {
 # Returns:
 #   None
 dot::shell() {
-  echo -n "Running $@..."
+  echo -n "Running $*..."
   "$@" >&2
   dot::_print_badge
 }
@@ -410,9 +418,10 @@ dot::_ln() {
   fi
 
   # Mark dst as GC root
+  local abs_dst dst_hash
   [[ -z "$_DOT_ENABLE_GC" ]] && return
-  local abs_dst="$(dot::_absolute_path "$dst")"
-  local dst_hash="$(echo "$abs_dst" | sha256sum | cut -d' ' -f1)"
+  abs_dst="$(dot::_absolute_path "$dst")"
+  dst_hash="$(echo "$abs_dst" | sha256sum | cut -d' ' -f1)"
   ln -snf "$abs_dst" "$_DOT_GCROOT/$dst_hash" || :
 }
 
@@ -422,6 +431,7 @@ dot::_ln() {
 # Returns:
 #   None
 dot::_print_badge() {
+  # shellcheck disable=SC2181
   if [[ "$?" == 0 ]]; then
     dot::_print_badge::ok
   else
@@ -502,6 +512,8 @@ dot::_relative_path() {
 # Wrapper for pushd
 # Returns:
 #   None
+#
+# shellcheck disable=SC2164
 pushd() {
   builtin pushd "$@" > /dev/null
 }
@@ -509,6 +521,8 @@ pushd() {
 # Wrapper for popd
 # Returns:
 #   None
+#
+# shellcheck disable=SC2120,SC2164
 popd() {
   builtin popd "$@" > /dev/null
 }
@@ -516,6 +530,8 @@ popd() {
 # Wrapper for sha256sum
 # Returns:
 #   None
+#
+# shellcheck disable=SC2120
 sha256sum() {
   command shasum -a 256 "$@"
 }

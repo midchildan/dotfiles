@@ -61,6 +61,20 @@ stdenv.mkDerivation rec {
 }
 endsnippet
 
+snippet nixpkgs "import nixpkgs" b
+{ pkgs ? import <nixpkgs> { } }:
+endsnippet
+
+snippet overrideAttrs "reuse expression from nixpkgs" b
+{ pkgs ? import <nixpkgs> { } }:
+
+pkgs.$1.overrideAttrs (drv: {
+	src = ./.;
+
+	nativeBuildInputs = drv.nativeBuildInputs ++ [ $2 ];
+})
+endsnippet
+
 snippet news "Home Manager news entry" b
 {
 	time = "`!p snip.rv = datetime_now_iso8601_utc()`";

@@ -35,6 +35,14 @@ autoscaling support out-of-the-box.
 #+BEGIN_SRC emacs-lisp
 (setq doom-font (font-spec :family "Menlo" :size 12))
 #+END_SRC
+** Lines
+Make long lines wrap instead of truncating it. Wrap at window width instead
+of at the word boundary.
+
+#+begin_src emacs-lisp
+(setq-default truncate-lines nil
+              word-wrap nil)
+#+end_src
 ** Frame
 Frame is the term Emacs uses to refer to GUI windows.
 *** Title
@@ -251,6 +259,11 @@ Show inline images by default
 #+BEGIN_SRC emacs-lisp
 (setq org-startup-with-inline-images t)
 #+END_SRC
+* Plugins
+** Yankpad
+#+begin_src emacs-lisp
+(use-package! yankpad :defer-incrementally t)
+#+end_src
 * Workarounds
 ** TODO Fix for org inline images breaking org-babel
 Issue in [[https://github.com/hlissner/doom-emacs/issues/3185][hlissner/doom-emacs#3185]]

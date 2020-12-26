@@ -111,5 +111,11 @@
         without the need of explicit configuration.
       '';
     }
+    {
+      time = "2020-12-26T14:15:32+00:00";
+      message = ''
+        A new module is available: 'dotfiles.profiles.extras'
+      '';
+    }
   ];
 }

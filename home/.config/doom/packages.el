@@ -9,3 +9,4 @@
 ;; on the filename)
 
 (package! japanese-holidays)
+(package! yankpad)
