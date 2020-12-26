@@ -27,6 +27,14 @@ func! vimrc#fzf_compilers(is_buffer, bang)
   \}, a:bang))
 endf
 
+func! vimrc#fzf_projects(query, bang)
+  return fzf#run(fzf#wrap({
+    \ 'source': 'ghq list -p ' . a:query,
+    \ 'sink': 'tcd',
+    \ 'options': ['+m', '--prompt', 'Projects> ']
+    \ }, a:bang))
+endf
+
 func! vimrc#toggle_whitespace_check()
   if !exists('g:airline#extensions#whitespace#enabled')
     let g:airline#extensions#whitespace#enabled = 1

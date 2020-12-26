@@ -46,7 +46,6 @@ Plug 'morhetz/gruvbox'
 Plug 'midchildan/molokai'
 
 " filetypes
-" TODO: Add more coc extensions. For the time being, install w/ :CocInstall.
 Plug 'midchildan/ft-confluence.vim'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'LnL7/vim-nix', {'for': 'nix'}
@@ -169,6 +168,10 @@ endif
 hi link WhitespaceError Error
 au vimrc Syntax * syn match WhitespaceError /\s\+$\| \+\ze\t/
 
+" adjust quickfix window position
+au vimrc QuickfixCmdPost [^lA-Z]* botright cwindow
+au vimrc QuickfixCmdPost l* botright lwindow
+
 """"""""""""
 "  Search  "
 """"""""""""
@@ -290,7 +293,8 @@ imap <C-x><C-x><C-l> <Plug>(fzf-complete-line)
 inoremap <silent> <C-x><C-x><C-j> <Esc>:Snippets<CR>
 nnoremap <silent> <Leader>gb :Buffers<CR>
 nnoremap <silent> <Leader>gf :Files<CR>
-nnoremap <silent> <Leader>gp :GitFiles<CR>
+nnoremap <silent> <Leader>gg :GitFiles<CR>
+nnoremap <silent> <Leader>gp :Projects<CR>
 nnoremap <silent> <Leader>gK :Helptags<CR>
 nnoremap <silent> <Leader>g/ :Lines<CR>
 nnoremap <silent> <Leader>g<C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
@@ -371,17 +375,9 @@ let g:EditorConfig_exclude_patterns=['fugitive://.*']
 " FZF "
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
-command! -bang Compilers
-  \ call vimrc#fzf_compilers(0, <bang>0)
-command! -bang BCompilers
-  \ call vimrc#fzf_compilers(1, <bang>0)
-if s:has_rg
-  command! -bang -nargs=* Grep
-    \ call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>), 1, <bang>0)
-else
-  command! -bang -nargs=* Grep
-    \ call fzf#vim#grep('grep -r --line-number '.shellescape(<q-args>).' *', 0, <bang>0)
-endif
+command! -bang Compilers call vimrc#fzf_compilers(0, <bang>0)
+command! -bang BCompilers call vimrc#fzf_compilers(1, <bang>0)
+command! -bang -nargs=* Projects call vimrc#fzf_projects(<q-args>, <bang>0)
 
 " indentLine "
 let g:indentLine_enabled=0
@@ -405,10 +401,6 @@ let g:tex_flavor='latex'
 " See :h :DiffOrig
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
   \ | wincmd p | diffthis
-
-" QuickFix "
-au vimrc QuickfixCmdPost [^lA-Z]* botright cwindow
-au vimrc QuickfixCmdPost l* botright lwindow
 
 if s:has_rg
   set grepprg=rg\ --vimgrep\ --hidden
