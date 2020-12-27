@@ -231,8 +231,7 @@ visited before. It looks for git projects in ~magit-repository-directories~.
 (map! :after magit
       :leader
       :prefix "g"
-      :desc "Browse other git projects"
-      "p" #'rc-browse-in-git-repo)
+      :desc "Browse other git projects" "p" #'rc-browse-in-git-repo)
 #+END_SRC
 ** Org Mode
 Set default location for placing org files
@@ -263,8 +262,33 @@ Show inline images by default
 #+END_SRC
 * Plugins
 ** Yankpad
+[[https://github.com/Kungsgeten/yankpad][Yankpad]] is a plugin for managing snippets. The snippets are managed in
+org mode format in a file path configured by ~yankpad-file~. The snippets
+can be organized by filetype, project, or an user-defined category.
+
+How does this differ from typical snippet plugins like yasnippet? Typical
+snippet plugins are useful for snippets that are general purpose and
+frequently used. They're best suited for quickly inserting commonly used
+programming language constructs. On the other hand, Yankpad is better suited
+for snippets that are more specialized which ends up being copy-pasted from
+other files. It puts more emphasis on organization and management.
+
+First, enable the plugin.
+
 #+begin_src emacs-lisp
 (use-package! yankpad :defer-incrementally t)
+#+end_src
+
+Next, add some keybindings. One is for inserting the snippets, and the other
+is for switching between different categories of snippets.
+
+#+begin_src emacs-lisp
+(map! :after yankpad
+      :leader
+      (:prefix "i"
+       :desc "Yankpad snippet" "S" #'yankpad-insert)
+      (:prefix "t"
+       :desc "Yankpad category" "s" #'yankpad-set-category))
 #+end_src
 * Workarounds
 ** TODO Fix for org inline images breaking org-babel
