@@ -10,8 +10,7 @@
       <string>-c</string>
       <string>
         export PATH="$HOME/.nix-profile/bin:/usr/local/bin:$PATH"
-        eval $(gpg-agent --daemon)
-        /bin/launchctl setenv GPG_AGENT_INFO $GPG_AGENT_INFO
+        gpgconf --launch gpg-agent
       </string>
     </array>
     <key>RunAtLoad</key>
