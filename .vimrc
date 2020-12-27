@@ -88,6 +88,10 @@ if exists('+inccommand')
   set inccommand=split
 endif
 
+" adjust quickfix window position
+au vimrc QuickfixCmdPost [^lA-Z]* botright cwindow
+au vimrc QuickfixCmdPost l* botright lwindow
+
 """"""""""""
 "  Search  "
 """"""""""""
@@ -179,10 +183,6 @@ let g:tex_flavor='latex'
 " See :h :DiffOrig
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
   \ | wincmd p | diffthis
-
-" QuickFix "
-au vimrc QuickfixCmdPost [^lA-Z]* botright cwindow
-au vimrc QuickfixCmdPost l* botright lwindow
 
 if s:has_rg
   set grepprg=rg\ --vimgrep\ --hidden
