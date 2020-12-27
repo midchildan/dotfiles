@@ -108,7 +108,7 @@
        nix
        (org +dragndrop +roam)
        ;;python
-       ;;rest
+       rest
        ;;rust
        sh
        ;;web
