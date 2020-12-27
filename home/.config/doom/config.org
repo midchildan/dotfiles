@@ -46,11 +46,10 @@ of at the word boundary.
 ** Frame
 Frame is the term Emacs uses to refer to GUI windows.
 *** Title
-Use the default title provided by Emacs. With the Cocoa build, it shows a nice
-little icon of the current file alongside the buffer name.
+Use the buffer name as the title.
 
 #+BEGIN_SRC emacs-lisp
-(setq frame-title-format t
+(setq frame-title-format '("%b")
       icon-title-format frame-title-format)
 #+END_SRC
 *** Size
