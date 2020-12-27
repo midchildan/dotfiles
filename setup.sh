@@ -10,9 +10,11 @@ setup_environment() {
   export DOTROOT="$1"
   export INPUTRC="$DOTROOT/.inputrc"
   export SCREENRC="$DOTROOT/.screenrc"
-  export MYVIMRC="$DOTROOT/.vimrc"
-  export VIMINIT='source $MYVIMRC'
   export ZDOTDIR="$DOTROOT"
+
+  # shellcheck disable=SC2016
+  export VIMINIT='source $MYVIMRC'
+  export MYVIMRC="$DOTROOT/.vimrc"
 }
 
 main() {
@@ -43,6 +45,7 @@ main() {
     *bash)
       exec "$shell" --rcfile "$dotroot/.bashrc" ;;
     *)
+      # shellcheck disable=SC2086
       exec $shell ;;
   esac
 }
