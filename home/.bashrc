@@ -1,3 +1,5 @@
+# shellcheck disable=SC1090,SC1091,SC2039
+
 ##########################
 #  Early Initialization  #
 ##########################
@@ -34,14 +36,15 @@ esac
 ###########################
 #  Environment Variables  #
 ###########################
-export GPG_TTY="$(tty)"
-
-export PATH="$(shopt -s nullglob; printf "%s:" \
+GPG_TTY="$(tty)"
+printf -v PATH "%s:" \
   ~/.local/bin \
   "$PATH" \
   "$GOPATH/bin" \
-  ~/.emacs.d/bin \
-)"
+  ~/.emacs.d/bin
+
+export GPG_TTY
+export PATH
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
 
@@ -73,7 +76,7 @@ case "$TERM" in
   xterm*|screen*|tmux*)
     __vte_urlencode() {
       # Use LC_CTYPE=C to process text byte-by-byte.
-      local LC_CTYPE=C LC_ALL= raw_url="$1" safe
+      local LC_CTYPE=C LC_ALL='' raw_url="$1" safe
       while [[ -n "$raw_url" ]]; do
         safe="${raw_url%%[!a-zA-Z0-9/:_\.\-\!\'\(\)~]*}"
         printf "%s" "$safe"
@@ -116,10 +119,10 @@ shopt -s globstar
 stty -ixoff -ixon # disable flow control
 
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+  if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+    source /usr/share/bash-completion/bash_completion
+  elif [[ -f /etc/bash_completion ]]; then
+    source /etc/bash_completion
   fi
 fi
 
