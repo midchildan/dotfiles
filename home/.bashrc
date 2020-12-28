@@ -44,7 +44,6 @@ export PATH="$(shopt -s nullglob; printf "%s:" \
   ~/.local/bin \
   "$PATH" \
   /usr/local/sbin \
-  /usr/local/opt/python@3/libexec/bin \
   "$GOPATH/bin" \
   ~/.emacs.d/bin \
 )"

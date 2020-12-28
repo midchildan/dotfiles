@@ -20,7 +20,6 @@ path=(
   ~/.local/bin
   $path
   /usr/local/sbin
-  /usr/local/opt/python@3/libexec/bin
   "$GOPATH/bin"
   ~/.emacs.d/bin
 )
