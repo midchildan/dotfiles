@@ -6,7 +6,7 @@ export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
 IS_GENERIC_LINUX='false'
 
 main() {
-  if isLinux && !isNixOS; then
+  if isLinux && ! isNixOS; then
     IS_GENERIC_LINUX='true'
   fi
 
@@ -32,7 +32,7 @@ log::info() {
 
 writeInitialConfig() {
   if [[ -e ~/.config/nixpkgs/home.d/config.nix ]]; then
-    log::info '~/.config/nixpkgs/home.d/config.nix already exists.'
+    log::info "$HOME/.config/nixpkgs/home.d/config.nix already exists."
     return
   fi
 

@@ -12,14 +12,14 @@
 DOTFILE_DIR="${DOTFILE_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 
 main() {
-  local branch="$(git rev-parse --abbrev-ref HEAD)"
+  local branch; branch="$(git rev-parse --abbrev-ref HEAD)"
   if [[ "$branch" != "master" ]]; then
     echo "Warning: current branch not 'master'"
   fi
 
-  read -p "Enter your name: " NAME
-  read -p "Enter your email: " EMAIL
-  read -p "Enter your GPG key id (leave empty if none): " GPGKEYID
+  read -rp "Enter your name: " NAME
+  read -rp "Enter your email: " EMAIL
+  read -rp "Enter your GPG key id (leave empty if none): " GPGKEYID
 
   echo "Patching..."
   patch::git
