@@ -36,7 +36,6 @@
        modeline
        ophints
        (popup +defaults)
-       ;;pretty-code
        treemacs
        ;;unicode
        vc-gutter
@@ -49,9 +48,7 @@
        fold
        format
        multiple-cursors
-       ;;rotate-text
        snippets
-       ;;word-wrap
 
        :emacs
        dired
@@ -72,19 +69,17 @@
 
        :tools
        ;;debugger
-       ;;direnv
-       ;;docker
+       direnv
+       docker
        editorconfig
        ;;ein
        (eval +overlay)
        ;;gist
        lookup
        ;;lsp
-       ;;macos
        magit
        ;;make
        ;;pdf
-       ;;prodigy
        ;;rgb
        ;;tmux
        ;;upload
