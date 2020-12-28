@@ -138,17 +138,25 @@ fi
 
 unset LS_COLORS # clear distro defaults
 
-__prompt_color='\[\e[1m\]'
-__prompt_login='\u'
-__prompt_title='\[\e]0;\w\a\]'
-if [[ -n "$SSH_CONNECTION" ]]; then
-  __prompt_color='\[\e[1;32m\]'
-  __prompt_login+='@\h'
-  __prompt_title='\[\e]0;\u@\h:\w\a\]'
-fi
-if (( EUID == 0 )); then
-  __prompt_color='\[\e[1;31m\]'
-fi
-PS1=$__prompt_title$__prompt_color$__prompt_login
-PS1+='\[\e[0;1m\]:\[\e[34m\]\w\[\e[0;1m\]\$\[\e[0m\] '
-unset __prompt_color __prompt_login __prompt_title
+__prompt_dashboard_lite() {
+  local exitcode="$?" # must come first
+
+  PS1='\[\e]0;\w\a\]' # set terminal title
+
+  if (( EUID == 0 || UID == 0 || EUID != UID )); then
+    PS1+='\[\e[1;31m\]\u\[\e[0m\] in '
+  fi
+  PS1+='\[\e[1;34m\]\w\[\e[0m\]'
+  if [[ -n "$SSH_CONNECTION" ]]; then
+    PS1+=' at \[\e[1;33m\]\h\[\e[0m\]'
+  fi
+
+  if (( exitcode == 0 )); then
+    PS1+='\n\[\e[1;32m\]\$\[\e[0m\] '
+  else
+    PS1+='\n\[\e[1;31m\]\$\[\e[0m\] '
+  fi
+}
+
+# must come last
+PROMPT_COMMAND="__prompt_dashboard_lite;$PROMPT_COMMAND"
