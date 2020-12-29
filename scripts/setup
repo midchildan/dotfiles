@@ -6,6 +6,7 @@ _DOT_LOGFILE="$(mktemp)"
 _DOT_ENABLE_GC=1
 _DOT_GCROOT="$DOTFILE_DIR/.gcroot"
 _DOT_IS_INIT=
+_DOT_IS_VERBOSE=
 _DOT_LNFLAGS=""
 _DOT_SECTION=
 _DOT_PACKAGE_UPDATED=
@@ -19,9 +20,6 @@ dot::_exit() {
   rm "$_DOT_LOGFILE"
 }
 trap dot::_exit EXIT
-
-# redirect stderr to log file
-exec 2>>"$_DOT_LOGFILE"
 
 ############
 #  syntax  #
@@ -537,6 +535,7 @@ options:
       --init		Run tasks marked "init: true"
   -f, --force		Overwrite existing symlinks
       --disable-gc	Disable garbage collection
+  -V, --verbose		Enable verbose output
 
 commands:
   install [default]
@@ -556,7 +555,13 @@ for n in "$@"; do
     --init) _DOT_IS_INIT=1 ;;
     -f|--force) _DOT_LNFLAGS+="f" ;;
     --disable-gc) _DOT_ENABLE_GC= ;;
+    -V|--verbose) _DOT_IS_VERBOSE=1 ;;
     uninstall) dot::_command::uninstall ;;
     *) ;;
   esac
 done
+
+# redirect stderr to log file
+if [[ -z "$_DOT_IS_VERBOSE" ]]; then
+  exec 2>>"$_DOT_LOGFILE"
+fi
