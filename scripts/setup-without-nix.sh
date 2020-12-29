@@ -93,6 +93,11 @@ doctor() {
     (( n_diagnosis += 1 ))
   fi
 
+  if [[ ! -x /usr/local/bin/pinentry-mac ]]; then
+    message::err "pinentry-mac not detected. Run 'brew install pinentry-mac' to install it."
+    (( n_diagnosis += 1 ))
+  fi
+
   if (( n_diagnosis == 0 )); then
     message::ok "No problems found."
   else
