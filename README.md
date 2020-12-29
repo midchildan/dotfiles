@@ -15,6 +15,13 @@ by bringing with it a high number of up-to-date packages that
 See [here](https://nixos.org/learn.html) to get started. For usage with this
 dotfiles, see [docs/nix.md](docs/nix.md).
 
+#### But what if I don't want Nix?
+
+There's an experimental script,
+[setup-without-nix.sh](scripts/setup-without-nix.sh) that you can optionally run
+after you've completed the installation process. This would take care of the
+issues which arise from the lack of Nix.
+
 ## Installation
 
 ### Step 1: Setup your repository
