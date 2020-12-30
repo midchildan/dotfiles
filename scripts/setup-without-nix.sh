@@ -37,11 +37,15 @@ main() {
     msg::err "Refusing to run because Neovim or vim-plug isn't installed."
     exit 1
   fi
+  if ! has brew; then
+    msg::err "Refusing to run because Homebrew isn't installed."
+    exit 1
+  fi
   if [[ -n "$IS_DRYRUN" ]]; then
     msg::warn "This is a dry run. No changes to the filesystem would be made."
   fi
 
-  msg "This script will use vim-plug to install packages in $NIX_PROFILE_DIR."
+  msg "This script will use Homebrew and vim-plug to install packages in $NIX_PROFILE_DIR."
   msg "Installing packages. This may take a while ..."
 
   mkdir -p \
@@ -51,18 +55,15 @@ main() {
     "$SHELLCONF_DIR" \
     "$VIMPLUGIN_DIR"
 
+  brew install fzf zsh-syntax-highlighting >&2
   nvim --headless -u NONE -S <(txt::update-packages.vim) 2>&1 \
     | sed 's/^/nvim: /' >&2
 
   txt::nix.sh | writeFile "$SHELLCONF_DIR/nix.sh"
   txt::fzf-share | writeScript "$BIN_DIR/fzf-share"
-  ln -sf "$OPT_DIR/fzf" "$VIMPLUGIN_DIR/fzf"
+  ln -sf "/usr/local/opt/fzf" "$VIMPLUGIN_DIR/fzf"
   ln -sf "$OPT_DIR/coc-nvim" "$VIMPLUGIN_DIR/coc-nvim"
-  ln -sf "$OPT_DIR/zsh-syntax-highlighting" "$DATA_DIR/zsh-syntax-highlighting"
-  ln -sf "$VIMPLUGIN_DIR/fzf/bin/fzf-tmux" "$BIN_DIR/fzf-tmux"
-  if [[ -x "$VIMPLUGIN_DIR/fzf/bin/fzf" ]]; then
-    ln -sf "$VIMPLUGIN_DIR/fzf/bin/fzf" "$BIN_DIR/fzf"
-  fi
+  ln -sf "/usr/local/share/zsh-syntax-highlighting" "$DATA_DIR/zsh-syntax-highlighting"
 
   msg "Installation complete"
 
@@ -144,9 +145,7 @@ if "$IS_DRYRUN" != ""
 endif
 
 call plug#begin('$OPT_DIR')
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'as': 'coc-nvim'}
-Plug 'zsh-users/zsh-syntax-highlighting'
 call plug#end()
 
 PlugUpdate
@@ -168,7 +167,7 @@ EOF
 txt::fzf-share() {
 cat <<EOF
 #!/usr/bin/env bash
-echo "$VIMPLUGIN_DIR/fzf/shell"
+echo "/usr/local/opt/fzf/shell"
 EOF
 }
 
@@ -233,6 +232,14 @@ writeScript() {
   fi
 }
 
+brew() {
+  if [[ -z "$IS_DRYRUN" ]]; then
+    command brew "$@"
+  else
+    msg "Run brew $*"
+  fi
+}
+
 ln() {
   if [[ -z "$IS_DRYRUN" ]]; then
     command ln "$@"
@@ -252,7 +259,7 @@ mkdir() {
 usage() {
 cat <<EOF
 A tool to install minimum required packages without Nix.
-Requires Neovim and vim-plug.
+Requires Homebrew, Neovim, and vim-plug.
 
 usage: ${0##*/} [options]
 
