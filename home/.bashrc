@@ -46,6 +46,7 @@ printf -v PATH "%s:" \
   /usr/local/sbin \
   "$GOPATH/bin" \
   ~/.emacs.d/bin
+PATH="${PATH%%:}"
 
 export CLICOLOR=1
 export GPG_TTY
