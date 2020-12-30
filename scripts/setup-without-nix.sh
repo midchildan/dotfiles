@@ -163,8 +163,10 @@ txt::hm-session-vars.sh() {
   # Globs might not match at runtime. When it doesn't, just re-run this script.
   build_path="$(shopt -s nullglob; printf '%s:' \
     "$NIX_PROFILE_DIR/bin" \
+    /usr/local/opt/python@3/bin \
     "\$PATH" \
     "\$HOME/.cargo/bin" \
+    ~/Library/Python/*/bin \
     ~/.gem/ruby/*/bin \
   )"
 cat <<EOF
