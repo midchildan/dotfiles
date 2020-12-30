@@ -59,7 +59,7 @@ main() {
   nvim --headless -u NONE -S <(txt::update-packages.vim) 2>&1 \
     | sed 's/^/nvim: /' >&2
 
-  txt::nix.sh | writeFile "$SHELLCONF_DIR/nix.sh"
+  txt::hm-session-vars.sh | writeFile "$SHELLCONF_DIR/hm-session-vars.sh"
   txt::fzf-share | writeScript "$BIN_DIR/fzf-share"
   ln -sf "/usr/local/opt/fzf" "$VIMPLUGIN_DIR/fzf"
   ln -sf "$OPT_DIR/coc-nvim" "$VIMPLUGIN_DIR/coc-nvim"
@@ -158,7 +158,7 @@ qall!
 EOF
 }
 
-txt::nix.sh() {
+txt::hm-session-vars.sh() {
 cat <<EOF
 export PATH="$NIX_PROFILE_DIR/bin:\$PATH"
 EOF
