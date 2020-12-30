@@ -117,7 +117,7 @@ source "$DOTFILE_DIR/scripts/setup"
 @shell Install Packages
   - init: true
   - script: install-home-manager.sh
-  - nvim +PlugInstall +qall
+  - nvim --headless +PlugInstall +'%print' +qall
   - ~/.emacs.d/bin/doom -y install --no-config
 
 @packages Install Fonts
