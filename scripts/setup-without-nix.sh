@@ -68,7 +68,7 @@ main() {
 
   doctor
 
-  msg::tips "Run this script periodically to keep packages up-to-date."
+  msg::tips "Run this script periodically to keep packages and generated configs up-to-date."
   msg::tips "To uninstall, run 'rm -rf $NIX_PROFILE_DIR'."
   msg::tips "Make sure you uninstall if you ever decide to install Nix later on."
 }
@@ -155,8 +155,16 @@ EOF
 }
 
 txt::hm-session-vars.sh() {
+  local build_path
+  # Globs might not match at runtime. When it doesn't, just re-run this script.
+  build_path="$(shopt -s nullglob; printf '%s:' \
+    "$NIX_PROFILE_DIR/bin" \
+    "\$PATH" \
+    "\$HOME/.cargo/bin" \
+    ~/.gem/ruby/*/bin \
+  )"
 cat <<EOF
-export PATH="$NIX_PROFILE_DIR/bin:\$PATH"
+export PATH="${build_path%%:}"
 EOF
 }
 
@@ -183,10 +191,6 @@ version::less() {
 
 version::tmux() {
   tmux -V | head -n1 | cut -d' ' -f2
-}
-
-isUnicodeTerm() {
-  printf "%s" "$LANG" "$(locale LC_CTYPE)" | grep -q UTF-8
 }
 
 msg() {
