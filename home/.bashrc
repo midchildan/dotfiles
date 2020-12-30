@@ -42,6 +42,7 @@ printf -v PATH "%s:" \
   "$PATH" \
   "$GOPATH/bin" \
   ~/.emacs.d/bin
+PATH="${PATH%%:}"
 
 export GPG_TTY
 export PATH
