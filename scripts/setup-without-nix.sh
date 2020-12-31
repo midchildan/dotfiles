@@ -33,7 +33,7 @@ main() {
     exit 1
   fi
 
-  msg "This script will use Homebrew and vim-plug to install packages in $NIX_PROFILE_DIR."
+  msg "This script will use Homebrew and vim-plug to install packages in $PROFILE_DIR."
   msg "Installing packages. This may take a while ..."
 
   mkdir -p "$OPT_DIR"
