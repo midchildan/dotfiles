@@ -5,12 +5,12 @@
 
 set -Eeuo pipefail
 
-NIX_PROFILE_DIR=~/.nix-profile
-BIN_DIR="$NIX_PROFILE_DIR/bin"
-DATA_DIR="$NIX_PROFILE_DIR/share"
-OPT_DIR="$NIX_PROFILE_DIR/opt"
-SHELLCONF_DIR="$NIX_PROFILE_DIR/etc/profile.d"
-VIMPLUGIN_DIR="$NIX_PROFILE_DIR/share/vim-plugins"
+PROFILE_DIR=~/.nix-profile
+BIN_DIR="$PROFILE_DIR/bin"
+DATA_DIR="$PROFILE_DIR/share"
+OPT_DIR="$PROFILE_DIR/opt"
+SHELLCONF_DIR="$PROFILE_DIR/etc/profile.d"
+VIMPLUGIN_DIR="$PROFILE_DIR/share/vim-plugins"
 IS_DRYRUN=
 
 handleError() {
@@ -29,36 +29,23 @@ main() {
     esac
   done
 
-  if has nix-env; then
-    msg::warn "Refusing to run because Nix is installed on this computer."
+  if ! prerunCheck; then
     exit 1
-  fi
-  if ! has nvim || [[ ! -f ~/.vim/autoload/plug.vim ]]; then
-    msg::err "Refusing to run because Neovim or vim-plug isn't installed."
-    exit 1
-  fi
-  if ! has brew; then
-    msg::err "Refusing to run because Homebrew isn't installed."
-    exit 1
-  fi
-  if [[ -n "$IS_DRYRUN" ]]; then
-    msg::warn "This is a dry run. No changes to the filesystem would be made."
   fi
 
   msg "This script will use Homebrew and vim-plug to install packages in $NIX_PROFILE_DIR."
   msg "Installing packages. This may take a while ..."
 
-  mkdir -p \
-    "$BIN_DIR" \
-    "$DATA_DIR" \
-    "$OPT_DIR" \
-    "$SHELLCONF_DIR" \
-    "$VIMPLUGIN_DIR"
+  mkdir -p "$OPT_DIR"
 
   brew install fzf zsh-syntax-highlighting >&2
   nvim --headless -u NONE -S <(txt::update-packages.vim) 2>&1 \
     | sed 's/^/nvim: /' >&2
 
+  # Delete everything in PROFILE_DIR except opt/.
+  (shopt -s extglob; eval 'rm -rf "${PROFILE_DIR:?}"/!(opt)')
+
+  mkdir -p "$BIN_DIR" "$DATA_DIR" "$SHELLCONF_DIR" "$VIMPLUGIN_DIR"
   txt::hm-session-vars.sh | writeFile "$SHELLCONF_DIR/hm-session-vars.sh"
   txt::fzf-share | writeScript "$BIN_DIR/fzf-share"
   ln -sf "/usr/local/opt/fzf" "$VIMPLUGIN_DIR/fzf"
@@ -70,8 +57,32 @@ main() {
   doctor
 
   msg::tips "Run this script periodically to keep packages and generated configs up-to-date."
-  msg::tips "To uninstall, run 'rm -rf $NIX_PROFILE_DIR'."
+  msg::tips "To uninstall, run 'rm -rf $PROFILE_DIR'."
   msg::tips "Make sure you uninstall if you ever decide to install Nix later on."
+  msg::warn "DO NOT put files in $PROFILE_DIR because it will be deleted upon next run."
+}
+
+prerunCheck() {
+  if has nix-env; then
+    msg::warn "Refusing to run because Nix is installed on this computer."
+    return 1
+  fi
+  if [[ -L "$PROFILE_DIR" && "$(readlink "$PROFILE_DIR")" == /nix/* ]]; then
+    msg::warn "Refusing to run because $PROFILE_DIR points to a path in /nix"
+    return 1
+  fi
+  if ! has nvim || [[ ! -f ~/.vim/autoload/plug.vim ]]; then
+    msg::err "Refusing to run because Neovim or vim-plug isn't installed."
+    return 1
+  fi
+  if ! has brew; then
+    msg::err "Refusing to run because Homebrew isn't installed."
+    return 1
+  fi
+
+  if [[ -n "$IS_DRYRUN" ]]; then
+    msg::warn "This is a dry run. No changes to the filesystem would be made."
+  fi
 }
 
 doctor() {
@@ -136,18 +147,24 @@ if "$IS_DRYRUN" != ""
     echo "Installing packages to " . a:dir
   endf
   fun! plug#(repo, ...)
-    echo "Installed " . a:repo
+    echo "Will update " . a:repo
   endf
   fun! plug#end()
   endf
   command! -nargs=+ -bar Plug call plug#(<args>)
-  command! -bar PlugUpdate call plug#end()
+  command! -bang -bar PlugClean echo 'Removed unused packages.'
+  command! -bang -bar PlugUpdate echo 'Updated packages.'
 endif
 
 call plug#begin('$OPT_DIR')
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'as': 'coc-nvim'}
 call plug#end()
 
+PlugClean!
+if "$IS_DRYRUN" == ""
+  %print
+  echo "\\n"
+endif
 PlugUpdate
 if "$IS_DRYRUN" == ""
   echo
@@ -162,7 +179,7 @@ txt::hm-session-vars.sh() {
   local build_path
   # Globs might not match at runtime. When it doesn't, just re-run this script.
   build_path="$(shopt -s nullglob; printf '%s:' \
-    "$NIX_PROFILE_DIR/bin" \
+    "$PROFILE_DIR/bin" \
     /usr/local/opt/python@3/bin \
     "\$PATH" \
     "\$HOME/.cargo/bin" \
@@ -259,6 +276,14 @@ mkdir() {
     command mkdir "$@"
   else
     msg "Run mkdir $*"
+  fi
+}
+
+rm() {
+  if [[ -z "$IS_DRYRUN" ]]; then
+    command rm "$@"
+  else
+    msg "Run rm $*"
   fi
 }
 
