@@ -38,7 +38,7 @@ main() {
 
   mkdir -p "$OPT_DIR"
 
-  brew install fzf zsh-syntax-highlighting >&2
+  brew install fzf less zsh-syntax-highlighting >&2
   nvim --headless -u NONE -S <(txt::update-packages.vim) 2>&1 \
     | sed 's/^/nvim: /' >&2
 
