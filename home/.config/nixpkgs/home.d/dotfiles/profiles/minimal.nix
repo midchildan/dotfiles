@@ -16,7 +16,7 @@ in {
 
   config = mkIf config.dotfiles.profiles.minimal.enable {
     home.packages = with pkgs;
-      [ fzf less ripgrep zsh-syntax-highlighting ]
+      [ fzf less ripgrep zsh-syntax-highlighting extraPkgs.neovim ]
       ++ (with pkgs.vimPlugins; [ coc-nvim coc-snippets coc-json ])
       ++ optional isGenericLinux extraPkgs.nixpath
       ++ optional (isGenericLinux || isDarwin) nix-zsh-completions;
@@ -25,15 +25,6 @@ in {
       enable = mkDefault true;
       enableNixDirenvIntegration = mkDefault true;
     };
-
-    programs.neovim = {
-      enable = true;
-      withNodeJs = true;
-    };
-
-    # HACK: prevent HM from dropping its own Neovim config
-    xdg.configFile."nvim/init.vim".target =
-      "${config.xdg.dataHome}/home-manager/diverted/init.vim";
 
     dotfiles.manpages.enable = mkDefault (!isNixOS);
   };
