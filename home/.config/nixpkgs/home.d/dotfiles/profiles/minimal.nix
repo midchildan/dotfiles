@@ -31,6 +31,10 @@ in {
       withNodeJs = true;
     };
 
+    # HACK: prevent HM from dropping its own Neovim config
+    xdg.configFile."nvim/init.vim".target =
+      "${config.xdg.dataHome}/home-manager/diverted/init.vim";
+
     dotfiles.manpages.enable = mkDefault (!isNixOS);
   };
 }
