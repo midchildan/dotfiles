@@ -109,11 +109,6 @@ doctor() {
     (( n_diagnosis += 1 ))
   fi
 
-  if ! has direnv; then
-    msg::err "direnv not detected."
-    (( n_diagnosis += 1 ))
-  fi
-
   if ! has rg; then
     msg::err "ripgrep not detected."
     (( n_diagnosis += 1 ))
