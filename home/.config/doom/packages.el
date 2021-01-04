@@ -14,5 +14,4 @@
 ;; These packages attempt to build native C code at runtime. Prefer copies
 ;; installed by Nix if they exist to avoid having to make GCC globally
 ;; available.
-(package! emacsql-sqlite3 :built-in 'prefer)
 (package! pdf-tools :built-in 'prefer)

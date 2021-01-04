@@ -117,5 +117,14 @@
         A new module is available: 'dotfiles.profiles.extras'
       '';
     }
+    {
+      time = "2021-01-04T13:56:45+00:00";
+      message = ''
+        A new module is available: 'dotfiles.emacs'
+
+        This module can be used to add custom initialization code to Emacs
+        installed through the 'programs.emacs' module.
+      '';
+    }
   ];
 }
