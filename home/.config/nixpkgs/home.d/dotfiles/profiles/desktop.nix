@@ -32,10 +32,13 @@ in {
       extraPackages = epkgs:
         with epkgs; [
           # include Doom Emacs dependencies that tries to build native C code
-          emacsql-sqlite3
           pdf-tools
           vterm
         ];
     };
+
+    dotfiles.emacs.extraConfig = ''
+      (setq emacsql-sqlite3-executable "${pkgs.sqlite}/bin/sqlite3")
+    '';
   };
 }
