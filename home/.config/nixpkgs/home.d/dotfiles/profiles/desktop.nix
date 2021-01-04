@@ -12,14 +12,12 @@ in {
 
   config = mkIf config.dotfiles.profiles.desktop.enable {
     home.packages = with pkgs;
-      [ emacs ] ++ optionals isLinux [
+      optionals isLinux [
         anki
         firefox-bin
         gimp
         kitty
         libreoffice
-        sourcetrail
-        sqlite # needed for org-roam w/ doom emacs
         virtmanager
         vlc
         vscode
@@ -28,5 +26,16 @@ in {
         # consider removing this and installing this system-wide instead
         emacs-all-the-icons-fonts
       ] ++ optional isNixOS manpages;
+
+    programs.emacs = {
+      enable = mkDefault true;
+      extraPackages = epkgs:
+        with epkgs; [
+          # include Doom Emacs dependencies that tries to build native C code
+          emacsql-sqlite3
+          pdf-tools
+          vterm
+        ];
+    };
   };
 }

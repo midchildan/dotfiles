@@ -7,6 +7,13 @@ with lib;
     mkEnableOption "Extra nice to have packages";
 
   config = mkIf config.dotfiles.profiles.extras.enable {
-    home.packages = with pkgs; [ exiftool ffmpeg-full nyancat youtube-dl ];
+    home.packages = with pkgs; [
+      exiftool
+      ffmpeg-full
+      imagemagick
+      nyancat
+      ripgrep-all
+      youtube-dl
+    ];
   };
 }

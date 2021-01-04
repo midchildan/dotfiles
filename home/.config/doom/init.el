@@ -28,7 +28,6 @@
        :ui
        doom
        doom-dashboard
-       doom-quit
        fill-column
        hl-todo
        ;;hydra
@@ -39,7 +38,7 @@
        treemacs
        ;;unicode
        vc-gutter
-       vi-tilde-fringe
+       ;;vi-tilde-fringe
        workspaces
 
        :editor
@@ -57,10 +56,8 @@
        vc
 
        :term
-       ;;eshell
-       ;;shell
-       ;;term
-       ;;vterm
+       eshell
+       vterm
 
        :checkers
        syntax
@@ -79,7 +76,7 @@
        ;;lsp
        magit
        ;;make
-       ;;pdf
+       pdf
        ;;rgb
        ;;tmux
        ;;upload

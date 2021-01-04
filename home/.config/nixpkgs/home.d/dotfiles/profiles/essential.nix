@@ -27,7 +27,6 @@ in {
         nkf
         p7zip
         ranger
-        ripgrep-all
         thefuck
         tig
         tmux
