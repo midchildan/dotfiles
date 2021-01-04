@@ -157,6 +157,14 @@ if bindkey -l viopp &> /dev/null; then () {
   done
 }; fi
 
+# some keys are near impossible to send when using any of the emacs terminal
+# emulators, making customized keybindings infeasible
+if [[ -n "$INSIDE_EMACS" ]]; then
+  bindkey -d # delete all custom keybindings
+  bindkey -e
+  bindkey -e '^I' fzf-completion
+fi
+
 ######################
 #  Terminal Support  #
 ######################
