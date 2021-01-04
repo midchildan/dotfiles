@@ -87,6 +87,7 @@ setopt magic_equal_subst
 setopt menu_complete
 setopt list_packed
 zmodload -i zsh/complist
+setopt +o nomatch
 
 # case-insensitive (all),partial-word and then substring completion
 zstyle ':completion:*' matcher-list \
