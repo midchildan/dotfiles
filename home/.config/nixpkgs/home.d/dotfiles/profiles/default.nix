@@ -10,6 +10,7 @@ with lib;
     ./debugtools.nix
     ./desktop.nix
     ./development.nix
+    ./fonts.nix
   ];
 
   options.dotfiles.profiles.enableAll =

@@ -126,5 +126,26 @@
         installed through the 'programs.emacs' module.
       '';
     }
+    {
+      time = "2021-01-07T05:35:08+00:00";
+      message = ''
+        A new module is available: 'dotfiles.fonts'
+
+        This module makes installed fonts available on non-NixOS platforms. On
+        macOS, this may overwrite existing user fonts installed in
+        ~/Library/Fonts. This shouldn't be a concern in most cases because even
+        if it does overwrite existing fonts, it's just going to replace it with
+        the same or newer versions. But it's something to be aware of.
+      '';
+    }
+    {
+      time = "2021-01-07T05:36:14+00:00";
+      message = ''
+        A new module is available: 'dotfiles.profiles.fonts'
+
+        This installs a collection of recommended fonts for use with the
+        dotfiles.
+      '';
+    }
   ];
 }
