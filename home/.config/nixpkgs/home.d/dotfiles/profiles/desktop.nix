@@ -8,7 +8,7 @@ let
   isNixOS = isLinux && !isGenericLinux;
 in {
   options.dotfiles.profiles.desktop.enable =
-    mkEnableOption "Essential packages for desktop environemnts";
+    mkEnableOption "essential packages for desktop environemnts";
 
   config = mkIf config.dotfiles.profiles.desktop.enable {
     home.packages = with pkgs;

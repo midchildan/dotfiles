@@ -7,7 +7,7 @@ let
   extraPkgs = import ../pkgs { inherit pkgs; };
 in {
   options.dotfiles.profiles.essential.enable =
-    mkEnableOption "Essential packages for servers and desktops alike";
+    mkEnableOption "essential packages for servers and desktops alike";
 
   config = mkIf config.dotfiles.profiles.essential.enable {
     home.packages = with pkgs;

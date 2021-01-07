@@ -7,7 +7,7 @@ let
   cfg = config.dotfiles.profiles;
 in {
   options.dotfiles.profiles.development.enable =
-    mkEnableOption "Development packages";
+    mkEnableOption "development packages";
 
   config = mkIf cfg.development.enable {
     home.packages = with pkgs;

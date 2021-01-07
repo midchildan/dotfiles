@@ -10,7 +10,7 @@ let
   extraNixos = import ../pkgs { pkgs = nixos; };
 in {
   options.dotfiles.profiles.debugTools.enable =
-    mkEnableOption "Debugging tools";
+    mkEnableOption "debugging tools";
 
   config = mkIf cfg.debugTools.enable {
     home.packages = with pkgs;

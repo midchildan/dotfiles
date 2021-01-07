@@ -13,7 +13,7 @@ with lib;
   ];
 
   options.dotfiles.profiles.enableAll =
-    mkEnableOption "Enable all profiles provided by the dotfiles";
+    mkEnableOption "all profiles provided by the dotfiles";
 
   config = mkIf config.dotfiles.profiles.enableAll {
     dotfiles.profiles = {

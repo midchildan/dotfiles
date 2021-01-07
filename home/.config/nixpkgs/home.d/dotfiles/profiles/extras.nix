@@ -4,7 +4,7 @@ with lib;
 
 {
   options.dotfiles.profiles.extras.enable =
-    mkEnableOption "Extra nice to have packages";
+    mkEnableOption "extra nice to have packages";
 
   config = mkIf config.dotfiles.profiles.extras.enable {
     home.packages = with pkgs; [
