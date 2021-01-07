@@ -120,10 +120,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - nvim --headless +PlugInstall +'%print' +qall
   - ~/.emacs.d/bin/doom -y install --no-config
 
-@packages Install Fonts
-  - init: true
-  - cask: homebrew/cask-fonts/font-powerline-symbols
-
 @githooks
   - init: true
   - post-receive
