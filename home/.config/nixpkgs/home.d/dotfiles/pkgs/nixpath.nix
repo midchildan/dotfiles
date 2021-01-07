@@ -1,6 +1,6 @@
-{ runCommand, nix }:
+{ runCommandNoCC, nix }:
 
-runCommand "nix.sh" {
+runCommandNoCC "nix.sh" {
   meta = {
     description = "Workaround for  https://github.com/NixOS/nix/issues/2033";
     priority = (nix.meta.priority or 0) + 1;

@@ -8,7 +8,7 @@ let
   isNixOS = isLinux && !isGenericLinux;
 in {
   options.dotfiles.profiles.desktop.enable =
-    mkEnableOption "Essential packages for desktop environemnts";
+    mkEnableOption "essential packages for desktop environemnts";
 
   config = mkIf config.dotfiles.profiles.desktop.enable {
     home.packages = with pkgs;
@@ -22,9 +22,6 @@ in {
         vlc
         vscode
         xclip
-
-        # consider removing this and installing this system-wide instead
-        emacs-all-the-icons-fonts
       ] ++ optional isNixOS manpages;
 
     programs.emacs = {
@@ -36,6 +33,9 @@ in {
           vterm
         ];
     };
+
+    dotfiles.fonts.enable = mkDefault true;
+    dotfiles.profiles.fonts.enable = mkDefault true;
 
     dotfiles.emacs.extraConfig = ''
       (setq emacsql-sqlite3-executable "${pkgs.sqlite}/bin/sqlite3")

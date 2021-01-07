@@ -10,10 +10,11 @@ with lib;
     ./debugtools.nix
     ./desktop.nix
     ./development.nix
+    ./fonts.nix
   ];
 
   options.dotfiles.profiles.enableAll =
-    mkEnableOption "Enable all profiles provided by the dotfiles";
+    mkEnableOption "all profiles provided by the dotfiles";
 
   config = mkIf config.dotfiles.profiles.enableAll {
     dotfiles.profiles = {
