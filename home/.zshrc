@@ -210,14 +210,6 @@ bindkey -M menuselect \
   done
 }
 
-# some keys are near impossible to send when using any of the emacs terminal
-# emulators, making customized keybindings infeasible
-if [[ -n "$INSIDE_EMACS" ]]; then
-  bindkey -d # delete all custom keybindings
-  bindkey -e
-  bindkey -e '^I' fzf-completion
-fi
-
 ######################
 #  Terminal Support  #
 ######################
@@ -269,6 +261,19 @@ case "$TERM" in
     zstyle ':iterm2:osc' enable false
     ;;
 esac
+
+if [[ -n "$INSIDE_EMACS" ]]; then
+  export EDITOR='emacsclient'
+
+  # some keys are near impossible to send when using any of the emacs terminal
+  # emulators, making customized keybindings infeasible
+  bindkey -d # delete all custom keybindings
+  bindkey -e
+  bindkey -e \
+    '^I' fzf-completion \
+    '^N' history-beginning-search-forward \
+    '^P' history-beginning-search-backward
+fi
 
 ##########
 #  Misc  #
