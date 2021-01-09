@@ -12,6 +12,7 @@ blocks in this document, you can use [[help:org-edit-special][org-edit-special]]
 desired code block to achieve this. Additionally, you can use [[help:apropos][apropos]] (bound to
 =SPC h a=) or the likes to lookup a lisp symbol under the cursor without having
 to open a special buffer.
+
 * UI Settings
 ** Theme
 Use the [[https://github.com/morhetz/gruvbox][gruvbox]] theme as usual. Additionally, get rid of the banner.
@@ -20,6 +21,7 @@ Use the [[https://github.com/morhetz/gruvbox][gruvbox]] theme as usual. Addition
 (setq doom-theme 'doom-gruvbox)
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-banner)
 #+END_SRC
+
 ** Fonts
 Menlo is a nice font which is available in the default installation of macOS.
 Just whatever you do, don't use plain Monospace because you'll have a tough
@@ -35,6 +37,7 @@ autoscaling support out-of-the-box.
 #+BEGIN_SRC emacs-lisp
 (setq doom-font (font-spec :family "Menlo" :size 12))
 #+END_SRC
+
 ** Lines
 Make long lines wrap instead of truncating it. Wrap at window width instead
 of at the word boundary.
@@ -43,8 +46,10 @@ of at the word boundary.
 (setq-default truncate-lines nil
               word-wrap nil)
 #+end_src
+
 ** Frame
 Frame is the term Emacs uses to refer to GUI windows.
+
 *** Title
 Use the buffer name as the title.
 
@@ -52,11 +57,13 @@ Use the buffer name as the title.
 (setq frame-title-format '("%b")
       icon-title-format frame-title-format)
 #+END_SRC
+
 *** Size
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist '(width . 132))
 (add-to-list 'default-frame-alist '(height . 46))
 #+END_SRC
+
 ** Informational Stuff
 Display line numbers.
 
@@ -82,6 +89,7 @@ operating on the right region.
 (setq evil-goggles-duration 1
       evil-goggles-pulse t)
 #+END_SRC
+
 ** Ivy
 [[https://github.com/abo-abo/swiper][Ivy]] is a fuzzy finder for Emacs used throughtout the Doom UI.
 
@@ -99,6 +107,7 @@ change it to something that does:
 #+BEGIN_SRC emacs-lisp
 (setq ivy-read-action-function #'ivy-hydra-read-action)
 #+END_SRC
+
 * Editing
 ** Indentation
 Unfortunately, configuring indentation in Emacs is not as straightforward as
@@ -145,6 +154,7 @@ Indent settings for more filetypes would be added as necessary.
 (setq-default indent-tabs-mode nil
               tab-width standard-indent)
 #+END_SRC
+
 ** Cutting and Pasting
 Emacs by default syncs with the system clipboard when cutting or pasting text.
 This can be really annoying if you do things like paste from the clipboard after
@@ -178,11 +188,13 @@ I'll leave it here for now.
 (define-key! :keymaps '(evil-ex-completion-map) "s-v" #'rc-clipboard-paste)
 (define-key! :keymaps +default-minibuffer-maps "s-v" #'rc-clipboard-paste)
 #+END_SRC
+
 * Major Modes
 ** Filetype Detection
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.ldg\\'" . ledger-mode))
 #+END_SRC
+
 ** Calendar
 Localize holidays for Japan
 
@@ -194,6 +206,7 @@ Localize holidays for Japan
                                   holiday-local-holidays
                                   holiday-other-holidays)))
 #+END_SRC
+
 ** Magit
 Tell Magit where to look for repositories. Since I use a =domain/user/project=
 layout for organizing my repositories, the max depth should be set to 3. Also
@@ -223,13 +236,14 @@ visited before. It looks for git projects in ~magit-repository-directories~.
 #+BEGIN_SRC emacs-lisp
 (defun rc-browse-in-git-repo ()
   (interactive)
-  (doom-project-browse (magit-read-repository)))
+  (doom/find-file-in-other-project (magit-read-repository)))
 
 (map! :after magit
       :leader
       :prefix "g"
       :desc "Browse other git projects" "p" #'rc-browse-in-git-repo)
 #+END_SRC
+
 ** Org Mode
 Set default location for placing org files
 
@@ -257,6 +271,14 @@ Show inline images by default
 #+BEGIN_SRC emacs-lisp
 (setq org-startup-with-inline-images t)
 #+END_SRC
+
+** Ruby
+Prevent ruby-mode from forcibly inserting content on save.
+
+#+begin_src emacs-lisp
+(setq ruby-insert-encoding-magic-comment nil)
+#+end_src
+
 * Packages
 ** Default Init File
 The default init file is the place where packagers can place their own
@@ -269,6 +291,7 @@ re-enable loading of the default init file.
 #+begin_src emacs-lisp
 (setq inhibit-default-init nil)
 #+end_src
+
 ** Yankpad
 [[https://github.com/Kungsgeten/yankpad][Yankpad]] is a plugin for managing snippets. The snippets are managed in
 org mode format in a file path configured by ~yankpad-file~. The snippets
@@ -298,6 +321,7 @@ is for switching between different categories of snippets.
       (:prefix "t"
        :desc "Yankpad category" "s" #'yankpad-set-category))
 #+end_src
+
 * Workarounds
 ** TODO Fix for org inline images breaking org-babel
 Issue in [[https://github.com/hlissner/doom-emacs/issues/3185][hlissner/doom-emacs#3185]]

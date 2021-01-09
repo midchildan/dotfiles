@@ -118,6 +118,10 @@ case "$TERM" in
     ;;
 esac
 
+if [[ -n "$INSIDE_EMACS" ]]; then
+  export EDITOR='emacsclient'
+fi
+
 ##########
 #  Misc  #
 ##########
