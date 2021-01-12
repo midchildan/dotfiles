@@ -1,16 +1,16 @@
 diff --git a/home/.config/doom/config.org b/home/.config/doom/config.org
-index 4274394..23eecaa 100644
+index 11c0dbb..f0dc143 100644
 --- a/home/.config/doom/config.org
 +++ b/home/.config/doom/config.org
-@@ -33,7 +33,7 @@ build without having to care much about different displays due to excellent
+@@ -35,7 +35,7 @@ build without having to care much about different displays due to excellent
  autoscaling support out-of-the-box.
  
  #+BEGIN_SRC emacs-lisp
 -(setq doom-font (font-spec :family "Menlo" :size 12))
 +(setq doom-font (font-spec :family "Fira Code" :size 12))
  #+END_SRC
+ 
  ** Lines
- Make long lines wrap instead of truncating it. Wrap at window width instead
 diff --git a/home/.config/kitty/kitty.conf b/home/.config/kitty/kitty.conf
 index 366dfc0..e180c95 100644
 --- a/home/.config/kitty/kitty.conf
