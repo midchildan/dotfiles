@@ -1,16 +1,29 @@
+diff --git a/home/.Xresources b/home/.Xresources
+index 1310c6f..ae4f88d 100644
+--- a/home/.Xresources
++++ b/home/.Xresources
+@@ -39,7 +39,7 @@ XTerm*numColorRegisters: 256
+ 
+ ! Fonts {{{
+ 
+-XTerm*faceName: Monospace
++XTerm*faceName: Fira Code
+ XTerm*faceSize: 12
+ 
+ ! }}}
 diff --git a/home/.config/doom/config.org b/home/.config/doom/config.org
-index 642c22e..dad4bcb 100644
+index c0f8db3..7089da9 100644
 --- a/home/.config/doom/config.org
 +++ b/home/.config/doom/config.org
-@@ -36,7 +36,7 @@ if you don't specify it in the settings, but I find it a little too large for my
+@@ -38,7 +38,7 @@ if you don't specify it in the settings, but I find it a little too large for my
  likings.
  
  #+BEGIN_SRC emacs-lisp
 -(setq doom-font (font-spec :family "monospace"))
 +(setq doom-font (font-spec :family "Fira Code"))
  #+END_SRC
- ** Frame
- Frame is the term Emacs uses to refer to GUI windows.
+ 
+ ** Lines
 diff --git a/home/.config/kitty/kitty.conf b/home/.config/kitty/kitty.conf
 index e5f4602..66b99e8 100644
 --- a/home/.config/kitty/kitty.conf

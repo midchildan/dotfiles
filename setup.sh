@@ -113,6 +113,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .tmux.conf
   - .wgetrc
   - .xprofile
+  - .Xresources
 
 # The below will not run unless --init is specified
 

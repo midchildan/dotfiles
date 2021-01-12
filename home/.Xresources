@@ -1,0 +1,85 @@
+! Colors {{{
+
+! gruvbox (https://github.com/morhetz/gruvbox)
+*color0: #282828
+*color1: #cc241d
+*color2: #98971a
+*color3: #d79921
+*color4: #458588
+*color5: #b16286
+*color6: #689d6a
+*color7: #a89984
+*color8: #928374
+*color9: #fb4934
+*color10: #b8bb26
+*color11: #fabd2f
+*color12: #83a598
+*color13: #d3869b
+*color14: #8ec07c
+*color15: #ebdbb2
+*background: #282828
+*foreground: #ebdbb2
+
+! }}}
+
+! XTerm {{{
+! General {{{
+
+XTerm.termName: xterm-256color
+
+! unicode
+XTerm*locale: false
+XTerm*utf8: true
+
+! sixel support
+XTerm*decTerminalID: vt340
+XTerm*numColorRegisters: 256
+
+! }}}
+
+! Fonts {{{
+
+XTerm*faceName: Monospace
+XTerm*faceSize: 12
+
+! }}}
+
+! Window {{{
+
+XTerm*geometry: 132x43
+XTerm.borderWidth: 0
+
+! }}}
+
+! Scrollback {{{
+
+XTerm*alternateScroll: true
+XTerm*fastScroll: true
+XTerm*scrollKey: true
+XTerm*scrollTtyOutput: false
+XTerm*saveLines: 10000
+
+! }}}
+
+! Bell {{{
+
+XTerm*bellIsUrgent: true
+XTerm*visualBell: false
+
+! }}}
+
+! Keys {{{
+
+XTerm*backarrowKey: false
+XTerm*metaSendsEscape: true
+XTerm.ttyModes: erase ^?
+XTerm.VT100.translations: #override \
+    Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>H: set-altscreen(toggle) \n\
+    Ctrl Shift <Key>S: secure() \n\
+    Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+
+! }}}
+! }}}
+
+! vim:set et sw=2 ts=8 fdm=marker:
