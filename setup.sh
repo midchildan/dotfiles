@@ -57,7 +57,7 @@ setup::shell() {
   install::default ".zshenv"
   install::default ".zshrc"
   install::default ".emacs.d"
-  install::default ".vimrc"
+  install::default ".vim"
   install::default ".zlogout"
   install::default ".inputrc"
   install::default ".config/shell/snippets/common.snip"
