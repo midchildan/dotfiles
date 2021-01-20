@@ -27,8 +27,8 @@ in {
 
       <warning>
         <para>
-          On macOS, this may overwrite exsting files in ~/Library/Fonts.
-          This will be fixed as soon as
+          On macOS, this may overwrite exsting files in
+          <filename>~/Library/Fonts</filename>. This will be fixed as soon as
           <link xlink:href="https://github.com/nix-community/home-manager/issues/155">home-manager#155</link>
           is closed.
         </para>
@@ -52,7 +52,8 @@ in {
           copyFonts() {
             local f
             find -L "${fonts}" -type f -print0 | while IFS= read -rd "" f; do
-              install -Dm644 -t "$HOME/Library/Fonts" "$f"
+              $DRY_RUN_CMD install $VERBOSE_ARG -Dm644 \
+                -t "$HOME/Library/Fonts" "$f"
             done
           }
           copyFonts

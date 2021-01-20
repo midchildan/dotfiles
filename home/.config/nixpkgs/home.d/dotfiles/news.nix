@@ -147,5 +147,13 @@
         dotfiles.
       '';
     }
+    {
+      time = "2021-01-20T19:15:56+00:00";
+      message = ''
+        A new module is available: 'dotfiles.macos'
+
+        This module can be used to configure macOS user settings.
+      '';
+    }
   ];
 }
