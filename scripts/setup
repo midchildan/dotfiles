@@ -47,13 +47,6 @@ trap dot::_exit EXIT
 }
 
 # shellcheck disable=SC2120
-@defaults() {
-  _DOT_SECTION="defaults"
-  echo "$(tput bold)== ${*:-Set Defaults} ==$(tput sgr0)"
-  cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
-}
-
-# shellcheck disable=SC2120
 @clean() {
   _DOT_SECTION="clean"
   echo "$(tput bold)== ${*:-Clean Dead Symlinks} ==$(tput sgr0)"
@@ -79,7 +72,6 @@ trap dot::_exit EXIT
     packages) dot::packages::task "$@" ;;
     shell) dot::shell::task "$@" ;;
     install) dot::install::task "$@" ;;
-    defaults) dot::defaults::task "$@" ;;
     clean) dot::clean::task "$@" ;;
     githooks) dot::githooks::task "$@" ;;
   esac
@@ -134,19 +126,6 @@ dot::install::task() {
 #   None
 dot::shell::task() {
   dot::shell "$@"
-}
-
-# Set macOS defaults
-# Globals:
-#   _DOT_LOGFILE
-# Arguments:
-#   args: argument to pass to 'defaults write'
-# Returns:
-#   None
-dot::defaults::task() {
-  echo -n "Setting $1 $2..."
-  defaults write "$1" "$2" -"$3" "${@:4}"
-  dot::_print_badge
 }
 
 # [DEPRECATED] This function is no longer necessary since the garbage collector
