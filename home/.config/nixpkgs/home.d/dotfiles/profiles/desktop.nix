@@ -3,7 +3,7 @@
 with lib;
 
 let
-  inherit (pkgs.stdenv.hostPlatform) isLinux;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
   isGenericLinux = (config.targets.genericLinux.enable or false);
   isNixOS = isLinux && !isGenericLinux;
 in {
@@ -40,5 +40,54 @@ in {
     dotfiles.emacs.extraConfig = ''
       (setq emacsql-sqlite3-executable "${pkgs.sqlite}/bin/sqlite3")
     '';
+
+    dotfiles.macos = mkIf isDarwin {
+      enable = mkDefault true;
+
+      defaults = mkDefault {
+        NSGlobalDomain = {
+          # Locale
+          AppleLanguages = [ "en" "ja" ];
+          AppleLocale = "en_JP";
+          AppleMeasurementUnits = "Centimeters";
+          AppleMetricUnits = true;
+          # Tame auto-correct
+          NSAutomaticCapitalizationEnabled = false;
+          NSAutomaticDashSubstitutionEnabled = false;
+          NSAutomaticPeriodSubstitutionEnabled = false;
+          NSAutomaticQuoteSubstitutionEnabled = false;
+          NSAutomaticSpellingCorrectionEnabled = false;
+        };
+
+        # Don't drop .DS_Store files all over the place
+        "com.apple.desktopservices" = {
+          DSDontWriteNetworkStores = true;
+          DSDontWriteUSBStores = true;
+        };
+
+        "com.apple.dock" = {
+          tilesize = 32;
+          size-immutable = true;
+          expose-group-apps = true;
+        };
+
+        "com.apple.menuextra.battery".ShowPercent = "YES";
+
+        "com.apple.Safari" = {
+          AutoOpenSafeDownloads = false;
+          AutoFillPasswords = false;
+          AutoFillCreditCardData = false;
+          IncludeDevelopMenu = true;
+          WebKitDeveloperExtrasEnabledPreferenceKey = true;
+          "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" =
+            true;
+        };
+      };
+
+      keybindings = mkDefault {
+        "^u" = "deleteToBeginningOfLine:";
+        "^w" = "deleteWordBackward:";
+      };
+    };
   };
 }
