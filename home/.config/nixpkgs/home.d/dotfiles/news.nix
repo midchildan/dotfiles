@@ -155,5 +155,24 @@
         This module can be used to configure macOS user settings.
       '';
     }
+    {
+      time = "2021-01-21T13:38:02+00:00";
+      message = ''
+        A new module is available: 'dotfiles.launchd'
+
+        This module can be used to create macOS user Launch Agents. Note,
+        however, that automatically starting or stopping Launch Agents upon
+        switching Home Manager generations isn't supported yet.
+      '';
+    }
+    {
+      time = "2021-01-21T13:39:49+00:00";
+      message = ''
+        A new module is available: 'dotfiles.syncthing'
+
+        This is a Syncthing module that works on macOS. On Linux, it just wraps
+        around 'services.syncthing'.
+      '';
+    }
   ];
 }
