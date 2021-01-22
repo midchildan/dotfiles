@@ -4,6 +4,7 @@ with lib;
 
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
+  homeDir = config.home.homeDirectory;
   isGenericLinux = (config.targets.genericLinux.enable or false);
   isNixOS = isLinux && !isGenericLinux;
 in {
@@ -40,6 +41,13 @@ in {
     dotfiles.emacs.extraConfig = ''
       (setq emacsql-sqlite3-executable "${pkgs.sqlite}/bin/sqlite3")
     '';
+    home.activation.rebuildDoomEmacs =
+      hm.dag.entryAfter [ "installPackages" ] ''
+        if [[ -x "${homeDir}/.emacs.d/bin/doom" ]]; then
+          $DRY_RUN_CMD "${homeDir}/.emacs.d/bin/doom" ''${VERBOSE:+-d} build \
+            > /dev/null
+        fi
+      '';
 
     dotfiles.macos = mkIf isDarwin {
       enable = mkDefault true;
