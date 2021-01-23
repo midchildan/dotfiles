@@ -9,7 +9,7 @@
     ./modules/emacs.nix
     ./modules/fonts.nix
     ./modules/launchd
-    ./modules/macos.nix
+    ./modules/macos
     ./modules/manpages.nix
     ./modules/syncthing.nix
     ./modules/pinentry-mac.nix

@@ -25,6 +25,9 @@ in {
         xclip
       ] ++ optional isNixOS manpages;
 
+    dotfiles.fonts.enable = mkDefault true;
+    dotfiles.profiles.fonts.enable = mkDefault true;
+
     programs.emacs = {
       enable = mkDefault true;
       extraPackages = epkgs:
@@ -35,19 +38,27 @@ in {
         ];
     };
 
-    dotfiles.fonts.enable = mkDefault true;
-    dotfiles.profiles.fonts.enable = mkDefault true;
-
     dotfiles.emacs.extraConfig = ''
       (setq emacsql-sqlite3-executable "${pkgs.sqlite}/bin/sqlite3")
     '';
-    home.activation.rebuildDoomEmacs =
-      hm.dag.entryAfter [ "installPackages" ] ''
-        if [[ -x "${homeDir}/.emacs.d/bin/doom" ]]; then
-          $DRY_RUN_CMD "${homeDir}/.emacs.d/bin/doom" ''${VERBOSE:+-d} build \
-            > /dev/null
-        fi
+
+    home.activation = mkIf config.programs.emacs.enable {
+      rebuildDoomEmacs = hm.dag.entryAfter [ "installPackages" ] ''
+        rebuildDoomEmacs() {
+          local oldEmacs newEmacs
+          oldEmacs="$(readlink -m "$oldGenPath/home-path/bin/emacs")"
+          newEmacs="$(readlink -m "$newGenPath/home-path/bin/emacs")"
+          if [[ "$newEmacs" == "$oldEmacs" ]]; then
+            return
+          fi
+          if [[ -x "${homeDir}/.emacs.d/bin/doom" ]]; then
+            $DRY_RUN_CMD "${homeDir}/.emacs.d/bin/doom" ''${VERBOSE:+-d} build \
+              > /dev/null
+          fi
+        }
+        rebuildDoomEmacs
       '';
+    };
 
     dotfiles.macos = mkIf isDarwin {
       enable = mkDefault true;
@@ -86,9 +97,37 @@ in {
           AutoFillPasswords = false;
           AutoFillCreditCardData = false;
           IncludeDevelopMenu = true;
+          ShowOverlayStatusBar = true;
           WebKitDeveloperExtrasEnabledPreferenceKey = true;
           "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" =
             true;
+        };
+
+        # NOTE: Settings under "Preferences > Profiles" aren't covered here. To
+        # obtain a more complete iTerm2 configuration, copy settings from the
+        # "Template" profile included in this dotfiles. Assuming this dotfiles
+        # is already installed, this can be done with the following steps:
+        #
+        #   1. Open "Preferences > Profiles"
+        #   2. Select "Template" from the list of profiles on the left
+        #   3. Click "Other Actions > Bulk Copy from Selected Profile"
+        #   4. Specify which configuration to copy (recommended: all)
+        #   5. Select the target profile (recommended: "Default")
+        #   6. Click "Copy" to confirm
+        "com.googlecode.iterm2" = {
+          AddNewTabAtEndOfTabs = false;
+          AlternateMouseScroll = true;
+          CopySelection = false;
+          OpenTmuxWindowsIn = 2; # tabs in existing window
+
+          # For AquaSKK
+          #
+          # This option is disabled by default in iTerm2 for supposed problems
+          # with key repeats.
+          #
+          # https://github.com/gnachman/iTerm2/pull/279
+          # https://gitlab.com/gnachman/iterm2/-/issues/6052
+          ExperimentalKeyHandling = true;
         };
       };
 
@@ -96,6 +135,8 @@ in {
         "^u" = "deleteToBeginningOfLine:";
         "^w" = "deleteWordBackward:";
       };
+
+      search = mkDefault "DuckDuckGo";
     };
   };
 }
