@@ -23,22 +23,17 @@ Use the [[https://github.com/morhetz/gruvbox][gruvbox]] theme as usual. Addition
 #+END_SRC
 
 ** Fonts
-Monospace is the least common denominator font in the desktop Linux world. Since
-the fonts available varies per-computer, you should change it in a local git
-branch if you're unhappy with it. I assume that most distros use DejaVu Sans or
-similar as the default Monospace font, so it shouldn't be a problem most of the
-time. If you have Fira Code installed, there's a patch that you could use in
-=$DOTFILES_DIR/patches/font-fira-code.patch=.
+Use [[https://github.com/tonsky/FiraCode][Fira Code].
 
 The font size is purposefully unspecified, because GTK Emacs currently lacks
 HiDPI autoscaling support. Since the preferrable font size varies greatly from
 one display to another, this should also be specified in a local git branch.
 Somewhat fortunately, Emacs does seem to automatically pick a decent font size
 if you don't specify it in the settings, but I find it a little too large for my
-likings.
+liking.
 
 #+BEGIN_SRC emacs-lisp
-(setq doom-font (font-spec :family "monospace"))
+(setq doom-font (font-spec :family "Fira Code"))
 #+END_SRC
 
 ** Lines

@@ -1,0 +1,100 @@
+diff --git a/home/.Xresources b/home/.Xresources
+index ae4f88d..1310c6f 100644
+--- a/home/.Xresources
++++ b/home/.Xresources
+@@ -39,7 +39,7 @@ XTerm*numColorRegisters: 256
+ 
+ ! Fonts {{{
+ 
+-XTerm*faceName: Fira Code
++XTerm*faceName: Monospace
+ XTerm*faceSize: 12
+ 
+ ! }}}
+diff --git a/home/.bashrc b/home/.bashrc
+index dee2f70..f3d8f41 100644
+--- a/home/.bashrc
++++ b/home/.bashrc
+@@ -19,7 +19,7 @@ export SYSTEMD_LESS="iFRSMK"
+ export GOPATH=~/Documents/src/go
+ 
+ # whether to make use of powerline fonts
+-export USE_POWERLINE=1
++export USE_POWERLINE=0
+ [[ "$TERM" == "xterm-kitty" ]] && USE_POWERLINE=1
+ [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
+ 
+diff --git a/home/.config/doom/config.org b/home/.config/doom/config.org
+index 7198354..e42f282 100644
+--- a/home/.config/doom/config.org
++++ b/home/.config/doom/config.org
+@@ -23,7 +23,11 @@ Use the [[https://github.com/morhetz/gruvbox][gruvbox]] theme as usual. Addition
+ #+END_SRC
+ 
+ ** Fonts
+-Use [[https://github.com/tonsky/FiraCode][Fira Code].
++Monospace is the least common denominator font in the desktop Linux world. Since
++the fonts available varies per-computer, you should change it in a local git
++branch if you're unhappy with it. I assume that most distros use DejaVu Sans or
++similar as the default Monospace font, so it shouldn't be a problem most of the
++time.
+ 
+ The font size is purposefully unspecified, because GTK Emacs currently lacks
+ HiDPI autoscaling support. Since the preferrable font size varies greatly from
+@@ -33,7 +37,7 @@ if you don't specify it in the settings, but I find it a little too large for my
+ liking.
+ 
+ #+BEGIN_SRC emacs-lisp
+-(setq doom-font (font-spec :family "Fira Code"))
++(setq doom-font (font-spec :family "monospace"))
+ #+END_SRC
+ 
+ ** Lines
+diff --git a/home/.config/kitty/kitty.conf b/home/.config/kitty/kitty.conf
+index 66b99e8..e5f4602 100644
+--- a/home/.config/kitty/kitty.conf
++++ b/home/.config/kitty/kitty.conf
+@@ -2,12 +2,16 @@
+ 
+ #: Fonts {{{
+ 
+-font_family      Fira Code
++font_family      monospace
+ bold_font        auto
+ italic_font      auto
+ bold_italic_font auto
+ font_size 12.0
+ 
++# Use the PowerlineSymbols font for rendering Powerline codepoints. Comment
++# this out if your font already supports Powerline glyphs.
++symbol_map U+E0A0-U+E0A3,U+E0C0-U+E0C7 PowerlineSymbols
++
+ # Disable multi-character ligatures when the curosr is over them.
+ disable_ligatures cursor
+ 
+diff --git a/home/.vim/gvimrc b/home/.vim/gvimrc
+index b6b3214..77a99c9 100644
+--- a/home/.vim/gvimrc
++++ b/home/.vim/gvimrc
+@@ -6,7 +6,7 @@ set columns=132
+ set lines=43
+ set cmdheight=1
+ set cursorline
+-set guifont=Fira\ Code:h12
++set guifont=Monospace\ 13
+ set guitablabel=%M%t
+ set guioptions-=T
+ set confirm
+diff --git a/home/.zshenv b/home/.zshenv
+index 25aca9f..3c80a8a 100644
+--- a/home/.zshenv
++++ b/home/.zshenv
+@@ -7,7 +7,7 @@ export SYSTEMD_LESS="iFRSMK"
+ export GOPATH=~/Documents/src/go
+ 
+ # whether to make use of powerline fonts
+-export USE_POWERLINE=1
++export USE_POWERLINE=0
+ [[ "$TERM" == "xterm-kitty" ]] && USE_POWERLINE=1
+ [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
+ 

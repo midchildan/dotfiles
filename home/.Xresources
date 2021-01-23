@@ -39,7 +39,7 @@ XTerm*numColorRegisters: 256
 
 ! Fonts {{{
 
-XTerm*faceName: Monospace
+XTerm*faceName: Fira Code
 XTerm*faceSize: 12
 
 ! }}}

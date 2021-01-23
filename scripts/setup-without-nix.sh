@@ -119,6 +119,13 @@ doctor() {
     (( n_diagnosis += 1 ))
   fi
 
+  if has fc-list; then
+    if ! fc-list -q "Fira Code"; then
+      msg::err "Fira Code not detected. Consider downloading it to ~/.local/share/fonts."
+      (( n_diagnosis += 1 ))
+    fi
+  fi
+
   if (( n_diagnosis == 0 )); then
     msg::ok "No problems found."
   else

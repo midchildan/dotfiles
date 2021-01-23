@@ -6,7 +6,7 @@ set columns=132
 set lines=43
 set cmdheight=1
 set cursorline
-set guifont=Monospace\ 13
+set guifont=Fira\ Code:h12
 set guitablabel=%M%t
 set guioptions-=T
 set confirm
