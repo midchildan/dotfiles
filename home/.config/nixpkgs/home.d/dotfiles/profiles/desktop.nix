@@ -25,6 +25,9 @@ in {
         xclip
       ] ++ optional isNixOS manpages;
 
+    dotfiles.fonts.enable = mkDefault true;
+    dotfiles.profiles.fonts.enable = mkDefault true;
+
     programs.emacs = {
       enable = mkDefault true;
       extraPackages = epkgs:
@@ -35,19 +38,27 @@ in {
         ];
     };
 
-    dotfiles.fonts.enable = mkDefault true;
-    dotfiles.profiles.fonts.enable = mkDefault true;
-
     dotfiles.emacs.extraConfig = ''
       (setq emacsql-sqlite3-executable "${pkgs.sqlite}/bin/sqlite3")
     '';
-    home.activation.rebuildDoomEmacs =
-      hm.dag.entryAfter [ "installPackages" ] ''
-        if [[ -x "${homeDir}/.emacs.d/bin/doom" ]]; then
-          $DRY_RUN_CMD "${homeDir}/.emacs.d/bin/doom" ''${VERBOSE:+-d} build \
-            > /dev/null
-        fi
+
+    home.activation = mkIf config.programs.emacs.enable {
+      rebuildDoomEmacs = hm.dag.entryAfter [ "installPackages" ] ''
+        rebuildDoomEmacs() {
+          local oldEmacs newEmacs
+          oldEmacs="$(readlink -m "$oldGenPath/home-path/bin/emacs")"
+          newEmacs="$(readlink -m "$newGenPath/home-path/bin/emacs")"
+          if [[ "$newEmacs" == "$oldEmacs" ]]; then
+            return
+          fi
+          if [[ -x "${homeDir}/.emacs.d/bin/doom" ]]; then
+            $DRY_RUN_CMD "${homeDir}/.emacs.d/bin/doom" ''${VERBOSE:+-d} build \
+              > /dev/null
+          fi
+        }
+        rebuildDoomEmacs
       '';
+    };
 
     dotfiles.macos = mkIf isDarwin {
       enable = mkDefault true;
