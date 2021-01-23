@@ -63,7 +63,7 @@ in {
     dotfiles.macos = mkIf isDarwin {
       enable = mkDefault true;
 
-      defaults = mkDefault {
+      defaults = {
         NSGlobalDomain = {
           # Locale
           AppleLanguages = [ "en" "ja" ];
