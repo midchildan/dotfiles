@@ -8,7 +8,7 @@ let
   searchEngines = {
     "Bing" = "com.bing.www";
     "DuckDuckGo" = "com.duckduckgo";
-    "Ecosia" = "com.ecosia";
+    "Ecosia" = "org.ecosia.www";
     "Google" = "com.google.www";
     "Yahoo" = "com.yahoo.www";
   };

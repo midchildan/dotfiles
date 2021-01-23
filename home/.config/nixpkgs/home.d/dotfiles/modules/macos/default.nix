@@ -11,7 +11,7 @@ let
   isFloat = x:
     isString x && builtins.match "^[+-]?([0-9]*[.])?[0-9]+$" x != null;
 
-  isPlainAttrs = x: isAttrs x && isType "" x && (! isDerivation x);
+  isPlainAttrs = x: isAttrs x && isType "" x && (!isDerivation x);
 
   writeValue = val:
     if isBool val then
@@ -25,7 +25,10 @@ let
     else if (isList val && all isString val) then
       "-array ${concatMapStringsSep " " escapeShellArg val}"
     else if (isPlainAttrs val && all isString (attrValues val)) then
-      "-dict ${flatten (mapAttrsToList (n: v: map escapeShellArg [ n v ]) val)}"
+      "-dict ${
+        concatStringsSep " "
+        (flatten (mapAttrsToList (n: v: map escapeShellArg [ n v ]) val))
+      }"
     else
       throw "invalid value type";
 
