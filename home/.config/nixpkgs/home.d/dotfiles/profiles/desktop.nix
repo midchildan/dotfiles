@@ -96,6 +96,8 @@ in {
         "^u" = "deleteToBeginningOfLine:";
         "^w" = "deleteWordBackward:";
       };
+
+      search = mkDefault "DuckDuckGo";
     };
   };
 }
