@@ -1,0 +1,84 @@
+diff --git a/home/.bashrc b/home/.bashrc
+index 18120c0..ddee6ef 100644
+--- a/home/.bashrc
++++ b/home/.bashrc
+@@ -19,7 +19,7 @@ export PAGER="less"
+ export GOPATH=~/Documents/src/go
+ 
+ # whether to make use of powerline fonts
+-export USE_POWERLINE=1
++export USE_POWERLINE=0
+ case "$TERM:$TERM_PROGRAM" in
+   xterm-kitty:) USE_POWERLINE=1 ;; # kitty can use the powerline font directly
+   *:iTerm.app) USE_POWERLINE=1 ;; # iTerm provides built-in powerline glyphs
+diff --git a/home/.config/doom/config.org b/home/.config/doom/config.org
+index 83a50e9..b02dbd9 100644
+--- a/home/.config/doom/config.org
++++ b/home/.config/doom/config.org
+@@ -23,14 +23,16 @@ Use the [[https://github.com/morhetz/gruvbox][gruvbox]] theme as usual. Addition
+ #+END_SRC
+ 
+ ** Fonts
+-Use [[https://github.com/tonsky/FiraCode][Fira Code].
++Menlo is a nice font which is available in the default installation of macOS.
++Just whatever you do, don't use plain Monospace because you'll have a tough
++time squinting at a Courier New.
+ 
+ Unlike the GTK build of Emacs, I can safely specify the font size with the Cocoa
+ build without having to care much about different displays due to excellent
+ autoscaling support out-of-the-box.
+ 
+ #+BEGIN_SRC emacs-lisp
+-(setq doom-font (font-spec :family "Fira Code" :size 12))
++(setq doom-font (font-spec :family "Menlo" :size 12))
+ #+END_SRC
+ 
+ ** Lines
+diff --git a/home/.config/kitty/kitty.conf b/home/.config/kitty/kitty.conf
+index e180c95..366dfc0 100644
+--- a/home/.config/kitty/kitty.conf
++++ b/home/.config/kitty/kitty.conf
+@@ -2,12 +2,16 @@
+ 
+ #: Fonts {{{
+ 
+-font_family      Fira Code
++font_family      Menlo
+ bold_font        auto
+ italic_font      auto
+ bold_italic_font auto
+ font_size 12.0
+ 
++# Use the PowerlineSymbols font for rendering Powerline codepoints. Comment
++# this out if your font already supports Powerline glyphs.
++symbol_map U+E0A0-U+E0A3,U+E0C0-U+E0C7 PowerlineSymbols
++
+ # Disable multi-character ligatures when the curosr is over them.
+ disable_ligatures cursor
+ 
+diff --git a/home/.vim/gvimrc b/home/.vim/gvimrc
+index c23d2ed..2c5605f 100644
+--- a/home/.vim/gvimrc
++++ b/home/.vim/gvimrc
+@@ -9,7 +9,7 @@ set confirm
+ if has('gui_macvim')
+   set columns=132
+   set lines=43
+-  set guifont=Fira\ Code:h12
++  set guifont=Menlo\ Regular:h12
+   set guitablabel=%M%t
+   set guioptions-=T
+   set transparency=15
+diff --git a/home/.zshenv b/home/.zshenv
+index b22f48c..7962b07 100644
+--- a/home/.zshenv
++++ b/home/.zshenv
+@@ -7,7 +7,7 @@ export PAGER="less"
+ export GOPATH=~/Documents/src/go
+ 
+ # whether to make use of powerline fonts
+-export USE_POWERLINE=1
++export USE_POWERLINE=0
+ case "$TERM:$TERM_PROGRAM" in
+   xterm-kitty:) USE_POWERLINE=1 ;; # kitty can use the powerline font directly
+   *:iTerm.app) USE_POWERLINE=1 ;; # iTerm provides built-in powerline glyphs

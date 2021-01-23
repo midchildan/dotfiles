@@ -9,7 +9,7 @@ set confirm
 if has('gui_macvim')
   set columns=132
   set lines=43
-  set guifont=Menlo\ Regular:h12
+  set guifont=Fira\ Code:h12
   set guitablabel=%M%t
   set guioptions-=T
   set transparency=15
