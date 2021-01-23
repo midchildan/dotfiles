@@ -111,6 +111,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .tmux.conf
   - .wgetrc
   - Library/Application\ Support/AquaSKK/keymap.conf
+  - Library/Application\ Support/iTerm2/DynamicProfiles/template.plist
 
 # The below will not run unless --init is specified
 
