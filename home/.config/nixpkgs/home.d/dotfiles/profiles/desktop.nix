@@ -25,7 +25,6 @@ in {
         xclip
       ] ++ optional isNixOS manpages;
 
-    dotfiles.fonts.enable = mkDefault true;
     dotfiles.profiles.fonts.enable = mkDefault true;
 
     programs.emacs = {

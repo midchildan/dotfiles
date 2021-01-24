@@ -22,6 +22,12 @@ There's an experimental script,
 after you've completed the installation process. This would take care of the
 issues which arise from the lack of Nix.
 
+### Fira Code
+
+[Fira Code](https://github.com/tonsky/FiraCode) is the recommended font.
+Ligatures aren't enabled. If you don't like Fira Code for whatever reason,
+there's a [patch](patches/font-monospace.patch) to use Monospace instead.
+
 ## Installation
 
 ### Step 1: Setup your repository

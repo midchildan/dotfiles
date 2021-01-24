@@ -14,6 +14,8 @@ in {
   };
 
   config = mkIf config.dotfiles.profiles.fonts.enable {
+    dotfiles.fonts.enable = mkDefault true;
+
     home.packages = with pkgs; [
       xkcd-font
       emacs-all-the-icons-fonts
