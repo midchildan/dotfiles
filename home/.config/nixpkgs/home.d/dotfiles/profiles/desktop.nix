@@ -63,44 +63,43 @@ in {
     dotfiles.macos = mkIf isDarwin {
       enable = mkDefault true;
 
+      # NOTE: It's possible to specify any possible config using the 'defaults'
+      # module, but only known options are mkOverride-able.
       defaults = {
         NSGlobalDomain = {
           # Locale
-          AppleLanguages = [ "en" "ja" ];
-          AppleLocale = "en_JP";
-          AppleMeasurementUnits = "Centimeters";
-          AppleMetricUnits = true;
+          AppleLanguages = mkDefault [ "en" "ja" ];
+          AppleLocale = mkDefault "en_JP";
+          AppleMeasurementUnits = mkDefault "Centimeters";
+          AppleMetricUnits = mkDefault true;
           # Tame auto-correct
-          NSAutomaticCapitalizationEnabled = false;
-          NSAutomaticDashSubstitutionEnabled = false;
-          NSAutomaticPeriodSubstitutionEnabled = false;
-          NSAutomaticQuoteSubstitutionEnabled = false;
-          NSAutomaticSpellingCorrectionEnabled = false;
+          NSAutomaticCapitalizationEnabled = mkDefault false;
+          NSAutomaticDashSubstitutionEnabled = mkDefault false;
+          NSAutomaticPeriodSubstitutionEnabled = mkDefault false;
+          NSAutomaticQuoteSubstitutionEnabled = mkDefault false;
+          NSAutomaticSpellingCorrectionEnabled = mkDefault false;
         };
 
         # Don't drop .DS_Store files all over the place
         "com.apple.desktopservices" = {
-          DSDontWriteNetworkStores = true;
-          DSDontWriteUSBStores = true;
+          DSDontWriteNetworkStores = mkDefault true;
+          DSDontWriteUSBStores = mkDefault true;
         };
 
         "com.apple.dock" = {
-          tilesize = 32;
-          size-immutable = true;
-          expose-group-apps = true;
+          tilesize = mkDefault 32;
+          size-immutable = mkDefault true;
+          expose-group-apps = mkDefault true;
         };
 
-        "com.apple.menuextra.battery".ShowPercent = "YES";
+        "com.apple.menuextra.battery".ShowPercent = mkDefault "YES";
 
         "com.apple.Safari" = {
-          AutoOpenSafeDownloads = false;
-          AutoFillPasswords = false;
-          AutoFillCreditCardData = false;
-          IncludeDevelopMenu = true;
-          ShowOverlayStatusBar = true;
-          WebKitDeveloperExtrasEnabledPreferenceKey = true;
-          "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" =
-            true;
+          AutoOpenSafeDownloads = mkDefault false;
+          AutoFillPasswords = mkDefault false;
+          AutoFillCreditCardData = mkDefault false;
+          IncludeDevelopMenu = mkDefault true;
+          ShowOverlayStatusBar = mkDefault true;
         };
 
         # NOTE: Settings under "Preferences > Profiles" aren't covered here. To
@@ -115,10 +114,10 @@ in {
         #   5. Select the target profile (recommended: "Default")
         #   6. Click "Copy" to confirm
         "com.googlecode.iterm2" = {
-          AddNewTabAtEndOfTabs = false;
-          AlternateMouseScroll = true;
-          CopySelection = false;
-          OpenTmuxWindowsIn = 2; # tabs in existing window
+          AddNewTabAtEndOfTabs = mkDefault false;
+          AlternateMouseScroll = mkDefault true;
+          CopySelection = mkDefault false;
+          OpenTmuxWindowsIn = mkDefault 2; # tabs in existing window
 
           # For AquaSKK
           #
@@ -127,7 +126,7 @@ in {
           #
           # https://github.com/gnachman/iTerm2/pull/279
           # https://gitlab.com/gnachman/iterm2/-/issues/6052
-          ExperimentalKeyHandling = true;
+          ExperimentalKeyHandling = mkDefault true;
         };
       };
 
