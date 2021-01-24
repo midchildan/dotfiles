@@ -48,7 +48,7 @@ in {
     enable = mkEnableOption "macos settings";
 
     defaults = mkOption {
-      type = with types; attrsOf attrs;
+      type = types.submodule ./options.nix;
       default = { };
       example = {
         "com.apple.desktopservices" = {

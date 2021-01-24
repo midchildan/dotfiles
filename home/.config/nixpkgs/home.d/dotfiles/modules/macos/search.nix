@@ -6,11 +6,11 @@ let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
   cfg = config.dotfiles.macos;
   searchEngines = {
-    "Bing" = "com.bing.www";
-    "DuckDuckGo" = "com.duckduckgo";
-    "Ecosia" = "org.ecosia.www";
-    "Google" = "com.google.www";
-    "Yahoo" = "com.yahoo.www";
+    Bing = "com.bing.www";
+    DuckDuckGo = "com.duckduckgo";
+    Ecosia = "org.ecosia.www";
+    Google = "com.google.www";
+    Yahoo = "com.yahoo.www";
   };
   searchId = getAttr cfg.search searchEngines;
 in {
