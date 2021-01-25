@@ -1,0 +1,71 @@
+emulate -L zsh
+
+local target
+integer count
+
+# parse arguments to obtain count and target
+
+case "${1:-}" in
+  -h|--help)
+cat <<EOF
+Usage:
+  $0 [<num>]
+
+    Go <num> directories up. <num> defaults to 1.
+
+  $0 [<num>] <dirname>
+  $0 -- <dirname>
+
+    Go to the <num>th parent directory that matches <dirname>.
+    <num> defaults to 1.
+
+  $0 (-h|--help)
+
+    Show this help message.
+EOF
+    return
+    ;;
+  --)
+    count=1
+    target="${2:---}"
+    ;;
+  "")
+    count=1
+    target=""
+    ;;
+  *)
+    if [[ "$1" =~ ^[0-9]+$ ]]; then
+      count="$1"
+      target="${2:-}"
+    else
+      count=1
+      target="$1"
+    fi
+    ;;
+esac
+
+# construct destination path and cd to destination
+
+local parents; parents=(${(Oas:/:)PWD} /)
+local destination='.'
+
+# check if current directory matches target
+if [[ "$parents[1]" == "$target" ]]; then
+  (( count -= 1 ))
+fi
+
+local dir
+for dir in "${(@)parents[2,-1]}"; do
+  (( count == 0 )) && break
+  destination="../$destination"
+  if [[ -z "$target" || "$dir" == "$target" ]]; then
+    (( count -= 1 ))
+  fi
+done
+
+if (( count > 0 )); then
+  print -- "[ERROR] Couldn't find the target directory" >&2
+  return 1
+fi
+
+cd "$destination"

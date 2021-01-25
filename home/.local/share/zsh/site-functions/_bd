@@ -1,0 +1,21 @@
+#compdef bd
+
+if (( CURRENT > 2 )); then
+  return
+fi
+
+local parents; parents=(${(Oas:/:)PWD} /)
+local -A count
+
+local dir
+for dir in "${(@)parents}"; do
+  (( count[$dir] += 1 ))
+
+  if (( count[$dir] > 1 )); then
+    compadd -V directories -P "$count[$dir] " - "$dir"
+  elif [[ "$dir" =~ ^([0-9]+|-h|--help)$ ]]; then
+    compadd -V directories -P "-- " - "$dir"
+  else
+    compadd -V directories - "$dir"
+  fi
+done
