@@ -52,6 +52,10 @@ below. The actual code can be found in
   <dd>
     Installs debugging tools. Disabled by default.
   </dd>
+  <dt>dotfiles.profiles.fonts.enable</dt>
+  <dd>
+    Installs recommended fonts. Disabled by default.
+  </dd>
   <dt>dotfiles.profiles.desktop.enable</dt>
   <dd>
     Installs essential packages for desktop environemnts. It can be enabled for
@@ -73,5 +77,6 @@ Place the following in `~/.config/nixpkgs/home.d/profiles.nix`:
 {
   profiles.essential.enable = true;
   profiles.debugTools.enable = true;
+  profiles.fonts.enable = true;
 }
 ```

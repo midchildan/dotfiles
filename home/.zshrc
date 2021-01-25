@@ -39,7 +39,7 @@ alias qlook='qlmanage -p'
 alias sudoedit='sudo -e'
 alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 autoload -Uz zmv
-autoload -Uz br cud fuck
+autoload -Uz bd br fuck
 autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
 
 #################
