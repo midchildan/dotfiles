@@ -26,7 +26,7 @@ issues which arise from the lack of Nix.
 
 [Fira Code](https://github.com/tonsky/FiraCode) is the recommended font.
 Ligatures aren't enabled. If you don't like Fira Code for whatever reason,
-there's a [patch](patches/font-monospace.patch) to use Monospace instead.
+there's a [patch](patches/font-menlo.patch) to use Menlo instead.
 
 ## Installation
 
