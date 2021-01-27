@@ -42,7 +42,7 @@ let
 
   defaultsCommands = flatten (mapAttrsToList defaultsToList cfg.defaults);
 in {
-  imports = [ ./keybindings.nix ./search.nix ];
+  imports = [ ./keybindings.nix ./linkapps.nix ./search.nix ];
 
   options.dotfiles.macos = {
     enable = mkEnableOption "macos settings";
