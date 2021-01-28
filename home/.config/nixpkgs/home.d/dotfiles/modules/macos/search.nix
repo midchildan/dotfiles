@@ -23,8 +23,10 @@ in {
   config = mkIf (isDarwin && cfg.enable && cfg.search != null) {
     dotfiles.macos.defaults = {
       NSGlobalDomain.NSPreferredWebServices = {
-        NSWebServicesProviderWebSearch = ''
-          { NSDefaultDisplayName = "${cfg.search}"; NSProviderIdentifier = "${searchId}"; }'';
+        NSWebServicesProviderWebSearch = {
+          NSDefaultDisplayName = cfg.search;
+          NSProviderIdentifier = searchId;
+        };
       };
       "com.apple.Safari".SearchProviderIdentifier = searchId;
     };
