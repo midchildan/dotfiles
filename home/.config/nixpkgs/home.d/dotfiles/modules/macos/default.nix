@@ -8,39 +8,16 @@ let
 
   cfg = config.dotfiles.macos;
 
-  isFloat = x:
-    isString x && builtins.match "^[+-]?([0-9]*[.])?[0-9]+$" x != null;
+  toDefaultsFile = domain: attrs:
+    pkgs.writeText "${domain}.plist"
+    (lib.generators.toPlist { } (filterAttrs (n: v: v != null) attrs));
 
-  isPlainAttrs = x: isAttrs x && isType "" x && (!isDerivation x);
+  toActivationCmd = domain: attrs:
+    "$DRY_RUN_CMD defaults import ${escapeShellArg domain} ${
+      toDefaultsFile domain attrs
+    }";
 
-  writeValue = val:
-    if isBool val then
-      "-bool ${if val then "TRUE" else "FALSE"}"
-    else if isInt val then
-      "-int ${toString val}"
-    else if isFloat val then
-      "-float ${toString val}"
-    else if isString val then
-      "-string ${escapeShellArg val}"
-    else if (isList val && all isString val) then
-      "-array ${concatMapStringsSep " " escapeShellArg val}"
-    else if (isPlainAttrs val && all isString (attrValues val)) then
-      "-dict ${
-        concatStringsSep " "
-        (flatten (mapAttrsToList (n: v: map escapeShellArg [ n v ]) val))
-      }"
-    else
-      throw "invalid value type";
-
-  writeDefault = domain: key: value:
-    "$DRY_RUN_CMD defaults write ${escapeShellArg domain} ${
-      escapeShellArg key
-    } ${writeValue value}";
-
-  defaultsToList = domain: attrs:
-    mapAttrsToList (writeDefault domain) (filterAttrs (n: v: v != null) attrs);
-
-  defaultsCommands = flatten (mapAttrsToList defaultsToList cfg.defaults);
+  activationCmds = mapAttrsToList toActivationCmd cfg.defaults;
 in {
   imports = [ ./keybindings.nix ./linkapps.nix ./search.nix ];
 
@@ -66,7 +43,7 @@ in {
   config = mkIf (isDarwin && cfg.enable && cfg.defaults != { }) {
     home.activation.macosDefaults = hm.dag.entryAfter [ "writeBoundary" ] ''
       $VERBOSE_ECHO "Configuring macOS user defaults"
-      ${concatStringsSep "\n" defaultsCommands}
+      ${concatStringsSep "\n" activationCmds}
     '';
   };
 }
