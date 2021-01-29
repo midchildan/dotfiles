@@ -34,7 +34,7 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'mhinz/vim-signify'
 Plug 'wellle/context.vim', {'on': 'ContextToggle'}
 Plug 'junegunn/gv.vim', {'on': 'GV'}
-Plug 'Yggdroot/indentLine', {'on': 'IndentLinesEnable'}
+Plug 'Yggdroot/indentLine'
 Plug 'Yilin-Yang/vim-markbar', {'on': '<Plug>ToggleMarkbar'}
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 Plug 'CoatiSoftware/vim-sourcetrail',
@@ -54,7 +54,7 @@ Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'LnL7/vim-nix', {'for': 'nix'}
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'martinda/Jenkinsfile-vim-syntax', {'for': 'Jenkinsfile'}
-Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'nathanaelkane/vim-indent-guides'
 
 " just for fun
 Plug 'vim/killersheep', {'on': 'KillKillKill'}
@@ -96,6 +96,12 @@ au vimrc BufReadPost *
 " let &t_BD = "\<Esc>[?2004l"
 " exec "set t_PS=\<ESC>[200~ | set t_PE=\<ESC>[201~"
 " endif
+
+" let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_color_term = 111
+let g:indentLine_color_gui = '#708090'
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+
 
 """"""""
 "  UI  "
