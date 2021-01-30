@@ -8,3 +8,7 @@
 	exec = "!exec " # run a shell command from the top directory
 [core]
 	editor = emacs -nw
+[merge]
+          ff = false
+[pull]
+          ff = only
