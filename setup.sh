@@ -76,7 +76,6 @@ setup::misc() {
   install::default ".config/ranger/scope.sh"
   install::default ".config/tig/config"
   install::default ".config/zathura/zathurarc"
-  install::default ".ipython/profile_default/ipython_config.py"
   install::default ".local/libexec/fzf/install"
   install::default ".local/opt/fzftools"
   install::default ".nixpkgs/config.nix"

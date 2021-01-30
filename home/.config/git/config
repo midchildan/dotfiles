@@ -7,7 +7,7 @@
 [alias]
 	exec = "!exec " # run a shell command from the top directory
 [core]
-	editor = emacs -nw
+	editor = vim
 [merge]
           ff = false
 [pull]
