@@ -16,7 +16,7 @@ worktrees, one for editing and the other for deployment.
 
 ```sh
 cd ~/Documents
-git clone https://github.com/midchildan/dotfiles.git
+git clone https://github.com/anjyu108/dotfiles.git
 cd dotfiles
 git branch --track local
 git worktree add ~/.config/dotfiles local
@@ -28,7 +28,7 @@ cd ~/.config/dotfiles
 
 ```sh
 cd ~/Documents
-git clone https://github.com/midchildan/dotfiles.git
+git clone https://github.com/anjyu108/dotfiles.git
 cd dotfiles
 git checkout nixos
 git branch --track local
@@ -41,7 +41,7 @@ cd ~/.config/dotfiles
 
 ```sh
 cd ~/Documents
-git clone https://github.com/midchildan/dotfiles.git
+git clone https://github.com/anjyu108/dotfiles.git
 cd dotfiles
 git checkout osx
 git branch --track local
@@ -60,7 +60,7 @@ deployment path instead.
 ```sh
 mkdir -p ~/.config
 cd ~/.config
-git clone https://github.com/midchildan/dotfiles.git
+git clone https://github.com/anjyu108/dotfiles.git
 cd dotfiles
 ./setup.sh --install-deps
 ```
@@ -70,7 +70,7 @@ cd dotfiles
 ```sh
 mkdir -p ~/.config
 cd ~/.config
-git clone https://github.com/midchildan/dotfiles.git
+git clone https://github.com/anjyu108/dotfiles.git
 cd dotfiles
 git checkout nixos
 ./setup.sh --install-deps
@@ -80,7 +80,7 @@ git checkout nixos
 
 ```sh
 cd ~/Library
-git clone https://github.com/midchildan/dotfiles.git
+git clone https://github.com/anjyu108/dotfiles.git
 cd dotfiles
 git checkout osx
 ./setup.sh --install-deps
