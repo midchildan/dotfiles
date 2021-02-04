@@ -59,11 +59,7 @@ in {
       '';
     };
 
-    dotfiles.macos = mkIf isDarwin {
-      enable = mkDefault true;
-
-      # NOTE: It's possible to specify any possible config using the 'defaults'
-      # module, but only known options are mkOverride-able.
+    targets.darwin = mkIf isDarwin {
       defaults = {
         NSGlobalDomain = {
           # Locale
@@ -129,9 +125,9 @@ in {
         };
       };
 
-      keybindings = mkDefault {
-        "^u" = "deleteToBeginningOfLine:";
-        "^w" = "deleteWordBackward:";
+      keybindings = {
+        "^u" = mkDefault "deleteToBeginningOfLine:";
+        "^w" = mkDefault "deleteWordBackward:";
       };
 
       search = mkDefault "DuckDuckGo";

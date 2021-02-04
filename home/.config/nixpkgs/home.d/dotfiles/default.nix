@@ -8,7 +8,7 @@
     ./modules/emacs.nix
     ./modules/fonts.nix
     ./modules/launchd
-    ./modules/macos
+    ./modules/linkapps.nix
     ./modules/manpages.nix
     ./modules/syncthing.nix
     ./modules/pinentry-mac.nix

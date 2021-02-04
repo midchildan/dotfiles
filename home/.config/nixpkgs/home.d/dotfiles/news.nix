@@ -174,5 +174,14 @@
         around 'services.syncthing'.
       '';
     }
+    {
+      time = "2021-02-04T01:38:52+00:00";
+      message = ''
+        Remove module 'dotfiles.macos'
+
+        This was upstreamed as 'targets.darwin' in
+        https://github.com/nix-community/home-manager/pull/1753.
+      '';
+    }
   ];
 }
