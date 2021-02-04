@@ -5,7 +5,6 @@ with lib;
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
 
-  cfg = config.dotfiles.macos;
   destination = "${config.home.homeDirectory}/Applications/Home Manager";
 
   apps = pkgs.buildEnv {
@@ -14,7 +13,7 @@ let
     pathsToLink = "/Applications";
   };
 in {
-  config = lib.mkIf (cfg.enable && isDarwin) {
+  config = mkIf isDarwin {
     home.activation.linkMacOSApplications = hm.dag.entryAfter [ "writeBoundary" ] ''
       linkMacOSApplications() {
         $VERBOSE_ECHO 'Creating aliases for macOS Applications'
