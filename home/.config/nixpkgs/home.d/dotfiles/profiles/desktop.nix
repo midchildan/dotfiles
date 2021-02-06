@@ -3,7 +3,7 @@
 with lib;
 
 let
-  inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
+  inherit (pkgs.stdenv.hostPlatform) isLinux;
   homeDir = config.home.homeDirectory;
   isGenericLinux = (config.targets.genericLinux.enable or false);
   isNixOS = isLinux && !isGenericLinux;
@@ -59,7 +59,7 @@ in {
       '';
     };
 
-    targets.darwin = mkIf isDarwin {
+    targets.darwin = {
       defaults = {
         NSGlobalDomain = {
           # Locale
