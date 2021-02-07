@@ -17,6 +17,7 @@ in {
         gimp
         kitty
         libreoffice
+        lollypop
         virtmanager
         vlc
         vscode
