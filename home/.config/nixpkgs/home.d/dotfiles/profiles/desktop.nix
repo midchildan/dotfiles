@@ -5,8 +5,6 @@ with lib;
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
   homeDir = config.home.homeDirectory;
-  isGenericLinux = (config.targets.genericLinux.enable or false);
-  isNixOS = isLinux && !isGenericLinux;
 in {
   options.dotfiles.profiles.desktop.enable =
     mkEnableOption "essential packages for desktop environemnts";
@@ -23,7 +21,7 @@ in {
         vlc
         vscode
         xclip
-      ] ++ optional isNixOS manpages;
+      ];
 
     dotfiles.profiles.fonts.enable = mkDefault true;
 
