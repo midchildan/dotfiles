@@ -16,6 +16,7 @@ in {
     home.packages = with pkgs;
       [ nmap socat ] ++ optionals isLinux [
         binutils
+        powertop
         pwndbg
         radare2
         valgrind
