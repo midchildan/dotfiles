@@ -4,6 +4,8 @@ with lib;
 
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
+  isGenericLinux = (config.targets.genericLinux.enable or false);
+  isNixOS = isLinux && !isGenericLinux;
   cfg = config.dotfiles.profiles;
 in {
   options.dotfiles.profiles.development.enable =
@@ -14,6 +16,7 @@ in {
       [ cargo clang-tools github-cli go gopls shellcheck tokei universal-ctags ]
       ++ (with pkgs.vimPlugins; [ coc-go coc-rust-analyzer coc-tsserver ])
       ++ optional (isLinux && cfg.desktop.enable) sourcetrail
+      ++ optional isNixOS manpages
       ++ optional isDarwin gnupg;
 
     dotfiles.pinentry-mac.enable = mkDefault isDarwin;
