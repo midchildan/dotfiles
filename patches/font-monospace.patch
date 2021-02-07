@@ -1,16 +1,3 @@
-diff --git a/home/.Xresources b/home/.Xresources
-index ae4f88d..1310c6f 100644
---- a/home/.Xresources
-+++ b/home/.Xresources
-@@ -39,7 +39,7 @@ XTerm*numColorRegisters: 256
- 
- ! Fonts {{{
- 
--XTerm*faceName: Fira Code
-+XTerm*faceName: Monospace
- XTerm*faceSize: 12
- 
- ! }}}
 diff --git a/home/.bashrc b/home/.bashrc
 index dee2f70..f3d8f41 100644
 --- a/home/.bashrc
@@ -51,10 +38,10 @@ index 7198354..e42f282 100644
  
  ** Lines
 diff --git a/home/.config/kitty/kitty.conf b/home/.config/kitty/kitty.conf
-index 66b99e8..e5f4602 100644
+index 8c594d5..fcab5e9 100644
 --- a/home/.config/kitty/kitty.conf
 +++ b/home/.config/kitty/kitty.conf
-@@ -2,12 +2,16 @@
+@@ -2,7 +2,7 @@
  
  #: Fonts {{{
  
@@ -63,7 +50,9 @@ index 66b99e8..e5f4602 100644
  bold_font        auto
  italic_font      auto
  bold_italic_font auto
- font_size 12.0
+@@ -10,6 +10,10 @@ bold_italic_font auto
+ # FIXME: This should be adjusted per-host
+ font_size 11.0
  
 +# Use the PowerlineSymbols font for rendering Powerline codepoints. Comment
 +# this out if your font already supports Powerline glyphs.
@@ -73,15 +62,15 @@ index 66b99e8..e5f4602 100644
  disable_ligatures cursor
  
 diff --git a/home/.vim/gvimrc b/home/.vim/gvimrc
-index b6b3214..77a99c9 100644
+index 2fb4735..9a9b775 100644
 --- a/home/.vim/gvimrc
 +++ b/home/.vim/gvimrc
 @@ -6,7 +6,7 @@ set columns=132
  set lines=43
  set cmdheight=1
  set cursorline
--set guifont=Fira\ Code:h12
-+set guifont=Monospace\ 13
+-set guifont=Fira\ Code
++set guifont=Monospace
  set guitablabel=%M%t
  set guioptions-=T
  set confirm
