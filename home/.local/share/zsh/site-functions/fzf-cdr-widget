@@ -21,10 +21,15 @@ fzf-cdr-widget() {
     zle -M "No such directory: $dir"
     return 0
   fi
-  cd "$dir"
-  unset dir
+
+  zle push-line
+  BUFFER="cd ${(q)dir}"
+  zle accept-line
   local ret=$?
-  zle fzf-redraw-prompt
+
+  unset dir
+  zle reset-prompt
+
   return $ret
 }
 

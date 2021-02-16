@@ -35,10 +35,13 @@ fzf-cd-repo-widget() {
     dir="$repo"
   fi
 
-  cd "$dir"
+  zle push-line
+  BUFFER="cd ${(q)dir}"
+  zle accept-line
   local ret=$?
+
   unset dir repo
-  zle fzf-redraw-prompt
+  zle reset-prompt
 
   return $ret
 }
