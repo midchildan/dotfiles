@@ -183,5 +183,14 @@
         https://github.com/nix-community/home-manager/pull/1753.
       '';
     }
+    {
+      time = "2021-02-21T05:43:00+00:00";
+      message = ''
+        Remove module 'dotfiles.fonts'
+
+        Font support for macOS, the primary feature of this module, was
+        upstreamed in https://github.com/nix-community/home-manager/pull/1817.
+      '';
+    }
   ];
 }
