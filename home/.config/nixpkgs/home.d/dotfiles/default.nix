@@ -6,7 +6,6 @@
     ./news.nix
     ./config/terminfo.nix
     ./modules/emacs.nix
-    ./modules/fonts.nix
     ./modules/launchd
     ./modules/linkapps.nix
     ./modules/manpages.nix
