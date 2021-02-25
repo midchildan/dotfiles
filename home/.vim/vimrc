@@ -361,8 +361,7 @@ endif
 
 " CoC "
 " these plugins aren't yet packaged in Nix
-let g:coc_global_extensions =
-      \ ['coc-clangd', 'coc-cmake', 'coc-pyright', 'coc-ultisnips']
+let g:coc_global_extensions = ['coc-ultisnips']
 
 " EasyMotion"
 let g:EasyMotion_do_mapping=0
