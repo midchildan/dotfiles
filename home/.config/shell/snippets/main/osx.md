@@ -11,3 +11,7 @@
 - Unload a kernel extension with the given identifier:
 
 `kextunload -b {{unstable.snakeoil.sensor}}`
+
+- Fix a stuck App Store download
+
+`pkill -KILL appstoreagent`
