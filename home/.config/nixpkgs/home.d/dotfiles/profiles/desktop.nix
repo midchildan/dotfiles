@@ -37,7 +37,9 @@ in {
     };
 
     dotfiles.emacs.extraConfig = ''
-      (setq emacsql-sqlite3-executable "${pkgs.sqlite}/bin/sqlite3")
+      (setq dired-use-ls-dired t
+            emacsql-sqlite3-executable "${pkgs.sqlite}/bin/sqlite3"
+            insert-directory-program "${pkgs.coreutils}/bin/ls")
     '';
 
     home.activation = mkIf config.programs.emacs.enable {
