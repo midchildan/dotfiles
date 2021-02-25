@@ -43,7 +43,6 @@ Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 
 " colorschemes
 Plug 'morhetz/gruvbox'
-Plug 'midchildan/molokai'
 
 " filetypes
 Plug 'midchildan/ft-confluence.vim'
@@ -51,9 +50,6 @@ Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'LnL7/vim-nix', {'for': 'nix'}
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'lervag/vimtex'
-
-" just for fun
-Plug 'vim/killersheep', {'on': 'KillKillKill'}
 
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
