@@ -2,11 +2,15 @@
 	name = midchildan
 	email = git@midchildan.org
 	signingkey = 0x186A1EDAC5C63F83
+[core]
+	pager = delta
 [commit]
 	gpgsign = true
 [diff]
 	algorithm = histogram
 	colorMoved = default
+[interactive]
+	diffFilter = delta --color-only
 [merge]
 	tool = vimdiff
 [mergetool]
@@ -19,11 +23,6 @@
 	default = simple
 [alias]
 	exec = "!exec " # run a shell command from the top directory
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
 [difftool "kitty"]
 	cmd = kitty +kitten diff $LOCAL $REMOTE
 [difftool "kitty.gui"]

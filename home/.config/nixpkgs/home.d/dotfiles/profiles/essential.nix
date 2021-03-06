@@ -33,7 +33,7 @@ in {
         wget
         zsh-completions
         nodePackages.prettier
-      ] ++ (with pkgs.gitAndTools; [ delta diff-so-fancy git-absorb ])
+      ] ++ (with pkgs.gitAndTools; [ delta git-absorb ])
       ++ optionals (!isDarwin) [
         dnsutils
         file

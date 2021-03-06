@@ -46,9 +46,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/git/config
   - .config/git/ignore
   - .config/tig/config
-  - .local/bin/git-delta
   - .local/bin/git-deploy
-  - .local/bin/git-fancy
   - .local/bin/git-kitty
 
 @install Install GPG Config

@@ -12,14 +12,15 @@ index 18120c0..ddee6ef 100644
    xterm-kitty:) USE_POWERLINE=1 ;; # kitty can use the powerline font directly
    *:iTerm.app) USE_POWERLINE=1 ;; # iTerm provides built-in powerline glyphs
 diff --git a/home/.config/doom/config.org b/home/.config/doom/config.org
-index 83a50e9..b02dbd9 100644
+index 7865fb5..02d12ed 100644
 --- a/home/.config/doom/config.org
 +++ b/home/.config/doom/config.org
-@@ -23,14 +23,16 @@ Use the [[https://github.com/morhetz/gruvbox][gruvbox]] theme as usual. Addition
+@@ -31,15 +31,16 @@ Use [[https://github.com/morhetz/gruvbox][gruvbox]]. Also remove the splash scre
  #+END_SRC
  
  ** Fonts
--Use [[https://github.com/tonsky/FiraCode][Fira Code].
+-Use [[https://github.com/tonsky/FiraCode][Fira Code]]. Fira Code would be installed by Home Manager if the option
+-=dotfiles.profiles.fonts.enable= is set to =true=.
 +Menlo is a nice font which is available in the default installation of macOS.
 +Just whatever you do, don't use plain Monospace because you'll have a tough
 +time squinting at a Courier New.
