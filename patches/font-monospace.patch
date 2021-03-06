@@ -12,23 +12,22 @@ index dee2f70..f3d8f41 100644
  [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
  
 diff --git a/home/.config/doom/config.org b/home/.config/doom/config.org
-index 7198354..e42f282 100644
+index 366d5fb..a257f44 100644
 --- a/home/.config/doom/config.org
 +++ b/home/.config/doom/config.org
-@@ -23,7 +23,11 @@ Use the [[https://github.com/morhetz/gruvbox][gruvbox]] theme as usual. Addition
+@@ -31,8 +31,9 @@ Use [[https://github.com/morhetz/gruvbox][gruvbox]]. Also remove the splash scre
  #+END_SRC
  
  ** Fonts
--Use [[https://github.com/tonsky/FiraCode][Fira Code].
-+Monospace is the least common denominator font in the desktop Linux world. Since
-+the fonts available varies per-computer, you should change it in a local git
-+branch if you're unhappy with it. I assume that most distros use DejaVu Sans or
-+similar as the default Monospace font, so it shouldn't be a problem most of the
-+time.
+-Use [[https://github.com/tonsky/FiraCode][Fira Code]]. Fira Code would be installed by Home Manager if the option
+-=dotfiles.profiles.fonts.enable= is set to =true=.
++Use Monospace, the least common denominator font in the desktop Linux world. I
++assume that most distros use DejaVu Sans or similar as the default Monospace
++font, so this shouldn't be a problem most of the time.
  
  The font size is purposefully unspecified, because GTK Emacs currently lacks
  HiDPI autoscaling support. Since the preferrable font size varies greatly from
-@@ -33,7 +37,7 @@ if you don't specify it in the settings, but I find it a little too large for my
+@@ -42,7 +43,7 @@ If you don't specify it in the settings, but I find it a little too large for my
  liking.
  
  #+BEGIN_SRC emacs-lisp
