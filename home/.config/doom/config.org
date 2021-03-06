@@ -56,6 +56,17 @@ shows a different representation of the actual file.
               word-wrap nil)
 #+end_src
 
+Disable the fill column indicator when ~mixed-pitch-mode~ is enabled because
+it's not as useful with proportionate fonts.
+
+#+begin_src emacs-lisp
+(add-hook! 'mixed-pitch-mode-hook
+  (defun rc-disable-fci-in-mixed-pitch-mode ()
+    (if mixed-pitch-mode
+        (+fill-column-enable-h -1)
+      (+fill-column-enable-h))))
+#+end_src
+
 ** Frame
 Frame is the term Emacs uses to refer to GUI windows.
 
@@ -298,8 +309,7 @@ to some commands used by Doom. Doing so removes the need to clutter =PATH= with
 commands not needed outside of Doom.
 
 #+begin_src emacs-lisp
-(let ((inhibit-startup-screen nil))
-  (load "default" 'noerror 'nomessage))
+(load "default" 'noerror 'nomessage)
 #+end_src
 
 ** Yankpad
