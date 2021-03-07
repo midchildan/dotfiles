@@ -46,6 +46,18 @@ liking.
 #+END_SRC
 
 ** Lines
+Display line numbers, but hide it when writeroom mode is enabled.
+
+#+BEGIN_SRC emacs-lisp
+(setq display-line-numbers-type t)
+
+(add-hook! 'writeroom-mode-hook
+  (defun rc-disable-linum-in-writeroom-mode ()
+    (if writeroom-mode
+        (display-line-numbers-mode -1)
+      (display-line-numbers-mode))))
+#+END_SRC
+
 Make long lines wrap instead of truncating it, to remove the need to constantly
 scroll sideways. In doing so, wrap at window width instead of at the word
 boundary. I find "smart" line wrapping more confusing than helpful because it
@@ -85,12 +97,6 @@ Use the buffer name as the title.
 #+END_SRC
 
 ** Informational Stuff
-Display line numbers.
-
-#+BEGIN_SRC emacs-lisp
-(setq display-line-numbers-type t)
-#+END_SRC
-
 I'd like [[https://github.com/justbur/emacs-which-key][which-key]] to show up instantly, but setting ~which-key-idle-delay~ to
 ~0~ is [[https://github.com/justbur/emacs-which-key/issues/134][known to cause problems]]. So set it to a value that's close enough to zero
 instead.
