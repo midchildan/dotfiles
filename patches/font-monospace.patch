@@ -12,7 +12,7 @@ index dee2f70..f3d8f41 100644
  [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
  
 diff --git a/home/.config/doom/config.org b/home/.config/doom/config.org
-index 366d5fb..a257f44 100644
+index 2eac956..ef73f60 100644
 --- a/home/.config/doom/config.org
 +++ b/home/.config/doom/config.org
 @@ -31,8 +31,9 @@ Use [[https://github.com/morhetz/gruvbox][gruvbox]]. Also remove the splash scre
@@ -27,7 +27,7 @@ index 366d5fb..a257f44 100644
  
  The font size is purposefully unspecified, because GTK Emacs currently lacks
  HiDPI autoscaling support. Since the preferrable font size varies greatly from
-@@ -42,7 +43,7 @@ If you don't specify it in the settings, but I find it a little too large for my
+@@ -42,7 +43,7 @@ if it isn't specified in the settings, but I find it a little too large for my
  liking.
  
  #+BEGIN_SRC emacs-lisp
@@ -35,7 +35,7 @@ index 366d5fb..a257f44 100644
 +(setq doom-font (font-spec :family "monospace"))
  #+END_SRC
  
- ** Lines
+ For Japanese text, use IPA Gothic. It's assumed to be installed system-wide
 diff --git a/home/.config/kitty/kitty.conf b/home/.config/kitty/kitty.conf
 index 8c594d5..fcab5e9 100644
 --- a/home/.config/kitty/kitty.conf
