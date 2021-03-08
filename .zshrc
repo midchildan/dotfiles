@@ -270,8 +270,9 @@ unset LS_COLORS # clear distro defaults
 
 prompt_concise_setup() { ::prompt concise; }
 prompt_dashboard_setup() { ::prompt dashboard; }
-prompt_portable_setup() { # stripped down version of the "concise" theme
-  PROMPT='%B%(!:%F{red}:%F{green})%n@%m%f: %F{blue}%~%f'$'\n''%(?::%F{red})%#%f%b '
+prompt_portable_setup() { # stripped down version of the "dashboard" theme
+  PROMPT='%(!:%B%F{red}%n%f%b in :)%B%F{blue}%~%f%b at %B%F{yellow}%m%f%b'$'\n'
+  PROMPT+='%B%(?:%F{green}:%F{red})>%f%b '
 }
 
 autoload -Uz promptinit && promptinit
