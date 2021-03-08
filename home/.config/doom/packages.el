@@ -8,6 +8,9 @@
 ;; See ~/.emacs.d/core/templates/packages.example.el for examples. (press 'gf'
 ;; on the filename)
 
+;;
+;;; Extra Packages
+
 (package! japanese-holidays)
 (package! yankpad)
 
@@ -15,3 +18,14 @@
 ;; installed by Nix if they exist to avoid having to make GCC globally
 ;; available.
 (package! pdf-tools :built-in 'prefer)
+
+;;
+;;; Disabled Packages
+
+;; This package is used by Doom to map 'jk' in insert mode to '<Escape>'. This
+;; caught me by surprise when I was typing this:
+;;
+;;     (set-fontset-font t 'cjk-misc "Hiragino Kaku Gothic Pro")
+;;
+;; but then got greeted with random gibberish on the screen.
+(package! evil-escape :disable t)
