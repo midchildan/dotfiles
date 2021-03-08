@@ -42,11 +42,10 @@ autoscaling support out-of-the-box.
 (setq doom-font (font-spec :family "Fira Code" :size 12))
 #+END_SRC
 
-For Japanese text, use IPA Gothic. It's assumed to be installed system-wide
-and therefore not present in the Home Manager configuration.
+For Japanese text, use Hiragino Gothic. It's preinstalled on macOS.
 
 #+begin_src emacs-lisp
-(defvar rc-japanese-font (font-spec :family "IPA Gothic")
+(defvar rc-japanese-font (font-spec :family "Hiragino Kaku Gothic ProN")
   "The default font to use for Japanese text.")
 
 (add-hook! 'doom-load-theme-hook :append

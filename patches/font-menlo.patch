@@ -12,7 +12,7 @@ index 18120c0..ddee6ef 100644
    xterm-kitty:) USE_POWERLINE=1 ;; # kitty can use the powerline font directly
    *:iTerm.app) USE_POWERLINE=1 ;; # iTerm provides built-in powerline glyphs
 diff --git a/home/.config/doom/config.org b/home/.config/doom/config.org
-index 7865fb5..02d12ed 100644
+index 88eef5f..228c21d 100644
 --- a/home/.config/doom/config.org
 +++ b/home/.config/doom/config.org
 @@ -31,15 +31,16 @@ Use [[https://github.com/morhetz/gruvbox][gruvbox]]. Also remove the splash scre
@@ -34,7 +34,7 @@ index 7865fb5..02d12ed 100644
 +(setq doom-font (font-spec :family "Menlo" :size 12))
  #+END_SRC
  
- ** Lines
+ For Japanese text, use Hiragino Gothic. It's preinstalled on macOS.
 diff --git a/home/.config/kitty/kitty.conf b/home/.config/kitty/kitty.conf
 index e180c95..366dfc0 100644
 --- a/home/.config/kitty/kitty.conf
