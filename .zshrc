@@ -133,7 +133,7 @@ bindkey -a \
   'sd' delete-surround \
   'sr' change-surround \
   'K' run-help \
-  '^W' edit-command-line
+  '!' edit-command-line
 bindkey -M menuselect \
   '^B' backward-char \
   '^E' undo \
