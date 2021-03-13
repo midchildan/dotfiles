@@ -45,7 +45,7 @@ printf -v PATH "%s:" \
   "$PATH" \
   /usr/local/sbin \
   "$GOPATH/bin" \
-  ~/.emacs.d/bin
+  ~/.config/emacs/bin
 PATH="${PATH%%:}"
 
 export CLICOLOR=1

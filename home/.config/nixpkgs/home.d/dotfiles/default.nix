@@ -4,7 +4,6 @@
   imports = [
     ./profiles
     ./news.nix
-    ./config/terminfo.nix
     ./modules/emacs.nix
     ./modules/launchd
     ./modules/linkapps.nix
