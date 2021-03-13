@@ -79,7 +79,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .local/bin/uplatexmk
 
 @install Install Emacs Config
-  - github: hlissner/doom-emacs ~/.emacs.d
+  - github: hlissner/doom-emacs ~/.config/emacs
   - .config/doom/init.el
   - .config/doom/config.org
   - .config/doom/packages.el

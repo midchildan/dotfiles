@@ -18,7 +18,7 @@ path=(
   ~/.local/bin
   $path
   "$GOPATH/bin"
-  ~/.emacs.d/bin
+  ~/.config/emacs/bin
 )
 
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"

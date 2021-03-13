@@ -51,9 +51,9 @@ in {
           if [[ "$newEmacs" == "$oldEmacs" ]]; then
             return
           fi
-          if [[ -x "${homeDir}/.emacs.d/bin/doom" ]]; then
-            $DRY_RUN_CMD "${homeDir}/.emacs.d/bin/doom" ''${VERBOSE:+-d} build \
-              > /dev/null
+          if [[ -x "${homeDir}/.config/emacs/bin/doom" ]]; then
+            $DRY_RUN_CMD "${homeDir}/.config/emacs/bin/doom" \
+              ''${VERBOSE:+-d} build > /dev/null
           fi
         }
         rebuildDoomEmacs
