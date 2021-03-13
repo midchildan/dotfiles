@@ -126,7 +126,6 @@ autoload -Uz select-bracketed && zle -N select-bracketed
 autoload -Uz select-quoted && zle -N select-quoted
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
 autoload -Uz toggle-leading-space && zle -N toggle-leading-space
-autoload -Uz vim-pipe && zle -N vim-pipe
 autoload -Uz fzf-completion && zle -N fzf-completion
 autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
 autoload -Uz fzf-cdr-widget && zle -N fzf-cdr-widget
@@ -184,9 +183,8 @@ bindkey -a \
   'sr' change-surround \
   'K' run-help \
   '^A' vim-incarg \
-  '^W' edit-command-line \
   '^X' vim-decarg \
-  '!' vim-pipe
+  '!' edit-command-line
 bindkey -M menuselect \
   '^B' backward-char \
   '^E' undo \
