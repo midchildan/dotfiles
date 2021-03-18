@@ -118,6 +118,7 @@ fi
 ##########
 #  Misc  #
 ##########
+set -o noclobber
 shopt -s checkjobs
 shopt -s checkwinsize
 shopt -s globstar
