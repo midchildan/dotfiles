@@ -12,7 +12,7 @@ prompt_concise_setup() {
   zstyle ':vcs_info:*' stagedstr "[%B%F{yellow}staged%f%b]"
   zstyle ':vcs_info:*' unstagedstr "[%B%F{red}unstaged%f%b]"
 
-  prompt_opts=(cr percent)
+  prompt_opts=(cr percent sp)
   add-zsh-hook precmd prompt_concise_precmd
   add-zsh-hook preexec prompt_concise_preexec
 }
