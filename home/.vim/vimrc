@@ -287,9 +287,9 @@ imap <C-x><C-x><C-f> <Plug>(fzf-complete-path)
 imap <C-x><C-x><C-k> <Plug>(fzf-complete-word)
 imap <C-x><C-x><C-l> <Plug>(fzf-complete-line)
 inoremap <silent> <C-x><C-x><C-j> <Esc>:Snippets<CR>
-nnoremap <silent> <Leader>gb :Buffers<CR>
-nnoremap <silent> <Leader>gf :Files<CR>
-nnoremap <silent> <Leader>gg :GitFiles<CR>
+nnoremap <silent> <Leader><Leader> :GitFiles<CR>
+nnoremap <silent> <Leader>, :Buffers<CR>
+nnoremap <silent> <Leader>. :Files<CR>
 nnoremap <silent> <Leader>gp :Projects<CR>
 nnoremap <silent> <Leader>gK :Helptags<CR>
 nnoremap <silent> <Leader>g/ :Lines<CR>
@@ -337,9 +337,11 @@ nmap <silent> <Leader>gd <Plug>(coc-definition)
 nmap <silent> <Leader>gD <Plug>(coc-declaration)
 nmap <silent> <Leader>gt <Plug>(coc-type-definition)
 nmap <silent> <Leader>g] <Plug>(coc-implementation)
+nmap <silent> <Leader>p :CocList<CR>
+nmap <silent> <Leader>P :CocListResume<CR>
 nmap <silent> <Leader>* <Plug>(coc-references)
 nnoremap <silent> <Leader>K :call CocAction('doHover')<CR>
-nnoremap <silent> <Leader><Leader> :CocList commands<CR>
+nnoremap <silent> <Leader>; :CocList commands<CR>
 
 " 3-way merge
 nnoremap <silent> <Leader>1 :diffget LOCAL<CR>

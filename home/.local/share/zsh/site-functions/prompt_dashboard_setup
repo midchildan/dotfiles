@@ -10,7 +10,7 @@ prompt_dashboard_setup() {
   zstyle ':vcs_info:*' formats '%r/%S' "%b" '%u%c'
   zstyle ':vcs_info:*' actionformats '%r/%S' "%b" '%a%u%c'
 
-  prompt_opts=(cr percent)
+  prompt_opts=(cr percent sp)
   add-zsh-hook precmd prompt_dashboard_precmd
   add-zsh-hook preexec prompt_dashboard_preexec
 
