@@ -23,7 +23,7 @@ in {
         lsof
         magic-wormhole
         neofetch
-        nixfmt
+        nixpkgs-fmt
         nkf
         p7zip
         ranger
