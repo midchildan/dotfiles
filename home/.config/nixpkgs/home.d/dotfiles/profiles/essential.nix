@@ -45,5 +45,7 @@ in {
         ssh-copy-id
         watch
       ];
+
+    dotfiles.manpages.colorize = mkDefault true;
   };
 }

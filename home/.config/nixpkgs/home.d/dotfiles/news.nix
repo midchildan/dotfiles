@@ -192,5 +192,14 @@
         upstreamed in https://github.com/nix-community/home-manager/pull/1817.
       '';
     }
+    {
+      time = "2021-04-25T13:59:59+00:00";
+      message = ''
+        Add new options for the module 'dotfiles.manpages'
+
+        - useSystemMan
+        - colorize
+      '';
+    }
   ];
 }
