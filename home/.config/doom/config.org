@@ -359,6 +359,13 @@ Prevent ruby-mode from forcibly inserting content on save.
 (setq ruby-insert-encoding-magic-comment nil)
 #+end_src
 
+** Nix
+Use nixpkgs-fmt for formatting.
+
+#+begin_src emacs-lisp
+(setq nix-nixfmt-bin "nixpkgs-fmt")
+#+end_src
+
 * Packages
 ** Default Init File
 Load the default init file. This is the place where distro packagers can place
