@@ -28,6 +28,9 @@ in {
       enableNixDirenvIntegration = mkDefault true;
     };
 
-    dotfiles.manpages.enable = mkDefault (!isNixOS);
+    dotfiles.manpages = {
+      enable = mkDefault true;
+      useSystemMan = mkDefault (!isNixOS);
+    };
   };
 }

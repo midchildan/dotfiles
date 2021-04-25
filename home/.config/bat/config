@@ -1,2 +1,3 @@
 # prevent bat from overriding options for less
 --pager="less --"
+--theme=gruvbox-dark
