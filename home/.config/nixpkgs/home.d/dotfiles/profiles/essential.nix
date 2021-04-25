@@ -41,6 +41,9 @@ in {
         netcat
         whois
         extraPkgs.terminfo-collection
-      ] ++ optional isDarwin watch;
+      ] ++ optionals isDarwin [
+        ssh-copy-id
+        watch
+      ];
   };
 }
