@@ -320,13 +320,7 @@ Set default location for placing org files
       org-roam-directory (concat org-directory "notes/"))
 #+END_SRC
 
-Enable org-habit
-
-#+BEGIN_SRC emacs-lisp
-(after! org (add-to-list 'org-modules 'org-habit t))
-#+END_SRC
-
-Set the initial fold level. Only the headlines should be visible.
+Set the initial fold level. Fold everyting except the current subtree.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-startup-folded 'content)
@@ -337,6 +331,30 @@ Show inline images by default
 #+BEGIN_SRC emacs-lisp
 (setq org-startup-with-inline-images t)
 #+END_SRC
+
+~org-cycle-emulate-tab~ makes the =TAB= key behave like it does in insert
+mode when the cursor isn't placed at a headline. The following disables this
+behavior because it makes no sense under Vim emulation.
+
+#+begin_src emacs-lisp
+(setq org-cycle-emulate-tab nil)
+#+end_src
+
+Enable org-habit
+
+#+BEGIN_SRC emacs-lisp
+(after! org (add-to-list 'org-modules 'org-habit t))
+#+END_SRC
+
+Doom changes the behavior of the =TAB= key to only change the visilbility of
+the current subtree instead of cycling through it recursively. The following
+restores =TAB= cycling because I find the original behavior more convenient.
+For non-cycling =TAB=, there's =z a= instead.
+
+#+begin_src emacs-lisp
+(after! evil-org
+  (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
+#+end_src
 
 ** Ruby
 Prevent ruby-mode from forcibly inserting content on save.
@@ -398,3 +416,10 @@ Issue in [[https://github.com/hlissner/doom-emacs/issues/3185][hlissner/doom-ema
   "Interpret LINK as base64-encoded image data. Ignore all errors."
   (with-demoted-errors "%S" (base64-decode-string link)))
 #+END_SRC
+
+** TODO Fix for void-function errors when using pdf-tools from Nix
+#+begin_src emacs-lisp
+(defadvice! rc-fix/pdf-tools-install-noverify ()
+  :before #'pdf-tools-install-noverify
+  (load "pdf-tools-autoloads" nil t))
+#+end_src
