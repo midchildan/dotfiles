@@ -255,6 +255,17 @@ I'll leave it here for now.
 (define-key! :keymaps +default-minibuffer-maps "s-v" #'rc-clipboard-paste)
 #+END_SRC
 
+** Undo
+Emacs has an unconventional undo system that is notoriously difficult to
+work with. Fortunately, Doom Emacs provides a more intuitive undo system
+through the undo-fu package. However, undo-fu can still revert to native
+Emacs behavior if you press =C-g= (or =Esc= with evil-mode) before undoing.
+The following saves a lot of frustration by disabling this behavior:
+
+#+begin_src emacs-lisp
+(setq undo-fu-ignore-keyboard-quit t)
+#+end_src
+
 * Major Modes
 ** Filetype Detection
 #+BEGIN_SRC emacs-lisp
