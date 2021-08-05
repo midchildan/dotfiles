@@ -7,9 +7,11 @@ export SYSTEMD_LESS="iFRSMK"
 export GOPATH=~/Documents/src/go
 
 # whether to make use of powerline fonts
-export USE_POWERLINE=1
-[[ "$TERM" == "xterm-kitty" ]] && USE_POWERLINE=1
-[[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
+if [[ -z "$USE_POWERLINE" ]]; then
+  export USE_POWERLINE=1
+  [[ "$TERM" == "xterm-kitty" ]] && USE_POWERLINE=1
+  [[ -z "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]] && USE_POWERLINE=0
+fi
 
 if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
   source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
