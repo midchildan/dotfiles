@@ -89,7 +89,7 @@ if exists('+inccommand')
 endif
 
 " adjust quickfix window position
-au vimrc QuickfixCmdPost [^lA-Z]* botright cwindow
+au vimrc QuickfixCmdPost \C[^lA-Z]* botright cwindow
 au vimrc QuickfixCmdPost l* botright lwindow
 
 """"""""""""
@@ -102,9 +102,9 @@ set smartcase
 set wrapscan
 set tags=./tags;,tags
 
-"""""""""""
-"  Cache  "
-"""""""""""
+"""""""""""""""""""""
+"  Persistent Data  "
+"""""""""""""""""""""
 " XXX: Backups and undofiles are disabled, as it is sometimes undesirable on a
 "      remote environment.
 set nobackup
@@ -129,10 +129,12 @@ inoremap <C-u> <C-g>u<C-u>
 
 " handy mapping for :noh
 nnoremap <silent> <BS> :nohlsearch<CR>
+" open the alternate file and close the current one
+nnoremap <silent> <Leader>6 :<C-u>bprevious<Bar>bunload #<Bar>bdelete #<CR>
 " switch to the next modified buffer
 nnoremap <silent> <Leader>b :bmodified<CR>
 " a more powerful <C-l>
-nnoremap <silent> <Leader><C-l> :noh<CR>:dif<CR>:syn sync fromstart<CR>:redr!<CR>
+nnoremap <silent> <Leader>l :noh<CR>:dif<CR>:syn sync fromstart<CR>:redr!<CR>
 
 " find merge conflict marker
 nnoremap <silent> <Leader>fc /\v^[<=>]{7}( .*<Bar>$)<CR>
@@ -161,8 +163,8 @@ xnoremap <silent> al <Esc>0v$
 onoremap <silent> al :<C-u>normal! 0v$<CR>
 xnoremap <silent> il <Esc>^vg_
 onoremap <silent> il :<C-u>normal! ^vg_<CR>
-xnoremap <silent> a, gg0oG$
-onoremap <silent> a, :<C-u>exe "normal! m`"<Bar>keepjumps normal! ggVG<CR>
+xnoremap <silent> ag gg0oG$
+onoremap <silent> ag :<C-u>exe "normal! m`"<Bar>keepjumps normal! ggVG<CR>
 
 " toggles
 nnoremap <silent> <Leader>th :set bufhidden! bufhidden?<CR>
