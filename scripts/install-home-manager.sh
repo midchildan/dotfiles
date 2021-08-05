@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
+export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}${NIX_PATH:-}"
 IS_GENERIC_LINUX='false'
 
 main() {
