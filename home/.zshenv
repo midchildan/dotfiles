@@ -1,3 +1,7 @@
+if [[ -f /etc/nix/darwin.sh ]]; then
+  source /etc/nix/darwin.sh
+fi
+
 export COPYFILE_DISABLE=1
 export EDITOR="nvim"
 export LANG="en_US.UTF-8"

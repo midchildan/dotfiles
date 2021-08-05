@@ -15,6 +15,8 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @install Install Nix Config
   - .config/nixpkgs/config.nix
+  - .config/nixpkgs/darwin.nix
+  - .config/nixpkgs/darwin.d/dotfiles
   - .config/nixpkgs/home.nix
   - .config/nixpkgs/home.d/dotfiles
 
@@ -115,6 +117,7 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @shell Install Packages
   - init: true
+  - script: install-nix-darwin.sh
   - script: install-home-manager.sh
   - nvim --headless +PlugInstall +'%print' +qall
   - ~/.emacs.d/bin/doom -y install --no-config
