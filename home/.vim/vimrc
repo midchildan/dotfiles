@@ -165,7 +165,7 @@ hi link WhitespaceError Error
 au vimrc Syntax * syn match WhitespaceError /\s\+$\| \+\ze\t/
 
 " adjust quickfix window position
-au vimrc QuickfixCmdPost [^lA-Z]* botright cwindow
+au vimrc QuickfixCmdPost \C[^lA-Z]* botright cwindow
 au vimrc QuickfixCmdPost l* botright lwindow
 
 """"""""""""
@@ -178,17 +178,17 @@ set smartcase
 set wrapscan
 set tags=./tags;,tags
 
-"""""""""""
-"  Cache  "
-"""""""""""
+"""""""""""""""""""""
+"  Persistent Data  "
+"""""""""""""""""""""
 if !has('nvim')
   set viminfo+=n~/.cache/vim/viminfo
+  set undodir=~/.cache/vim/undo
 endif
 set dir=~/.cache/vim/swap//
 set backup
 set backupdir=~/.cache/vim/backup
 set undofile
-set undodir=~/.cache/vim/undo
 for s:d in [&dir, &backupdir, &undodir]
   if !isdirectory(s:d)
     call mkdir(iconv(s:d, &encoding, &termencoding), 'p')
