@@ -10,6 +10,12 @@ main() {
 
   writeInitialConfig
   darwin-rebuild switch
+
+  log::info "Consider removing packages from the root profile, since it's not"
+  log::info "managed with nix-darwin:"
+  log::info
+  log::info '    sudo -H nix-env -e "*"'
+  log::info '    sudo -H nix-channel --remove nixpkgs'
 }
 
 log::info() {
