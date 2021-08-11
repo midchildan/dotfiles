@@ -14,6 +14,7 @@
     };
 
     homebrew.casks = [
+      "alfred"
       "aquaskk"
       "firefox"
       "gimp"
