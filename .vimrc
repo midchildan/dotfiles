@@ -71,9 +71,11 @@ set nofoldenable
 set title
 set mouse=a
 set path+=** " XXX: substitute for fuzzy finders
-if has('nvim-0.3.2') || has('patch-8.1.0360')
-set diffopt=internal,filler,closeoff,algorithm:histogram,indent-heuristic
-endif
+try
+  set diffopt=internal,filler,closeoff,algorithm:histogram,indent-heuristic
+catch /E474:/
+  set diffopt=filler,closeoff
+endtry
 
 " cursor shape
 if !has('nvim') && $TERM =~? '\(xterm\|screen\)'
