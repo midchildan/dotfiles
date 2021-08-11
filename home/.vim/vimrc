@@ -16,12 +16,15 @@ Plug 'easymotion/vim-easymotion', {'on': [
 Plug 'w0rp/ale'
 Plug '~/.nix-profile/share/vim-plugins/fzf' | Plug 'junegunn/fzf.vim'
 " XXX: coc-snippets can't completely replace UltiSnips
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips', has('python3') ? {} : {'on': []}
+Plug 'honza/vim-snippets'
 
-" load coc and related plugins installed through Nix
-for s:plugpath in glob('~/.nix-profile/share/vim-plugins/coc-*', v:true, v:true)
-  call plug#(s:plugpath)
-endfor
+if has('node') || executable('node')
+  " load coc and related plugins installed through Nix
+  for s:ppath in glob('~/.nix-profile/share/vim-plugins/coc-*', v:true, v:true)
+    call plug#(s:ppath)
+  endfor
+endif
 
 " utilities
 Plug 'direnv/direnv.vim'
@@ -117,7 +120,7 @@ set wildignorecase
 set nofoldenable
 set title
 set mouse=a
-set diffopt=filler,internal,algorithm:histogram,indent-heuristic
+set diffopt=internal,filler,closeoff,algorithm:histogram,indent-heuristic
 
 " colors
 if has('gui_running')
