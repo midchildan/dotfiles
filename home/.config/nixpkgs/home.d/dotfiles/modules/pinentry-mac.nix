@@ -54,6 +54,7 @@ in {
           return
         fi
 
+        [[ ! -e "${dstPath}" ]] && return
         exePath="$(readlink "${dstPath}")"
 
         if [[ "$exePath" == "${builtins.storeDir}"* ]]; then
