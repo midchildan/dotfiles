@@ -42,6 +42,14 @@ in
   # ... and instead gather required environment variables in /etc/nix/darwin.sh
   environment.etc."nix/darwin.sh".source = config.system.build.setEnvironment;
 
+  environment.variables = let
+    # override nix-darwin defaults (priority 1000)
+    mkDefault = lib.mkOverride 900;
+  in {
+    EDITOR = mkDefault "\${EDITOR:-vim}";
+    PAGER = mkDefault "\${PAGER:-less}";
+  };
+
   # HACK: make nix-darwin preserve system PATH
   environment.systemPath = lib.mkForce [
     (lib.makeBinPath config.environment.profiles)

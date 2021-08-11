@@ -2,14 +2,15 @@ typeset -U fpath; fpath+=~/.local/share/zsh/site-functions
 autoload -Uz add-zsh-hook is-at-least
 zmodload -i zsh/parameter
 
-[[ -d ~/Library/Caches/zsh/completion ]] \
-  || mkdir -p ~/Library/Caches/zsh/completion
+if [[ ! -d ~/Library/Caches/zsh/completion ]]; then
+  mkdir -p ~/Library/Caches/zsh/completion
+fi
 
 ###########################
 #  Environment Variables  #
 ###########################
-if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
-  source ~/.nix-profile/etc/profile.d/nix.sh
+if [[ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" && -f /etc/nix/darwin.sh ]]; then
+  source /etc/nix/darwin.sh
 fi
 
 export CLICOLOR=1
