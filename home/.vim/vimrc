@@ -120,7 +120,12 @@ set wildignorecase
 set nofoldenable
 set title
 set mouse=a
-set diffopt=internal,filler,closeoff,algorithm:histogram,indent-heuristic
+try
+  set diffopt=internal,filler,closeoff,algorithm:histogram,indent-heuristic
+catch /E474:/
+  " Apple has removed diffopt=internal from preinstalled Vim
+  set diffopt=filler,closeoff
+endtry
 
 " colors
 if has('gui_running')
