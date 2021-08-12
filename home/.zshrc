@@ -9,9 +9,7 @@ fi
 ###########################
 #  Environment Variables  #
 ###########################
-if [[ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" && -f /etc/nix/darwin.sh ]]; then
-  source /etc/nix/darwin.sh
-fi
+[[ -f /etc/nix/darwin.sh ]] && source /etc/nix/darwin.sh
 
 export CLICOLOR=1
 export GPG_TTY="$TTY"
