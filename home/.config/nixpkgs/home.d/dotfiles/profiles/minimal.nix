@@ -25,7 +25,7 @@ in {
 
     programs.direnv = {
       enable = mkDefault true;
-      enableNixDirenvIntegration = mkDefault true;
+      nix-direnv.enable = mkDefault true;
     };
 
     dotfiles.manpages = {

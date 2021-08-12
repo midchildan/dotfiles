@@ -201,5 +201,14 @@
         - colorize
       '';
     }
+    {
+      time = "2021-08-11T17:07:12+00:00";
+      message = ''
+        Removed module 'dotfiles.emacs'
+
+        It ws upstreamed in
+        https://github.com/nix-community/home-manager/pull/1758.
+      '';
+    }
   ];
 }

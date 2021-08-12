@@ -28,6 +28,12 @@ in {
 
     programs.emacs = {
       enable = mkDefault true;
+      extraConfig = ''
+        (setq dired-use-ls-dired t
+              emacsql-sqlite3-executable "${pkgs.sqlite}/bin/sqlite3"
+              insert-directory-program "${pkgs.coreutils}/bin/ls"
+              treemacs-python-executable "${pkgs.python3}/bin/python")
+      '';
       extraPackages = epkgs:
         with epkgs; [
           # include Doom Emacs dependencies that tries to build native C code
@@ -35,13 +41,6 @@ in {
           vterm
         ];
     };
-
-    dotfiles.emacs.extraConfig = ''
-      (setq dired-use-ls-dired t
-            emacsql-sqlite3-executable "${pkgs.sqlite}/bin/sqlite3"
-            insert-directory-program "${pkgs.coreutils}/bin/ls"
-            treemacs-python-executable "${pkgs.python3}/bin/python")
-    '';
 
     home.activation = mkIf config.programs.emacs.enable {
       rebuildDoomEmacs = hm.dag.entryAfter [ "installPackages" ] ''
