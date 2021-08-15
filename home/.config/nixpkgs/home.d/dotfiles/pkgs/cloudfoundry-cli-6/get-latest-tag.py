@@ -1,7 +1,6 @@
 #!/usr/bin/env nix-shell
 #!nix-shell -i python3 -p python3Packages.requests python3Packages.semver
 
-import json
 import requests
 import semver
 
@@ -10,7 +9,7 @@ REPO = "cli"
 MAJOR = 6
 
 
-def satisfiesRequirements(tag: str) -> bool:
+def satisfies_requirements(tag: str) -> bool:
     version_str = tag[1:] if tag[0] == 'v' else tag
     try:
         ver = semver.VersionInfo.parse(version_str)
@@ -24,7 +23,7 @@ def get_latest_tag(repo: str, owner: str) -> str:
     r.raise_for_status()
 
     tags = (t.get('name') for t in r.json())
-    version_match = next(t for t in tags if satisfiesRequirements(t))
+    version_match = next(t for t in tags if satisfies_requirements(t))
     return version_match
 
 
