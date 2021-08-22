@@ -1,0 +1,21 @@
+[user]
+name = "midchildan"
+homeDirectory = "/home/midchildan"
+email = "git@midchildan.org"
+gpgKey = "FEF0AE2D544934825F0640AA186A1EDAC5C63F83"
+
+# NOTE: make sure to understand what the following does
+# https://nix-community.github.io/home-manager/options.html#opt-home.stateVersion
+stateVersion = "21.11"
+
+[user.darwin]
+homeDirectory = "/Users/midchildan"
+
+[os]
+system = "x86_64-linux"
+stateVersion = "21.05"
+
+[os.darwin]
+# NOTE: make sure to understand what the following does
+# https://daiderd.com/nix-darwin/manual/index.html#opt-system.stateVersion
+stateVersion = 4

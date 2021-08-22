@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 DOTFILE_DIR="${DOTFILE_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+DOTFILE_FILES_DIR="${DOTFILE_FILES_DIR:-home/files}"
 
 _DOT_LOGFILE="$(mktemp)"
 _DOT_ENABLE_GC=1
@@ -81,7 +82,8 @@ trap dot::_exit EXIT
 #  tasks  #
 ###########
 
-# Creates an symlink from $DOTFILE_DIR/home/$path_to_file to ~/$path_to_file
+# Creates an symlink from $DOTFILE_DIR/$DOTFILE_FILES_DIR/$path_to_file to
+# ~/$path_to_file
 # Globals:
 #   DOTFILE_DIR
 # Arguments:
@@ -93,8 +95,8 @@ dot::install::task() {
   [[ "$1" == /* ]] && dot::_abort "Cannot use absoulte path."
 
   echo -n "Installing $1..."
-  if [[ ! -e "$DOTFILE_DIR/home/$1" ]]; then
-    echo "$DOTFILE_DIR/home/$1 does not exist" >&2
+  if [[ ! -e "$DOTFILE_DIR/$DOTFILE_FILES_DIR/$1" ]]; then
+    echo "$DOTFILE_DIR/$DOTFILE_FILES_DIR/$1 does not exist" >&2
     dot::_print_badge::failed
     return
   fi
@@ -110,7 +112,7 @@ dot::install::task() {
 
   local fname src
   fname="$(basename "$1")"
-  src="$DOTFILE_DIR/home/$1"
+  src="$DOTFILE_DIR/$DOTFILE_FILES_DIR/$1"
   dot::_ln "$(dot::_relative_path "$src")" "$fname"
   dot::_print_badge
 
@@ -241,7 +243,7 @@ dot::cd() {
   cd "$1" || dot::_abort "can't enter dir $1"
 }
 
-# Changes file permissions for $DOTFILE_DIR/home/$path_to_file
+# Changes file permissions for $DOTFILE_DIR/$DOTFILE_FILES_DIR/$path_to_file
 # Globals:
 #   DOTFILE_DIR
 # Arguments:
@@ -250,7 +252,7 @@ dot::cd() {
 #   None
 dot::chmod() {
   (( $# != 2 )) && dot::_abort "Wrong number of arguments."
-  chmod "$1" "$DOTFILE_DIR/home/$2"
+  chmod "$1" "$DOTFILE_DIR/$DOTFILE_FILES_DIR/$2"
 }
 
 # Download a file

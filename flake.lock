@@ -1,0 +1,102 @@
+{
+  "nodes": {
+    "darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1622060422,
+        "narHash": "sha256-hPVlvrAyf6zL7tTx0lpK+tMxEfZeMiIZ/A2xaJ41WOY=",
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "rev": "007d700e644ac588ad6668e6439950a5b6e2ff64",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1629481132,
+        "narHash": "sha256-JHgasjPR0/J1J3DRm4KxM4zTyAj4IOJY8vIl75v/kPI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "997f7efcb746a9c140ce1f13c72263189225f482",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "home": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1629598480,
+        "narHash": "sha256-d07nc5Kf2MMKKVe47iIrBT+14/65g2nhEn+Z4PKjFmk=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "f6d1cad6ba228b81bf7045f1124aa99dfdcf3daa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nixos": {
+      "locked": {
+        "lastModified": 1631098960,
+        "narHash": "sha256-6j6G/omHEFAnI2x7UvdrviGDNqiq1Fjd1A58Q6uc4sQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "12eb1d16ae3b6cbf0ea83e9228bca8ffd7cfe347",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-21.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1629379651,
+        "narHash": "sha256-k4WWTLqz3tYvCCVt9ANm3Ac7qR/qXi1Uk6Xf9RXO8VM=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "14b0f20fa1f56438b74100513c9b1f7c072cf789",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "darwin": "darwin",
+        "flake-utils": "flake-utils",
+        "home": "home",
+        "nixos": "nixos",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

@@ -6,55 +6,27 @@ dotfiles for my personal use.
 
 ### Nix Package Manager
 
-The [Nix package manager](https://nixos.org) works across macOS and various
-Linux distributions, and can co-exist with native package managers. Having it
-installed would ensure that this dotfiles would work on a wide range of systems
-by bringing with it a high number of up-to-date packages that
-[outnumbers any other package repositories](https://repology.org/repositories/statistics/newest).
+Requires [Flakes](https://nixos.wiki/wiki/Flakes) to be enabled, which is
+currently an experimental feature.
 
-See [here](https://nixos.org/learn.html) to get started. For usage with this
-dotfiles, see [docs/nix.md](docs/nix.md).
+- [Official website](https://nixos.org)
+- [Official docs](https://nixos.org/learn.html)
 
-#### But what if I don't want Nix?
-
-There's an experimental script,
-[setup-without-nix.sh](scripts/setup-without-nix.sh) that you can optionally run
-after you've completed the installation process. This would take care of the
-issues which arise from the lack of Nix.
-
-### Fira Code
-
-[Fira Code](https://github.com/tonsky/FiraCode) is the recommended font.
-Ligatures aren't enabled. If you don't like Fira Code for whatever reason,
-there's a [patch](patches/font-monospace.patch) to use Monospace instead.
+It's also possible to use this dotfiles on systems without Nix. If you wish to
+do so, make sure to read [this document](home/README.md) before proceeding.
 
 ## Installation
 
 ### Step 1: Setup your repository
 
-First, fork this repository and clone it to your location of choice. Then run
-the script, `./scripts/fork.sh`, to help you make the minimal changes necessary
-to get you started. Make sure you first run this script in the `master` branch,
-and merge it to the remaining branches.
+First, fork this repository and clone it to your location of choice. Then edit
+`config.toml` and commit the changes.
 
 ```console
-$ git clone https://github.com/${USER}/dotfiles.git ~/Documents/dotfiles
-$ cd ~/Documents/dotfiles
-$ ./scripts/fork.sh
-Enter your name: John Doe
-Enter your email: john@example.com
-Enter your GPG key id (leave empty if none):
-Patching...
-Registering remote 'upstream'...
-Complete! You can commit the changes by running:
-  export GIT_AUTHOR_NAME="John Doe"
-  export GIT_COMMITTER_NAME="John Doe"
-  export EMAIL="john@example.com"
-  git commit -am 'replace profile information'
-$ export GIT_AUTHOR_NAME="John Doe"
-$ export GIT_COMMITTER_NAME="John Doe"
-$ export EMAIL="john@example.com"
-$ git commit -am 'replace profile information'
+$ git clone https://github.com/${USER}/dotfiles.git ~/Documents/src/repos/github.com/${USER}/dotfiles
+$ cd ~/Documents/src/repos/github.com/${USER}/dotfiles
+$ vim config.toml
+$ git commit -am 'chore: replace config.toml'
 ```
 
 ### Step 2: Checkout the relevant branch
@@ -63,22 +35,48 @@ Next, using the table in the [Supported Platforms](#supported-platforms)
 section, checkout the most relevant branch for your platform. Note that instead
 of checking out your chosen branch directly, it is recommended that you create a
 `local` branch based on your chosen branch that is tied to your local machine
-and check it out to a separate worktree for deployment. This way, you can edit
-files on different branches without affecting your current configuration. Also,
-if you haven't yet merged the changes from step 1, you should do so now.
+and check it out to a separate path for deployment. This way, you can edit files
+on any branch without affecting your current configuration.
 
 ```console
-$ git checkout nixos
-$ git merge master  # merge changes from Step 1
 $ git branch --track local  # create local branch
 $ git worktree add ~/.config/dotfiles local  # checkout local branch
 ```
 
-### Step 3: Run the setup script
+### Step 3: Bootstrap NixOS / Nix-Darwin / Home Manager Configuration
 
-Finally, run the setup script. This script should be run each time changes are
-made to your dotfiles. The `--init` flag means that this is the first time
-you've run this script.
+For details about each, read the docs linked below. To use this dotfiles on
+systems without Nix, skip straight to the next step.
+
+| Software     | File                                 |
+| ------------ | ------------------------------------ |
+| Nix-Darwin   | [darwin/README.md](darwin/README.md) |
+| Home Manager | [home/README.md](home/README.md)     |
+
+The commands for bootstrapping each are listed below. Adjust settings for each
+and run them as needed. For Nix 2.3 or below, run the commands in a nix-shell
+with `nix-shell -A nixUnstable '<nixpkgs>'`.
+
+- nix-darwin:
+
+```console
+$ mkdir ~/Applications # https://github.com/LnL7/nix-darwin/pull/226
+$ nix --experimental-features 'nix-command flakes' run '.#darwin' -- switch --flake '.#'
+$ sudo -H nix-env -e '*' # remove existing packages not managed by nix-darwin
+```
+
+- Home Manager:
+
+```console
+$ nix --experimental-features 'nix-command flakes' run '.#home' -- switch --flake '.#'
+```
+
+### Step 4: Symlink dotfiles
+
+Finally, run the setup script. This script would symlink files in
+[home/files](home/files) to your home directory. It should be run each time
+changes are made to your dotfiles. The `--init` flag means that this is the
+first time you've run this script.
 
 ```console
 $ cd ~/.config/dotfiles
