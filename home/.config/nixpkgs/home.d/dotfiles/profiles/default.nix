@@ -11,6 +11,7 @@ with lib;
     ./desktop.nix
     ./development.nix
     ./fonts.nix
+    ./macos.nix
   ];
 
   options.dotfiles.profiles.enableAll =
