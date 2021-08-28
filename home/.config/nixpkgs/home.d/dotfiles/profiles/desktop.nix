@@ -25,6 +25,7 @@ in {
       ];
 
     dotfiles.profiles.fonts.enable = mkDefault true;
+    dotfiles.profiles.macos.enable = mkDefault isDarwin;
 
     programs.emacs = {
       enable = mkDefault true;
