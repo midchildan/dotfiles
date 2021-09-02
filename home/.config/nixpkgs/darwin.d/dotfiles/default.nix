@@ -22,6 +22,7 @@
       "iterm2"
       "krita"
       "skim"
+      "visual-studio-code"
       "vlc"
       "wireshark"
     ];
