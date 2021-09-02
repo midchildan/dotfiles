@@ -51,8 +51,8 @@ Plug 'morhetz/gruvbox'
 Plug 'midchildan/ft-confluence.vim'
 Plug 'ledger/vim-ledger', {'for': 'ledger'}
 Plug 'LnL7/vim-nix', {'for': 'nix'}
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'lervag/vimtex'
+Plug 'cespare/vim-toml'
 
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
