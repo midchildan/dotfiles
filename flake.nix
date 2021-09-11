@@ -60,6 +60,11 @@
             type = "app";
             program = "${packages.nix-darwin}/bin/darwin-rebuild";
           };
+        } // pkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
+          nixos = {
+            type = "app";
+            program = "${packages.nixos-rebuild}/bin/nixos-rebuild";
+          };
         };
       }));
 }

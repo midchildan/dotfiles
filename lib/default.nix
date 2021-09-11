@@ -1,9 +1,11 @@
 { inputs }:
 
 let
-  inherit (inputs) self flake-utils home darwin nixpkgs;
+  inherit (inputs) self flake-utils home darwin nixpkgs nixos;
   inherit (home.lib) homeManagerConfiguration;
   inherit (darwin.lib) darwinSystem;
+  inherit (nixpkgs.lib) mkDefault recursiveUpdate;
+  inherit (nixos.lib) nixosSystem;
 in
 rec {
   config = builtins.fromTOML (builtins.readFile ../config.toml);
@@ -106,4 +108,69 @@ rec {
   #
   importDarwin = configPath: args:
     mkDarwin (args // { modules = [ (import configPath) ]; });
+
+  # Creates a NixOS configuration with addtional modules. The interface is
+  # identical to nixosSystem from NixOS.
+  #
+  mkNixOS =
+    { modules ? [ ]
+    , system ? config.os.system
+    , ...
+    } @ args:
+    nixosSystem (args // {
+      inherit system;
+      modules = modules ++ [
+        self.nixosModule
+        home.nixosModule
+        {
+          system.stateVersion = config.os.stateVersion;
+          home-manager = {
+            sharedModules = [
+              self.homeModule
+              {
+                home.stateVersion = config.user.stateVersion;
+                nixpkgs.config.allowUnfree = true;
+              }
+            ];
+          };
+        }
+      ];
+    });
+
+  # Creates a NixOS configuration from the specified file. It calls into mkNixOS
+  # under the hood.
+  #
+  importNixOS = configPath: args:
+    mkNixOS (args // { modules = [ (import configPath) ]; });
+
+  # Sets hardening options for systemd services.
+  #
+  hardenSystemdService = args:
+    recursiveUpdate args {
+      serviceConfig = {
+        # this enables the following options:
+        #  - PrivateTmp       = true
+        #  - RemoveIPC        = true
+        #  - NoNewPrivileges  = true
+        #  - RestrictSUIDSGID = true
+        #  - ProtectSystem    = strict
+        #  - ProtectHome      = read-only
+        DynamicUser = mkDefault true;
+
+        PrivateDevices = mkDefault true;
+        PrivateUsers = mkDefault true;
+        ProtectHostname = mkDefault true;
+        ProtectClock = mkDefault true;
+        ProtectProc = mkDefault "invisible";
+        ProtectKernelTunables = mkDefault true;
+        ProtectKernelModules = mkDefault true;
+        ProtectKernelLogs = mkDefault true;
+        ProtectControlGroups = mkDefault true;
+        RestrictNamespaces = mkDefault true;
+        LockPersonality = mkDefault true;
+        MemoryDenyWriteExecute = mkDefault true;
+        RestrictRealtime = mkDefault true;
+        SystemCallFilter = mkDefault [ "@system-service" "~@mount" ];
+      };
+    };
 }

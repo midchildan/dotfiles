@@ -50,12 +50,19 @@ systems without Nix, skip straight to the next step.
 
 | Software     | File                                 |
 | ------------ | ------------------------------------ |
+| NixOS        | [nixos/README.md](nixos/README.md)   |
 | Nix-Darwin   | [darwin/README.md](darwin/README.md) |
 | Home Manager | [home/README.md](home/README.md)     |
 
 The commands for bootstrapping each are listed below. Adjust settings for each
 and run them as needed. For Nix 2.3 or below, run the commands in a nix-shell
 with `nix-shell -A nixUnstable '<nixpkgs>'`.
+
+- NixOS:
+
+```console
+$ sudo nix --experimental-feature 'nix-command flake' run '.#nixos' -- switch --flake '.#'
+```
 
 - nix-darwin:
 
