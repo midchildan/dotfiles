@@ -59,7 +59,10 @@ in
         #   6. Click "Copy" to confirm
         "com.googlecode.iterm2" = {
           AddNewTabAtEndOfTabs = mkDefault false;
+          AllowClipboardAccess = mkDefault true;
           AlternateMouseScroll = mkDefault true;
+          AlwaysAcceptFirstMouse = mkDefault true;
+          TabStyleWithAutomaticOption = 5;
           CopySelection = mkDefault false;
           OpenTmuxWindowsIn = mkDefault 2; # tabs in existing window
 
