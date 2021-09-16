@@ -11,6 +11,7 @@
     ./modules/syncthing.nix
     ./modules/pinentry-mac.nix
     ./modules/userinfo.nix
+    ./modules/vim.nix
   ];
 
   config._module.args.dotfiles = inputs.self;

@@ -14,16 +14,13 @@ Plug 'easymotion/vim-easymotion', {'on': [
 
 " completion and linting
 Plug 'w0rp/ale'
-Plug '~/.nix-profile/share/vim-plugins/fzf' | Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim'
 " XXX: coc-snippets can't completely replace UltiSnips
 Plug 'SirVer/ultisnips', has('python3') ? {} : {'on': []}
 Plug 'honza/vim-snippets'
 
-if has('node') || executable('node')
-  " load coc and related plugins installed through Nix
-  for s:ppath in glob('~/.nix-profile/share/vim-plugins/coc-*', v:true, v:true)
-    call plug#(s:ppath)
-  endfor
+if !(has('node') || executable('node'))
+  let g:coc_start_at_startup = v:false
 endif
 
 " utilities

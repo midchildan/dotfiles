@@ -210,5 +210,16 @@
         https://github.com/nix-community/home-manager/pull/1758.
       '';
     }
+    {
+      time = "2021-09-17T20:10:28+00:00";
+      message = ''
+        A new module is available: 'dotfiles.vim'
+
+        This was created as a response to changes that made installing vim
+        plugins via 'home.packages' no longer viable.
+
+        More details at https://github.com/NixOS/nixpkgs/pull/136429.
+      '';
+    }
   ];
 }
