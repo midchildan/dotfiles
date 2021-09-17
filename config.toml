@@ -16,6 +16,8 @@ system = "x86_64-linux"
 stateVersion = "21.05"
 
 [os.darwin]
+system = "x86_64-darwin"
+
 # NOTE: make sure to understand what the following does
 # https://daiderd.com/nix-darwin/manual/index.html#opt-system.stateVersion
 stateVersion = 4

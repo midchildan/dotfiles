@@ -1,4 +1,4 @@
-{ lib, runCommand, darwin, nixUnstable }:
+{ lib, stdenv, runCommand, darwin, nixUnstable }:
 
 let
   # Create a nix-darwin configuration that includes almost nothing other than
@@ -10,6 +10,7 @@ let
   };
 
   tinyDarwin = darwin.lib.darwinSystem {
+    inherit (stdenv.hostPlatform) system;
     modules = [ tinyConfig ];
   };
 

@@ -85,8 +85,9 @@ rec {
   # Creates a nix-darwin configuration with addtional modules. The interface
   # is identical to darwinSystem from nix-darwin.
   #
-  mkDarwin = { modules ? [ ], ... } @ args:
+  mkDarwin = { modules ? [ ], system ? config.os.darwin.system, ... } @ args:
     darwinSystem (args // {
+      inherit system;
       modules = modules ++ [
         self.darwinModule
         home.darwinModule
