@@ -76,30 +76,10 @@ sed "s/@gpgKey@/$(git config -f config.toml user.gpgKey)/g" \
 
 #### Replace Nix dependant configuration
 
-Run the below command from the root of this repository to get an idea of which
-files would need rewriting. Some of the hits are conditional code, so those can
-safely be ignored.
+Apply [this patch](patches/debian.patch):
 
-```console
-$ git grep nix-profile -- home/files
-home/files/.bashrc:if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
-home/files/.bashrc:  source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-home/files/.vim/vimrc:Plug '~/.nix-profile/share/vim-plugins/fzf' | Plug 'junegunn/fzf.vim'
-home/files/.vim/vimrc:  for s:ppath in glob('~/.nix-profile/share/vim-plugins/coc-*', v:true, v:true)
-home/files/.zshenv:if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
-home/files/.zshenv:  source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-home/files/.zshrc:if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
-home/files/.zshrc:  source ~/.nix-profile/etc/profile.d/nix.sh
-home/files/.zshrc:source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-```
-
-If you exclude conditional code from the above example, the candidates for
-rewriting are as follows:
-
-```
-home/files/.vim/vimrc:Plug '~/.nix-profile/share/vim-plugins/fzf' | Plug 'junegunn/fzf.vim'
-home/files/.vim/vimrc:  for s:ppath in glob('~/.nix-profile/share/vim-plugins/coc-*', v:true, v:true)
-home/files/.zshrc:source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+```bash
+git apply patches/debian.patch
 ```
 
 ## Home Manager
