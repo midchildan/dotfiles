@@ -13,6 +13,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
   };
 
   outputs = { self, home, darwin, ... } @ inputs:
@@ -48,7 +52,7 @@
       {
         inherit packages;
 
-        devShell = import ./shell.nix { inherit pkgs; };
+        devShell = import ./scripts/shell.nix { inherit pkgs; };
 
         apps = {
           home = {
