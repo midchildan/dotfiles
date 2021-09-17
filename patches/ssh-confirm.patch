@@ -1,7 +1,7 @@
-diff --git a/home/.ssh/config.d/90-general.conf b/home/.ssh/config.d/90-general.conf
+diff --git a/home/files/.ssh/config.d/90-general.conf b/home/.ssh/files/config.d/90-general.conf
 index 938a1a5..be355e5 100644
---- a/home/.ssh/config.d/90-general.conf
-+++ b/home/.ssh/config.d/90-general.conf
+--- a/home/files/.ssh/config.d/90-general.conf
++++ b/home/files/.ssh/config.d/90-general.conf
 @@ -1,4 +1,5 @@
  Host *
 +  AddKeysToAgent confirm
