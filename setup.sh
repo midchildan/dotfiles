@@ -2,6 +2,7 @@
 # shellcheck disable=SC2215
 
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILE_FILES_DIR=home/files
 
 # shellcheck source=scripts/setup
 source "$DOTFILE_DIR/scripts/setup"
@@ -12,13 +13,6 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @shell Update Submodules
   - git submodule --quiet update --init --remote
-
-@install Install Nix Config
-  - .config/nixpkgs/config.nix
-  - .config/nixpkgs/darwin.nix
-  - .config/nixpkgs/darwin.d/dotfiles
-  - .config/nixpkgs/home.nix
-  - .config/nixpkgs/home.d/dotfiles
 
 @install Install Shell Config
   - .bash_profile
@@ -56,7 +50,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - chmod: 700 .gnupg
   - chmod: 600 .gnupg/gpg.conf
   - chmod: 600 .gnupg/gpg-agent.conf
-  - .gnupg/gpg.conf
   - .gnupg/gpg-agent.conf
   - Library/LaunchAgents/org.gnupg.gpg-agent.plist
 
@@ -96,6 +89,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/broot/launcher/refused
   - .config/containers/containers.conf
   - .config/kitty/kitty.conf
+  - .config/nixpkgs/config.nix
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/zathura/zathurarc
@@ -117,8 +111,6 @@ source "$DOTFILE_DIR/scripts/setup"
 
 @shell Install Packages
   - init: true
-  - script: install-nix-darwin.sh
-  - script: install-home-manager.sh
   - nvim --headless +PlugInstall +'%print' +qall
   - ~/.emacs.d/bin/doom -y install --no-config
 

@@ -1,0 +1,25 @@
+diff --git a/home/files/.vim/vimrc b/home/files/.vim/vimrc
+index b212547..2748ff0 100644
+--- a/home/files/.vim/vimrc
++++ b/home/files/.vim/vimrc
+@@ -19,6 +19,9 @@ Plug 'junegunn/fzf.vim'
+ Plug 'SirVer/ultisnips', has('python3') ? {} : {'on': []}
+ Plug 'honza/vim-snippets'
+ 
++Plug 'neoclide/coc.nvim', {'branch': 'release'}
++Plug '/usr/local/opt/fzf'
++
+ if !(has('node') || executable('node'))
+   let g:coc_start_at_startup = v:false
+ endif
+diff --git a/home/files/.zshrc b/home/files/.zshrc
+index 9c8c196..367a329 100644
+--- a/home/files/.zshrc
++++ b/home/files/.zshrc
+@@ -306,5 +306,5 @@ autoload -Uz promptinit && promptinit
+ prompt dashboard
+ 
+ # must be run last
+-source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
++source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)

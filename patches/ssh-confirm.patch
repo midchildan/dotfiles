@@ -1,7 +1,7 @@
 diff --git a/home/.ssh/config.d/90-general.conf b/home/.ssh/config.d/90-general.conf
 index 6c155d5..7c275b2 100644
---- a/home/.ssh/config.d/90-general.conf
-+++ b/home/.ssh/config.d/90-general.conf
+--- a/home/files/.ssh/config.d/90-general.conf
++++ b/home/files/.ssh/config.d/90-general.conf
 @@ -1,5 +1,6 @@
  Host *
    UseKeychain yes
