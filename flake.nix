@@ -47,12 +47,21 @@
           description = "NixOS configuration";
         };
       };
-    } // (lib.eachUnixSystemPkgs (system: pkgs:
-      let packages = import ./packages { inherit pkgs inputs; }; in
-      {
-        inherit packages;
-
+    } // (lib.eachSupportedSystemPkgs (system: pkgs:
+      let
+        packages = import ./packages { inherit pkgs inputs; };
         devShell = import ./scripts/shell.nix { inherit pkgs; };
+      in
+      {
+        inherit devShell packages;
+
+        devShells = {
+          dev = devShell;
+          setup = import ./scripts/setup-shell.nix {
+            inherit pkgs;
+            inherit (packages) neovim;
+          };
+        };
 
         apps = {
           home = {

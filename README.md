@@ -6,8 +6,7 @@ dotfiles for my personal use.
 
 ### Nix Package Manager
 
-Requires [Flakes](https://nixos.wiki/wiki/Flakes) to be enabled, which is
-currently an experimental feature.
+Consult the following for more details.
 
 - [Official website](https://nixos.org)
 - [Official docs](https://nixos.org/learn.html)
@@ -17,23 +16,46 @@ do so, make sure to read [this document](home/README.md) before proceeding.
 
 ## Installation
 
-### Step 1: Setup your repository
+### Step 1: Preparation
 
-First, fork this repository and clone it to your location of choice. Then edit
+Drop into a [nix-shell][nix-shell] with the following command. This would
+download some commands required for setup, open a new temporary shell, and make
+the commands available through `PATH`.
+
+```console
+$ system="$(nix-instantiate --eval -E 'builtins.currentSystem' | tr -d '"')"
+$ nix-shell -A "devShells.$system.setup" 'https://github.com/midchildan/dotfiles/archive/master.tar.gz'
+$
+```
+
+For systems without Nix, instead make sure the following commands are installed
+beforehand.
+
+- Git
+- cURL or Wget
+- Neovim
+
+Neovim is used to install Vim plugins at the end of installation. If you wish to
+use Vim instead, you can do so manually by invoking [`:PlugInstall`][plug] in
+Vim.
+
+### Step 2: Setup your repository
+
+Fork this repository and clone it to your location of choice. Then edit
 `config.toml` and commit the changes.
 
 ```console
 $ git clone https://github.com/${USER}/dotfiles.git ~/Documents/src/repos/github.com/${USER}/dotfiles
 $ cd ~/Documents/src/repos/github.com/${USER}/dotfiles
-$ vim config.toml
-$ git commit -am 'chore: replace config.toml'
+$ nvim config.toml
+$ git commit -am 'chore: adjust config.toml for my own use'
 ```
 
-### Step 2: Checkout the relevant branch
+### Step 3: Checkout the relevant branch
 
-Next, using the table in the [Supported Platforms](#supported-platforms)
-section, checkout the most relevant branch for your platform. Note that instead
-of checking out your chosen branch directly, it is recommended that you create a
+Using the table in the [Supported Platforms](#supported-platforms) section,
+checkout the most relevant branch for your platform. Note that instead of
+checking out your chosen branch directly, it is recommended that you create a
 `local` branch based on your chosen branch that is tied to your local machine
 and check it out to a separate path for deployment. This way, you can edit files
 on any branch without affecting your current configuration.
@@ -43,7 +65,21 @@ $ git branch --track local  # create local branch
 $ git worktree add ~/.config/dotfiles local  # checkout local branch
 ```
 
-### Step 3: Bootstrap NixOS / Nix-Darwin / Home Manager Configuration
+### Step 4: Symlink dotfiles
+
+Run the setup script. This script would symlink files in
+[home/files](home/files) to your home directory. It should be run each time
+changes are made to your dotfiles even after bootstrapping is complete. The
+`--init` flag indicates that this is the first time you've run this script.
+
+```console
+$ ./setup.sh --init
+```
+
+If you're using Nix, proceed to the next step. Otherwise, bootstrapping is
+complete.
+
+### Step 5: Bootstrap NixOS / Nix-Darwin / Home Manager Configuration
 
 For details about each, read the docs linked below. To use this dotfiles on
 systems without Nix, skip straight to the next step.
@@ -55,8 +91,9 @@ systems without Nix, skip straight to the next step.
 | Home Manager | [home/README.md](home/README.md)     |
 
 The commands for bootstrapping each are listed below. Adjust settings for each
-and run them as needed. For Nix 2.3 or below, run the commands in a nix-shell
-with `nix-shell -A nixUnstable '<nixpkgs>'`.
+and run them as needed. Also when bootstrapping Home Manager, make sure [Nix
+flakes][flakes] are enabled before proceeding. The bootstrapping procedure for
+the other two would enable Nix flakes by default.
 
 - NixOS:
 
@@ -75,19 +112,7 @@ $ sudo -H nix-env -e '*' # remove existing packages not managed by nix-darwin
 - Home Manager:
 
 ```console
-$ nix --experimental-features 'nix-command flakes' run '.#home' -- switch --flake '.#'
-```
-
-### Step 4: Symlink dotfiles
-
-Finally, run the setup script. This script would symlink files in
-[home/files](home/files) to your home directory. It should be run each time
-changes are made to your dotfiles. The `--init` flag means that this is the
-first time you've run this script.
-
-```console
-$ cd ~/.config/dotfiles
-$ ./setup.sh --init
+$ nix run '.#home' -- switch --flake '.#'
 ```
 
 ## Supported platforms
@@ -107,3 +132,7 @@ Changes common to all platforms should first be made in `master`, and then
 merged into the remaining branches. Make sure you never go the other way and
 merge non-`master` branches into `master` or you'll end up with non-common
 platform-specific stuff in `master`.
+
+[nix-shell]: https://nixos.wiki/wiki/Development_environment_with_nix-shell
+[plug]: https://github.com/junegunn/vim-plug#commands
+[flakes]: https://nixos.wiki/wiki/Flakes
