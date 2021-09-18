@@ -26,8 +26,7 @@ in {
         nkf
         p7zip
         ranger
-        # TODO: fix this upstream
-        (thefuck.overrideAttrs (_: { doInstallCheck = false; }))
+        thefuck
         tig
         tmux
         wget
