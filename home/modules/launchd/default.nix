@@ -4,9 +4,13 @@ with lib;
 
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
+  inherit (lib) escapeShellArg;
   inherit (lib.generators) toPlist;
+  inherit (hm.dag) entryAfter;
 
   cfg = config.dotfiles.launchd;
+  labelPrefix = "org.nixos";
+  dstDir = "${config.home.homeDirectory}/Library/LaunchAgents";
 
   launchdConfig = { config, name, ... }: {
     options = {
@@ -29,23 +33,21 @@ let
       };
     };
 
-    config = { config.Label = mkDefault "${cfg.labelPrefix}.${name}"; };
+    config = { config.Label = mkDefault "${labelPrefix}.${name}"; };
   };
-
-  stageDir = "${config.xdg.dataHome}/home-manager/LaunchAgents";
-  dstDir = "${config.home.homeDirectory}/Library/LaunchAgents";
 
   toAgent = config: pkgs.writeText "${config.Label}.plist" (toPlist { } config);
 
-  agents' =
+  agentPlists =
     mapAttrs' (n: v: nameValuePair "${v.config.Label}.plist" (toAgent v.config))
-    (filterAttrs (n: v: v.enable) cfg.agents);
+      (filterAttrs (n: v: v.enable) cfg.agents);
 
-  agents = pkgs.runCommand "home-manager-agents" {
-    srcs = attrValues agents';
-    dsts = attrNames agents';
-  } ''
-    mkdir -p $out
+  agentsPackage = pkgs.runCommand "home-manager-agents"
+    {
+      srcs = attrValues agentPlists;
+      dsts = attrNames agentPlists;
+    } ''
+    mkdir -p "$out"
 
     if [[ -n "$srcs" ]]; then
       for (( i=0; i < "''${#srcs[@]}"; i+=1 )); do
@@ -55,27 +57,92 @@ let
       done
     fi
   '';
-in {
-  options = {
-    dotfiles.launchd = {
-      labelPrefix = mkOption {
-        type = types.str;
-        default = "org.nixos";
-        description = "The default prefix for launchd job labels.";
-      };
-
-      agents = mkOption {
-        type = with types; attrsOf (submodule launchdConfig);
-        default = { };
-        description = "Define launchd agents.";
-      };
-    };
+in
+{
+  options.dotfiles.launchd.agents = mkOption {
+    type = with types; attrsOf (submodule launchdConfig);
+    default = { };
+    description = "Define launchd agents.";
   };
 
   config = mkIf isDarwin {
-    home.activation.installLaunchAgents =
-      hm.dag.entryAfter [ "writeBoundary" ] ''
-        bash '${./launchd-activate.sh}' '${agents}' '${stageDir}' '${dstDir}'
-      '';
+    home.extraBuilderCommands = mkIf (agentPlists != { }) ''
+      ln -s "${agentsPackage}" $out/LaunchAgents
+    '';
+
+    home.activation.checkLaunchAgents = hm.dag.entryBefore [ "writeBoundary" ] ''
+      checkLaunchAgents() {
+        local oldDir="$(readlink -m "$oldGenPath/LaunchAgents")"
+        local newDir=${escapeShellArg agentsPackage}
+        local dstDir=${escapeShellArg dstDir}
+
+        local oldSrcPath newSrcPath dstPath agentFile agentName
+
+        find -L "$newDir" -maxdepth 1 -name '*.plist' -type f -print0 2> /dev/null \
+            | while IFS= read -rd "" newSrcPath; do
+          agentFile="''${newSrcPath##*/}"
+          agentName="''${agentFile%.plist}"
+          dstPath="$dstDir/$agentFile"
+          oldSrcPath="$oldDir/$agentFile"
+
+          if [[ ! -e "$dstPath" ]]; then
+            continue
+          fi
+
+          if ! cmp --quiet "$oldSrcPath" "$dstPath"; then
+            errorEcho "Existing file '$dstPath' is in the way of '$newSrcPath'"
+            exit 1
+          fi
+        done
+      }
+
+      checkLaunchAgents
+    '';
+
+    # NOTE: Launch Agent configurations can't be symlinked from the Nix store
+    # because it needs to be owned by the user running it.
+    home.activation.setupLaunchAgents = hm.dag.entryAfter [ "writeBoundary" ] ''
+      setupLaunchAgents() {
+        local oldDir="$(readlink -m "$oldGenPath/LaunchAgents")"
+        local newDir="$(readlink -m "$newGenPath/LaunchAgents")"
+        local dstDir=${escapeShellArg dstDir}
+        local domain="gui/$UID"
+
+        local srcPath dstPath agentFile agentName
+
+        find -L "$newDir" -maxdepth 1 -name '*.plist' -type f -print0 2> /dev/null \
+            | while IFS= read -rd "" srcPath; do
+          agentFile="''${srcPath##*/}"
+          agentName="''${agentFile%.plist}"
+          dstPath="$dstDir/$agentFile"
+
+          if cmp --quiet "$srcPath" "$dstPath"; then
+            continue
+          fi
+          if [[ -f "$dstPath" ]]; then
+            $DRY_RUN_CMD launchctl bootout "$domain/$agentName" || :
+          fi
+          $DRY_RUN_CMD install -Dm644 -T "$srcPath" "$dstPath"
+          $DRY_RUN_CMD launchctl bootstrap "$domain" "$dstPath"
+        done
+
+        find -L "$oldDir" -maxdepth 1 -name '*.plist' -type f -print0 2> /dev/null \
+            | while IFS= read -rd "" srcPath; do
+          agentFile="''${srcPath##*/}"
+          agentName="''${agentFile%.plist}"
+          dstPath="$dstDir/$agentFile"
+          if [[ -e "$newDir/$agentFile" ]]; then
+            continue
+          fi
+
+          $DRY_RUN_CMD launchctl bootout "$domain/$agentName" || :
+          if [[ -e "$dstPath" ]]; then
+            $DRY_RUN_CMD rm -f $VERBOSE_ARG "$dstPath"
+          fi
+        done
+      }
+
+      setupLaunchAgents
+    '';
   };
 }
