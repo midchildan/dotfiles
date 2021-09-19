@@ -24,6 +24,12 @@
     {
       inherit lib;
 
+      overlay = import ./overlays { inherit inputs; };
+      overlays = {
+        nixpkgs = import ./overlays/nixpkgs.nix;
+        nixos = import ./overlays/nixos.nix;
+      };
+
       homeModule = import ./home { inherit inputs; };
       homeConfigurations = import ./home/machines { inherit inputs; };
 
@@ -47,9 +53,9 @@
           description = "NixOS configuration";
         };
       };
-    } // (lib.eachSupportedSystemPkgs (system: pkgs:
+    } // (lib.eachSupportedSystemPkgs ({ system, pkgs, nixos }:
       let
-        packages = import ./packages { inherit pkgs inputs; };
+        packages = import ./packages { inherit inputs pkgs nixos; };
         devShell = import ./scripts/shell.nix { inherit pkgs; };
       in
       {

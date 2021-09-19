@@ -4,11 +4,16 @@ let
   inherit (inputs) self flake-utils home darwin nixpkgs nixos;
   inherit (home.lib) homeManagerConfiguration;
   inherit (darwin.lib) darwinSystem;
-  inherit (nixpkgs.lib) mkDefault recursiveUpdate;
+  inherit (nixpkgs.lib) importTOML mkDefault recursiveUpdate;
   inherit (nixos.lib) nixosSystem;
+
+  nixpkgsConfig = {
+    config.allowUnfree = true;
+    overlays = [ self.overlay ];
+  };
 in
 rec {
-  config = builtins.fromTOML (builtins.readFile ../config.toml);
+  config = importTOML ../config.toml;
 
   supportedPlatforms = [
     "aarch64-darwin"
@@ -17,26 +22,33 @@ rec {
     "x86_64-linux"
   ];
 
-  # Creates a Nixpkgs instance with unfree packages for the specified system
+  # Wrapper function for creating a Nixpkgs package set that includes the
+  # dotfiles overlays and unfree packages.
   #
   # Example:
   #   mkPkgs nixpkgs { }
   #   mkPkgs { system = "x86_64-linux"; }
   #
-  mkPkgs = pkgs: { system ? config.os.system }:
-    import pkgs {
+  mkPkgs = pkgs:
+    { system ? config.os.system
+    , config ? { }
+    , overlays ? [ ]
+    , ...
+    } @ args:
+    import pkgs (args // {
       inherit system;
-      config.allowUnfree = true;
-    };
+      config = nixpkgsConfig.config // config;
+      overlays = nixpkgsConfig.overlays ++ overlays;
+    });
 
   # Builds a map from attr=value to attr.system=value for each system. Based
-  # upon eachSystem in flake-utils, this also provides the Nixpkgs instance for
-  # each system when iterating through it.
+  # upon eachSystem in flake-utils, this also provides the Nixpkgs and NixOS
+  # package sets each system when iterating through it.
   #
-  # Type: eachSystemPkgs :: [ System ] -> (System -> Pkgs -> Attrs) -> Attrs
+  # Type: eachSystemPkgs :: [ System ] -> ({ system, pkgs, nixos } -> Attrs) -> Attrs
   #
   # Example:
-  #   eachSystemPkgs [ "aarch64-linux" "x86_64-linux" ] (system: pkgs:
+  #   eachSystemPkgs [ "aarch64-linux" "x86_64-linux" ] ({ ... }:
   #     { white-album = 2; }
   #   )
   #   => {
@@ -48,8 +60,11 @@ rec {
   #
   eachSystemPkgs = systems: f: flake-utils.lib.eachSystem systems (
     system:
-    let pkgs = mkPkgs nixpkgs { inherit system; }; in
-    f system pkgs
+    let
+      pkgs = mkPkgs inputs.nixpkgs { inherit system; };
+      nixos = mkPkgs inputs.nixos { inherit system; };
+    in
+    f { inherit system pkgs nixos; }
   );
 
   # eachSystem pre-populated with all Unix systems supported by Nixpkgs.
@@ -93,6 +108,7 @@ rec {
         home.darwinModule
         {
           system.stateVersion = config.os.darwin.stateVersion;
+          nixpkgs = nixpkgsConfig;
           home-manager = {
             useGlobalPkgs = true;
             sharedModules = [
@@ -125,12 +141,13 @@ rec {
         home.nixosModule
         {
           system.stateVersion = config.os.stateVersion;
+          nixpkgs = nixpkgsConfig;
           home-manager = {
             sharedModules = [
               self.homeModule
               {
                 home.stateVersion = config.user.stateVersion;
-                nixpkgs.config.allowUnfree = true;
+                nixpkgs = nixpkgsConfig;
               }
             ];
           };
