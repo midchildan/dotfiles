@@ -42,7 +42,7 @@ let
     mapAttrs' (n: v: nameValuePair "${v.config.Label}.plist" (toAgent v.config))
       (filterAttrs (n: v: v.enable) cfg.agents);
 
-  agentsPackage = pkgs.runCommand "home-manager-agents"
+  agentsDrv = pkgs.runCommand "home-manager-agents"
     {
       srcs = attrValues agentPlists;
       dsts = attrNames agentPlists;
@@ -67,13 +67,13 @@ in
 
   config = mkIf isDarwin {
     home.extraBuilderCommands = mkIf (agentPlists != { }) ''
-      ln -s "${agentsPackage}" $out/LaunchAgents
+      ln -s "${agentsDrv}" $out/LaunchAgents
     '';
 
     home.activation.checkLaunchAgents = hm.dag.entryBefore [ "writeBoundary" ] ''
       checkLaunchAgents() {
         local oldDir="$(readlink -m "$oldGenPath/LaunchAgents")"
-        local newDir=${escapeShellArg agentsPackage}
+        local newDir=${escapeShellArg agentsDrv}
         local dstDir=${escapeShellArg dstDir}
 
         local oldSrcPath newSrcPath dstPath agentFile agentName
@@ -136,9 +136,14 @@ in
           fi
 
           $DRY_RUN_CMD launchctl bootout "$domain/$agentName" || :
-          if [[ -e "$dstPath" ]]; then
-            $DRY_RUN_CMD rm -f $VERBOSE_ARG "$dstPath"
+          if [[ ! -e "$dstPath" ]]; then
+            continue
           fi
+          if ! cmp --quiet "$srcPath" "$dstPath"; then
+            warnEcho "Skipping deletion of '$dstPath', since its contents have diverged"
+            continue
+          fi
+          $DRY_RUN_CMD rm -f $VERBOSE_ARG "$dstPath"
         done
       }
 
