@@ -54,7 +54,7 @@ commands from the root of this repository after the first time you've run the
 setup script:
 
 ```bash
-git config -f ~/.config/git/user user.name "$(git config -f config.toml user.name)"
+git config -f ~/.config/git/user user.name "$(git config -f config.toml user.fullName)"
 git config -f ~/.config/git/user user.email "$(git config -f config.toml user.email)"
 ```
 

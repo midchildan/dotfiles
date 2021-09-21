@@ -9,7 +9,7 @@ in
     xdg.configFile."git/user".text = lib.generators.toINI {} {
       commit.gpgsign = hasSigningKey;
       user = {
-        name = config.user.name;
+        name = config.user.fullName;
         email = config.user.email;
       } // lib.optionalAttrs hasSigningKey {
         signingkey = config.user.gpgKey;
@@ -18,7 +18,10 @@ in
 
     home.file.".gnupg/gpg.conf".source = pkgs.substituteAll {
       src = ../files/.gnupg/gpg.conf;
-      inherit (config.user) gpgKey;
+      gpgKey = config.user.gpgKey or "@removeMe@";
+      postInstall = ''
+        sed -i '/@removeMe@/d' "$target"
+      '';
     };
 
     home.file.".vim/plugin/hmvars.vim".text = ''
