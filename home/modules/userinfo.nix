@@ -2,7 +2,7 @@
 
 let
   inherit (dotfiles.lib) config;
-  hasSigningKey = builtins.hasAttr "gpgKey" config;
+  hasSigningKey = builtins.hasAttr "gpgKey" config.user;
 in
 {
   config = {
