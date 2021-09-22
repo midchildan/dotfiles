@@ -1,12 +1,9 @@
 [submodule "home/files/.local/opt/fzftools"]
 	path = home/files/.local/opt/fzftools
 	url = https://github.com/midchildan/fzftools.git
-	ignore = all
 [submodule "home/files/.local/opt/tmux-copycat"]
 	path = home/files/.local/opt/tmux-copycat
 	url = https://github.com/tmux-plugins/tmux-copycat.git
-	ignore = all
 [submodule "home/files/.local/opt/tldr"]
 	path = home/files/.local/opt/tldr
 	url = https://github.com/tldr-pages/tldr.git
-	ignore = all

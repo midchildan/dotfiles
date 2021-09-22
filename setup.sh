@@ -12,7 +12,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - gc: true
 
 @shell Update Submodules
-  - git submodule --quiet update --init --remote
+  - git submodule --quiet update --init
 
 @install Install Shell Config
   - .bash_profile

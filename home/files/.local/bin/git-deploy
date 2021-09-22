@@ -21,9 +21,10 @@ main() {
   local remote_name="$1"
   local remote_url="$2"
 
-  local repo_root="$(git config --get ghq.root)"
-  local repo_root="${repo_root/#\~/$HOME}"
-  local local_path="$(git rev-parse --show-toplevel)"
+  local repo_root local_path
+  repo_root="$(git config --get ghq.root)"
+  repo_root="${repo_root/#\~/$HOME}"
+  local_path="$(git rev-parse --show-toplevel)"
 
   if [[ -n "$ENABLE_PREFIX" ]]; then
     if [[ "$remote_url" =~ :$ ]]; then
@@ -51,8 +52,17 @@ main() {
 
   run ssh "$remote_host" git init "${remote_path:-.}"
   run ssh "$remote_host" git -C "$remote_path" config receive.denyCurrentBranch updateInstead
+
+  local branch
+  branch="$(ssh "$remote_host" git -C "$remote_path" symbolic-ref --short HEAD)"
+
+  if [[ -z "$branch" ]]; then
+    echo "[ERROR] Failed to obtain remote branch name"
+    exit 1
+  fi
+
   run git remote add "$remote_name" "$remote_host:$remote_path"
-  run git config "remote.$remote_name.push" "+$gitref:master"
+  run git config "remote.$remote_name.push" "+$gitref:$branch"
 }
 
 usage() {

@@ -112,7 +112,7 @@ $ sudo -H nix-env -e '*' # remove existing packages not managed by nix-darwin
 - Home Manager:
 
 ```console
-$ nix run '.#home' -- switch --flake '.#'
+$ nix run '.#home' -- switch --flake .
 ```
 
 ## Supported platforms
