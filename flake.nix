@@ -66,6 +66,9 @@
           setup = pkgs.callPackage ./scripts/devshells/setup.nix {
             inherit (packages) neovim;
           };
+          quic = pkgs.callPackage ./scripts/devshells/quic.nix {
+            inherit (packages) curl-h3 quictls;
+          };
         };
 
         apps = {
