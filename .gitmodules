@@ -1,24 +1,18 @@
 [submodule "home/files/.local/opt/peda"]
 	path = home/files/.local/opt/peda
 	url = https://github.com/longld/peda.git
-	ignore = all
 [submodule "home/files/.local/opt/gef"]
 	path = home/files/.local/opt/gef
 	url = https://github.com/hugsy/gef.git
-	ignore = all
 [submodule "home/files/.local/opt/fzftools"]
 	path = home/files/.local/opt/fzftools
 	url = https://github.com/midchildan/fzftools.git
-	ignore = all
 [submodule "home/files/.local/opt/tmux-copycat"]
 	path = home/files/.local/opt/tmux-copycat
 	url = https://github.com/tmux-plugins/tmux-copycat.git
-	ignore = all
 [submodule "home/files/.local/opt/tilix-gruvbox"]
 	path = home/files/.local/opt/tilix-gruvbox
 	url = https://github.com/MichaelThessel/tilix-gruvbox.git
-	ignore = all
 [submodule "home/files/.local/opt/tldr"]
 	path = home/files/.local/opt/tldr
 	url = https://github.com/tldr-pages/tldr.git
-	ignore = all
