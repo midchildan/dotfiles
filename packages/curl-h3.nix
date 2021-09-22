@@ -2,7 +2,6 @@
 , stdenv
 , curl
 , fetchurl
-, fetchpatch
 , autoreconfHook
 , quictls
 , nghttp3
@@ -25,9 +24,9 @@ let
     "CVE-2021-22901.patch"
   ];
 
-  excludePatches = filenames: with lib;
-    let isReferringTo = path: name: lib.hasSuffix name (toString path);
-    in filter (patch: !(any (isReferringTo patch) filenames));
+  excludePatches = filenames:
+    let hasSameFilenameAs = path: name: lib.hasSuffix name (toString path);
+    in filter (patch: !(any (hasSameFilenameAs patch) filenames));
 in
 curl-quictls.overrideAttrs (old: {
   inherit version;

@@ -1,15 +1,19 @@
-{ pkgs ? import <nixpkgs> { } }:
+{ mkShellNoCC
+, nixpkgs-fmt
+, python3
+, shellcheck
+}:
 
 let
   # for packages.cloudfoundry-cli-6.updateScript
-  python = pkgs.python3.withPackages (ps: with ps; [
+  python = python3.withPackages (ps: with ps; [
     requests
     semver
     yapf
   ]);
 in
-pkgs.mkShellNoCC {
-  nativeBuildInputs = with pkgs; [
+mkShellNoCC {
+  nativeBuildInputs = [
     nixpkgs-fmt
     python
     shellcheck

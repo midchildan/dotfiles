@@ -56,16 +56,18 @@
     } // (lib.eachSupportedSystemPkgs ({ system, pkgs, nixos }:
       let
         packages = import ./packages { inherit inputs pkgs nixos; };
-        devShell = import ./scripts/shell.nix { inherit pkgs; };
+        devShell = pkgs.callPackage ./scripts/devshells/shell.nix { };
       in
       {
         inherit devShell packages;
 
         devShells = {
           dev = devShell;
-          setup = import ./scripts/setup-shell.nix {
-            inherit pkgs;
+          setup = pkgs.callPackage ./scripts/devshells/setup.nix {
             inherit (packages) neovim;
+          };
+          quic = pkgs.callPackage ./scripts/devshells/quic.nix {
+            inherit (packages) curl-h3 quictls;
           };
         };
 

@@ -7,7 +7,7 @@ IGNOREFILES=(
 
 main() {
   local opt mode="ssh" src="gh-pages" dest= dotrepo=
-  while getopts hs:d:g:p opt; do
+  while getopts hs:d:g:cp opt; do
     case $opt in
       s) src="$OPTARG" ;;
       d) dest="$OPTARG" ;;
