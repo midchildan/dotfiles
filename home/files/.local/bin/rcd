@@ -149,8 +149,8 @@ arguments:
   ssh args	arguments to pass to ssh
 
 examples:
-  Send files from master:home before ssh-ing to example.com
-  $ $0 -s master:home example.com
+  Send files from main:home before ssh-ing to example.com
+  $ $0 -s main:home example.com
 
   Send files from gh-pages to /tmp/dotfiles before ssh-ing to example.com
   $ $0 -d /tmp/dotfiles example.com
