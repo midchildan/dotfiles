@@ -15,13 +15,9 @@ Plug 'easymotion/vim-easymotion', {'on': [
 " completion and linting
 Plug 'w0rp/ale'
 Plug 'junegunn/fzf.vim'
-" XXX: coc-snippets can't completely replace UltiSnips
+" NOTE: coc-snippets can't completely replace UltiSnips
 Plug 'SirVer/ultisnips', has('python3') ? {} : {'on': []}
 Plug 'honza/vim-snippets'
-
-if !(has('node') || executable('node'))
-  let g:coc_start_at_startup = v:false
-endif
 
 " utilities
 Plug 'direnv/direnv.vim'
@@ -354,23 +350,25 @@ nnoremap <silent> <Leader>3 :diffget REMOTE<CR>
 "  Plugins  "
 """""""""""""
 " airline "
-let g:airline_skip_empty_sections=1
+let g:airline_skip_empty_sections = v:true
 if $USE_POWERLINE
-  let g:airline_powerline_fonts=1
+  let g:airline_powerline_fonts = v:true
 endif
-let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
 
 " CoC "
+let g:coc_start_at_startup = has('node') || executable('node')
+
 " these plugins aren't yet packaged in Nix
 let g:coc_global_extensions = ['coc-ultisnips']
 
 " EasyMotion"
-let g:EasyMotion_do_mapping=0
-let g:EasyMotion_smartcase=1
-let g:EasyMotion_use_migemo=1
+let g:EasyMotion_do_mapping = v:false
+let g:EasyMotion_smartcase = v:true
+let g:EasyMotion_use_migemo = v:true
 
 " EditorConfig "
-let g:EditorConfig_exclude_patterns=['fugitive://.*']
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " FZF "
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
@@ -380,23 +378,23 @@ command! -bang BCompilers call vimrc#fzf_compilers(1, <bang>0)
 command! -bang -nargs=* Projects call vimrc#fzf_projects(<q-args>, <bang>0)
 
 " indentLine "
-let g:indentLine_enabled=0
-let g:indentLine_setColors=0
-let g:indentLine_concealcursor=''
+let g:indentLine_enabled = v:false
+let g:indentLine_setColors = v:false
+let g:indentLine_concealcursor = ''
 
 " markbar "
-let g:markbar_enable_peekaboo=v:false
+let g:markbar_enable_peekaboo = v:false
 
 " UltiSnips "
-let g:UltiSnipsExpandTrigger='<C-x><C-j>'
+let g:UltiSnipsExpandTrigger = '<C-x><C-j>'
 
 " undotree "
-let g:undotree_WindowLayout=2
+let g:undotree_WindowLayout = 2
 
 """"""""""
 "  Misc  "
 """"""""""
-let g:tex_flavor='latex'
+let g:tex_flavor = 'latex'
 
 " See :h :DiffOrig
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
