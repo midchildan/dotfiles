@@ -74,7 +74,7 @@ set path+=** " XXX: substitute for fuzzy finders
 try
   set diffopt=internal,filler,closeoff,algorithm:histogram,indent-heuristic
 catch /E474:/
-  set diffopt=filler,closeoff
+  silent! set diffopt=filler,closeoff
 endtry
 
 " cursor shape
