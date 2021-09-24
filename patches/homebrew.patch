@@ -1,5 +1,5 @@
 diff --git a/home/files/.vim/vimrc b/home/files/.vim/vimrc
-index b212547..2748ff0 100644
+index 3913ae9..be3d748 100644
 --- a/home/files/.vim/vimrc
 +++ b/home/files/.vim/vimrc
 @@ -19,6 +19,9 @@ Plug 'junegunn/fzf.vim'
@@ -9,9 +9,9 @@ index b212547..2748ff0 100644
 +Plug 'neoclide/coc.nvim', {'branch': 'release'}
 +Plug '/usr/local/opt/fzf'
 +
- if !(has('node') || executable('node'))
-   let g:coc_start_at_startup = v:false
- endif
+ " utilities
+ Plug 'direnv/direnv.vim'
+ Plug 'tpope/vim-fugitive'
 diff --git a/home/files/.zshrc b/home/files/.zshrc
 index 9c8c196..367a329 100644
 --- a/home/files/.zshrc

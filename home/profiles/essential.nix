@@ -4,7 +4,8 @@ let
   inherit (lib) mkDefault mkEnableOption mkIf optionals;
   inherit (pkgs.stdenv.hostPlatform) isDarwin system;
   myPkgs = dotfiles.packages.${system};
-in {
+in
+{
   options.dotfiles.profiles.essential.enable =
     mkEnableOption "essential packages for servers and desktops alike";
 
@@ -31,9 +32,9 @@ in {
         tmux
         wget
         zsh-completions
+        gitAndTools.git-absorb
         nodePackages.prettier
-      ] ++ (with pkgs.gitAndTools; [ delta git-absorb ])
-      ++ optionals (!isDarwin) [
+      ] ++ optionals (!isDarwin) [
         dnsutils
         file
         git
