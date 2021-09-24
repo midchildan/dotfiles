@@ -18,7 +18,14 @@ in
 
   config = mkIf config.dotfiles.profiles.minimal.enable {
     home.packages = with pkgs;
-      [ fzf less ripgrep zsh-syntax-highlighting myPkgs.neovim ]
+      [
+        fzf
+        less
+        ripgrep
+        zsh-syntax-highlighting
+        gitAndTools.delta
+        myPkgs.neovim
+      ]
       ++ optional isGenericLinux myPkgs.nixpath;
 
     programs.direnv = {

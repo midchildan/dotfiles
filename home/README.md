@@ -40,6 +40,7 @@ However, some work is required to make everything work.
 
 These packages would have to be installed manually.
 
+- [Delta](https://github.com/dandavison/delta)
 - [Fira Code](https://github.com/tonsky/FiraCode)
 - [FZF](https://github.com/junegunn/fzf)
 - [Neovim](https://neovim.io)
