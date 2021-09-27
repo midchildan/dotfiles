@@ -44,7 +44,7 @@ These packages would have to be installed manually.
 - [Fira Code](https://github.com/tonsky/FiraCode)
 - [FZF](https://github.com/junegunn/fzf)
 - [Neovim](https://neovim.io)
-- [coc.nvim](https://github.com/neoclide/coc.nvim)
+- [Node.js](https://nodejs.org) (for [coc.nvim](https://github.com/neoclide/coc.nvim))
 - [less](https://www.greenwoodsoftware.com/less/index.html) (version 530 or later)
 
 #### Configure Git

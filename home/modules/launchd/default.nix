@@ -66,7 +66,7 @@ in
   };
 
   config = mkIf isDarwin {
-    home.extraBuilderCommands = mkIf (agentPlists != { }) ''
+    home.extraBuilderCommands = ''
       ln -s "${agentsDrv}" $out/LaunchAgents
     '';
 
@@ -78,7 +78,7 @@ in
 
         local oldSrcPath newSrcPath dstPath agentFile agentName
 
-        find -L "$newDir" -maxdepth 1 -name '*.plist' -type f -print0 2> /dev/null \
+        find -L "$newDir" -maxdepth 1 -name '*.plist' -type f -print0 \
             | while IFS= read -rd "" newSrcPath; do
           agentFile="''${newSrcPath##*/}"
           agentName="''${agentFile%.plist}"
@@ -110,7 +110,7 @@ in
 
         local srcPath dstPath agentFile agentName
 
-        find -L "$newDir" -maxdepth 1 -name '*.plist' -type f -print0 2> /dev/null \
+        find -L "$newDir" -maxdepth 1 -name '*.plist' -type f -print0 \
             | while IFS= read -rd "" srcPath; do
           agentFile="''${srcPath##*/}"
           agentName="''${agentFile%.plist}"
@@ -126,7 +126,11 @@ in
           $DRY_RUN_CMD launchctl bootstrap "$domain" "$dstPath"
         done
 
-        find -L "$oldDir" -maxdepth 1 -name '*.plist' -type f -print0 2> /dev/null \
+        if [[ ! -e "$oldDir" ]]; then
+          return
+        fi
+
+        find -L "$oldDir" -maxdepth 1 -name '*.plist' -type f -print0 \
             | while IFS= read -rd "" srcPath; do
           agentFile="''${srcPath##*/}"
           agentName="''${agentFile%.plist}"
