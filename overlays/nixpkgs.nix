@@ -2,15 +2,7 @@
 
 final: prev:
 
-{
-  # TODO: remove temporary fix
-  #   issue  https://github.com/NixOS/nixpkgs/issues/138157
-  #   status https://nixpk.gs/pr-tracker.html?pr=138186
-  nixUnstable = prev.nixUnstable.override {
-    patches = [ ./fix-nixpkgs-138157.patch ];
-  };
-
-} // prev.lib.optionalAttrs (prev.stdenv.isDarwin) {
+prev.lib.optionalAttrs (prev.stdenv.isDarwin) {
 
   python3 = prev.python3.override {
     packageOverrides = final: prev: {
