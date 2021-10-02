@@ -2,6 +2,8 @@
 
 dotfiles for my personal use.
 
+![build status](https://github.com/midchildan/dotfiles/actions/workflows/build.yaml/badge.svg)
+
 ## Requirements
 
 ### Nix Package Manager

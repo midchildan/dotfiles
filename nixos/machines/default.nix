@@ -6,5 +6,5 @@ in
 {
   # By default NixOS would look for a configuration whose name matches its
   # hostname.
-  generic = importNixOS ./generic-host.nix { };
+  ci = importNixOS ./ci.nix { };
 }
