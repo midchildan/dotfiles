@@ -10,6 +10,9 @@ in
   dotfiles.profiles.apps.enable = true;
 
   home-manager.users.${username} = {
-    dotfiles.profiles.enableAll = true;
+    dotfiles.profiles = {
+      enableAll = true;
+      extras.enable = false;
+    };
   };
 }

@@ -1,0 +1,28 @@
+name: Build
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  home-manager:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cachix/install-nix-action@v14
+      - name: Build Home Manager configuration
+        run: nix-build -A homeConfigurations.ci
+  nixos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cachix/install-nix-action@v14
+      - name: Build NixOS configuration
+        run: nix-build -A nixosConfigurations.ci.config.system.build.toplevel
+  nix-darwin:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cachix/install-nix-action@v14
+      - name: Build nix-darwin configuration
+        run: nix-build -A darwinConfigurations.ci.system

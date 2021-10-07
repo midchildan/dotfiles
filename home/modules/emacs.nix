@@ -34,8 +34,9 @@ in
             return
           fi
           if [[ -x "${homeDir}/.config/emacs/bin/doom" ]]; then
-            $DRY_RUN_CMD "${homeDir}/.config/emacs/bin/doom" \
-              ''${VERBOSE:+-d} build > /dev/null
+            PATH="$newGenPath/home-path/bin:$PATH" \
+              $DRY_RUN_CMD "${homeDir}/.config/emacs/bin/doom" \
+                ''${VERBOSE:+-d} build > /dev/null
           fi
         }
 
