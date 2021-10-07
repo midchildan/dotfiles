@@ -22,7 +22,7 @@ jobs:
         with:
           branch: bot/routine-update
           delete-branch: true
-          labels: bot
+          labels: dependencies,nix,submodules
           title: "chore(deps): routine update"
           commit-message: "chore(deps): routine update"
           body: |
