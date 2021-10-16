@@ -15,7 +15,7 @@ in
   config = mkIf cfg.development.enable {
     home.packages = with pkgs;
       [ cargo clang-tools github-cli go gopls shellcheck tokei universal-ctags ]
-      ++ optionals cfg.desktop.enable [ sourcetrail ]
+      ++ optionals (cfg.desktop.enable && !isDarwin) [ sourcetrail ]
       ++ optionals isNixOS [ manpages ]
       ++ optionals isDarwin [ gnupg ];
 
