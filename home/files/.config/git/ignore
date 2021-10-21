@@ -52,8 +52,9 @@ Thumbs.db
 ###############
 #  Dev tools  #
 ###############
-# language servers
-.clangd/
+# clang
+.cache/clangd/
+compile_commands.json
 # sourcetrail
 *.srctrlbm
 *.srctrldb
