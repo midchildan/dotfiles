@@ -99,7 +99,7 @@
        ledger
        markdown
        nix
-       (org +dragndrop +pomodoro +roam)
+       (org +dragndrop +pomodoro +roam2)
        ;;python
        rest
        ;;rust

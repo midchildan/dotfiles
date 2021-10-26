@@ -18,7 +18,7 @@ let
     ln -s "$(sed -n 's/set packpath.=\([^\n]*\)/\1/p' <<<"$vimrc")/pack" $out
   '';
 
-  inherit (lib) literalExample mkOption types;
+  inherit (lib) literalExpression mkOption types;
 in
 {
   options.dotfiles.vim.plugins = mkOption {
@@ -27,7 +27,7 @@ in
         opt = lib.mkOption {
           type = with types; listOf package;
           default = [ ];
-          example = literalExample "with pkgs.vimPlugins; [ coc-nvim ]";
+          example = literalExpression "with pkgs.vimPlugins; [ coc-nvim ]";
           description = ''
             Installs plugins to be loaded manually with
             <literal>:packadd</literal>.
@@ -36,7 +36,7 @@ in
         start = lib.mkOption {
           type = with types; listOf package;
           default = [ ];
-          example = literalExample "with pkgs.vimPlugins; [ coc-nvim ]";
+          example = literalExpression "with pkgs.vimPlugins; [ coc-nvim ]";
           description = ''
             Installs plugins to be loaded automatically at startup.
           '';
