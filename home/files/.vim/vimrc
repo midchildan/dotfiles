@@ -13,7 +13,7 @@ Plug 'easymotion/vim-easymotion', {'on': [
   \ '<Plug>(easymotion-sn)', '<Plug>(easymotion-tn)' ]}
 
 " completion and linting
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf.vim'
 " NOTE: coc-snippets can't completely replace UltiSnips
 Plug 'SirVer/ultisnips', has('python3') ? {} : {'on': []}
@@ -30,10 +30,10 @@ Plug 'wellle/context.vim', {'on': 'ContextToggle'}
 Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'Yggdroot/indentLine', {'on': 'IndentLinesEnable'}
 Plug 'Yilin-Yang/vim-markbar', {'on': '<Plug>ToggleMarkbar'}
-Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
+Plug 'preservim/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 Plug 'CoatiSoftware/vim-sourcetrail',
   \ {'for': ['c', 'cpp', 'cuda', 'java', 'python']}
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+Plug 'preservim/tagbar', {'on': 'TagbarToggle'}
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 
