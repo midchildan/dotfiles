@@ -5,6 +5,15 @@ on:
   pull_request:
     branches: [master]
 jobs:
+  flake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cachix/install-nix-action@v14
+      - name: Check flake
+        run: |
+          nix run nixpkgs.nixUnstable -c \
+            nix --experimental-features 'nix-command flakes' flake check
   home-manager:
     runs-on: ubuntu-latest
     steps:
