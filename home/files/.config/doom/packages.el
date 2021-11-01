@@ -19,9 +19,6 @@
 ;; available.
 (package! pdf-tools :built-in 'prefer)
 
-;; FIXME: Workaround for https://github.com/hlissner/doom-emacs/issues/5681
-(package! flx)
-
 ;;
 ;;; Disabled Packages
 
