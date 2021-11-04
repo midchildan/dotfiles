@@ -113,7 +113,7 @@ source "$DOTFILE_DIR/scripts/setup"
 @shell Install Packages
   - init: true
   - nvim --headless +PlugInstall +'%print' +qall
-  - ~/.emacs.d/bin/doom -y install --no-config
+  - ~/.config/emacs/bin/doom -y install --no-config
 
 @githooks
   - init: true
