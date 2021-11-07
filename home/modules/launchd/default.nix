@@ -107,6 +107,7 @@ in
         local newDir="$(readlink -m "$newGenPath/LaunchAgents")"
         local dstDir=${escapeShellArg dstDir}
         local domain="gui/$UID"
+        local err=0
 
         local srcPath dstPath agentFile agentName
 
@@ -120,7 +121,17 @@ in
             continue
           fi
           if [[ -f "$dstPath" ]]; then
-            $DRY_RUN_CMD launchctl bootout "$domain/$agentName" || :
+            while true; do
+              $DRY_RUN_CMD launchctl bootout "$domain/$agentName" || err=$?
+              if [[ -v DRY_RUN ]]; then
+                break
+              fi
+              if (( err != 9216 )) &&
+                ! launchctl print "$domain/$agentName" &> /dev/null; then
+                sleep 1
+                break
+              fi
+            done
           fi
           $DRY_RUN_CMD install -Dm644 -T "$srcPath" "$dstPath"
           $DRY_RUN_CMD launchctl bootstrap "$domain" "$dstPath"
