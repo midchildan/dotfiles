@@ -30,10 +30,7 @@ in
 
     programs.direnv = {
       enable = mkDefault true;
-      nix-direnv = {
-        enable = mkDefault true;
-        enableFlakes = mkDefault true;
-      };
+      nix-direnv.enable = mkDefault true;
     };
 
     dotfiles.manpages = {

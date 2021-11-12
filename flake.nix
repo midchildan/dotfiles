@@ -84,7 +84,7 @@
         } // pkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
           nixos = {
             type = "app";
-            program = "${packages.nixos-rebuild}/bin/nixos-rebuild";
+            program = "${nixos.nixos-rebuild}/bin/nixos-rebuild";
           };
         };
       }));
