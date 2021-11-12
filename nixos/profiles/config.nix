@@ -10,7 +10,6 @@ in
 
     time.timeZone = mkDefault "Asia/Tokyo";
 
-    nix.package = mkDefault pkgs.nixUnstable;
     nix.extraOptions = ''
       experimental-features = nix-command flakes
     '';

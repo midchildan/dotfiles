@@ -25,7 +25,6 @@ rec {
 } // optionalAttrs isLinux {
 
   bpftrace = nixos.callPackage ./bpftrace.nix { };
-  nixos-rebuild = pkgs.callPackage ./nixos-rebuild.nix { };
   zsh = pkgs.callPackage ./zsh.nix { };
 
 } // optionalAttrs isDarwin {

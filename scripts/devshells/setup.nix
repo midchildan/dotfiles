@@ -1,5 +1,5 @@
 { mkShellNoCC
-, nixUnstable
+, nix
 , curl
 , git
 , neovim
@@ -7,7 +7,7 @@
 
 mkShellNoCC {
   nativeBuildInputs = [
-    nixUnstable
+    nix
     curl
     git
     neovim
