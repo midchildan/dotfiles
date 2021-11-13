@@ -353,6 +353,13 @@ nnoremap <silent> <Leader>3 :diffget REMOTE<CR>
 let g:airline_skip_empty_sections = v:true
 if $USE_POWERLINE
   let g:airline_powerline_fonts = v:true
+
+  " Fira Code doesn't contain the colnr symbol yet
+  " https://github.com/tonsky/FiraCode/issues/1243
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
+  let g:airline_symbols.colnr = "\u33c7"
 endif
 let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
 
