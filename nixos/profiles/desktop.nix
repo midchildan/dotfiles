@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, dotfiles, ... }:
 
 with lib;
 
 let
   cfg = config.dotfiles.profiles.desktop;
+  myPkgs = dotfiles.packages.${system};
+  inherit (pkgs.stdenv.hostPlatform) system;
   inherit (config.dotfiles.profiles.interactive) username;
 in
 {
@@ -35,6 +37,7 @@ in
         fonts = with pkgs; [
           noto-fonts
           noto-fonts-cjk
+          myPkgs.noto-serif-cjk
           noto-fonts-emoji
           ipafont
           dejavu_fonts
