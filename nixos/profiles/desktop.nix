@@ -32,11 +32,18 @@ in
 
       fonts = {
         fontDir.enable = true;
-        fonts = with pkgs; [ ipafont emojione noto-fonts ];
+        fonts = with pkgs; [
+          noto-fonts
+          noto-fonts-cjk
+          noto-fonts-emoji
+          ipafont
+          dejavu_fonts
+        ];
         fontconfig.defaultFonts = {
-          monospace = [ "DejaVu Sans Mono" "IPAGothic" ];
-          serif = [ "DejaVu Serif" "IPAPMincho" ];
-          sansSerif = [ "DejaVu Sans" "IPAPGothic" ];
+          monospace = [ "Noto Sans Mono CJK JP" "Noto Sans Mono" ];
+          serif = [ "Noto Serif CJK JP" "Noto Serif" ];
+          sansSerif = [ "Noto Sans CJK JP" "Noto Sans" ];
+          emoji = [ "Noto Color Emoji" ];
         };
       };
 
