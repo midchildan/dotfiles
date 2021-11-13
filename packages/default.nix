@@ -14,6 +14,7 @@ rec {
   neovim = pkgs.callPackage ./neovim.nix { };
   nghttp3 = pkgs.callPackage ./nghttp3.nix { };
   ngtcp2 = pkgs.callPackage ./ngtcp2.nix { inherit nghttp3 quictls; };
+  noto-serif-cjk = pkgs.callPackage ./noto-serif-cjk.nix { };
   siege = pkgs.callPackage ./siege.nix { };
   terminfo-collection = pkgs.callPackage ./terminfo-collection.nix { };
   quictls = pkgs.callPackage ./quictls.nix { };
@@ -25,6 +26,7 @@ rec {
 } // optionalAttrs isLinux {
 
   bpftrace = nixos.callPackage ./bpftrace.nix { };
+  nixos-rebuild = nixos.callPackage ./nixos-rebuild.nix { };
   zsh = pkgs.callPackage ./zsh.nix { };
 
 } // optionalAttrs isDarwin {
