@@ -394,6 +394,13 @@ commands not needed outside of Doom.
 (load "default" 'noerror 'nomessage)
 #+end_src
 
+** Flycheck
+Disable Chef Foodcritic, which is deprecated.
+
+#+begin_src emacs-lisp
+(setq-default flycheck-disabled-checkers '(chef-foodcritic))
+#+end_src
+
 ** Yankpad
 [[https://github.com/Kungsgeten/yankpad][Yankpad]] is a plugin for managing snippets. The snippets are managed in
 org mode format in a file path configured by ~yankpad-file~. The snippets
