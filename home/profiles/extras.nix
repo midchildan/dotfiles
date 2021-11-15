@@ -13,7 +13,7 @@ with lib;
       imagemagick
       nyancat
       ripgrep-all
-      youtube-dl
+      yt-dlp
     ];
   };
 }
