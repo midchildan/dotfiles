@@ -3,20 +3,9 @@
 let
   cfg = config.dotfiles.vim;
 
-  vimrcWithPlugins = pkgs.vimUtils.vimrcContent {
-    beforePlugins = null;
-    packages.home-manager = cfg.plugins;
+  vimPackDrv = pkgs.vimUtils.packDir {
+    home-manager = cfg.plugins;
   };
-
-  # HACK: extract packdir from generated vimrc
-  #
-  # There's a plan to make a cleaner approach possbile:
-  # https://github.com/NixOS/nixpkgs/pull/136429#issuecomment-920879649
-  packDir = pkgs.runCommand "packdir" {
-    vimrc = vimrcWithPlugins;
-  } ''
-    ln -s "$(sed -n 's/set packpath.=\([^\n]*\)/\1/p' <<<"$vimrc")/pack" $out
-  '';
 
   inherit (lib) literalExpression mkOption types;
 in
@@ -47,6 +36,6 @@ in
   };
 
   config = lib.mkIf (cfg.plugins.opt != [ ] || cfg.plugins.start != [ ]) {
-    home.file.".vim/pack".source = packDir;
+    home.file.".vim/pack".source = "${vimPackDrv}/pack";
   };
 }
