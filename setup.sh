@@ -97,13 +97,12 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/tilix/schemes/gruvbox-dark.json
+  - .config/tmux/tmux.conf
   - .config/zathura/zathurarc
   - .ipython/profile_default/ipython_config.py
   - .local/opt/fzftools
-  - .local/opt/tmux-copycat
   - .prettierrc
   - .screenrc
-  - .tmux.conf
   - .wgetrc
   - .xprofile
   - .Xresources

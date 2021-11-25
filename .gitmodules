@@ -7,9 +7,6 @@
 [submodule "home/files/.local/opt/fzftools"]
 	path = home/files/.local/opt/fzftools
 	url = https://github.com/midchildan/fzftools.git
-[submodule "home/files/.local/opt/tmux-copycat"]
-	path = home/files/.local/opt/tmux-copycat
-	url = https://github.com/tmux-plugins/tmux-copycat.git
 [submodule "home/files/.local/opt/tilix-gruvbox"]
 	path = home/files/.local/opt/tilix-gruvbox
 	url = https://github.com/MichaelThessel/tilix-gruvbox.git
