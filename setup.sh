@@ -92,16 +92,15 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/nixpkgs/config.nix
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
+  - .config/tmux/tmux.conf
   - .config/zathura/zathurarc
   - .ipython/profile_default/ipython_config.py
   - .local/bin/imgcat
   - .local/bin/uninstaller
   - .local/opt/fzftools
-  - .local/opt/tmux-copycat
   - .nanorc
   - .prettierrc
   - .screenrc
-  - .tmux.conf
   - .wgetrc
   - Library/Application\ Support/AquaSKK/keymap.conf
   - Library/Application\ Support/iTerm2/DynamicProfiles/template.plist
