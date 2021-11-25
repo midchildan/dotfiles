@@ -1,5 +1,5 @@
 diff --git a/.tmux.conf b/.tmux.conf
-index ce0b098..edb507f 100644
+index ce0b098..267f721 100644
 --- a/.tmux.conf
 +++ b/.tmux.conf
 @@ -1,4 +1,4 @@
@@ -39,7 +39,27 @@ index ce0b098..edb507f 100644
 -bind G display-panes \; switch-client -T prefix
 -bind n copy-mode -e \; send -X search-again
 -bind N copy-mode -e \; send -X search-reverse
--
++bind -N "Select the pane above" k select-pane -U \; switch-client -T prefix
++bind -N "Select the pane below" j select-pane -D \; switch-client -T prefix
++bind -N "Select the left pane" h select-pane -L \; switch-client -T prefix
++bind -N "Select the right pane" l select-pane -R \; switch-client -T prefix
++bind -N "Resize pane up" K resize-pane -U \; switch-client -T prefix
++bind -N "Resize pane down" J resize-pane -D \; switch-client -T prefix
++bind -N "Resize pane left" H resize-pane -L \; switch-client -T prefix
++bind -N "Resize pane right" L resize-pane -R \; switch-client -T prefix
++bind -N "Scroll one page up" C-b copy-mode -ue
++bind -N "Swap pane with the one above" \
++  C-k swap-pane -U \; switch-client -T prefix
++bind -N "Swap pane with the one below" \
++  C-j swap-pane -D \; switch-client -T prefix
++bind -N "Create a new window" C-n new-window \; switch-client -T prefix
++bind -N "Scroll halfpage up" C-u copy-mode -e \; send -X halfpage-up
++bind -N "Scroll one line up" C-y copy-mode -e \; send -X scroll-up
++bind -N "+goto: Show help with 'Prefix g ?'" g switch-client -T g
++bind -N "Display pane numbers" G display-panes \; switch-client -T prefix
++bind -N "Repeat last search forward" n copy-mode -e \; send -X search-again
++bind -N "Repeat last search backward" N copy-mode -e \; send -X search-reverse
+ 
 -bind i setw synchronize-panes off \; switch-client -T root
 -bind c switch-client -T c
 -bind d switch-client -T d
@@ -66,28 +86,7 @@ index ce0b098..edb507f 100644
 -bind "'" command-prompt -p index "select-window -t ':%%'"
 -bind . send-prefix
 -bind / copy-mode \; command-prompt -ip "(search up)" \
-+bind -N "Select the pane above" k select-pane -U \; switch-client -T prefix
-+bind -N "Select the pane below" j select-pane -D \; switch-client -T prefix
-+bind -N "Select the left pane" h select-pane -L \; switch-client -T prefix
-+bind -N "Select the right pane" l select-pane -R \; switch-client -T prefix
-+bind -N "Resize pane up" K resize-pane -U \; switch-client -T prefix
-+bind -N "Resize pane down" J resize-pane -D \; switch-client -T prefix
-+bind -N "Resize pane left" H resize-pane -L \; switch-client -T prefix
-+bind -N "Resize pane right" L resize-pane -R \; switch-client -T prefix
-+bind -N "Scroll one page up" C-b copy-mode -ue
-+bind -N "Swap pane with the one above" \
-+  C-k swap-pane -U \; switch-client -T prefix
-+bind -N "Swap pane with the one below" \
-+  C-j swap-pane -D \; switch-client -T prefix
-+bind -N "Create a new window" C-n new-window \; switch-client -T prefix
-+bind -N "Scroll halfpage up" C-u copy-mode -e \; send -X halfpage-up
-+bind -N "Scroll one line up" C-y copy-mode -e \; send -X scroll-up
-+bind -N "+goto: Show help with 'Prefix g ?'" g switch-client -T g
-+bind -N "Display pane numbers" G display-panes \; switch-client -T prefix
-+bind -N "Repeat last search forward" n copy-mode -e \; send -X search-again
-+bind -N "Repeat last search backward" N copy-mode -e \; send -X search-reverse
-+
-+bind -N "Select current pane" \
++bind -N "Enter insert mode" \
 +  i setw synchronize-panes off \; switch-client -T root
 +bind -N "+change: Show help with 'Prefix c ?'" c switch-client -T c
 +bind -N "+delete: Show help with 'Prefix d ?'" d switch-client -T d
@@ -100,7 +99,7 @@ index ce0b098..edb507f 100644
 +  x confirm-before -p "kill-pane #P? (y/n)" kill-pane \; switch-client -T prefix
 +bind -N "Enter copy mode. Press 'K' in copy mode to show help." \
 +  y copy-mode
-+bind -N "Select all panes in current window" \
++bind -N "Enter insert mode and sync input with all visible panes" \
 +  I setw synchronize-panes on \; switch-client -T root
 +bind -N "Show clock" T clock-mode \; switch-client -T prefix
 +bind -N "Kill current window" \
@@ -289,7 +288,15 @@ index ce0b098..edb507f 100644
 -bind -T ctrl-w J resize-pane -D 5 \; switch-client -T prefix
 -bind -T ctrl-w H resize-pane -L 5 \; switch-client -T prefix
 -bind -T ctrl-w L resize-pane -R 5 \; switch-client -T prefix
--
++bind -T ctrl-w -N "Resize pane up by 5" \
++  K resize-pane -U 5 \; switch-client -T prefix
++bind -T ctrl-w -N "Resize pane down by 5" \
++  J resize-pane -D 5 \; switch-client -T prefix
++bind -T ctrl-w -N "Resize pane left by 5" \
++  H resize-pane -L 5 \; switch-client -T prefix
++bind -T ctrl-w -N "Resize pane right by 5" \
++  L resize-pane -R 5 \; switch-client -T prefix
+ 
 -bind -T ctrl-w o confirm-before -p "kill panes? (y/n)" "kill-pane -a" \;\
 -  switch-client -T prefix
 -bind -T ctrl-w r rotate-window \; switch-client -T prefix
@@ -310,15 +317,6 @@ index ce0b098..edb507f 100644
 -bind -T ctrl-w C-w select-pane -t :.+ \; switch-client -T prefix
 -bind -T ctrl-w / command-prompt "find-window '%%'"
 -bind -T ctrl-w = select-layout -E \; switch-client -T prefix
-+bind -T ctrl-w -N "Resize pane up by 5" \
-+  K resize-pane -U 5 \; switch-client -T prefix
-+bind -T ctrl-w -N "Resize pane down by 5" \
-+  J resize-pane -D 5 \; switch-client -T prefix
-+bind -T ctrl-w -N "Resize pane left by 5" \
-+  H resize-pane -L 5 \; switch-client -T prefix
-+bind -T ctrl-w -N "Resize pane right by 5" \
-+  L resize-pane -R 5 \; switch-client -T prefix
-+
 +bind -T ctrl-w -N "Close all other pane in current window" \
 +  o confirm-before -p "kill panes? (y/n)" "kill-pane -a" \;\
 +    switch-client -T prefix
@@ -362,16 +360,16 @@ index ce0b098..edb507f 100644
 +bind -T regex -N "Search files" f copy-mode -e \; send -X search-backward \
 +  '(^|^\.|[[:space:]]|[[:space:]]\.|[[:space:]]\.\.|^\.\.)[[:alnum:]~_-]*/[][[:alnum:]_.#$%&+=/@-]*'
 +bind -T regex -N "Search hashes" '#' copy-mode -e \; send -X search-backward \
-+  '[0-9a-fA-F]{7,64}'
++  '([0-9a-f]{7,40}|[[:alnum:]]{52}|[0-9a-f]{64})'
 +bind -T regex -N "Search digits" 1 copy-mode -e \; send -X search-backward \
 +  '[[:digit:]]+'
 +bind -T regex -N "Search ipv4" 4 copy-mode -e \; send -X search-backward \
 +  '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}'
 +bind -T regex -N "Backwards regex search" \
 +  / command-prompt -p "(regex search up)" \
-+      -I"#{pane_search_string}" "send -X search-backward \"%%%\""
++      -I"#{pane_search_string}" "copy-mode; send -X search-backward \"%%%\""
 +bind -T regex -N "Backwards regex search" \
 +  ? command-prompt -p "(regex search down)" \
-+      -I"#{pane_search_string}" "send -X search-forward \"%%%\""
++      -I"#{pane_search_string}" "copy-mode; send -X search-forward \"%%%\""
 +bind -T regex -N "Show help" ? list-keys -aNT regex
 +bind -T regex Any switch-client -T prefix

@@ -182,7 +182,7 @@ nnoremap <silent> <Leader>3 :diffget REMOTE<CR>
 """"""""""
 "  Misc  "
 """"""""""
-let g:tex_flavor='latex'
+let g:tex_flavor = 'latex'
 
 " See :h :DiffOrig
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
