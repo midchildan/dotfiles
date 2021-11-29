@@ -36,8 +36,6 @@ in
           expose-group-apps = mkDefault true;
         };
 
-        "com.apple.menuextra.battery".ShowPercent = mkDefault "YES";
-
         "com.apple.Safari" = {
           AutoOpenSafeDownloads = mkDefault false;
           AutoFillPasswords = mkDefault false;
