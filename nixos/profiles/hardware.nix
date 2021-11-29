@@ -28,8 +28,7 @@ in
       };
     })
     (lib.mkIf (cfg.enable && cfg.hidpi.enable) {
-      boot.loader.systemd-boot.consoleMode = lib.mkDefault "1";
-      console.font = lib.mkDefault "latarcyrheb-sun32";
+      hardware.video.hidpi.enable = lib.mkDefault true;
       environment.variables.QT_AUTO_SCREEN_SCALE_FACTOR = lib.mkDefault "1";
     })
   ];
