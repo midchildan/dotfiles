@@ -239,7 +239,7 @@ __term_support() {
   }
 
   # report current username to iTerm
-  if zstyle -T ':iterm2:osc' enable; then
+  if zstyle -T ':dotfiles:iterm2:osc' enable; then
     printf "\e]1337;RemoteHost=%s@\a" "$USER"
   fi
 }
@@ -263,7 +263,7 @@ case "$TERM" in
     add-zsh-hook precmd __term_support
     ;|
   eterm*|xterm-kitty)
-    zstyle ':iterm2:osc' enable false
+    zstyle ':dotfiles:iterm2:osc' enable false
     ;;
 esac
 

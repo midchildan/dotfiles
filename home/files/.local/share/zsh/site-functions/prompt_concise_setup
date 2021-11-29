@@ -25,7 +25,7 @@ prompt_concise_precmd() {
   fi
 
   local _begin= _end=
-  if zstyle -T ':iterm2:osc' enable; then
+  if zstyle -T ':dotfiles:iterm2:osc' enable; then
     _begin=$'%{\e]133;D;%?\a\e]133;A\a%}'
     _end=$'%{\e]133;B\a%}'
   fi
@@ -41,7 +41,7 @@ prompt_concise_precmd() {
 }
 
 prompt_concise_preexec() {
-  if zstyle -T ':iterm2:osc' enable; then
+  if zstyle -T ':dotfiles:iterm2:osc' enable; then
     print -Pn "\e]133;C\a"
   fi
 }

@@ -18,6 +18,7 @@ in
         fd
         fselect
         ghq
+        gitstatus
         httpie
         jq
         lsof
