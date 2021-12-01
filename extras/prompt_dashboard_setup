@@ -8,7 +8,7 @@ prompt_dashboard_setup() {
 
   if [[ -f ~/.nix-profile/share/gitstatus/gitstatus.plugin.zsh ]]; then
     source ~/.nix-profile/share/gitstatus/gitstatus.plugin.zsh
-    gitstatus_start -m "$maxfiles" dotfiles
+    gitstatus_stop dotfiles && gitstatus_start -m "$maxfiles" dotfiles
   else
     autoload -Uz vcs_info
     zstyle ':vcs_info:*' enable git
@@ -34,16 +34,14 @@ prompt_dashboard_gitstatus() {
 
   if ! gitstatus_query -d "$PWD" -t "$maxsec" dotfiles; then
     VCS_STATUS_RESULT=error
-    unset vcs_info_msg_0_ vcs_info_msg_1_ vcs_info_msg_2_ vcs_info_msg_3_
     return
   fi
   if [[ "$VCS_STATUS_RESULT" != ok-sync ]]; then
-    unset vcs_info_msg_0_ vcs_info_msg_1_ vcs_info_msg_2_ vcs_info_msg_3_
     return
   fi
 
   vcs_info_msg_0_="${PWD#${VCS_STATUS_WORKDIR:h}/}"
-  vcs_info_msg_1_="$VCS_STATUS_LOCAL_BRANCH"
+  vcs_info_msg_1_="${VCS_STATUS_LOCAL_BRANCH:-${VCS_STATUS_TAG:-${VCS_STATUS_COMMIT[1,8]}}}"
   vcs_info_msg_3_="$VCS_STATUS_ACTION"
   vcs_info_msg_2_=''
   if (( VCS_STATUS_HAS_UNTRACKED == 1 )); then
@@ -103,6 +101,7 @@ prompt_dashboard_precmd() {
     prompt_mark='❯'
   fi
 
+  unset vcs_info_msg_{0..3}_
   if (( $+functions[gitstatus_query] )); then
     prompt_dashboard_gitstatus
   else
