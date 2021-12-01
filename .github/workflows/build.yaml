@@ -9,30 +9,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: cachix/install-nix-action@v14
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
+      - uses: cachix/install-nix-action@v16
       - name: Check flake
         run: nix flake check
   home-manager:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: cachix/install-nix-action@v14
+      - uses: cachix/install-nix-action@v16
       - name: Build Home Manager configuration
-        run: nix-build -A homeConfigurations.ci
+        run: nix run '.#home' -- build --flake '.#ci'
   nixos:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: cachix/install-nix-action@v14
+      - uses: cachix/install-nix-action@v16
       - name: Build NixOS configuration
-        run: nix-build -A nixosConfigurations.ci.config.system.build.toplevel
+        run: nix run '.#nixos' -- build -L --flake '.#ci'
   nix-darwin:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: cachix/install-nix-action@v14
+      - uses: cachix/install-nix-action@v16
       - name: Build nix-darwin configuration
-        run: nix-build -A darwinConfigurations.ci.system
+        run: nix run '.#darwin' -- build -L --flake '.#ci'

@@ -1,20 +1,83 @@
 # concise prompt theme
 
 prompt_concise_setup() {
-  autoload -Uz vcs_info
-  zstyle ':vcs_info:*' enable git
-  zstyle ':vcs_info:*' check-for-changes true
-  zstyle ':vcs_info:*' max-exports 2
-  zstyle ':vcs_info:*' formats \
-    '%b@%s%f: %F{blue}%r/%S%f' '%c%u'
-  zstyle ':vcs_info:*' actionformats \
-    '%b@%s%f: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
-  zstyle ':vcs_info:*' stagedstr "[%B%F{yellow}staged%f%b]"
-  zstyle ':vcs_info:*' unstagedstr "[%B%F{red}unstaged%f%b]"
+  local maxfiles
+  if ! zstyle -s ':dotfiles:prompt:concise:vcs:git' max-files maxfiles; then
+    maxfiles=100000
+  fi
+
+  if [[ -f ~/.nix-profile/share/gitstatus/gitstatus.plugin.zsh ]]; then
+    source ~/.nix-profile/share/gitstatus/gitstatus.plugin.zsh
+    gitstatus_stop dotfiles && gitstatus_start -m "$maxfiles" dotfiles
+  else
+    autoload -Uz vcs_info
+    zstyle ':vcs_info:*' enable git
+    zstyle ':vcs_info:*' check-for-changes true
+    zstyle ':vcs_info:*' max-exports 2
+    zstyle ':vcs_info:*' formats \
+      '%b@%s%f: %F{blue}%r/%S%f' '%c%u'
+    zstyle ':vcs_info:*' actionformats \
+      '%b@%s%f: %F{blue}%r/%S%f' '[%F{red}%a%f]%c%u'
+    zstyle ':vcs_info:*' stagedstr "[%B%F{yellow}staged%f%b]"
+    zstyle ':vcs_info:*' unstagedstr "[%B%F{red}unstaged%f%b]"
+  fi
 
   prompt_opts=(cr percent sp)
   add-zsh-hook precmd prompt_concise_precmd
   add-zsh-hook preexec prompt_concise_preexec
+}
+
+prompt_concise_gitstatus() {
+  local maxsec
+  if ! zstyle -s ':dotfiles:prompt:concise:vcs:git' timeout-sec maxsec; then
+    maxsec=1
+  fi
+
+  if ! gitstatus_query -d "$PWD" -t "$maxsec" dotfiles; then
+    VCS_STATUS_RESULT=error
+    return
+  fi
+  if [[ "$VCS_STATUS_RESULT" != ok-sync ]]; then
+    return
+  fi
+
+  local refname="${VCS_STATUS_LOCAL_BRANCH:-${VCS_STATUS_TAG:-${VCS_STATUS_COMMIT[1,8]}}}"
+  vcs_info_msg_0_="$refname@git%f: %F{blue}${PWD#${VCS_STATUS_WORKDIR:h}/}%f"
+  vcs_info_msg_1_=''
+  if [[ -n "$VCS_STATUS_ACTION" ]]; then
+    vcs_info_msg_1_+="[%F{red}$VCS_STATUS_ACTION%f]"
+  fi
+  if (( VCS_STATUS_HAS_STAGED == 1 )); then
+    vcs_info_msg_1_+='[%B%F{yellow}staged%f%b]'
+  fi
+  if (( VCS_STATUS_HAS_UNSTAGED == 1 || VCS_STATUS_HAS_CONFLICTED == 1)); then
+    vcs_info_msg_1_+='[%B%F{red}unstaged%f%b]'
+  fi
+  if (( VCS_STATUS_HAS_UNSTAGED == -1 || VCS_STATUS_HAS_STAGED == -1 )); then
+    vcs_info_msg_1_+='[unknown]'
+  fi
+
+  _gitstatus_clear
+}
+
+prompt_concise_vcs_info() {
+  unset VCS_STATUS_RESULT
+
+  local maxfiles
+  if ! zstyle -s ':dotfiles:prompt:concise:vcs:git' max-files maxfiles; then
+    maxfiles=100000
+  fi
+
+  local nfiles=0
+  if (( maxfiles >= 0 && $+commands[git] )); then
+    nfiles="$(git ls-files 2> /dev/null | wc -l)"
+  fi
+  if (( maxfiles < 0 || nfiles < maxfiles )); then
+    vcs_info
+    vcs_info_msg_0_="${vcs_info_msg_0_%/.}"
+  else
+    VCS_STATUS_RESULT=error
+  fi
 }
 
 prompt_concise_precmd() {
@@ -30,8 +93,17 @@ prompt_concise_precmd() {
     _end=$'%{\e]133;B\a%}'
   fi
 
-  vcs_info
-  if [[ -n "$vcs_info_msg_0_" ]]; then
+  unset vcs_info_msg_{0,1}_
+  if (( $+functions[gitstatus_query] )); then
+    prompt_concise_gitstatus
+  else
+    prompt_concise_vcs_info
+  fi
+
+  if [[ "$VCS_STATUS_RESULT" == error ]]; then
+    PROMPT="$_begin${_login}[unknown]@git%f: %F{blue}%~%f"$'\n'"$_prompt%b $_end"
+    RPROMPT="[unknown]"
+  elif [[ -n "$vcs_info_msg_0_" ]]; then
     PROMPT="$_begin$_login$vcs_info_msg_0_"$'\n'"$_prompt%b $_end"
     RPROMPT="$vcs_info_msg_1_"
   else
