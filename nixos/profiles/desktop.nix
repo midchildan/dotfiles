@@ -60,8 +60,6 @@ in
         layout = mkDefault "us";
       };
 
-      programs.qt5ct.enable = mkDefault true;
-
       programs.gnupg.agent = {
         enable = mkDefault true;
         enableSSHSupport = mkDefault true;
