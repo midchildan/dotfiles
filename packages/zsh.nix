@@ -7,8 +7,12 @@
 runCommand zsh.name {
   nativeBuildInputs = [ makeWrapper ];
   meta = with lib; {
-    inherit (zsh.meta) description homepage license;
+    inherit (zsh.meta) homepage license;
     platforms = platforms.linux;
+    description = ''
+      The Z shell. This package is intended for use on stable Linux
+      distributions shipping an outdated version of zsh.
+    '';
   };
 } ''
   mkdir -p $out/bin

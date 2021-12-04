@@ -33,6 +33,7 @@ might look like for a host named `pod042`:
 pod042 = mkDarwin {
   modules = [{
     dotfiles.profiles.apps.enable= true;
+    system.stateVersion = 4;
   }];
 };
 ```
@@ -54,16 +55,17 @@ Then move the configuration into `pod042.nix`:
 ```nix
 {
   dotfiles.profiles.apps.enable = true;
+  system.stateVersion = 4;
 }
 ```
 
-Finally, its also possible to place host configuration in a separate repository
+Finally, it's also possible to place host configuration in a separate repository
 by creating a new Nix flake that takes this repository as input. See the
 [description in the `templates` directory](../templates) for more details.
 
 ## Custom Options
 
-This dotfiles introduces a few additional options for NixOS, as outlined below:
+This dotfiles introduces an additional option for nix-darwin as outlined below:
 
 <dl>
   <dt>dotfiles.profiles.apps.enable</dt>

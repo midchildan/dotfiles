@@ -19,21 +19,22 @@ directory. These are deliberately managed outside of Nix for a few reasons.
 
 The first reason is portability. Since the setup script won't rely on Nix, it
 could be installed on systems without Nix. Most parts of the dotfiles should
-just work fine without Nix.
+just work fine without Nix. Still, software version differences might result
+in incompatibilities if you use packages installed outside of Nix.
 
 The second reason is convenience. Files deployed using Home Manager are
 symlinked from the Nix store, which is an immutable directory typically located
 at `/nix/store`. This can turn out to be a bit an inconvenience sometimes. For
 example, when testing quick changes, you can't just edit the files directly. Or
-in an another example, if you want to share your dotfiles with a containerized
+in an another case, if you want to share your dotfiles with a containerized
 process, you'd also need to share the Nix store in addition to your home
 directory. Symlinking directly from a git repository under the home directory
-would avoid this problem. Furthermore, it would allow for neat tricks like the
+would avoid these problems. Furthermore, it would allow for neat tricks like the
 one used in the [rcd script](files/.local/bin/rcd).
 
 ### Use on non-Nix Systems
 
-Most portion of this dotfiles should work just fine on systems without Nix.
+Most portions of this dotfiles should work just fine on systems without Nix.
 However, some work is required to make everything work.
 
 #### Install Packages
@@ -75,7 +76,7 @@ sed "s/@gpgKey@/$(git config -f config.toml user.gpgKey)/g" \
   home/files/.gnupg/gpg.conf > ~/.gnupg/gpg.conf
 ```
 
-#### Replace Nix dependant configuration
+#### Replace Nix-dependant configuration
 
 Apply [this patch](patches/debian.patch):
 
@@ -98,16 +99,16 @@ manual][home-docs].
 ### Relationship with NixOS / nix-darwin
 
 Home Manager is responsible for per-user settings while NixOS and nix-darwin
-manages system wide settings. This dotfiles uses both.
+manages system-wide settings. This dotfiles uses both.
 
 When choosing where to place a given configuration, prefer Home Manager over
-system wide configuration unless there's a reason not to. This would provide
+system-wide configuration unless there's a reason not to. This would provide
 the following benefits:
 
 - Home Manager is usable on non-NixOS distros with Nix installed
 - Home Manager can share configuration between Linux and macOS
-- You can enjoy up to date packages with Home Manager while keeping the system
-  packages in NixOS / nix-darwin stable
+- You can enjoy up to date packages with Home Manager while using stable
+  packages for NixOS / nix-darwin
 
 ### Best Practices
 
@@ -133,9 +134,9 @@ arbitrary, but a module targeting a specific piece of software is placed in
 
 The configuration for Home Manager is chosen based on the hostname unless a
 specific one is chosen via the command line. Configuration for each host are
-defined in [`machines`](machines), so make sure to add hosts as necessary. If no
-configuration matching the hostname is found, the Home Manager would attempt to
-find a match based on the username instead.
+defined in [`machines`](machines), so make sure to add hosts there as necessary.
+If no configuration matching the hostname is found, the Home Manager would
+attempt to find a match based on the username instead.
 
 ## How to add configuration for new hosts
 
@@ -147,6 +148,7 @@ pod042 = mkHome {
   configuration = {
     dotfiles.profiles.enableAll = true;
   };
+  stateVersion = "21.11";
 };
 ```
 
@@ -158,7 +160,7 @@ configuration into a separate file. To use this, replace `mkHome` with the
 below:
 
 ```nix
-pod042 = importHome ./pod042.nix { };
+pod042 = importHome ./pod042.nix { stateVersion = "21.11"; };
 ```
 
 Then move the configuration into `pod042.nix`:
@@ -175,8 +177,8 @@ by creating a new Nix flake that takes this repository as input. See the
 
 ### Custom Options
 
-This dotfiles introduces a few additional options for Home Manager, as outlined
-below:
+This dotfiles introduces a few additional options for Home Manager. Here's some
+of the interesting ones:
 
 <dl>
   <dt>dotfiles.profiles.minimal.enable</dt>

@@ -13,12 +13,15 @@ Consult the following for more details.
 - [Official website](https://nixos.org)
 - [Official docs](https://nixos.org/learn.html)
 
-It's also possible to use this dotfiles on systems without Nix. If you wish to
-do so, make sure to read [this document](home/README.md) before proceeding.
+It's also possible to use this dotfiles on systems without Nix, albeit with
+reduced compatibility guarantees. If you wish to do so, make sure to read
+[this document](home/README.md) before proceeding.
 
 ## Installation
 
 ### Step 1: Preparation
+
+#### With Nix
 
 Drop into a [nix-shell][nix-shell] with the following command. This would
 download some commands required for setup, open a new temporary shell, and make
@@ -30,16 +33,17 @@ $ nix-shell -A "devShells.$system.setup" 'https://github.com/midchildan/dotfiles
 $
 ```
 
-For systems without Nix, instead make sure the following commands are installed
-beforehand.
+#### Without Nix
+
+Make sure the following commands are installed beforehand.
 
 - Git
 - cURL or Wget
 - Neovim
 
-Neovim is used to install Vim plugins at the end of installation. If you wish to
-use Vim instead, you can do so manually by invoking [`:PlugInstall`][plug] in
-Vim.
+Neovim is used to install Vim plugins at the end of the installation. If you
+wish to use Vim instead, you can do so manually by invoking
+[`:PlugInstall`][plug] in Vim.
 
 ### Step 2: Setup your repository
 
@@ -59,7 +63,7 @@ Using the table in the [Supported Platforms](#supported-platforms) section,
 checkout the most relevant branch for your platform. Note that instead of
 checking out your chosen branch directly, it is recommended that you create a
 `local` branch based on your chosen branch that is tied to your local machine
-and check it out to a separate path for deployment. This way, you can edit files
+and check it out to a separate path for deployment. This way, you can make edits
 on any branch without affecting your current configuration.
 
 ```console
@@ -100,7 +104,7 @@ the other two would enable Nix flakes by default.
 - NixOS:
 
 ```console
-$ sudo nix --experimental-feature 'nix-command flake' run '.#nixos' -- switch --flake '.#'
+$ sudo nix --experimental-features 'nix-command flake' run '.#nixos' -- switch --flake '.#'
 ```
 
 - nix-darwin:
@@ -127,7 +131,7 @@ $ nix run '.#home' -- switch --flake .
 In addition to the platforms listed above, support for one-off remote Linux
 sessions is included in the `gh-pages` branch. This is useful in cases where
 it's cumbersome to maintain a full-blown dotfiles, e.g. docker sessions, servers
-you rarely login to directly, etc. See
+you rarely login to directly, etc. Notably, this branch doesn't require Nix. See
 [here](https://www.midchildan.org/dotfiles) for details.
 
 Changes common to all platforms should first be made in `master`, and then

@@ -38,6 +38,8 @@ pod042 = mkNixOS {
 
     # NOTE: Maybe use https://github.com/ryantm/agenix
     users.users.yorha2b.passwordFile = "/run/secrets/hashed-login-password";
+
+    system.stateVersion = "21.11";
   }];
 };
 ```
@@ -67,16 +69,19 @@ Then move the configuration into `pod042.nix`:
 
   # NOTE: Maybe use https://github.com/ryantm/agenix
   users.users.yorha2b.passwordFile = "/run/secrets/hashed-login-password";
+
+  system.stateVersion = "21.11";
 }
 ```
 
-Finally, its also possible to place host configuration in a separate repository
+Finally, it's also possible to place host configuration in a separate repository
 by creating a new Nix flake that takes this repository as input. See the
 [description in the `templates` directory](../templates) for more details.
 
 ## Custom Options
 
-This dotfiles introduces a few additional options for NixOS, as outlined below:
+This dotfiles introduces a few additional options for NixOS. Here's some of the
+interesting ones:
 
 <dl>
   <dt>dotfiles.profiles.desktop.enable</dt>
