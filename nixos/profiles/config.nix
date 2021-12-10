@@ -15,7 +15,5 @@ in
       experimental-features = nix-command flakes
     '';
     nixpkgs.config.allowUnfree = true;
-
-    system.stateVersion = dotfiles.lib.config.os.stateVersion;
   };
 }

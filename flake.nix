@@ -19,7 +19,7 @@
     };
   };
 
-  outputs = { self, home, darwin, ... } @ inputs:
+  outputs = { self, home, ... } @ inputs:
     let lib = import ./lib { inherit inputs; }; in
     {
       inherit lib;

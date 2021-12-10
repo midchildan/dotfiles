@@ -2,8 +2,10 @@
 
 with lib;
 
-let isGenericLinux = (config.targets.genericLinux.enable or false);
-in {
+let
+  inherit (pkgs.stdenv.hostPlatform) isLinux;
+in
+{
   options.dotfiles.profiles.fonts.enable = mkOption {
     type = types.bool;
     default = config.dotfiles.profiles.desktop.enable;
@@ -14,7 +16,7 @@ in {
   };
 
   config = mkIf config.dotfiles.profiles.fonts.enable {
-    fonts.fontconfig.enable = mkDefault isGenericLinux;
+    fonts.fontconfig.enable = mkDefault isLinux;
 
     home.packages = with pkgs; [
       fira-code

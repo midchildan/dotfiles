@@ -106,17 +106,18 @@ rec {
       modules = modules ++ [
         self.darwinModule
         home.darwinModule
-        {
-          system.stateVersion = config.os.darwin.stateVersion;
-          nixpkgs = nixpkgsConfig;
-          home-manager = {
-            useGlobalPkgs = true;
-            sharedModules = [
-              self.homeModule
-              { home.stateVersion = config.user.stateVersion; }
-            ];
-          };
-        }
+        ({ lib, ... }:
+          {
+            system.stateVersion = lib.mkDefault config.os.darwin.stateVersion;
+            nixpkgs = nixpkgsConfig;
+            home-manager = {
+              useGlobalPkgs = true;
+              sharedModules = [
+                self.homeModule
+                { home.stateVersion = lib.mkDefault config.user.stateVersion; }
+              ];
+            };
+          })
       ];
     });
 
@@ -139,19 +140,20 @@ rec {
       modules = modules ++ [
         self.nixosModule
         home.nixosModule
-        {
-          system.stateVersion = config.os.stateVersion;
-          nixpkgs = nixpkgsConfig;
-          home-manager = {
-            sharedModules = [
-              self.homeModule
-              {
-                home.stateVersion = config.user.stateVersion;
-                nixpkgs = nixpkgsConfig;
-              }
-            ];
-          };
-        }
+        ({ lib, ... }:
+          {
+            system.stateVersion = lib.mkDefault config.os.stateVersion;
+            nixpkgs = nixpkgsConfig;
+            home-manager = {
+              sharedModules = [
+                self.homeModule
+                {
+                  home.stateVersion = lib.mkDefault config.user.stateVersion;
+                  nixpkgs = nixpkgsConfig;
+                }
+              ];
+            };
+          })
       ];
     });
 
