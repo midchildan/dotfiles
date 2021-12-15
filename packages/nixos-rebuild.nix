@@ -1,3 +1,3 @@
-{ nixos-rebuild, nixUnstable }:
+{ nixos-rebuild, nix }:
 
-nixos-rebuild.override { nix = nixUnstable; }
+nixos-rebuild.override { inherit nix; }
