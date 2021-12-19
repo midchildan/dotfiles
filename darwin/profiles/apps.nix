@@ -13,11 +13,14 @@
       cleanup = lib.mkDefault "uninstall";
     };
 
+    homebrew.taps = [ "homebrew/cask-drivers" ];
+
     homebrew.casks = [
       "alfred"
       "aquaskk"
       "firefox"
       "gimp"
+      "gutenprint"
       "inkscape"
       "iterm2"
       "krita"
