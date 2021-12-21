@@ -50,9 +50,18 @@ in
         };
       };
 
-      services = {
-        pcscd.enable = mkDefault true;
-        printing.enable = mkDefault true;
+      services.pcscd.enable = mkDefault true;
+
+      # Printers https://nixos.wiki/wiki/Printing
+      services.printing = {
+        enable = true;
+        drivers = with pkgs; [ gutenprint ];
+      };
+
+      # Scanners https://nixos.wiki/wiki/Scanners
+      hardware.sane = {
+        enable = mkDefault true;
+        extraBackends = with pkgs; [ sane-airscan ];
       };
 
       services.xserver = {

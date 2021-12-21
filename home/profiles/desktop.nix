@@ -14,6 +14,7 @@ in {
         anki
         firefox-bin
         gimp
+        ink
         kitty
         libreoffice
         lollypop
