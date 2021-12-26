@@ -12,6 +12,6 @@
 
 `kextunload -b {{unstable.snakeoil.sensor}}`
 
-- Fix a stuck App Store download
+- Fix a stuck App Store download:
 
 `pkill -KILL appstoreagent`
