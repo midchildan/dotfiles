@@ -24,13 +24,11 @@ in incompatibilities if you use packages installed outside of Nix.
 
 The second reason is convenience. Files deployed using Home Manager are
 symlinked from the Nix store, which is an immutable directory typically located
-at `/nix/store`. This can turn out to be a bit an inconvenience sometimes. For
-example, when testing quick changes, you can't just edit the files directly. Or
-in an another case, if you want to share your dotfiles with a containerized
-process, you'd also need to share the Nix store in addition to your home
-directory. Symlinking directly from a git repository under the home directory
-would avoid these problems. Furthermore, it would allow for neat tricks like the
-one used in the [rcd script](files/.local/bin/rcd).
+at `/nix/store`. This can turn out to be a bit an inconvenience sometimes in
+several ways. First, it prevents you from editing the files directly. Second, if
+you want to share your dotfiles with a containerized process, you'd also need to
+share the Nix store in addition to your home directory. Third, it would prevent
+some neat tricks like the one used in the [rcd script](files/.local/bin/rcd).
 
 ### Use on non-Nix Systems
 
@@ -88,9 +86,9 @@ git apply patches/debian.patch
 
 ### Overview
 
-[Home Manager][home] is used to manage packages and daemons. It's also used as a
-means to generate configuration files from high level definitions when the
-convenience of doing so outweighs the benefits of using static dotfiles.
+[Home Manager][home] is used to manage per-user packages and daemons. It's also
+used as a means to generate configuration files from high level definitions when
+the convenience of doing so outweighs the benefits of using static dotfiles.
 
 This document focuses on aspects that are unique to this dotfiles. Detailed
 usage instructions for Home Manager itself can be found in the [official
@@ -105,17 +103,18 @@ When choosing where to place a given configuration, prefer Home Manager over
 system-wide configuration unless there's a reason not to. This would provide
 the following benefits:
 
-- Home Manager is usable on non-NixOS distros with Nix installed
+- Home Manager is usable on any Linux distro with Nix installed
 - Home Manager can share configuration between Linux and macOS
 - You can enjoy up to date packages with Home Manager while using stable
   packages for NixOS / nix-darwin
 
 ### Best Practices
 
-When installing packages, prefer to install them on a per-project basis instead
-of installing them globally through Home Manager to keep the Home Manager
-configuration small. This can be achieved using a combination of the
-[nix-shell][nix-shell] and [direnv][direnv]. [Direnv's wiki][direnv-wiki]
+While Home Manager is a convenient method for package management, it's not
+exactly good practice to install anything and everything with it. For software
+tied to a specific project, it's recommended to keep the installation local to
+that project instead of installing it globally. Nix handles this pretty well
+with [nix-shell][nix-shell] and [direnv][direnv]. [Direnv's wiki][direnv-wiki]
 contains a detailed explanation about this setup. [nix-direnv][nix-direnv],
 which further integrates the two, is also included as part of the Home Manager
 configuration for this dotfiles.
