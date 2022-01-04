@@ -97,7 +97,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/tmux/tmux.conf
   - .config/zathura/zathurarc
   - .ipython/profile_default/ipython_config.py
-  - .local/opt/fzftools
   - .prettierrc
   - .screenrc
   - .wgetrc
