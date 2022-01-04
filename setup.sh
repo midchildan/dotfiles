@@ -95,7 +95,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .ipython/profile_default/ipython_config.py
   - .local/bin/imgcat
   - .local/bin/uninstaller
-  - .local/opt/fzftools
   - .nanorc
   - .prettierrc
   - .screenrc

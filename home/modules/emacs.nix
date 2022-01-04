@@ -12,13 +12,13 @@ in
       enable = lib.mkDefault true;
       extraConfig = ''
         (setq dired-use-ls-dired t
-              emacsql-sqlite3-executable "${pkgs.sqlite}/bin/sqlite3"
               insert-directory-program "${pkgs.coreutils}/bin/ls"
               treemacs-python-executable "${pkgs.python3}/bin/python")
       '';
       extraPackages = epkgs:
         with epkgs; [
           # include Doom Emacs dependencies that tries to build native C code
+          emacsql-sqlite
           pdf-tools
           vterm
         ];
