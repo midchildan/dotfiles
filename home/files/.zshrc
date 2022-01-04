@@ -126,16 +126,18 @@ autoload -Uz select-bracketed && zle -N select-bracketed
 autoload -Uz select-quoted && zle -N select-quoted
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
 autoload -Uz toggle-leading-space && zle -N toggle-leading-space
-autoload -Uz fzf-completion && zle -N fzf-completion
-autoload -Uz fzf-cd-widget && zle -N fzf-cd-widget
 autoload -Uz fzf-cdr-widget && zle -N fzf-cdr-widget
 autoload -Uz fzf-cd-repo-widget && zle -N fzf-cd-repo-widget
-autoload -Uz fzf-file-widget && zle -N fzf-file-widget
-autoload -Uz fzf-history-widget && zle -N fzf-history-widget
 autoload -Uz fzf-snippet-expand && zle -N fzf-snippet-expand
 autoload -Uz fzf-snippet-next \
   && zle -N fzf-snippet-next \
   && zle -N fzf-snippet-accept fzf-snippet-next
+autoload -Uz fzf-widgets \
+  && zle -N fzf-menu-widget fzf-widgets \
+  && zle -N fzf-completion fzf-widgets \
+  && zle -N fzf-cd-widget fzf-widgets \
+  && zle -N fzf-file-widget fzf-widgets \
+  && zle -N fzf-history-widget fzf-widgets
 autoload -Uz surround \
   && zle -N delete-surround surround \
   && zle -N add-surround surround \
@@ -170,8 +172,9 @@ bindkey -v \
   '^W' backward-kill-word \
   '^X^F' fzf-file-widget \
   '^X^J' fzf-snippet-expand \
+  '^X^L' fzf-history-widget \
   '^X^O' complete-from-help \
-  '^X^R' fzf-history-widget \
+  '^X^U' fzf-menu-widget \
   '^Y' history-incremental-search-backward \
   '^?' backward-delete-char
 bindkey -ra 's'

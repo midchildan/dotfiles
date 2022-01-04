@@ -4,9 +4,6 @@
 [submodule "home/files/.local/opt/gef"]
 	path = home/files/.local/opt/gef
 	url = https://github.com/hugsy/gef.git
-[submodule "home/files/.local/opt/fzftools"]
-	path = home/files/.local/opt/fzftools
-	url = https://github.com/midchildan/fzftools.git
 [submodule "home/files/.local/opt/tldr"]
 	path = home/files/.local/opt/tldr
 	url = https://github.com/tldr-pages/tldr.git

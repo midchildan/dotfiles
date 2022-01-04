@@ -26,8 +26,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/shell/snippets/linux
   - .config/shell/snippets/main/common.md
   - .config/shell/snippets/main/linux.md
-  - .config/shell/templates
-  - .config/shell/templates.csv
   - .local/share/zsh/site-functions
   - .local/opt/tldr
 
