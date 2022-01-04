@@ -1,7 +1,7 @@
 emulate -L zsh
 zmodload -i zsh/parameter
 
-autoload -Uz fzf-widgets && fzf-widgets || return 1
+autoload -Uz fzf-widgets && fzf-widgets init || return 1
 
 fzf-cd-repo-widget() {
   emulate -L zsh

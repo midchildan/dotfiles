@@ -6,7 +6,7 @@ dotfiles for my personal use.
 
 ## Requirements
 
-### Nix Package Manager
+### Nix Package Manager (>= 2.4)
 
 Consult the following for more details.
 
@@ -87,19 +87,26 @@ complete.
 
 ### Step 5: Bootstrap NixOS / Nix-Darwin / Home Manager Configuration
 
-For details about each, read the docs linked below. To use this dotfiles on
-systems without Nix, skip straight to the next step.
+For details about each, read the docs linked below. Pick the ones you need and
+configure them as needed before proceeding.
 
-| Software     | File                                 |
-| ------------ | ------------------------------------ |
-| NixOS        | [nixos/README.md](nixos/README.md)   |
-| Nix-Darwin   | [darwin/README.md](darwin/README.md) |
-| Home Manager | [home/README.md](home/README.md)     |
+| Software     | File                                 | Required? |
+| ------------ | ------------------------------------ | --------- |
+| Home Manager | [home/README.md](home/README.md)     | yes       |
+| NixOS        | [nixos/README.md](nixos/README.md)   | no        |
+| Nix-Darwin   | [darwin/README.md](darwin/README.md) | no        |
 
-The commands for bootstrapping each are listed below. Adjust settings for each
-and run them as needed. Also when bootstrapping Home Manager, make sure [Nix
-flakes][flakes] are enabled before proceeding. The bootstrapping procedure for
-the other two would enable Nix flakes by default.
+Bootstrapping instructions for each are listed below. Home Manager can
+optionally be integrated into NixOS or Nix-Darwin. If you do this, NixOS or
+Nix-Darwin would take care of bootstrapping Home Manager. Otherwise if you're
+bootstrapping Home Manager yourself, make sure [Nix flakes][flakes] are enabled
+beforehand.
+
+- Home Manager:
+
+```console
+$ nix run '.#home' -- switch --flake .
+```
 
 - NixOS:
 
@@ -113,12 +120,6 @@ $ sudo nix --experimental-features 'nix-command flake' run '.#nixos' -- switch -
 $ mkdir ~/Applications # https://github.com/LnL7/nix-darwin/pull/226
 $ nix --experimental-features 'nix-command flakes' run '.#darwin' -- switch --flake '.#'
 $ sudo -H nix-env -e '*' # remove existing packages not managed by nix-darwin
-```
-
-- Home Manager:
-
-```console
-$ nix run '.#home' -- switch --flake .
 ```
 
 ## Supported platforms

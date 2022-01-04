@@ -1,5 +1,0 @@
-emulate -L zsh
-
-if autoload -Uz fzf-widgets && fzf-widgets; then
-  fzf-cd-widget
-fi

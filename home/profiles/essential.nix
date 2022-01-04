@@ -28,7 +28,6 @@ in
         nkf
         p7zip
         ranger
-        thefuck
         tig
         tmux
         wget
