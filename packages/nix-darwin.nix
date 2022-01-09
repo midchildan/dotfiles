@@ -1,9 +1,10 @@
-{ lib, stdenv, runCommand, darwin }:
+{ lib, stdenv, runCommand, darwin, nix }:
 
 let
   # Create a nix-darwin configuration that includes almost nothing other than
   # nix-darwin itself.
   tinyConfig = {
+    nix.package = nix;
     documentation.info.enable = false;
     programs.bash.enable = false;
   };
