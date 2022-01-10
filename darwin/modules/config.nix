@@ -6,6 +6,7 @@
   #
   # $ sudo -H nix-channel --remove nixpkgs
   # $ sudo -H nix-env -e '*'
+  nix.package = lib.mkDefault pkgs.nix_2_4;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
