@@ -37,7 +37,7 @@ in
         fonts = with pkgs; [
           noto-fonts
           noto-fonts-cjk
-          myPkgs.noto-serif-cjk
+          myPkgs.noto-fonts-cjk-serif
           noto-fonts-emoji
           ipafont
           dejavu_fonts
