@@ -13,4 +13,6 @@ in
     network.enable = true;
     desktop.enable = true;
   };
+
+  users.users.${username}.password = "";
 }
