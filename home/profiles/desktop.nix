@@ -12,7 +12,6 @@ in {
     home.packages = with pkgs;
       optionals isLinux [
         anki
-        firefox-bin
         gimp
         ink
         kitty
@@ -25,6 +24,7 @@ in {
       ];
 
     dotfiles.emacs.enable = mkDefault true;
+    dotfiles.firefox.enable = mkDefault true;
     dotfiles.profiles.fonts.enable = mkDefault true;
     dotfiles.profiles.macos.enable = mkDefault isDarwin;
   };

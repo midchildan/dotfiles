@@ -221,5 +221,14 @@
         More details at https://github.com/NixOS/nixpkgs/pull/136429.
       '';
     }
+    {
+      time = "2022-01-24T14:05:32+00:00";
+      message = ''
+        A new module is available: 'dotfiles.firefox'
+
+        This can be used to configure enterprise policies for Firefox. It's an
+        convenient method to trust private certificate authorities in Firefox.
+      '';
+    }
   ];
 }
