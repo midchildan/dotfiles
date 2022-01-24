@@ -78,6 +78,22 @@ Finally, it's also possible to place host configuration in a separate repository
 by creating a new Nix flake that takes this repository as input. See the
 [description in the `templates` directory](../templates) for more details.
 
+## How to test the current configuration for a specific host
+
+It's possible to try out the current configuration in a test VM. For example, to
+run the `ci` machine in a VM, run the following command:
+
+```bash
+nixos-rebuild build-vm --flake '.#ci'
+result/bin/run-nixos-vm
+```
+
+To clean up afterwards:
+
+```bash
+rm result nixos.qcow2
+```
+
 ## Custom Options
 
 This dotfiles introduces a few additional options for NixOS. Here's some of the

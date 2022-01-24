@@ -9,12 +9,13 @@ let
 in
 rec {
 
+  inherit (pkgs) noto-fonts-cjk-serif;
+
   nixpath = pkgs.callPackage ./nixpath.nix { };
   cloudfoundry-cli-6 = pkgs.callPackage ./cloudfoundry-cli-6 { };
   neovim = pkgs.callPackage ./neovim.nix { };
   nghttp3 = pkgs.callPackage ./nghttp3.nix { };
   ngtcp2 = pkgs.callPackage ./ngtcp2.nix { inherit nghttp3 quictls; };
-  noto-serif-cjk = pkgs.callPackage ./noto-serif-cjk.nix { };
   siege = pkgs.callPackage ./siege.nix { };
   terminfo-collection = pkgs.callPackage ./terminfo-collection.nix { };
   quictls = pkgs.callPackage ./quictls.nix { };
