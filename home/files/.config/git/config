@@ -35,6 +35,8 @@
 	allow = always
 [delta]
 	line-numbers = true
+	max-line-length = 0
+	navigate = true
 [ghq]
 	root = ~/Documents/src/go/src
 	root = ~/Documents/src/repos
