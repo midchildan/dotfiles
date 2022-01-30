@@ -15,10 +15,6 @@
 
 `curl -sSfL https://raw.githubusercontent.com/tmux/tmux/{{2.8}}/tmux.1 | nroff -mdoc | less`
 
-- Shorten a GitHub URL:
-
-`curl -i https://git.io -F 'url={{url}}' -F 'code={{code}}'`
-
 - Count the number of files in a directory:
 
 `find {{path/to/directory}} -type f -printf . | wc -c`
