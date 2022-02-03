@@ -1,11 +1,11 @@
 { mkShellNoCC
-, curl-h3
+, curlHTTP3
 , quictls
 }:
 
 mkShellNoCC {
   nativeBuildInputs = [
-    curl-h3
+    curlHTTP3
     quictls
   ];
 }
