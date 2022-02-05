@@ -101,6 +101,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .wgetrc
   - Library/Application\ Support/AquaSKK/keymap.conf
   - Library/Application\ Support/iTerm2/DynamicProfiles/template.plist
+  - Library/Developer/Xcode/UserData/IDETemplateMacros.plist
 
 # The below will not run unless --init is specified
 
