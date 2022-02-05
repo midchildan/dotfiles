@@ -1,8 +1,9 @@
 # Common snippets
 
-> This file contains command examples used by our snippet expansion widget for
-> zsh. It's triggered by pressing `^X^J` in insert mode, and the placeholders
-> can be replaced by pressing `^J` also in insert mode.
+> This file contains command examples used by the snippet expansion widget for
+> zsh included in this dotfiles. It's triggered by pressing `^X^J` in insert
+> mode, and the placeholders can be replaced by pressing `^J` also in insert
+> mode.
 >
 > The format of this file is derived from tldr-pages.
 > More info: <https://github.com/tldr-pages/tldr/blob/master/contributing-guides/style-guide.md>
@@ -74,3 +75,15 @@
 - Format JSON:
 
 `python3 -m json.tool {{input.json}}`
+
+- Expand an embedded Ruby template:
+
+`erb -T - {{template.txt.erb}}`
+
+- Show the ink level of an USB printer:
+
+`sudo ink -p usb`
+
+- Show the ink level of a Canon BJNP printer:
+
+`sudo ink -p bjnp`

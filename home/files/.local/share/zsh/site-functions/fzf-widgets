@@ -68,6 +68,7 @@ fi
 
 __dot::ensure_cwd_is_git_repo() {
   if ! git rev-parse --is-inside-git-dir &> /dev/null; then
+    zle reset-prompt
     zle -M '[ERROR] fzf-widgets: Not in a Git repo'
     return 1
   fi
@@ -84,6 +85,25 @@ __dot::fzf() {
   FZF_DEFAULT_OPTS="${(j: :)opts}" $(__fzfcmd) "$@"
 }
 
+fzf-dictionary-widget() {
+  emulate -L zsh
+  setopt localoptions pipefail no_aliases 2> /dev/null
+
+  local dict="${WORDLIST:-/usr/share/dict/words}"
+  if [[ ! -f "$dict" ]]; then
+    zle reset-prompt
+    zle -M "[ERROR] fzf-widgets: dictionary file '$dict' not available"
+    return 1
+  fi
+
+  __dot::fzf -m < "$dict" | IFS= read -r -d '' selected
+
+  if [[ -n "$selected" ]]; then
+    LBUFFER+="${(j: :)${(@q)${(f)selected}}}"
+  fi
+  zle reset-prompt
+}
+
 fzf-git-branch-widget() {
   emulate -L zsh
   setopt localoptions pipefail no_aliases 2> /dev/null
@@ -91,22 +111,24 @@ fzf-git-branch-widget() {
   __dot::ensure_cwd_is_git_repo || return
 
   local selected
+  local fmt='format:%C(auto)%cd %h%d %s'
+  local opts="--oneline --graph --date=short --color=always --pretty=${(q)fmt}"
+  local preview="git log $opts \$(sed s/^..// <<< {} | cut -d' ' -f1)"
 
   git branch -a --color=always \
     | grep -v '/HEAD\s' \
     | sort \
     | __dot::fzf -m --ansi --tac \
-        --preview-window right:'70%' \
-        --preview 'git log --oneline --graph --date=short --color=always --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1)' \
+        --preview-window right:'70%' --preview "$preview" \
     | sed 's/^..//' \
     | cut -d' ' -f1 \
     | sed 's#^remotes/##' \
-    | IFS= read -r selected
+    | IFS= read -r -d '' selected
 
-  zle reset-prompt
   if [[ -n "$selected" ]]; then
     LBUFFER+="${(j: :)${(@q)${(f)selected}}}"
   fi
+  zle reset-prompt
 }
 
 fzf-git-log-widget() {
@@ -116,6 +138,7 @@ fzf-git-log-widget() {
   __dot::ensure_cwd_is_git_repo || return
 
   local selected
+  local preview='grep -o "[a-f0-9]\{7,\}" <<<{} | xargs git show --color=always'
 
   git log \
     --date=short \
@@ -125,14 +148,37 @@ fzf-git-log-widget() {
     | __dot::fzf -m --ansi --no-sort \
         --bind 'ctrl-s:toggle-sort' \
         --header 'Press CTRL-S to toggle sort' \
-        --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always' \
+        --preview "$preview" \
     | grep -o "[a-f0-9]\{7,\}" \
     | IFS= read -r -d '' selected
 
-  zle reset-prompt
   if [[ -n "$selected" ]]; then
     LBUFFER+="${(j: :)${(@q)${(f)selected}}}"
   fi
+  zle reset-prompt
+}
+
+fzf-git-files-widget() {
+  emulate -L zsh
+  setopt localoptions pipefail no_aliases 2> /dev/null
+
+  __dot::ensure_cwd_is_git_repo || return
+
+  local selected
+  local preview='cat {-1}'
+
+  if (( $+commands[bat] )); then
+    preview='bat {-1}'
+  fi
+
+  git ls-files \
+    | __dot::fzf -m --preview "$preview" \
+    | IFS= read -r -d '' selected
+
+  if [[ -n "$selected" ]]; then
+    LBUFFER+="${(j: :)${(@q)${(f)selected}}}"
+  fi
+  zle reset-prompt
 }
 
 fzf-git-remote-widget() {
@@ -142,19 +188,20 @@ fzf-git-remote-widget() {
   __dot::ensure_cwd_is_git_repo || return
 
   local selected
+  local fmt='format:%C(auto)%cd %h%d %s'
+  local preview="git log --oneline --graph --date=short --pretty=${(q)fmt} {1}"
 
   git remote -v \
     | awk '{print $1 "\t" $2}' \
     | uniq \
-    | __dot::fzf -m --tac \
-        --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" {1}' \
+    | __dot::fzf -m --tac --preview "$preview" \
     | cut -d$'\t' -f1 \
-    | IFS= read -r selected
+    | IFS= read -r -d '' selected
 
-  zle reset-prompt
   if [[ -n "$selected" ]]; then
     LBUFFER+="${(j: :)${(@q)${(f)selected}}}"
   fi
+  zle reset-prompt
 }
 
 fzf-git-stash-widget() {
@@ -166,14 +213,14 @@ fzf-git-stash-widget() {
   local selected
 
   git stash list \
-    | __dot::fzf --reverse -d: --preview 'git show --color=always {1}' \
+    | __dot::fzf -m --reverse -d: --preview 'git show --color=always {1}' \
     | cut -d: -f1 \
-    | IFS= read -r selected
+    | IFS= read -r -d '' selected
 
-  zle reset-prompt
   if [[ -n "$selected" ]]; then
     LBUFFER+="${(j: :)${(@q)${(f)selected}}}"
   fi
+  zle reset-prompt
 }
 
 fzf-git-status-widget() {
@@ -191,10 +238,10 @@ fzf-git-status-widget() {
     | sed 's/.* -> //' \
     | IFS= read -r -d '' selected
 
-  zle reset-prompt
   if [[ -n "$selected" ]]; then
     LBUFFER+="${(j: :)${(@q)${(f)selected}}}"
   fi
+  zle reset-prompt
 }
 
 fzf-git-tag-widget() {
@@ -207,12 +254,12 @@ fzf-git-tag-widget() {
 
   git tag --sort='-version:refname' \
     | __dot::fzf -m --preview 'git show --color=always {}' \
-    | IFS= read -r selected
+    | IFS= read -r -d '' selected
 
-  zle reset-prompt
   if [[ -n "$selected" ]]; then
     LBUFFER+="${(j: :)${(@q)${(f)selected}}}"
   fi
+  zle reset-prompt
 }
 
 fzf-hostname-widget() {
@@ -253,28 +300,34 @@ fzf-variable-widget() {
 
 fzf-menu-widget() {
 __dot::fzf +m <<EOF | awk '{ print $NF }' | IFS= read -r selected
-Environment variables:  fzf-environment-variable-widget
-Files:                  fzf-file-widget
-Git branches:           fzf-git-branch-widget
-Git commits:            fzf-git-log-widget
-Git remotes:            fzf-git-remote-widget
-Git stash:              fzf-git-stash-widget
-Files in Git status:    fzf-git-status-widget
-Git tags:               fzf-git-tag-widget
-Shell history:          fzf-history-widget
-Hostnames:              fzf-hostname-widget
-Process IDs:            fzf-pid-widget
-Shell variables:        fzf-variable-widget
+Dictionary words      : fzf-dictionary-widget
+Environment variables : fzf-environment-variable-widget
+Files                 : fzf-file-widget
+Git branches          : fzf-git-branch-widget
+Git commits           : fzf-git-log-widget
+Git files             : fzf-git-files-widget
+Git remotes           : fzf-git-remote-widget
+Git stash             : fzf-git-stash-widget
+Files in Git status   : fzf-git-status-widget
+Git tags              : fzf-git-tag-widget
+Shell history         : fzf-history-widget
+Hostnames             : fzf-hostname-widget
+Process IDs           : fzf-pid-widget
+Shell variables       : fzf-variable-widget
 EOF
 
   if [[ -n "$selected" ]]; then
     zle "$selected"
+  else
+    zle reset-prompt
   fi
 }
 
+zle -N fzf-dictionary-widget
 zle -N fzf-environment-variable-widget
 zle -N fzf-git-branch-widget
 zle -N fzf-git-log-widget
+zle -N fzf-git-files-widget
 zle -N fzf-git-remote-widget
 zle -N fzf-git-stash-widget
 zle -N fzf-git-status-widget

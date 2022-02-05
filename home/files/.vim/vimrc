@@ -285,6 +285,10 @@ nnoremap <silent> <Leader>t~ :set ignorecase! ignorecase?<CR>
 nnoremap <silent> <Leader>t<Space> :call vimrc#toggle_whitespace_check()<CR>
 nnoremap <silent> <Leader>t<Tab> :call vimrc#toggle_whitespace_visibility()<CR>
 
+" ALE
+nnoremap <silent> <Leader>wc :ALEPopulateQuickfix<CR>
+nnoremap <silent> <Leader>wl :ALEPopulateLocList<CR>
+
 " FZF mappings
 imap <C-x><C-x><C-f> <Plug>(fzf-complete-path)
 imap <C-x><C-x><C-k> <Plug>(fzf-complete-word)
@@ -367,6 +371,10 @@ if $USE_POWERLINE
   let g:airline_symbols.colnr = "\u33c7"
 endif
 let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
+
+" ALE "
+let g:ale_set_quickfix = v:false
+let g:ale_set_loclist = v:false
 
 " CoC "
 let g:coc_start_at_startup = has('node') || executable('node')
