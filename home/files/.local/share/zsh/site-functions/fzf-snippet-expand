@@ -13,21 +13,18 @@ if ! (( $+commands[perl] )); then
   return 1
 fi
 
+autoload -Uz fzf-widgets && fzf-widgets init || return 1
+
 local snippet
 perl -MTerm::ANSIColor=colored -0777 -ne \
   'print "$2 ", colored("## $1\n", q/bright_black/) while /^- (.*):\n\n\`(.*)\`$/mg' \
   ~/.config/shell/snippets/*/*.md \
-  | fzf --height 50% --reverse +m --ansi -q "$LBUFFER" \
+  | __dot::fzf +m --ansi -q "$LBUFFER" \
       --preview 'echo {}' --preview-window down:3:wrap \
   | IFS= read -r snippet
 
-local ret
 if [[ -n "$snippet" ]]; then
   LBUFFER="$(sed "s/ *##.*//" <<< "$snippet")"
-  ret=0
-else
-  ret=1
 fi
 
 zle reset-prompt
-return "$ret"
