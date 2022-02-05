@@ -40,7 +40,7 @@
   <false/>
   <!-- Text / Font -->
   <key>Normal Font</key>
-  <string>FiraCode-Light_Retina 12</string>
+  <string>FiraCodeRoman-Regular 12</string>
   <key>Non Ascii Font</key>
   <string>Monaco 12</string>
   <key>Horizontal Spacing</key>
