@@ -168,7 +168,7 @@ fzf-git-files-widget() {
   local preview='cat {-1}'
 
   if (( $+commands[bat] )); then
-    preview='bat {-1}'
+    preview='bat --style=numbers --color=always --line-range :500 {}'
   fi
 
   git ls-files \
