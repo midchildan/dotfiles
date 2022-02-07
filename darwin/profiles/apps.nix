@@ -25,6 +25,7 @@
       "inkscape"
       "iterm2"
       "krita"
+      "netnewswire"
       "skim"
       "sourcetrail"
       "visual-studio-code"
