@@ -108,7 +108,7 @@
        yaml
 
        :app
-       ;;calendar
+       rss
 
        :config
        literate

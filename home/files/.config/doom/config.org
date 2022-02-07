@@ -397,6 +397,16 @@ Disable Chef Foodcritic, which is deprecated.
 (setq-default flycheck-disabled-checkers '(chef-foodcritic))
 #+end_src
 
+** RSS
+Load RSS feeds from an OPML file to make it possible to share feeds across
+different RSS readers.
+
+#+begin_src emacs-lisp
+(let ((feedpath "~/Documents/feeds.opml"))
+  (when (file-exists-p feedpath)
+    (elfeed-load-opml feedpath)))
+#+end_src
+
 ** Yankpad
 [[https://github.com/Kungsgeten/yankpad][Yankpad]] is a plugin for managing snippets. The snippets are managed in
 org mode format in a file path configured by ~yankpad-file~. The snippets

@@ -10,6 +10,7 @@
     # would be automatically uninstalled by default.
     homebrew = {
       enable = lib.mkDefault true;
+      autoUpdate = lib.mkDefault true;
       cleanup = lib.mkDefault "uninstall";
     };
 
@@ -24,6 +25,7 @@
       "inkscape"
       "iterm2"
       "krita"
+      "netnewswire"
       "skim"
       "sourcetrail"
       "visual-studio-code"
