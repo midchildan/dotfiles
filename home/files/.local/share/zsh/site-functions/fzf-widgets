@@ -15,11 +15,11 @@ fi
 # find and load upstream fzf widgets
 
 local searchpath
-if (( $+commands[fzf-share] )); then
-  searchpath=( "$(fzf-share)" )
-else
+if ! zstyle -s ':dotfiles:fzf' script-dir searchpath; then
   searchpath=(
+    ~/.nix-profile/share/fzf
     ~/.vim/plugged/fzf/shell
+    /run/current-system/sw/share/fzf
     /usr/local/opt/fzf/shell
     /usr/share/doc/fzf/examples
   )
@@ -75,14 +75,16 @@ __dot::ensure_cwd_is_git_repo() {
 }
 
 __dot::fzf() {
-  local -a opts
-  opts=(
-    "--height" "${FZF_TMUX_HEIGHT:-40%}"
-    "--reverse"
-    "--bind" "ctrl-/:toggle-preview"
-    "$FZF_DEFAULT_OPTS"
-  )
-  FZF_DEFAULT_OPTS="${(j: :)opts}" $(__fzfcmd) "$@"
+  local -a args
+  if ! zstyle -a ':dotfiles:fzf' default-args args; then
+    args=(
+      "--height" "${FZF_TMUX_HEIGHT:-40%}"
+      "--reverse"
+      "--bind" "ctrl-/:toggle-preview"
+      "$FZF_DEFAULT_OPTS"
+    )
+  fi
+  FZF_DEFAULT_OPTS="${(j: :)args}" $(__fzfcmd) "$@"
 }
 
 fzf-dictionary-widget() {

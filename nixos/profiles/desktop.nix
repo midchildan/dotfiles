@@ -79,6 +79,7 @@ in
     }
 
     (mkIf (cfg.desktop == "gnome") {
+      environment.systemPackages = with pkgs.gnome; [ gnome-session ];
       environment.gnome.excludePackages = with pkgs.gnome; [ gnome-music ];
 
       services.gnome = {
