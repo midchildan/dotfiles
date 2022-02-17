@@ -50,6 +50,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - chmod: 600 .gnupg/gpg.conf
   - chmod: 600 .gnupg/gpg-agent.conf
   - .gnupg/gpg-agent.conf
+  - .gnupg/scdaemon.conf
 
 @install Install SSH Config
   - shell: install -d -m 700 ~/.ssh ~/.ssh/sockets
