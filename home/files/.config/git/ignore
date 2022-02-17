@@ -55,12 +55,12 @@ Thumbs.db
 # clang
 .cache/clangd/
 compile_commands.json
+# direnv
+.direnv/
 # sourcetrail
 *.srctrlbm
 *.srctrldb
 *.srctrlprj
-# direnv
-.direnv/
 
 ##########
 #  Tags  #
@@ -80,3 +80,9 @@ cscope.files
 cscope.out
 cscope.in.out
 cscope.po.out
+
+#############
+#  ripgrep  #
+#############
+# files to be ignored by ripgrep, in addition to git
+.git/
