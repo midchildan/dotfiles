@@ -42,8 +42,9 @@ Plug 'morhetz/gruvbox'
 
 " filetypes
 Plug 'midchildan/ft-confluence.vim'
-Plug 'ledger/vim-ledger', {'for': 'ledger'}
-Plug 'LnL7/vim-nix', {'for': 'nix'}
+Plug 'google/vim-jsonnet'
+Plug 'ledger/vim-ledger'
+Plug 'LnL7/vim-nix'
 Plug 'lervag/vimtex'
 Plug 'cespare/vim-toml'
 
