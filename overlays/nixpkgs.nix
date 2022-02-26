@@ -16,7 +16,7 @@ prev.lib.optionalAttrs prev.stdenv.isDarwin rec {
       passlib = prev.passlib.overridePythonAttrs (old: {
         disabledTests = [ "test_dummy_verify" ];
       });
-      magic-wormhole = prev.magic-wormhole.overridePythonAttrs (old: {
+      httpie = prev.httpie.overridePythonAttrs (old: {
         disabledTests = [ "test_plugins_upgrade" ];
       });
     };
