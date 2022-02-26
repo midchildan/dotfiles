@@ -230,5 +230,14 @@
         convenient method to trust private certificate authorities in Firefox.
       '';
     }
+    {
+      time = "2022-02-26T13:40:26+00:00";
+      message = ''
+        Removed module 'dotfiles.launchd'
+
+        It was upstreamed in
+        https://github.com/nix-community/home-manager/pull/2497.
+      '';
+    }
   ];
 }
