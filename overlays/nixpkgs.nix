@@ -5,7 +5,7 @@ final: prev:
 prev.lib.optionalAttrs prev.stdenv.isDarwin rec {
   python3 = prev.python3.override {
     packageOverrides = final: prev: {
-      # FIXME: workaround for https://github.com/NixOS/nixpkgs/issues/160133
+      # FIXME: workaround for https://nixpk.gs/pr-tracker.html?pr=159516
       ipython = prev.ipython.overridePythonAttrs (old: {
         disabledTests = [ "test_clipboard_get" ];
       });
