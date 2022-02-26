@@ -14,7 +14,7 @@ in {
     (mkIf isDarwin {
       home.packages = [ (getOutput "man" pkgs.syncthing) ];
 
-      dotfiles.launchd.agents.syncthing = {
+      launchd.agents.syncthing = {
         enable = true;
         config = {
           ProgramArguments =

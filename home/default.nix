@@ -6,7 +6,6 @@
     ./news.nix
     ./modules/emacs.nix
     ./modules/firefox.nix
-    ./modules/launchd
     ./modules/linkapps.nix
     ./modules/manpages.nix
     ./modules/syncthing.nix
