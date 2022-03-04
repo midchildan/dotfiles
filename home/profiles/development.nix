@@ -16,7 +16,7 @@ in
     home.packages = with pkgs;
       [ cargo clang-tools github-cli go gopls shellcheck tokei universal-ctags ]
       ++ optionals (cfg.desktop.enable && !isDarwin) [ sourcetrail ]
-      ++ optionals isNixOS [ manpages ]
+      ++ optionals isNixOS [ man-pages ]
       ++ optionals isDarwin [ gnupg ];
 
     dotfiles.pinentry-mac.enable = mkDefault isDarwin;
