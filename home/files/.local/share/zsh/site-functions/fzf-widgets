@@ -46,7 +46,7 @@ done
 if (( ! is_found )); then
   case "$WIDGET" in
     fzf-completion)
-      zle "${fzf_default_completion:-fzf-completion}"
+      zle "${fzf_default_completion:-expand-or-complete}"
       return ;;
     fzf-history-widget)
       zle history-incremental-search-backward
@@ -60,7 +60,7 @@ if (( ! is_found )); then
       return ;;
   esac
 
-  zle -M '[ERROR] fzf-widgets: fzf install path not found'
+  zle -M "[ERROR] fzf-widgets: fzf script dir not detected. Specify one with 'zstyle \":dotfiles:fzf\" script-dir /path/to/fzf/shell/dir'"
   return 1
 fi
 
