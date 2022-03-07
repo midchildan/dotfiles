@@ -15,20 +15,24 @@ to be installed under the home directory. With a few exceptions, most of these
 files are deployed using a custom setup script, [`setup.sh`](../setup.sh).
 
 The setup script deploys the dotfiles by symlinking them into the home
-directory. These are deliberately managed outside of Nix for a few reasons.
+directory. Although dotfiles can be managed entirely with Nix using the help of
+tools like Home Manager, the custom script was chosen over Nix for two reasons.
 
-The first reason is portability. Since the setup script won't rely on Nix, it
-could be installed on systems without Nix. Most parts of the dotfiles should
-just work fine without Nix. Still, software version differences might result
-in incompatibilities if you use packages installed outside of Nix.
+The first reason is portability. By not having the setup script rely on Nix, it
+can be installed on systems without Nix. In fact, most parts of the dotfiles
+should just work fine without Nix. Still, software version differences might
+result in incompatibilities if you use packages installed outside of Nix.
 
-The second reason is convenience. Files deployed using Home Manager are
-symlinked from the Nix store, which is an immutable directory typically located
-at `/nix/store`. This can turn out to be a bit an inconvenience sometimes in
-several ways. First, it prevents you from editing the files directly. Second, if
-you want to share your dotfiles with a containerized process, you'd also need to
-share the Nix store in addition to your home directory. Third, it would prevent
-some neat tricks like the one used in the [rcd script](files/.local/bin/rcd).
+Another reason is convenience. Dotfiles deployed using Nix-based tools are
+typically symlinked from the Nix store, which is an immutable directory
+typically located at `/nix/store`. This can turn out to be a bit an
+inconvenience sometimes in several ways. First, it prevents you from editing the
+files directly since the files are immutable. Second, it introduces an
+additional obstacle when you want to share the dotfiles with a containerized
+process because you'd also need to share the Nix store in addition to your home
+directory. Third, dotfiles being symlinked directly from the Git repo allows
+for neat tricks like the one used in the [rcd script](files/.local/bin/rcd),
+but unforunately precludes Nix-based deployment.
 
 ### Use on non-Nix Systems
 
@@ -41,10 +45,13 @@ These packages would have to be installed manually.
 
 - [Delta](https://github.com/dandavison/delta)
 - [Fira Code](https://github.com/tonsky/FiraCode)
-- [FZF](https://github.com/junegunn/fzf)
 - [Neovim](https://neovim.io)
 - [Node.js](https://nodejs.org) (for [coc.nvim](https://github.com/neoclide/coc.nvim))
 - [less](https://www.greenwoodsoftware.com/less/index.html) (version 530 or later)
+
+The version of less that comes preinstalled on macOS specifically causes
+problems with some settings in this dotfiles. Make sure to grab a newer version
+from your package manager of choice.
 
 #### Configure Git
 
@@ -80,6 +87,7 @@ Apply [this patch](patches/debian.patch):
 
 ```bash
 git apply patches/debian.patch
+git commit -am 'feat: improve Debian compatibility'
 ```
 
 ## Home Manager
@@ -131,11 +139,11 @@ A profile basically refers to a Home Manager module. The distinction is somewhat
 arbitrary, but a module targeting a specific piece of software is placed in
 `modules` while a module targeting a specific use case is placed in `profiles`.
 
-The configuration for Home Manager is chosen based on the hostname unless a
-specific one is chosen via the command line. Configuration for each host are
-defined in [`machines`](machines), so make sure to add hosts there as necessary.
-If no configuration matching the hostname is found, the Home Manager would
-attempt to find a match based on the username instead.
+Multiple Home Manager configurations can be defined, and Home Manager will use
+the one with the matching hostname unless specified otherwise via command line
+arguments. Configuration for each host are defined in [`machines`](machines), so
+make sure to add new hosts in there as necessary. If no hostname matches are
+found, Home Manager would attempt to find a match based on the username instead.
 
 ## How to add configuration for new hosts
 
