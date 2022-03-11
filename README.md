@@ -13,8 +13,11 @@ Consult the following for more details.
 - [Official website](https://nixos.org)
 - [Official docs](https://nixos.org/learn.html)
 
-It's also possible to use this dotfiles on systems without Nix, albeit with
-reduced compatibility guarantees. If you wish to do so, make sure to read
+Nix can be installed on a wide range of Linux distros and even on macOS. It can
+painlessly coexist with existing system package managers. However, if you wish
+to stick with the package manager that you already have, it's also possible to
+use this dotfiles on systems without Nix albeit with reduced compatibility
+guarantees. If you wish to do so, make sure to read
 [this document](home/README.md) before proceeding.
 
 ## Installation
@@ -98,9 +101,9 @@ configure them as needed before proceeding.
 
 Bootstrapping instructions for each are listed below. Home Manager can
 optionally be integrated into NixOS or Nix-Darwin. If you do this, NixOS or
-Nix-Darwin would take care of bootstrapping Home Manager. Otherwise if you're
-bootstrapping Home Manager yourself, make sure [Nix flakes][flakes] are enabled
-beforehand.
+Nix-Darwin would take care of bootstrapping Home Manager for you. Otherwise if
+you're bootstrapping Home Manager yourself, make sure to enable [Nix
+flakes][flakes] beforehand.
 
 - Home Manager:
 

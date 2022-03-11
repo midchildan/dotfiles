@@ -39,7 +39,6 @@ alias sudoedit='sudo -e'
 alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 autoload -Uz zmv
 autoload -Uz bd br
-autoload -Uz fzf-sel fzf-run fzf-loop fzf-gen
 
 #################
 #  Directories  #
