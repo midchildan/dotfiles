@@ -1,0 +1,54 @@
+{
+  show_selection_mark: true
+
+  verbs: [
+    {
+      invocation: edit
+      shortcut: e
+      execution: "$EDITOR +{line} {file}"
+      leave_broot: false
+    }
+    {
+      invocation: create {subpath}
+      execution: "$EDITOR {directory}/{subpath}"
+      leave_broot: false
+    }
+    {
+      invocation: git_diff
+      shortcut: gd
+      leave_broot: false
+      execution: "git difftool -y {file}"
+    }
+    {
+      invocation: terminal
+      key: ctrl-t
+      execution: "$SHELL"
+      set_working_dir: true
+      leave_broot: false
+    }
+    {
+      key: ctrl-h
+      execution: ":panel_left"
+    }
+    {
+      key: ctrl-l
+      execution: ":panel_right"
+    }
+    {
+      key: ctrl-k
+      execution: ":line_up"
+    }
+    {
+      key: ctrl-j
+      execution: ":line_down"
+    }
+    {
+      key: ctrl-u
+      execution: ":page_up"
+    }
+    {
+      key: ctrl-d
+      execution: ":page_down"
+    }
+  ]
+}
