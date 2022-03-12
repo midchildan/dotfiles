@@ -1,4 +1,14 @@
 emulate -L zsh
+
+# Alternative FZF completion and keybinding widgets that extends the stock
+# widgets provided by FZF. To use this widget, specify the directory containing
+# the stock FZF widgets by placing the following command in ~/.zshrc:
+#
+#     zstyle ":dotfiles:fzf" script-dir /path/to/fzf/shell/dir
+#
+# Make sure not to source the stock FZF widgets when using this widget because
+# doing so would would cause conflicts.
+
 zmodload -i zsh/parameter
 
 if [[ "$TERM" == 'dumb' ]]; then
@@ -44,23 +54,27 @@ for fzfdir in "$searchpath[@]"; do
 done
 
 if (( ! is_found )); then
+  local loglevel='WARN'
   case "$WIDGET" in
     fzf-completion)
       zle "${fzf_default_completion:-expand-or-complete}"
-      return ;;
+      ;;
     fzf-history-widget)
       zle history-incremental-search-backward
-      return ;;
+      ;;
     fzf-file-widget)
       if ! zle -al complete-file; then
         zle -C complete-file complete-word _generic &&
           zstyle ':completion:complete-file:*' completer _files
       fi
       zle complete-file
-      return ;;
+      ;;
+    *)
+      loglevel='ERROR'
+      ;;
   esac
 
-  zle -M "[ERROR] fzf-widgets: fzf script dir not detected. Specify one with 'zstyle \":dotfiles:fzf\" script-dir /path/to/fzf/shell/dir'"
+  zle -M "[$loglevel] fzf-widgets: The directory containing the stock FZF widgets were not detected. Specify one with 'zstyle \":dotfiles:fzf\" script-dir /path/to/fzf/shell/dir'"
   return 1
 fi
 
