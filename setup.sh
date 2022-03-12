@@ -87,6 +87,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .gemrc
   - .ideavimrc
   - .config/bat/config
+  - .config/broot/conf.hjson
   - .config/broot/launcher/refused
   - .config/containers/containers.conf
   - .config/kitty/kitty.conf
