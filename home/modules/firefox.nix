@@ -5,21 +5,7 @@ let
 
   inherit (pkgs.stdenv) isDarwin;
 
-  # FIXME: Workaround for wrapFirefox not applying the provided policy for
-  # firefox-bin.
-  #
-  # https://github.com/NixOS/nixpkgs/pull/121596
-  firefoxBinWithPolicies = pkgs.firefox-bin-unwrapped.override {
-    config.firefox.policies = cfg.policies;
-  };
-
-  defaultPackage =
-    if isDarwin then null else pkgs.wrapFirefox firefoxBinWithPolicies {
-      applicationName = "firefox";
-      pname = "firefox-bin";
-      desktopName = "Firefox";
-    };
-
+  defaultPackage = if isDarwin then null else pkgs.firefox-bin;
   finalPackage = cfg.package.override {
     extraPolicies = cfg.policies;
   };
