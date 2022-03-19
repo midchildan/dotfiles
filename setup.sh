@@ -49,7 +49,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - chmod: 600 .gnupg/gpg.conf
   - chmod: 600 .gnupg/gpg-agent.conf
   - .gnupg/gpg-agent.conf
-  - .gnupg/scdaemon.conf
   - Library/LaunchAgents/org.gnupg.gpg-agent.plist
 
 @install Install SSH Config
