@@ -32,18 +32,32 @@ if ! zstyle -s ':dotfiles:fzf' script-dir searchpath; then
     /run/current-system/sw/share/fzf
     /usr/local/opt/fzf/shell
     /usr/share/doc/fzf/examples
+    ~/.fzf.zsh
+    "${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzf.zsh"
   )
 fi
 
-local fzfdir is_found=0
-for fzfdir in "$searchpath[@]"; do
-  if [[ -f "$fzfdir/completion.zsh" && -f "$fzfdir/key-bindings.zsh" ]]; then
+local f is_found=0
+for f in "$searchpath[@]"; do
+  if [[ -f "$f/completion.zsh" && -f "$f/key-bindings.zsh" ]]; then
     FZF_CTRL_R_OPTS="${FZF_CTRL_R_OPTS:---reverse}"
 
     {
       function bindkey() {} # don't let fzf change the shell keybindings
-      source "$fzfdir/completion.zsh"
-      source "$fzfdir/key-bindings.zsh"
+      source "$f/completion.zsh"
+      source "$f/key-bindings.zsh"
+    } always {
+      unfunction bindkey
+    }
+
+    is_found=1
+    break
+  elif [[ "$f" == *.zsh && -f "$f" ]]; then
+    FZF_CTRL_R_OPTS="${FZF_CTRL_R_OPTS:---reverse}"
+
+    {
+      function bindkey() {} # don't let fzf change the shell keybindings
+      source "$f"
     } always {
       unfunction bindkey
     }

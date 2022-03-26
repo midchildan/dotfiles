@@ -40,4 +40,7 @@
     (lib.makeBinPath config.environment.profiles)
     "\"$PATH\""
   ];
+
+  # FIXME: workaround for https://github.com/LnL7/nix-darwin/pull/450
+  system.defaults.finder.FXPreferredViewStyle = lib.mkDefault null;
 }
