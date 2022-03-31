@@ -89,6 +89,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/broot/launcher/refused
   - .config/containers/containers.conf
   - .config/kitty/kitty.conf
+  - .config/nano/nanorc
   - .config/nixpkgs/config.nix
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
@@ -97,7 +98,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .ipython/profile_default/ipython_config.py
   - .local/bin/imgcat
   - .local/bin/uninstaller
-  - .nanorc
   - .prettierrc
   - .screenrc
   - .wgetrc
