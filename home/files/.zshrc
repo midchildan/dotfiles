@@ -121,6 +121,7 @@ zstyle ':completion:complete-from-help:*' completer _complete _gnu_generic
 #################
 autoload -Uz copy-earlier-word && zle -N copy-earlier-word
 autoload -Uz edit-command-line && zle -N edit-command-line
+autoload -Uz insert-composed-char && zle -N insert-composed-char
 autoload -Uz select-bracketed && zle -N select-bracketed
 autoload -Uz select-quoted && zle -N select-quoted
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
@@ -156,15 +157,17 @@ bindkey -v \
   '^A' smart-insert-last-word \
   '^B' copy-earlier-word \
   '^E' history-incremental-search-forward \
+  '^F' fzf-snippet-accept \
   '^Gu' split-undo \
   '^G^F' fzf-cd-widget \
+  '^G^O' fzf-cdr-widget \
   '^G^P' fzf-cd-repo-widget \
   '^H' backward-delete-char \
   '^I' fzf-completion \
   '^J' fzf-snippet-next \
-  '^K' fzf-snippet-accept \
+  '^K' insert-composed-char \
   '^N' history-beginning-search-forward \
-  '^O' fzf-cdr-widget \
+  '^O' accept-line-and-down-history \
   '^P' history-beginning-search-backward \
   '^T' toggle-leading-space \
   '^U' backward-kill-line \
@@ -183,6 +186,7 @@ bindkey -a \
   'sa' add-surround \
   'sd' delete-surround \
   'sr' change-surround \
+  'z=' spell-word \
   'K' run-help \
   '^A' vim-incarg \
   '^X' vim-decarg \
