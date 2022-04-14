@@ -21,6 +21,7 @@ set keymap vi-command
 set keymap vi-insert
 TAB: menu-complete
 "\e[Z": menu-complete-backward
+"\C-o": operate-and-get-next
 "\C-p": history-search-backward
 "\C-n": history-search-forward
 "\C-w": backward-kill-word

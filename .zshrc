@@ -101,6 +101,7 @@ zstyle ':completion:complete-from-help:*' completer _complete _gnu_generic
 #################
 autoload -Uz copy-earlier-word && zle -N copy-earlier-word
 autoload -Uz edit-command-line && zle -N edit-command-line
+autoload -Uz insert-composed-char && zle -N insert-composed-char
 autoload -Uz select-bracketed && zle -N select-bracketed
 autoload -Uz select-quoted && zle -N select-quoted
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
@@ -120,7 +121,9 @@ bindkey -v \
   '^E' history-incremental-search-forward \
   '^Gu' split-undo \
   '^H' backward-delete-char \
+  '^K' insert-composed-char \
   '^N' history-beginning-search-forward \
+  '^O' accept-line-and-down-history \
   '^P' history-beginning-search-backward \
   '^U' backward-kill-line \
   '^W' backward-kill-word \
@@ -132,6 +135,7 @@ bindkey -a \
   'sa' add-surround \
   'sd' delete-surround \
   'sr' change-surround \
+  'z=' spell-word \
   'K' run-help \
   '!' edit-command-line
 bindkey -M menuselect \
