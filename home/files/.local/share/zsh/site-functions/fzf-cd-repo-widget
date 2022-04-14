@@ -20,10 +20,8 @@ fzf-cd-repo-widget() {
         fi
       done
     fi
-  } | {
-    local fzfopts="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS"
-    FZF_DEFAULT_OPTS="$fzfopts" $(__fzfcmd) +m
-  } | IFS= read -r repo
+  } | __dot::fzf +m \
+    | IFS= read -r repo
 
   local dir
   if [[ -z "$repo" ]]; then

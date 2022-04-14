@@ -31,8 +31,6 @@ Plug 'junegunn/gv.vim', {'on': 'GV'}
 Plug 'Yggdroot/indentLine', {'on': 'IndentLinesEnable'}
 Plug 'Yilin-Yang/vim-markbar', {'on': '<Plug>ToggleMarkbar'}
 Plug 'preservim/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
-Plug 'CoatiSoftware/vim-sourcetrail',
-  \ {'for': ['c', 'cpp', 'cuda', 'java', 'python']}
 Plug 'preservim/tagbar', {'on': 'TagbarToggle'}
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'

@@ -126,6 +126,7 @@ fzf-dictionary-widget() {
     return 1
   fi
 
+  local selected
   __dot::fzf -m < "$dict" | IFS= read -r -d '' selected
 
   if [[ -n "$selected" ]]; then
@@ -292,6 +293,24 @@ fzf-git-tag-widget() {
   zle reset-prompt
 }
 
+fzf-recent-dirs-widget() {
+  emulate -L zsh
+  setopt localoptions pipefail no_aliases 2> /dev/null
+
+  local -a reply
+  autoload -Uz chpwd_recent_filehandler && chpwd_recent_filehandler $reply
+
+  local line selected
+  for line in $reply; do echo "$line"; done \
+    | __dot::fzf -m \
+    | IFS= read -r -d '' selected
+
+  if [[ -n "$selected" ]]; then
+    LBUFFER+="${(j: :)${(@q)${(f)selected}}}"
+  fi
+  zle reset-prompt
+}
+
 fzf-hostname-widget() {
   emulate -L zsh
   setopt localoptions pipefail no_aliases 2> /dev/null
@@ -329,6 +348,7 @@ fzf-variable-widget() {
 }
 
 fzf-menu-widget() {
+local selected
 __dot::fzf +m <<EOF | awk '{ print $NF }' | IFS= read -r selected
 Dictionary words      : fzf-dictionary-widget
 Environment variables : fzf-environment-variable-widget
@@ -340,6 +360,7 @@ Git remotes           : fzf-git-remote-widget
 Git stash             : fzf-git-stash-widget
 Files in Git status   : fzf-git-status-widget
 Git tags              : fzf-git-tag-widget
+Recent directories    : fzf-recent-dirs-widget
 Shell history         : fzf-history-widget
 Hostnames             : fzf-hostname-widget
 Process IDs           : fzf-pid-widget
@@ -358,6 +379,7 @@ zle -N fzf-environment-variable-widget
 zle -N fzf-git-branch-widget
 zle -N fzf-git-log-widget
 zle -N fzf-git-files-widget
+zle -N fzf-recent-dirs-widget
 zle -N fzf-git-remote-widget
 zle -N fzf-git-stash-widget
 zle -N fzf-git-status-widget
