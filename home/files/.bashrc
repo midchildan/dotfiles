@@ -134,8 +134,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-source ~/.local/opt/fzftools/fzftools.bash
-
 ###########
 #  Theme  #
 ###########
