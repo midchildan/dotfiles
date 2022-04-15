@@ -13,6 +13,10 @@ set visible-stats on
 set editing-mode vi
 set history-size 2000
 set bind-tty-special-chars off
+set show-mode-in-prompt on
+set vi-cmd-mode-string "\1\e[2 q\2"
+set vi-ins-mode-string "\1\e[6 q\2"
+set emacs-mode-string "\1\e[6 q\2"
 
 set keymap vi-command
 "!": edit-and-execute-command

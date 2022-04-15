@@ -180,6 +180,7 @@ __prompt_dashboard_lite() {
   if [[ -n "$SSH_CONNECTION" ]]; then
     PS1+=' at \[\e[1;33m\]\h\[\e[0m\]'
   fi
+  PS1+=' using \[\e[1;32m\]bash\[\e[0m\]'
   if [[ -n "$IN_NIX_SHELL" ]]; then
     PS1+=' via \[\e[1;36m\]'"${name:-nix-shell}"'\[\e[0m\]'
   fi
