@@ -16,6 +16,14 @@
 
 `curl -sSfL https://raw.githubusercontent.com/tmux/tmux/{{2.8}}/tmux.1 | nroff -mdoc | less`
 
+- Stop all Docker containers:
+
+`docker container ls -aq | xargs docker container stop`
+
+- Remove all Docker containers:
+
+`docker container ls -aq | xargs docker container rm`
+
 - Count the number of files in a directory:
 
 `find {{path/to/directory}} -type f -printf . | wc -c`
