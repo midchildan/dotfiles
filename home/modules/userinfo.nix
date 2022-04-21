@@ -16,14 +16,6 @@ in
       };
     };
 
-    home.file.".gnupg/gpg.conf".source = pkgs.substituteAll {
-      src = ../files/.gnupg/gpg.conf;
-      gpgKey = config.user.gpgKey or "@removeMe@";
-      postInstall = ''
-        sed -i '/@removeMe@/d' "$target"
-      '';
-    };
-
     home.file.".vim/plugin/hmvars.vim".text = ''
       let g:snips_author = '${config.user.name}'
       let g:snips_email = '${config.user.email}'

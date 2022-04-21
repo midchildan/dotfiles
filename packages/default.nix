@@ -25,7 +25,6 @@ rec {
 
 } // optionalAttrs isDarwin {
 
-  pinentry_mac = pkgs.callPackage ./pinentry-mac.nix { };
   nix-darwin = pkgs.callPackage ./nix-darwin.nix {
     inherit (inputs) darwin;
     nix = pkgs.nix_2_4;

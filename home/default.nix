@@ -4,12 +4,12 @@
   imports = [
     ./profiles
     ./news.nix
+    ./modules/gnupg
     ./modules/emacs.nix
     ./modules/firefox.nix
     ./modules/linkapps.nix
     ./modules/manpages.nix
     ./modules/syncthing.nix
-    ./modules/pinentry-mac.nix
     ./modules/userinfo.nix
     ./modules/vim.nix
   ];

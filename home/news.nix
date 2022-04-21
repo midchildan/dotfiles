@@ -239,5 +239,14 @@
         https://github.com/nix-community/home-manager/pull/2497.
       '';
     }
+    {
+      time = "2022-04-21T15:13:37+00:00";
+      message = ''
+        A new module is available: 'dotfiles.gnupg'.
+
+        It's an alternative to Home Manager's program.gpg. It also replaces the
+        'dotfiles.pinentry-mac' module.
+      '';
+    }
   ];
 }

@@ -44,13 +44,6 @@ source "$DOTFILE_DIR/scripts/setup"
   - .local/bin/git-deploy
   - .local/bin/git-kitty
 
-@install Install GPG Config
-  - shell: install -d -m 700 ~/.gnupg
-  - chmod: 700 .gnupg
-  - chmod: 600 .gnupg/gpg.conf
-  - chmod: 600 .gnupg/gpg-agent.conf
-  - .gnupg/gpg-agent.conf
-
 @install Install SSH Config
   - shell: install -d -m 700 ~/.ssh ~/.ssh/sockets
   - chmod: 700 .ssh
