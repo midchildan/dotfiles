@@ -10,6 +10,7 @@ in
   config = lib.mkIf cfg.enable {
     programs.emacs = {
       enable = lib.mkDefault true;
+      package = lib.mkDefault pkgs.emacsNativeComp;
       extraConfig = ''
         (setq dired-use-ls-dired t
               insert-directory-program "${pkgs.coreutils}/bin/ls"
