@@ -28,6 +28,14 @@
 
 `find {{path/to/directory}} -type f -printf . | wc -c`
 
+- Add files to the git staging area, but leave their contents out:
+
+`git add --intent-to-add {{flake.nix}}`
+
+- Tell git whether it should assume that certain files are unchaged:
+
+`git update-index --{{no-}}assume-unchanged {{flake.nix}}`
+
 - Manage ignore files for a local copy of a git repository:
 
 `git exec $EDITOR .git/info/exclude`
