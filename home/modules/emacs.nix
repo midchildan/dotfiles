@@ -23,6 +23,22 @@ in
           pdf-tools
           vterm
         ];
+
+      # FIXME: workaround for https://github.com/NixOS/nixpkgs/pull/169316#issuecomment-1105643481
+      overrides = prev: final: lib.optionalAttrs pkgs.stdenv.isDarwin {
+        emacsWithPackages = pkgsFn:
+          let emacs = prev.withPackages pkgsFn;
+          in
+          emacs.overrideAttrs (old: {
+            buildCommand = old.buildCommand + ''
+              if [[ -f $out/Applications/Emacs.app/Contents/MacOS/Emacs ]]; then
+                substituteInPlace $out/Applications/Emacs.app/Contents/MacOS/Emacs \
+                  --subst-var-by wrapperSiteLispNative "$deps/share/emacs/native-lisp:" \
+                  --subst-var autoloadExpression
+              fi
+            '';
+          });
+      };
     };
 
     home.activation = lib.mkIf config.programs.emacs.enable {
@@ -35,9 +51,15 @@ in
             return
           fi
           if [[ -x "${homeDir}/.config/emacs/bin/doom" ]]; then
+            local maxfiles
+            maxfiles="$(ulimit -n)"
+            ulimit -n unlimited
+
             PATH="$newGenPath/home-path/bin:$PATH" \
               $DRY_RUN_CMD "${homeDir}/.config/emacs/bin/doom" \
                 ''${VERBOSE:+-d} build > /dev/null
+
+            ulimit -n "$maxfiles"
           fi
         }
 
