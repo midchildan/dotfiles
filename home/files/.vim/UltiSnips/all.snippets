@@ -3,11 +3,9 @@
 priority -60
 
 global !p
-def datetime_now_iso8601_utc():
-	from datetime import datetime, timezone
-	return datetime.now(tz=timezone.utc).isoformat(timespec='seconds')
+import vimrc
 endglobal
 
 snippet diso8601 "ISO 8601 format datetime in UTC" w
-`!p snip.rv = datetime_now_iso8601_utc()`
+`!p snip.rv = vimrc.now()`
 endsnippet

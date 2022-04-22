@@ -16,9 +16,25 @@
 
 `curl -sSfL https://raw.githubusercontent.com/tmux/tmux/{{2.8}}/tmux.1 | nroff -mdoc | less`
 
+- Stop all Docker containers:
+
+`docker container ls -aq | xargs docker container stop`
+
+- Remove all Docker containers:
+
+`docker container ls -aq | xargs docker container rm`
+
 - Count the number of files in a directory:
 
 `find {{path/to/directory}} -type f -printf . | wc -c`
+
+- Add files to the git staging area, but leave their contents out:
+
+`git add --intent-to-add {{flake.nix}}`
+
+- Tell git whether it should assume that certain files are unchaged:
+
+`git update-index --{{no-}}assume-unchanged {{flake.nix}}`
 
 - Manage ignore files for a local copy of a git repository:
 

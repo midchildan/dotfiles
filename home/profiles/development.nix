@@ -1,7 +1,5 @@
 { config, lib, pkgs, ... }:
 
-with lib;
-
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
   isGenericLinux = (config.targets.genericLinux.enable or false);
@@ -10,15 +8,17 @@ let
 in
 {
   options.dotfiles.profiles.development.enable =
-    mkEnableOption "development packages";
+    lib.mkEnableOption "development packages";
 
-  config = mkIf cfg.development.enable {
+  config = lib.mkIf cfg.development.enable {
     home.packages = with pkgs;
       [ cargo clang-tools github-cli go gopls shellcheck tokei universal-ctags ]
-      ++ optionals isNixOS [ man-pages ]
-      ++ optionals isDarwin [ gnupg ];
+      ++ lib.optionals isNixOS [ man-pages ];
 
-    dotfiles.pinentry-mac.enable = mkDefault isDarwin;
+    dotfiles.gnupg = {
+      enable = lib.mkDefault true;
+      enablePackage = lib.mkDefault (!isNixOS); # use the NixOS module instead
+    };
 
     dotfiles.vim.plugins.start = with pkgs.vimPlugins; [
       coc-clangd

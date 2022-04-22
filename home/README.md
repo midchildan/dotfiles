@@ -77,8 +77,10 @@ git config -f ~/.config/git/user commit.gpgsign true
 Run the following command from the root of this repository:
 
 ```bash
+install -d -m 700 ~/.gnupg
 sed "s/@gpgKey@/$(git config -f config.toml user.gpgKey)/g" \
-  home/files/.gnupg/gpg.conf > ~/.gnupg/gpg.conf
+  home/modules/gnupg/gpg.conf > ~/.gnupg/gpg.conf
+chmod 600 ~/.gnupg/gpg.conf
 ```
 
 #### Replace Nix-dependant configuration

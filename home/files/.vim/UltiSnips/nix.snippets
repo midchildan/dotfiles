@@ -1,3 +1,7 @@
+global !p
+import vimrc
+endglobal
+
 snippet nixshell "A nix-shell environment template" b
 { pkgs ? import <nixpkgs> {} }:
 
@@ -77,7 +81,7 @@ endsnippet
 
 snippet news "Home Manager news entry" b
 {
-	time = "`!p snip.rv = datetime_now_iso8601_utc()`";
+	time = "`!p snip.rv = vimrc.now()`";
 	message = ''
 		${1:A new module is available: '$2'}
 	'';
