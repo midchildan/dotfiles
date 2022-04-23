@@ -149,7 +149,7 @@ autoload -Uz vim-incarg \
   && zle -N sync-decarg vim-incarg
 
 unalias run-help 2>/dev/null
-autoload -Uz run-help run-help-git run-help-ip run-help-openssl run-help-sudo
+autoload -Uz run-help run-help-{git,ip,openssl,sudo,gh,nix}
 
 bindkey -v
 bindkey -rv '^[,' '^[/' '^[~'

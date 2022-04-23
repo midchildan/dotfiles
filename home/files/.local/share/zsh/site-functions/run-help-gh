@@ -1,0 +1,155 @@
+emulate -L zsh
+
+if (( $# == 0 )); then
+  man gh
+  return
+fi
+
+while [[ "$#" != 0 && "$1" == -* ]]; do
+  shift
+done
+
+case "$1" in
+  alias)
+    case "$2" in
+      delete|list|set)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  auth)
+    case "$2" in
+      login|logout|refresh|setup-git|status)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  codespace)
+    case "$2" in
+      code|cp|create|delete|edit|list|logs|ssh|stop)
+        man "gh-$1-$2" ;;
+      ports)
+        case "$3" in
+          forward|visibility)
+            man "gh-$1-$2-$3" ;;
+          *)
+            man "gh-$1-$2" ;;
+        esac ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  config)
+    case "$2" in
+      get|list|set)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  extension)
+    case "$2" in
+      create|install|list|remove|upgrade)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  gist)
+    case "$2" in
+      clone|create|delete|edit|list|view)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  gpg-key)
+    case "$2" in
+      add|list)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  issue)
+    case "$2" in
+      close|comment|create|delete|edit|list|reopen|status|transfer|view)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  label)
+    case "$2" in
+      create|list)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  pr)
+    case "$2" in
+      checkout|checks|close|comment|create|diff|edit|list|merge|ready|reopen) ;&
+      review|status|view)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  release)
+    case "$2" in
+      create|delete|delete-asset|download|edit|list|upload|view)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  repo)
+    case "$2" in
+      archive|clone|create|delete|edit|fork|list|rename|sync|view)
+        man "gh-$1-$2" ;;
+      deploy-key)
+        case "$3" in
+          add|delete|list)
+            man "gh-$1-$2-$3" ;;
+          *)
+            man "gh-$1-$2" ;;
+        esac ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  run)
+    case "$2" in
+      cancel|download|list|rerun|view|watch)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  search)
+    case "$2" in
+      issues|prs|repos)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  secret)
+    case "$2" in
+      list|remove|set)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  ssh-key)
+    case "$2" in
+      add|list)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  workflow)
+    case "$2" in
+      disable|enable|list|run|view)
+        man "gh-$1-$2" ;;
+      *)
+        man "gh-$1" ;;
+    esac ;;
+  *)
+    if man -w "gh-$1" >/dev/null 2>&1; then
+      man "gh-$1"
+    else
+      man nix
+    fi ;;
+esac
+
+return $?
