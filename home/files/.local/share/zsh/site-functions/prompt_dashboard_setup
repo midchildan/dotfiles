@@ -6,8 +6,13 @@ prompt_dashboard_setup() {
     maxfiles=100000
   fi
 
-  if [[ -f ~/.nix-profile/share/gitstatus/gitstatus.plugin.zsh ]]; then
-    source ~/.nix-profile/share/gitstatus/gitstatus.plugin.zsh
+  local gspath
+  if ! zstyle -s ':dotfiles:prompt:dashboard:vcs:git' gitstatus-path gspath; then
+    gspath=~/.nix-profile/share/gitstatus/gitstatus.plugin.zsh
+  fi
+
+  if [[ -f "$gspath" ]]; then
+    source "$gspath"
     gitstatus_stop dotfiles && gitstatus_start -m "$maxfiles" dotfiles
   else
     autoload -Uz vcs_info

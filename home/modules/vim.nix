@@ -36,6 +36,8 @@ in
   };
 
   config = lib.mkIf (cfg.plugins.opt != [ ] || cfg.plugins.start != [ ]) {
-    home.file.".vim/pack".source = "${vimPackDrv}/pack";
+    home.file = {
+      ".vim/pack/home-manager".source = "${vimPackDrv}/pack/home-manager";
+    };
   };
 }
