@@ -53,7 +53,7 @@ in
           if [[ -x "${homeDir}/.config/emacs/bin/doom" ]]; then
             local maxfiles
             maxfiles="$(ulimit -n)"
-            ulimit -n unlimited
+            ulimit -n hard
 
             PATH="$newGenPath/home-path/bin:$PATH" \
               $DRY_RUN_CMD "${homeDir}/.config/emacs/bin/doom" \
