@@ -23,22 +23,6 @@ in
           pdf-tools
           vterm
         ];
-
-      # FIXME: workaround for https://github.com/NixOS/nixpkgs/pull/169316#issuecomment-1105643481
-      overrides = prev: final: lib.optionalAttrs pkgs.stdenv.isDarwin {
-        emacsWithPackages = pkgsFn:
-          let emacs = prev.withPackages pkgsFn;
-          in
-          emacs.overrideAttrs (old: {
-            buildCommand = old.buildCommand + ''
-              if [[ -f $out/Applications/Emacs.app/Contents/MacOS/Emacs ]]; then
-                substituteInPlace $out/Applications/Emacs.app/Contents/MacOS/Emacs \
-                  --subst-var-by wrapperSiteLispNative "$deps/share/emacs/native-lisp:" \
-                  --subst-var autoloadExpression
-              fi
-            '';
-          });
-      };
     };
 
     home.activation = lib.mkIf config.programs.emacs.enable {
