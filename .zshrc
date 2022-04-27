@@ -110,8 +110,8 @@ autoload -Uz surround \
   && zle -N add-surround surround \
   && zle -N change-surround surround
 
-unalias run-help 2>/dev/null
-autoload -Uz run-help run-help-git run-help-ip run-help-openssl run-help-sudo
+(( $+aliases[run-help] )) && unalias run-help
+autoload -Uz run-help run-help-{git,ip,openssl,sudo,gh,nix}
 
 bindkey -v
 bindkey -rv '^[,' '^[/' '^[~'
