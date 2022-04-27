@@ -153,7 +153,7 @@ autoload -Uz vim-incarg \
   && zle -N sync-incarg vim-incarg \
   && zle -N sync-decarg vim-incarg
 
-unalias run-help 2>/dev/null
+(( $+aliases[run-help] )) && unalias run-help
 autoload -Uz run-help run-help-{git,openssl,sudo,gh,nix}
 
 bindkey -v

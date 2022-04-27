@@ -26,7 +26,6 @@ in
         neofetch
         nixpkgs-fmt
         nkf
-        p7zip
         ranger
         tig
         tmux
@@ -37,6 +36,7 @@ in
       ] ++ optionals (!isDarwin) [
         dnsutils
         file
+        libarchive
         git
         netcat
         whois
