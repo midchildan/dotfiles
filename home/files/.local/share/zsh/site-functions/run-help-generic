@@ -1,0 +1,18 @@
+emulate -L zsh
+
+local -a subcommands
+subcommands=( "$1" )
+shift
+
+local arg
+for arg in "${@:#-*}"; do
+  if man -w "${(j:-:)subcommands}-$arg" >/dev/null 2>&1; then
+    subcommands+="$arg"
+  else
+    break
+  fi
+done
+
+man "${(j:-:)subcommands}"
+
+return $?
