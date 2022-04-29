@@ -40,4 +40,12 @@
     (lib.makeBinPath config.environment.profiles)
     "\"$PATH\""
   ];
+
+  # FIXME: somebody's personal preference made it into the upstream defaults
+  system.defaults = {
+    ActivityMonitor = {
+      OpenMainWindow = lib.mkDefault null;
+      ShowCategory = lib.mkDefault null;
+    };
+  };
 }
