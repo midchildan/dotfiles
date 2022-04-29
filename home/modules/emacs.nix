@@ -35,6 +35,8 @@ in
             return
           fi
           if [[ -x "${homeDir}/.config/emacs/bin/doom" ]]; then
+            noteEcho 'This may take a while...'
+
             local maxfiles
             maxfiles="$(ulimit -n)"
             ulimit -n hard
