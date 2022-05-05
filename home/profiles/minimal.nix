@@ -25,8 +25,7 @@ in
         zsh-syntax-highlighting
         gitAndTools.delta
         myPkgs.neovim
-      ]
-      ++ optional isGenericLinux myPkgs.nixpath;
+      ];
 
     programs.direnv = {
       enable = mkDefault true;

@@ -37,9 +37,6 @@ $ nix search
 
 * packages.x86_64-linux.nixos-rebuild
 
-* packages.x86_64-linux.nixpath
-  Workaround for  https://github.com/NixOS/nix/issues/2033
-
 * packages.x86_64-linux.noto-serif-cjk (2021-10-27)
   Beautiful and free fonts for CJK languages
 

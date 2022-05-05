@@ -82,6 +82,7 @@ source "$DOTFILE_DIR/scripts/setup"
   - .config/kitty/kitty.conf
   - .config/nano/nanorc
   - .config/nixpkgs/config.nix
+  - .config/nixpkgs/overlays/dotfiles.nix
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/tmux/tmux.conf

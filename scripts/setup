@@ -10,7 +10,6 @@ _DOT_IS_INIT=
 _DOT_IS_VERBOSE=
 _DOT_LNFLAGS=""
 _DOT_SECTION=
-_DOT_PACKAGE_UPDATED=
 
 
 dot::_exit() {
@@ -25,13 +24,6 @@ trap dot::_exit EXIT
 ############
 #  syntax  #
 ############
-
-# shellcheck disable=SC2120
-@packages() {
-  _DOT_SECTION="packages"
-  echo "$(tput bold)== ${*:-Install Packages} ==$(tput sgr0)"
-  cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
-}
 
 # shellcheck disable=SC2120
 @shell() {
@@ -70,7 +62,6 @@ trap dot::_exit EXIT
   fi
 
   case "$_DOT_SECTION" in
-    packages) dot::packages::task "$@" ;;
     shell) dot::shell::task "$@" ;;
     install) dot::install::task "$@" ;;
     clean) dot::clean::task "$@" ;;
@@ -179,21 +170,6 @@ dot::githooks::task() {
   popd || dot::_abort "Failed to change directory"
 
   dot::_print_badge
-}
-
-# Installs a package using the system package manager
-# Globals:
-#   _DOT_PACKAGE_UPDATED
-# Arguments:
-#   package_name : name of package
-# Returns:
-#   None
-dot::packages::task() {
-  if [[ -z "$_DOT_PACKAGE_UPDATED" ]]; then
-    _DOT_PACKAGE_UPDATED=true
-    nix-channel --update
-  fi
-  nix-env -iA "$1"
 }
 
 # Skip section

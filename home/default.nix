@@ -1,4 +1,4 @@
-{ inputs }: { lib, ... }:
+{ inputs }: { lib, config, ... }:
 
 {
   imports = [
@@ -9,6 +9,7 @@
     ./modules/firefox.nix
     ./modules/linkapps.nix
     ./modules/manpages.nix
+    ./modules/nix.nix
     ./modules/syncthing.nix
     ./modules/userinfo.nix
     ./modules/vim.nix
@@ -28,6 +29,20 @@
     nix.registry = {
       nixpkgs.flake = lib.mkDefault inputs.nixpkgs;
       dotfiles.flake = lib.mkDefault inputs.self;
+    };
+
+    # NOTE: The following enables declarative management of Nix user channels
+    # using Home Manager. Whatever channels defined using this mechanism takes
+    # precendence over channels managed through the nix-channel command. If this
+    # is undesirable, disable this by placing the following line in your Home
+    # Manager configuration:
+    #
+    #     dotfiles.nix.nixPath = lib.mkForce [ ];
+    dotfiles.nix.nixPath = [ "${config.xdg.dataHome}/dotfiles/nix-channels" ];
+
+    xdg.dataFile = {
+      "dotfiles/nix-channels/nixpkgs".source = inputs.nixpkgs.outPath;
+      "dotfiles/nix-channels/dotfiles".source = inputs.self.outPath;
     };
   };
 }

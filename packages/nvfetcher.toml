@@ -1,0 +1,4 @@
+[cloudfoundry-cli-6]
+src.github_tag = "cloudfoundry/cli"
+src.include_regex = "v6\\.\\d+\\.\\d+"
+fetch.github = "cloudfoundry/cli"

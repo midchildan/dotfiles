@@ -56,23 +56,27 @@
     } // (lib.eachSupportedSystemPkgs ({ system, pkgs, nixos }:
       let
         packages = import ./packages { inherit inputs pkgs nixos; };
-        devShell = pkgs.callPackage ./scripts/devshells/shell.nix { };
+        devShell = pkgs.callPackage ./devshells/shell.nix { };
       in
       {
         inherit devShell packages;
 
         devShells = {
           dev = devShell;
-          setup = pkgs.callPackage ./scripts/devshells/setup.nix {
+          setup = pkgs.callPackage ./devshells/setup.nix {
             inherit (packages) neovim;
           };
-          quic = pkgs.callPackage ./scripts/devshells/quic.nix { };
+          quic = pkgs.callPackage ./devshells/quic.nix { };
         };
 
         apps = {
           home = {
             type = "app";
             program = "${home.defaultPackage.${system}}/bin/home-manager";
+          };
+          update = {
+            type = "app";
+            program = "${pkgs.callPackage ./scripts/apps/update.nix { }}";
           };
         } // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
           darwin = {
