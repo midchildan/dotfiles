@@ -7,8 +7,8 @@ let
   inherit (nixpkgs.lib) importTOML mkDefault recursiveUpdate;
   inherit (nixos.lib) nixosSystem;
 
-  nixpkgsConfig = {
-    config.allowUnfree = true;
+  nixpkgsArgs = {
+    config = import ../home/files/.config/nixpkgs/config.nix;
     overlays = [ self.overlay ];
   };
 in
@@ -37,8 +37,8 @@ rec {
     } @ args:
     import pkgs (args // {
       inherit system;
-      config = nixpkgsConfig.config // config;
-      overlays = nixpkgsConfig.overlays ++ overlays;
+      config = nixpkgsArgs.config // config;
+      overlays = nixpkgsArgs.overlays ++ overlays;
     });
 
   # Builds a map from attr=value to attr.system=value for each system. Based
@@ -109,7 +109,7 @@ rec {
         ({ lib, ... }:
           {
             system.stateVersion = lib.mkDefault config.os.darwin.stateVersion;
-            nixpkgs = nixpkgsConfig;
+            nixpkgs = nixpkgsArgs;
             home-manager = {
               useGlobalPkgs = true;
               sharedModules = [
@@ -143,13 +143,13 @@ rec {
         ({ lib, ... }:
           {
             system.stateVersion = lib.mkDefault config.os.stateVersion;
-            nixpkgs = nixpkgsConfig;
+            nixpkgs = nixpkgsArgs;
             home-manager = {
               sharedModules = [
                 self.homeModule
                 {
                   home.stateVersion = lib.mkDefault config.user.stateVersion;
-                  nixpkgs = nixpkgsConfig;
+                  nixpkgs = nixpkgsArgs;
                 }
               ];
             };
