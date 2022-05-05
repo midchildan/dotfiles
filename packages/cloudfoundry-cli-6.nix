@@ -24,29 +24,18 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 { lib
-, stdenv
+, sources
 , buildGoPackage
-, fetchFromGitHub
 , fetchurl
-, genericUpdater
 , installShellFiles
-, writeShellScript
 }:
 
 buildGoPackage rec {
-  pname = "cloudfoundry-cli-6";
-  version = "6.53.0";
+  inherit (sources.cloudfoundry-cli-6) pname version src;
 
   goPackagePath = "code.cloudfoundry.org/cli";
 
   subPackages = [ "." ];
-
-  src = fetchFromGitHub {
-    owner = "cloudfoundry";
-    repo = "cli";
-    rev = "v${version}";
-    sha256 = "1p1jd3fz3spd3y0ssmxgd96qxl54vblv821ahddskg4rn9z6x0fl";
-  };
 
   # upstream have helpfully moved the bash completion script to a separate
   # repo which receives no releases or even tags
@@ -68,18 +57,6 @@ buildGoPackage rec {
     mv "$out/bin/cli" "$out/bin/cf"
     installShellCompletion --bash $bashCompletionScript
   '';
-
-  passthru.updateScript =
-    let
-      updater = genericUpdater {
-        inherit pname version;
-        rev-prefix = "v";
-        versionLister = "${./get-latest-tag.py}";
-      };
-      toArg = x: lib.strings.escapeShellArg (builtins.toString x);
-      argStr = lib.strings.concatMapStringsSep " " toArg (lib.toList updater);
-    in
-    writeShellScript "update-cf-cli.sh" argStr;
 
   meta = with lib; {
     description = "The official command line client for Cloud Foundry";

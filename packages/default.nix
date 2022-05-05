@@ -6,16 +6,20 @@
 let
   inherit (pkgs.lib) optionalAttrs;
   inherit (pkgs.stdenv) isDarwin isLinux;
+  sources = pkgs.callPackage ./_sources/generated.nix { };
 in
 rec {
 
   inherit (pkgs) noto-fonts-cjk-serif;
 
   nixpath = pkgs.callPackage ./nixpath.nix { };
-  cloudfoundry-cli-6 = pkgs.callPackage ./cloudfoundry-cli-6 { };
   neovim = pkgs.callPackage ./neovim.nix { };
   siege = pkgs.callPackage ./siege.nix { };
   terminfo-collection = pkgs.callPackage ./terminfo-collection.nix { };
+
+  cloudfoundry-cli-6 = pkgs.callPackage ./cloudfoundry-cli-6.nix {
+    inherit sources;
+  };
 
 } // optionalAttrs isLinux {
 

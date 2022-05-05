@@ -9,10 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v17
-      - name: Update flake
-        run: nix flake update
-      - name: Update submodules
-        run: git submodule update --init --remote
+      - name: Update dependencies
+        run: nix run '.#update'
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4.0.2
         with:
@@ -24,3 +22,4 @@ jobs:
           body: |
             - Update submodules
             - Update flakes
+            - Update packages

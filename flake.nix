@@ -74,6 +74,10 @@
             type = "app";
             program = "${home.defaultPackage.${system}}/bin/home-manager";
           };
+          update = {
+            type = "app";
+            program = "${pkgs.callPackage ./scripts/apps/update.nix { }}";
+          };
         } // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
           darwin = {
             type = "app";
