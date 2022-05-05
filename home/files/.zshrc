@@ -7,10 +7,6 @@ zmodload -i zsh/parameter
 ###########################
 #  Environment Variables  #
 ###########################
-if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]]; then
-  source ~/.nix-profile/etc/profile.d/nix.sh
-fi
-
 export GPG_TTY="$TTY"
 
 typeset -U path

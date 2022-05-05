@@ -12,7 +12,6 @@ rec {
 
   inherit (pkgs) noto-fonts-cjk-serif;
 
-  nixpath = pkgs.callPackage ./nixpath.nix { };
   neovim = pkgs.callPackage ./neovim.nix { };
   siege = pkgs.callPackage ./siege.nix { };
   terminfo-collection = pkgs.callPackage ./terminfo-collection.nix { };
