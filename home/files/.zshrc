@@ -9,8 +9,6 @@ fi
 ###########################
 #  Environment Variables  #
 ###########################
-[[ -f /etc/nix/darwin.sh ]] && source /etc/nix/darwin.sh
-
 export CLICOLOR=1
 export GPG_TTY="$TTY"
 

@@ -28,7 +28,7 @@ if [[ -z "$USE_POWERLINE" ]]; then
   export USE_POWERLINE
 fi
 
-if [[ -f /etc/nix/darwin.sh ]]; then
+if [[ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" && -f /etc/nix/darwin.sh ]]; then
   source /etc/nix/darwin.sh
 fi
 if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
