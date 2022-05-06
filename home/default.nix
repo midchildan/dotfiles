@@ -1,4 +1,4 @@
-{ inputs }: { lib, config, ... }:
+{ inputs }: { lib, ... }:
 
 {
   imports = [
@@ -37,12 +37,10 @@
     # is undesirable, disable this by placing the following line in your Home
     # Manager configuration:
     #
-    #     dotfiles.nix.nixPath = lib.mkForce [ ];
-    dotfiles.nix.nixPath = [ "${config.xdg.dataHome}/dotfiles/nix-channels" ];
-
-    xdg.dataFile = {
-      "dotfiles/nix-channels/nixpkgs".source = inputs.nixpkgs.outPath;
-      "dotfiles/nix-channels/dotfiles".source = inputs.self.outPath;
+    #     dotfiles.nix.channels = lib.mkForce { };
+    dotfiles.nix.channels = {
+      nixpkgs = lib.mkDefault inputs.nixpkgs;
+      dotfiles = lib.mkDefault inputs.self;
     };
   };
 }
