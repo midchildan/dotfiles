@@ -1,6 +1,74 @@
 {
   show_selection_mark: true
 
+  skin: {
+    # this skin is designed to look best on Gruvbox Dark terminals
+    default: none none / ansi(248) none
+    tree: ansi(246) none / ansi(241) none
+    parent: none none / ansi(248) none italic
+    file: none none / none  none italic
+    directory: blue none bold / blue none
+    exe: green none
+    link: darkcyan none
+    pruning: ansi(243) none italic
+    perm__: none none
+    perm_r: darkyellow none
+    perm_w: darkred none
+    perm_x: darkgreen none
+    owner: darkyellow none bold
+    group: darkyellow none
+    count: darkblue ansi(236)
+    dates: ansi(246) none
+    sparse: yellow none
+    content_extract: ansi(29) none italic
+    content_match: ansi(34) none bold
+    git_branch: ansi(229) none
+    git_insertions: darkgreen none
+    git_deletions: darkred none
+    git_status_current: ansi(237) none
+    git_status_modified: darkgreen none
+    git_status_new: green none bold
+    git_status_ignored: ansi(250) none
+    git_status_conflicted: darkred none
+    git_status_other: darkred none
+    selected_line: none ansi(237) / none ansi(236)
+    char_match: yellow none
+    file_error: red none
+    flag_label: ansi(248) none
+    flag_value: magenta none bold
+    input: ansi(229) none / ansi(248) none italic
+    status_error: ansi(250) darkred
+    status_job: yellow ansi(237)
+    status_normal: none ansi(234) / none none
+    status_italic: magenta ansi(234) italic / none none
+    status_bold: magenta ansi(234) bold / none none
+    status_code: ansi(229) ansi(234) / none none
+    status_ellipsis: ansi(229) ansi(234)  bold / none none
+    purpose_normal: none none
+    purpose_italic: darkmagenta none italic
+    purpose_bold: darkmagenta none bold
+    purpose_ellipsis: none none
+    scrollbar_track: ansi(239) none / ansi(236) none
+    scrollbar_thumb: ansi(250) none / ansi(241) none
+    help_paragraph: none none
+    help_bold: ansi(166) none bold
+    help_italic: magenta none italic
+    help_code: cyan ansi(236)
+    help_headers: ansi(208) none bold
+    help_table_border: ansi(239) none
+    preview_title: none ansi(235) / ansi(248) ansi(235)
+    preview: none ansi(235) / none ansi(235)
+    preview_line_number: ansi(243) none / ansi(243) ansi(235)
+    preview_match: none ansi(29) bold
+    hex_null: ansi(248) none
+    hex_ascii_graphic: ansi(250) none
+    hex_ascii_whitespace: darkgreen none
+    hex_ascii_other: ansi(208) none
+    hex_non_ascii: ansi(166) none
+    staging_area_title: none ansi(235) / ansi(248) ansi(235)
+    mode_command_mark: gray(5) ansi(204) bold
+  }
+
   verbs: [
     {
       invocation: edit
