@@ -1,0 +1,54 @@
+#+TITLE: TODO
+
+* tmux
+** HOLD Use the default ~TERM~ environment variable
+*** Description
+The current configuration sets ~TERM~ to =screen-256color=. Using the default
+value of =tmux-256color= would allow various programs using terminfo to more
+accurately detect tmux capabilities.
+
+*** Changes
+Remove the following line from [[file:home/files/.config/tmux/tmux.conf][tmux.conf]]:
+
+#+begin_src conf
+set -g default-terminal "screen-256color"
+#+end_src
+
+*** Blockers
+**** Outdated terminfo databases
+ncurses 6.0 or later is required for a smooth experience. Unfortunately, macOS
+is stuck with version 5.7 from 2008, [[https://github.com/tmux/tmux/issues/2262][requiring the use of hacks]].
+
+** HOLD Remove the assumption that truecolor support is always present
+*** Description
+The current configuration makes tmux assume that [[https://github.com/termstandard/colors][truecolor support]] is available
+for all terminals that set the ~TERM~ environment variable to =xterm-256color=.
+This becomes problematic if the terminal doesn't support the feature, rendering
+the terminal output ineligible. This is currently avoided by not using terminals
+lacking truecolor. Those terminals are becoming fewer nowadays, but
+unfortunately still includes macOS's Terminal.app.
+
+By removing the assumption that truecolor is always present, tmux can prevent
+garbling the terminal output by scaling down 24 bit colors to the approximate 16
+bit colors. However, without better detection of truecolor support, this would
+limit truecolor display on terminals that do support it.
+
+*** Changes
+Remove the following line from [[file:home/files/.config/tmux/tmux.conf][tmux.conf]]:
+
+#+begin_src conf
+set -ga terminal-overrides ",xterm-256color:Tc"
+#+end_src
+
+*** Blockers
+**** Adoption of the terminal identification escape sequence
+In the absense of reliable means of terminal feature detection, multiple
+terminal emulators have added an escape sequence for querying the terminal's
+name and version. tmux [[https://github.com/tmux/tmux/blob/c6b51cea923e0c4e92636998a776ada42511b6e5/tty-keys.c#L1386-L1395][leverages this information]] to make use of terminal
+features it otherwise was unable to know was available.
+
+However, VTE, the most widely useed library for implementing terminal emulators,
+doesn't yet support this feature. This leaves tmux unable to automatically
+assume that truecolor support is present on VTE terminals. Though VTE has in
+fact [[https://gitlab.gnome.org/GNOME/vte/-/issues/235][implemented the feature]], it hasn't made it to the release yet.
+Consequently, tmux doesn't make attempts to detect VTE terminals yet.
