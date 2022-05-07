@@ -17,40 +17,23 @@ info about the commands can be found [here][2].
 
 ```console
 $ nix search
-* packages.x86_64-linux.bpftrace (0.13.0)
-  High-level tracing language for Linux eBPF
-
-* packages.x86_64-linux.cloudfoundry-cli-6 (6-6.53.0)
+* packages.x86_64-darwin.cloudfoundry-cli-6 (6-v6.53.0)
   The official command line client for Cloud Foundry
 
-* packages.x86_64-linux.curl-h3 (7.79.0)
-  A command line tool for transferring files with URL syntax
-
-* packages.x86_64-linux.neovim (0.6.0)
+* packages.x86_64-darwin.neovim (0.7.0)
   Vim text editor fork focused on extensibility and agility
 
-* packages.x86_64-linux.nghttp3 (2021-09-20)
-  HTTP/3 library written in C
+* packages.x86_64-darwin.nix-darwin
+  Command line tool for nix-darwin
 
-* packages.x86_64-linux.ngtcp2 (2021-09-20)
-  Implemenatation of the IETF QUIC protocol
-
-* packages.x86_64-linux.nixos-rebuild
-
-* packages.x86_64-linux.noto-serif-cjk (2021-10-27)
+* packages.x86_64-darwin.noto-fonts-cjk-serif (2.000)
   Beautiful and free fonts for CJK languages
 
-* packages.x86_64-linux.quictls (1.1.1l+quic)
-  A cryptographic library that implements the SSL and TLS protocols
-
-* packages.x86_64-linux.siege (4.1.1)
+* packages.x86_64-darwin.siege (4.1.3)
   HTTP load tester
 
-* packages.x86_64-linux.terminfo-collection
+* packages.x86_64-darwin.terminfo-collection
   Collection of terminfo definitions
-
-* packages.x86_64-linux.zsh (5.8)
-  The Z shell. This package is intended for use on stable Linux distributions shipping an outdated version of zsh.
 ```
 
 - Build and run the Neovim package:

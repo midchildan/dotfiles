@@ -26,8 +26,13 @@ in
     };
 
     home.activation = lib.mkIf config.programs.emacs.enable {
-      rebuildDoomEmacs = lib.hm.dag.entryAfter [ "installPackages" ] ''
-        rebuildDoomEmacs() {
+      syncDoomEmacs = lib.hm.dag.entryAfter [ "installPackages" ] ''
+        queryEmacsVersion() {
+          local emacsBin="$1"
+          "$emacsBin" --batch --eval '(message "%d" emacs-major-version)'
+        }
+
+        syncDoomEmacs() {
           local oldEmacs newEmacs
           oldEmacs="$(readlink -m "$oldGenPath/home-path/bin/emacs")"
           newEmacs="$(readlink -m "$newGenPath/home-path/bin/emacs")"
@@ -43,13 +48,21 @@ in
 
             PATH="$newGenPath/home-path/bin:$PATH" \
               $DRY_RUN_CMD "${homeDir}/.config/emacs/bin/doom" \
-                ''${VERBOSE:+-d} build > /dev/null
+                ''${VERBOSE:+-d} sync > /dev/null
+
+            oldVersion="$(queryEmacsVersion "$oldEmacs")"
+            newVersion="$(queryEmacsVersion "$newEmacs")"
+            if (( oldVersion != newVersion )); then
+              PATH="$newGenPath/home-path/bin:$PATH" \
+                $DRY_RUN_CMD "${homeDir}/.config/emacs/bin/doom" \
+                  ''${VERBOSE:+-d} build > /dev/null
+            fi
 
             ulimit -n "$maxfiles"
           fi
         }
 
-        rebuildDoomEmacs
+        syncDoomEmacs
       '';
     };
   };

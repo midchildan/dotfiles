@@ -3,10 +3,13 @@
 let
   cfg = config.dotfiles.nix;
   nixPath = lib.concatStringsSep ":" cfg.nixPath;
+  channelPath = "dotfiles/nix-channels";
+
+  inherit (lib) literalExpression mapAttrs' mkIf mkMerge mkOption nameValuePair;
 in
 {
   options.dotfiles.nix = {
-    nixPath = lib.mkOption {
+    nixPath = mkOption {
       type = with lib.types; listOf str;
       default = [ ];
       example = [
@@ -20,11 +23,40 @@ in
         brackets (e.g. <literal>&lt;nixpkgs&gt;</literal>).
       '';
     };
+
+    channels = mkOption {
+      type = with lib.types; attrsOf package;
+      default = { };
+      example = literalExpression "{ inherit nixpkgs; }";
+      description = ''
+        A declarative alternative to Nix channels. Whereas with stock channels,
+        you would register URLs and fetch them into the Nix store with
+        <citerefentry>
+          <refentrytitle>nix-channel</refentrytitle>
+          <manvolnum>1</manvolnum>
+        </citerefentry>,
+        this option allows you to register the store path directly. One
+        particularly useful example is registering flake inputs as channels.
+
+        This option can coexist with stock Nix channels. If the same channel is
+        defined in both, this option takes precedence.
+      '';
+    };
   };
 
-  config = lib.mkIf (cfg.nixPath != [ ]) {
-    home.sessionVariablesExtra = ''
-      export NIX_PATH="${nixPath}''${NIX_PATH:+:$NIX_PATH}"
-    '';
-  };
+  config = mkMerge [
+    (mkIf (cfg.nixPath != [ ]) {
+      home.sessionVariablesExtra = ''
+        export NIX_PATH="${nixPath}''${NIX_PATH:+:$NIX_PATH}"
+      '';
+    })
+
+    (mkIf (cfg.channels != { }) {
+      dotfiles.nix.nixPath = [ "${config.xdg.dataHome}/${channelPath}" ];
+      xdg.dataFile = mapAttrs'
+        (name: store:
+          nameValuePair "${channelPath}/${name}" { source = store.outPath; })
+        cfg.channels;
+    })
+  ];
 }

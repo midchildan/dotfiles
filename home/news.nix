@@ -248,5 +248,13 @@
         'dotfiles.pinentry-mac' module.
       '';
     }
+    {
+      time = "2022-05-06T11:42:39+00:00";
+      message = ''
+        A new module is available: 'dotfiles.nix'
+
+        This module can set 'NIX_PATH' or define Nix user channels.
+      '';
+    }
   ];
 }
