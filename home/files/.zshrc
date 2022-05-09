@@ -16,7 +16,6 @@ typeset -U path
 path=(
   ~/.local/bin
   $path
-  /usr/local/sbin
   ~/.config/emacs/bin
 )
 
