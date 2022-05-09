@@ -1,9 +1,12 @@
+if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
+  source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+fi
+
 export COPYFILE_DISABLE=1
 export EDITOR="nvim"
 export LANG="en_US.UTF-8"
 export LESS="iFMR"
 export PAGER="less"
-
 export GOPATH=~/Documents/src/go
 
 # whether to make use of powerline fonts
@@ -18,7 +21,4 @@ fi
 
 if [[ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" && -f /etc/nix/darwin.sh ]]; then
   source /etc/nix/darwin.sh
-fi
-if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
-  source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 fi

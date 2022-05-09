@@ -28,8 +28,8 @@ in
     home.activation = lib.mkIf config.programs.emacs.enable {
       syncDoomEmacs = lib.hm.dag.entryAfter [ "installPackages" ] ''
         queryEmacsVersion() {
-          local emacsBin="$1"
-          "$emacsBin" --batch --eval '(message "%d" emacs-major-version)'
+          local emacs="$1"
+          "$emacs" --batch --eval '(princ (format "%d\n" emacs-major-version))'
         }
 
         syncDoomEmacs() {

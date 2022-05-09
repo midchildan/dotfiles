@@ -17,7 +17,6 @@ path=(
   ~/.local/bin
   $path
   /usr/local/sbin
-  "$GOPATH/bin"
   ~/.config/emacs/bin
 )
 

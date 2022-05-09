@@ -1,5 +1,9 @@
-{ inputs }:
+{ inputs }: { pkgs, ... }:
 
+let
+  inherit (inputs.self.lib) mkPkgs;
+  inherit (pkgs.stdenv) system;
+in
 {
   imports = [
     ./profiles/config.nix
@@ -10,5 +14,8 @@
     ./profiles/network.nix
   ];
 
-  config._module.args.dotfiles = inputs.self;
+  config._module.args = {
+    dotfiles = inputs.self;
+    pkgsUnstable = mkPkgs inputs.nixpkgs { inherit system; };
+  };
 }

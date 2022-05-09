@@ -10,8 +10,6 @@ let
 in
 rec {
 
-  inherit (pkgs) noto-fonts-cjk-serif;
-
   neovim = pkgs.callPackage ./neovim.nix { };
   siege = pkgs.callPackage ./siege.nix { };
   terminfo-collection = pkgs.callPackage ./terminfo-collection.nix { };

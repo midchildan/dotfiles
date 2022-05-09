@@ -17,23 +17,25 @@ info about the commands can be found [here][2].
 
 ```console
 $ nix search
-* packages.x86_64-darwin.cloudfoundry-cli-6 (6-v6.53.0)
+* packages.x86_64-linux.bpftrace (0.13.0)
+  High-level tracing language for Linux eBPF
+
+* packages.x86_64-linux.cloudfoundry-cli-6 (6-v6.53.0)
   The official command line client for Cloud Foundry
 
-* packages.x86_64-darwin.neovim (0.7.0)
+* packages.x86_64-linux.neovim (0.7.0)
   Vim text editor fork focused on extensibility and agility
 
-* packages.x86_64-darwin.nix-darwin
-  Command line tool for nix-darwin
+* packages.x86_64-linux.nixos-rebuild
 
-* packages.x86_64-darwin.noto-fonts-cjk-serif (2.000)
-  Beautiful and free fonts for CJK languages
-
-* packages.x86_64-darwin.siege (4.1.3)
+* packages.x86_64-linux.siege (4.1.3)
   HTTP load tester
 
-* packages.x86_64-darwin.terminfo-collection
+* packages.x86_64-linux.terminfo-collection
   Collection of terminfo definitions
+
+* packages.x86_64-linux.zsh (5.8.1)
+  The Z shell. This package is intended for use on stable Linux distributions shipping an outdated version of zsh.
 ```
 
 - Build and run the Neovim package:
