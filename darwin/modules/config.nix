@@ -31,8 +31,8 @@
     # override nix-darwin defaults (priority 1000)
     mkDefault = lib.mkOverride 900;
   in {
-    EDITOR = mkDefault "\${EDITOR:-vim}";
-    PAGER = mkDefault "\${PAGER:-less}";
+    EDITOR = mkDefault "vim";
+    PAGER = mkDefault "less";
   };
 
   # HACK: make nix-darwin preserve system PATH
