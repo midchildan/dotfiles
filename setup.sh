@@ -17,6 +17,7 @@ source "$DOTFILE_DIR/scripts/setup"
 @install Install Shell Config
   - .bash_profile
   - .bashrc
+  - .zprofile
   - .zshenv
   - .zshrc
   - .hushlogin

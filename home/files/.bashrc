@@ -10,6 +10,16 @@
 #
 # https://www.gnu.org/software/bash/manual/bash.html#Invoked-by-remote-shell-daemon
 
+if shopt -q login_shell; then
+  # In login shells, macOS's path_helper(8) swoops in and clobbers $PATH. So
+  # initialization scripts would always have to be read in login shells, even
+  # nested ones.
+  unset __NIX_DARWIN_SET_ENVIRONMENT_DONE
+  unset __HM_SESS_VARS_SOURCED
+fi
+if [[ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" && -f /etc/nix/darwin.sh ]]; then
+  source /etc/nix/darwin.sh
+fi
 if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
   source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 fi
@@ -29,10 +39,6 @@ if [[ -z "$USE_POWERLINE" ]]; then
     *) USE_POWERLINE=0 ;;
   esac
   export USE_POWERLINE
-fi
-
-if [[ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" && -f /etc/nix/darwin.sh ]]; then
-  source /etc/nix/darwin.sh
 fi
 
 # skip the rest for non-interactive sessions

@@ -1,3 +1,18 @@
+# Prevents macOS's path_helper(8) from clobbering $PATH in nested shells by
+# blocking execution of /etc/zprofile.
+if [[ -o login ]]; then
+  # This option is toggled back again in .zprofile to allow /etc/zshrc to run.
+  unsetopt global_rcs
+fi
+
+if [[ -z "$__DOT_ZPROFILE_DONE" ]]; then
+  # Let macOS's path_helper(8) setup the system shell exactly once.
+  source /etc/zprofile
+  export __DOT_ZPROFILE_DONE=1
+fi
+if [[ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" && -f /etc/nix/darwin.sh ]]; then
+  source /etc/nix/darwin.sh
+fi
 if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
   source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 fi
@@ -17,8 +32,4 @@ if [[ -z "$USE_POWERLINE" ]]; then
     *) USE_POWERLINE=0 ;;
   esac
   export USE_POWERLINE
-fi
-
-if [[ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" && -f /etc/nix/darwin.sh ]]; then
-  source /etc/nix/darwin.sh
 fi
