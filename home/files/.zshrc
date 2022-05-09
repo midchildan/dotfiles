@@ -13,7 +13,6 @@ typeset -U path
 path=(
   ~/.local/bin
   $path
-  "$GOPATH/bin"
   ~/.config/emacs/bin
 )
 

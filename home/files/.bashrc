@@ -41,7 +41,6 @@ GPG_TTY="$(tty)"
 printf -v PATH "%s:" \
   ~/.local/bin \
   "$PATH" \
-  "$GOPATH/bin" \
   ~/.config/emacs/bin
 PATH="${PATH%%:}"
 
