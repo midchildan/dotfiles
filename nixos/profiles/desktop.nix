@@ -73,8 +73,7 @@ in
         enableSSHSupport = mkDefault true;
       };
 
-      virtualisation.libvirtd.enable = mkDefault true;
-      users.users.${username}.extraGroups = [ "networkmanager" "libvirtd" ];
+      users.users.${username}.extraGroups = [ "networkmanager" ];
     }
 
     (mkIf (cfg.desktop == "gnome") {
