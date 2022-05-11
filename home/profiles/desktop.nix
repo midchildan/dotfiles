@@ -17,7 +17,6 @@ in {
         kitty
         libreoffice
         lollypop
-        virtmanager
         vlc
         vscode
         xclip
