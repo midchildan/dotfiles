@@ -25,18 +25,6 @@ prompt_dashboard_setup() {
     zstyle ':vcs_info:*' actionformats '%r/%S' '%b' '%u%c' '%a'
   fi
 
-  local container
-  if ! zstyle -s ':dotfiles:prompt:dashboard:container' type container; then
-    if [[ -f /.dockerenv ]]; then
-      zstyle ':dotfiles:prompt:*:container' type docker
-    elif [[ -f /run/.containerenv ]]; then
-      zstyle ':dotfiles:prompt:*:container' type podman
-    elif [[ -r /run/host/container-manager ]]; then
-      read -r container < /run/host/container-manager
-      zstyle ':dotfiles:prompt:*:container' type "$container"
-    fi
-  fi
-
   prompt_opts=(cr percent sp)
   add-zsh-hook precmd prompt_dashboard_precmd
   add-zsh-hook preexec prompt_dashboard_preexec
@@ -147,11 +135,6 @@ prompt_dashboard_precmd() {
   fi
   if [[ -n "$IN_NIX_SHELL" ]]; then
     PROMPT+=" via %B%F{cyan}$nix_icon$name%f%b"
-  fi
-
-  local container
-  if zstyle -s ':dotfiles:prompt:dashboard:container' type container; then
-    PROMPT+=" inside %B$container%b"
   fi
 
   PROMPT+=$'\n'"%B%(?:%F{green}:%F{red})$prompt_mark%f%b $pend"
