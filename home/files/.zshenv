@@ -10,7 +10,7 @@ export SYSTEMD_LESS="iFRSMK"
 export GOPATH=~/Documents/src/go
 
 # whether to make use of powerline fonts
-if [[ -n "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION" ]]; then
+if [[ -n "$DISPLAY$WAYLAND_DISPLAY$SSH_CONNECTION$SSH_TTY" ]]; then
   export USE_POWERLINE=1
 else
   export USE_POWERLINE=0
