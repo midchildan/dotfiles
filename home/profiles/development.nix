@@ -11,9 +11,18 @@ in
     lib.mkEnableOption "development packages";
 
   config = lib.mkIf cfg.development.enable {
-    home.packages = with pkgs;
-      [ cargo clang-tools github-cli go gopls shellcheck tokei universal-ctags ]
-      ++ lib.optionals isNixOS [ man-pages ];
+    home.packages = with pkgs; [
+      cargo
+      clang-tools
+      github-cli
+      go
+      gopls
+      shellcheck
+      tokei
+      universal-ctags
+    ]
+    ++ lib.optionals isLinux [ distrobox ]
+    ++ lib.optionals isNixOS [ man-pages ];
 
     dotfiles.gnupg = {
       enable = lib.mkDefault true;
