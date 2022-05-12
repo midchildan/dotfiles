@@ -1,4 +1,5 @@
 { lib
+, path
 , git
 , nvfetcher
 , writers
@@ -11,6 +12,7 @@ writers.writeBash "update.sh" ''
 set -euxo pipefail
 
 export PATH="${lib.makeBinPath [ git nvfetcher nix-prefetch ]}''${PATH:+:$PATH}"
+export NIX_PATH='nixpkgs=${path}'
 
 if ! [[ -f flake.nix && -d packages ]] ||
   [[ "$(git rev-parse --is-inside-work-tree)" != "true" ]]; then
