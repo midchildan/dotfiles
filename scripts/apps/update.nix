@@ -3,15 +3,12 @@
 , git
 , nvfetcher
 , writers
-
-# FIXME: nixpkgs.nvfetcher has a missing dependency on nix-prefetch
-, nix-prefetch
 }:
 
 writers.writeBash "update.sh" ''
 set -euxo pipefail
 
-export PATH="${lib.makeBinPath [ git nvfetcher nix-prefetch ]}''${PATH:+:$PATH}"
+export PATH="${lib.makeBinPath [ git nvfetcher ]}''${PATH:+:$PATH}"
 export NIX_PATH='nixpkgs=${path}'
 
 if ! [[ -f flake.nix && -d packages ]] ||
