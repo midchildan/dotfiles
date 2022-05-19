@@ -119,7 +119,7 @@ prompt_dashboard_precmd() {
     PROMPT+="%B%F{red}%n%f%b in "
   fi
   PROMPT+="%B%F{blue}${vcs_info_msg_0_:-%~}%f%b"
-  if [[ -n "$SSH_CONNECTION" ]]; then
+  if [[ -n "$SSH_CONNECTION$SSH_TTY" ]]; then
     PROMPT+=" at %B%F{yellow}%m%f%b"
   fi
   if [[ "$VCS_STATUS_RESULT" == error ]]; then
