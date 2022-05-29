@@ -12,11 +12,11 @@ in
 
   config = lib.mkIf cfg.development.enable {
     home.packages = with pkgs; [
-      cargo
       clang-tools
       github-cli
       go
       gopls
+      rust-analyzer
       shellcheck
       tokei
       universal-ctags
