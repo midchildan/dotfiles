@@ -87,7 +87,7 @@ prompt_concise_vcs_info() {
 
 prompt_concise_precmd() {
   local _prompt="%(?::%F{red})%#%f" _login="%B%(!:%F{red}:)" _hname=""
-  if [[ -n "$SSH_CONNECTION" ]]; then
+  if [[ -n "$SSH_CONNECTION$SSH_TTY" ]]; then
     _login="%B%(!:%F{red}:%F{green})"
     _hname="@%m"
   fi
