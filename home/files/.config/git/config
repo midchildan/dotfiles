@@ -1,12 +1,8 @@
 [include]
 	path = ~/.config/git/user
-[core]
-	pager = delta
 [diff]
 	algorithm = histogram
 	colorMoved = default
-[interactive]
-	diffFilter = delta --color-only
 [merge]
 	tool = vimdiff
 [mergetool]

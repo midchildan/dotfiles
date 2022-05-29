@@ -23,7 +23,6 @@ in
         less
         ripgrep
         zsh-syntax-highlighting
-        gitAndTools.delta
         myPkgs.neovim
       ];
 
