@@ -256,5 +256,11 @@
         This module can set 'NIX_PATH' or define Nix user channels.
       '';
     }
+    {
+      time = "2022-05-29T12:22:04+00:00";
+      message = ''
+        A new module is available: 'dotfiles.git'
+      '';
+    }
   ];
 }

@@ -73,6 +73,7 @@ setopt correct
 setopt magic_equal_subst
 setopt menu_complete
 setopt list_packed
+setopt no_list_beep
 zmodload -i zsh/complist
 
 if [[ -n "$NIX_PROFILES" ]]; then

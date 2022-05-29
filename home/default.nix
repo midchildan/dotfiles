@@ -7,6 +7,7 @@
     ./modules/gnupg
     ./modules/emacs.nix
     ./modules/firefox.nix
+    ./modules/git.nix
     ./modules/linkapps.nix
     ./modules/manpages.nix
     ./modules/nix.nix

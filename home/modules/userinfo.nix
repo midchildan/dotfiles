@@ -1,4 +1,4 @@
-{ lib, pkgs, dotfiles, ... }:
+{ lib, dotfiles, ... }:
 
 let
   inherit (dotfiles.lib) config;
@@ -6,7 +6,7 @@ let
 in
 {
   config = {
-    xdg.configFile."git/user".text = lib.generators.toINI {} {
+    dotfiles.git.config = {
       commit.gpgsign = hasSigningKey;
       user = {
         name = config.user.fullName;

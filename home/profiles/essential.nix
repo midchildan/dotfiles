@@ -46,6 +46,9 @@ in
         watch
       ];
 
-    dotfiles.manpages.colorize = mkDefault true;
+    dotfiles = {
+      git.enableDelta = mkDefault true;
+      manpages.colorize = mkDefault true;
+    };
   };
 }
