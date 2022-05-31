@@ -25,7 +25,7 @@ in {
 
       users.root = {
         hashedPassword = "!";
-        shell = pkgs.nologin;
+        shell = pkgs.shadow; # package for nologin
       };
 
       users.${cfg.username} = {
