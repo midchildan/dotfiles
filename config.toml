@@ -11,7 +11,7 @@ gpgKey = "FEF0AE2D544934825F0640AA186A1EDAC5C63F83"
 # override this option this per host.
 #
 # https://nix-community.github.io/home-manager/options.html#opt-home.stateVersion
-stateVersion = "21.11"
+stateVersion = "22.05"
 
 [user.darwin]
 homeDirectory = "/Users/midchildan"
@@ -24,7 +24,7 @@ system = "x86_64-linux"
 #
 # https://search.nixos.org/options?show=system.stateVersion&query=system.stateVersion
 # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-stateVersion = "21.11"
+stateVersion = "22.05"
 
 [os.darwin]
 system = "x86_64-darwin"
