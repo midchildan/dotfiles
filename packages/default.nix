@@ -21,14 +21,17 @@ rec {
 } // optionalAttrs isLinux {
 
   bpftrace = nixos.callPackage ./bpftrace.nix { };
-  nixos-rebuild = nixos.callPackage ./nixos-rebuild.nix { nix = pkgs.nix_2_4; };
   zsh = pkgs.callPackage ./zsh.nix { };
+
+  nixos-rebuild = nixos.callPackage ./nixos-rebuild.nix {
+    nix = pkgs.nixVersions.nix_2_8;
+  };
 
 } // optionalAttrs isDarwin {
 
   nix-darwin = pkgs.callPackage ./nix-darwin.nix {
     inherit (inputs) darwin;
-    nix = pkgs.nix_2_4;
+    nix = pkgs.nixVersions.nix_2_8;
   };
 
 }
