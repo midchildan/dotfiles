@@ -35,8 +35,8 @@ in
         fontDir.enable = true;
         fonts = with pkgs; [
           noto-fonts
-          noto-fonts-cjk
-          pkgsUnstable.noto-fonts-cjk-serif
+          noto-fonts-cjk-sans
+          noto-fonts-cjk-serif
           noto-fonts-emoji
           ipafont
           dejavu_fonts
