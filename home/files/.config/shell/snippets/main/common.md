@@ -12,6 +12,14 @@
 
 `autoreconf -if`
 
+- Send an HTTP request to dev.example.com, but treat it as example.com:
+
+`curl --resolve "{{example.com}}:443:$(dig +short {{dev.example.com}} A)" 'https://{{example.com}}'`
+
+- Attatch a bearer token to an HTTP request:
+
+`curl '{{https://example.com/}}' -H "Authorization: Bearer {{$token}}"`
+
 - Lookup the manpage for a specific version of tmux:
 
 `curl -sSfL https://raw.githubusercontent.com/tmux/tmux/{{2.8}}/tmux.1 | nroff -mdoc | less`

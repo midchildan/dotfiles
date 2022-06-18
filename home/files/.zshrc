@@ -219,8 +219,7 @@ bindkey -M menuselect \
 ######################
 #  Terminal Support  #
 ######################
-__term_support() {
-  # set title
+__set_title() {
   if [[ -n "$SSH_CONNECTION" ]]; then
     print -Pn "\e]0;%m: %1~\a"
   else
@@ -228,18 +227,17 @@ __term_support() {
     [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && title=""
     print -Pn "\e]0;$title\a"
   fi
+}
 
-  # report working directory
-  () {
-    setopt localoptions extended_glob no_multibyte
-    local match mbegin mend
-    local pattern="[^A-Za-z0-9_.!~*\'\(\)-\/]"
-    local unsafepwd; unsafepwd=( ${(s::)PWD} )
+__report_cwd() {
+  setopt localoptions extended_glob no_multibyte
+  local match mbegin mend
+  local pattern="[^A-Za-z0-9_.!~*\'\(\)-\/]"
+  local unsafepwd; unsafepwd=( ${(s::)PWD} )
 
-    # url encode
-    printf "\e]7;file://%s%s\a" \
-      "$HOST" ${(j::)unsafepwd/(#b)($~pattern)/%${(l:2::0:)$(([##16]#match))}}
-  }
+  # url encode
+  printf "\e]7;file://%s%s\a" \
+    "$HOST" ${(j::)unsafepwd/(#b)($~pattern)/%${(l:2::0:)$(([##16]#match))}}
 
   # report current username to iTerm
   if zstyle -T ':dotfiles:iterm2:osc' enable; then
@@ -263,8 +261,11 @@ case "$TERM" in
     zle -N zle-line-init __vi_cursor
     zle -N zle-keymap-select __vi_cursor
     add-zsh-hook preexec __reset_cursor
-    add-zsh-hook precmd __term_support
-    ;|
+    add-zsh-hook precmd __set_title
+    ;| # fallthrough
+  xterm*)
+    add-zsh-hook precmd __report_cwd
+    ;| # fallthrough
   eterm*|xterm-kitty)
     zstyle ':dotfiles:iterm2:osc' enable false
     ;;
