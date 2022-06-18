@@ -48,7 +48,7 @@ in
 
             PATH="$newGenPath/home-path/bin:$PATH" \
               $DRY_RUN_CMD "${homeDir}/.config/emacs/bin/doom" \
-                ''${VERBOSE:+-d} sync > /dev/null
+                ''${VERBOSE:+-d} sync -e > /dev/null
 
             oldVersion="$(queryEmacsVersion "$oldEmacs")"
             newVersion="$(queryEmacsVersion "$newEmacs")"
