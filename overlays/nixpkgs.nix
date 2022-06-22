@@ -15,7 +15,7 @@ lib.optionalAttrs (isUnix && isStatic) {
       # minimum dependencies. So the following makes sure that binaries using
       # this package won't depend on a terminfo database located in the Nix
       # store.
-      "--with-terminfo-dirs=${lib.concatStringSep ":" [
+      "--with-terminfo-dirs=${lib.concatStringsSep ":" [
         "/etc/terminfo" # Debian, Fedora, Gentoo
         "/lib/terminfo" # Debian
         "/usr/share/terminfo" # upstream default, probably all FHS-based distros
