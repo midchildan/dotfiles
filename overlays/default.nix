@@ -12,8 +12,8 @@ let
     pkgs.lib.trivial.release == flake.lib.trivial.release;
 
   overlay =
-    if isSameRelease prev nixpkgs then self.overlays.nixpkgs
-    else if isSameRelease prev nixos then self.overlays.nixos
+    if isSameRelease prev nixpkgs then import ./nixpkgs.nix
+    else if isSameRelease prev nixos then import ./nixos.nix
     else final: prev: { };
 in
 overlay final prev

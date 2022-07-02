@@ -9,7 +9,7 @@ let
 
   nixpkgsArgs = {
     config = import ../home/files/.config/nixpkgs/config.nix;
-    overlays = [ self.overlay ];
+    overlays = [ self.overlays.default ];
   };
 in
 rec {
@@ -77,25 +77,32 @@ rec {
   # is identical to homeManagerConfiguration from Home Manager.
   #
   mkHome =
-    { configuration
-    , username ? config.user.name
-    , homeDirectory ? config.user.homeDirectory
-    , system ? config.os.system
-    , stateVersion ? config.user.stateVersion
-    , extraModules ? [ ]
+    { system ? config.os.system
     , pkgs ? mkPkgs nixpkgs { inherit system; }
+    , modules ? [ ]
     , ...
     } @ args:
-    homeManagerConfiguration (args // {
-      inherit username homeDirectory system stateVersion pkgs;
-      extraModules = [ self.homeModule ] ++ extraModules;
+    let hmArgs = builtins.removeAttrs args [ "system" ];
+    in
+    homeManagerConfiguration (hmArgs // {
+      inherit pkgs;
+      modules = modules ++ [
+        self.homeModules.default
+        ({ lib, ... }: {
+          home = {
+            username = lib.mkDefault config.user.name;
+            homeDirectory = lib.mkDefault config.user.homeDirectory;
+            stateVersion = lib.mkDefault config.user.stateVersion;
+          };
+        })
+      ];
     });
 
   # Creates a Home Manager configuration from the specified file. It calls into
   # mkHome under the hood.
   #
   importHome = configPath: args:
-    mkHome (args // { configuration = import configPath; });
+    mkHome (args // { modules = [ (import configPath) ]; });
 
   # Creates a nix-darwin configuration with addtional modules. The interface
   # is identical to darwinSystem from nix-darwin.
@@ -104,8 +111,8 @@ rec {
     darwinSystem (args // {
       inherit system;
       modules = modules ++ [
-        self.darwinModule
-        home.darwinModule
+        self.darwinModules.default
+        home.darwinModules.default
         ({ lib, ... }:
           {
             system.stateVersion = lib.mkDefault config.os.darwin.stateVersion;
@@ -113,7 +120,7 @@ rec {
             home-manager = {
               useGlobalPkgs = true;
               sharedModules = [
-                self.homeModule
+                self.homeModules.default
                 { home.stateVersion = lib.mkDefault config.user.stateVersion; }
               ];
             };
@@ -138,15 +145,15 @@ rec {
     nixosSystem (args // {
       inherit system;
       modules = modules ++ [
-        self.nixosModule
-        home.nixosModule
+        self.nixosModules.default
+        home.nixosModules.default
         ({ lib, ... }:
           {
             system.stateVersion = lib.mkDefault config.os.stateVersion;
             nixpkgs = nixpkgsArgs;
             home-manager = {
               sharedModules = [
-                self.homeModule
+                self.homeModules.default
                 {
                   home.stateVersion = lib.mkDefault config.user.stateVersion;
                   nixpkgs = nixpkgsArgs;

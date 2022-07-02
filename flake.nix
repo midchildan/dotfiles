@@ -24,19 +24,19 @@
     {
       inherit lib;
 
-      overlay = import ./overlays { inherit inputs; };
       overlays = {
+        default = import ./overlays { inherit inputs; };
         nixpkgs = import ./overlays/nixpkgs.nix;
         nixos = import ./overlays/nixos.nix;
       };
 
-      homeModule = import ./home { inherit inputs; };
+      homeModules.default = import ./home { inherit inputs; };
       homeConfigurations = import ./home/machines { inherit inputs; };
 
-      darwinModule = import ./darwin { inherit inputs; };
+      darwinModules.default = import ./darwin { inherit inputs; };
       darwinConfigurations = import ./darwin/machines { inherit inputs; };
 
-      nixosModule = import ./nixos { inherit inputs; };
+      nixosModules.default = import ./nixos { inherit inputs; };
       nixosConfigurations = import ./nixos/machines { inherit inputs; };
 
       templates = {
@@ -59,10 +59,10 @@
         devShell = pkgs.callPackage ./devshells/shell.nix { };
       in
       {
-        inherit devShell packages;
+        inherit packages;
 
         devShells = {
-          dev = devShell;
+          default = devShell;
           setup = pkgs.callPackage ./devshells/setup.nix {
             inherit (packages) neovim;
           };
