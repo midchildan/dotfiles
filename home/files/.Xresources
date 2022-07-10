@@ -39,7 +39,7 @@ XTerm*numColorRegisters: 256
 
 ! Fonts {{{
 
-XTerm*faceName: Monospace
+XTerm*faceName: Fira Code
 
 # FIXME: This should be adjusted per-host
 XTerm*faceSize: 11
