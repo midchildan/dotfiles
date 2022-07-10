@@ -66,6 +66,7 @@ in
       services.xserver = {
         enable = true;
         layout = mkDefault "us";
+        excludePackages = [ pkgs.xterm ];
       };
 
       programs.gnupg.agent = {
