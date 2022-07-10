@@ -108,7 +108,7 @@
        yaml
 
        :app
-       rss
+       (rss +org)
 
        :config
        literate
