@@ -45,8 +45,7 @@ pod042 = mkNixOS {
 ```
 
 `mkNixOS` is a wrapper for [`nixosSystem`][nixos-system] that bundles custom
-NixOS modules in this dotfiles repository along with optional Home Manager
-integration.
+NixOS modules in this dotfiles repository.
 
 There's also an `importNixOS` function that allows you to split out the
 configuration into a separate file. To use this, replace `mkNixOS` with the
