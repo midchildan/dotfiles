@@ -146,20 +146,10 @@ rec {
       inherit system;
       modules = modules ++ [
         self.nixosModules.default
-        home.nixosModules.default
         ({ lib, ... }:
           {
             system.stateVersion = lib.mkDefault config.os.stateVersion;
             nixpkgs = nixpkgsArgs;
-            home-manager = {
-              sharedModules = [
-                self.homeModules.default
-                {
-                  home.stateVersion = lib.mkDefault config.user.stateVersion;
-                  nixpkgs = nixpkgsArgs;
-                }
-              ];
-            };
           })
       ];
     });
