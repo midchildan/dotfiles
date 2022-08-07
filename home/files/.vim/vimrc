@@ -327,7 +327,17 @@ nmap s <Nop>
 xmap s <Nop>
 
 " coc
+nnoremap <silent> K :call vimrc#coc#show_doc()<CR>
 inoremap <silent><expr> <Tab> vimrc#coc#tab()
+inoremap <silent><expr> <S-Tab> vimrc#coc#s_tab()
+inoremap <silent><expr> <CR> vimrc#coc#cr()
+nnoremap <silent><nowait><expr> <C-b> vimrc#coc#scroll_up("\<C-b>")
+nnoremap <silent><nowait><expr> <C-f> vimrc#coc#scroll_down("\<C-f>")
+vnoremap <silent><nowait><expr> <C-b> vimrc#coc#scroll_up("\<C-b>")
+vnoremap <silent><nowait><expr> <C-f> vimrc#coc#scroll_down("\<C-f>")
+inoremap <silent><nowait><expr> <Up> vimrc#coc#i_scroll_up("\<Up>")
+inoremap <silent><nowait><expr> <Down> vimrc#coc#i_scroll_down("\<Down>")
+
 nmap <Leader>a <Plug>(coc-codeaction-selected)
 xmap <Leader>a <Plug>(coc-codeaction-selected)
 nmap <Leader>cf <Plug>(coc-fix-current)
@@ -341,8 +351,9 @@ nmap <silent> <Leader>g] <Plug>(coc-implementation)
 nmap <silent> <Leader>p :CocList<CR>
 nmap <silent> <Leader>P :CocListResume<CR>
 nmap <silent> <Leader>* <Plug>(coc-references)
-nnoremap <silent> <Leader>K :call CocAction('doHover')<CR>
 nnoremap <silent> <Leader>; :CocList commands<CR>
+
+au vimrc User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
 " 3-way merge
 nnoremap <silent> <Leader>1 :diffget LOCAL<CR>
