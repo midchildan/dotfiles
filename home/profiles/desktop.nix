@@ -23,8 +23,20 @@ in {
       ];
 
     dotfiles.emacs.enable = mkDefault true;
-    dotfiles.firefox.enable = mkDefault true;
     dotfiles.profiles.fonts.enable = mkDefault true;
     dotfiles.profiles.macos.enable = mkDefault isDarwin;
+
+    dotfiles.firefox = {
+      enable = mkDefault true;
+
+      # enable hardware accelerated video playback by default
+      #
+      # TODO: remove when this becomes the default
+      # https://bugzilla.mozilla.org/show_bug.cgi?id=1777430
+      policies.Preferences."media.ffmpeg.vaapi.enabled" = mkIf isLinux {
+        Value = mkDefault true;
+        Status = mkDefault "default";
+      };
+    };
   };
 }
