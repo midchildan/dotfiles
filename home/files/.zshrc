@@ -320,3 +320,4 @@ prompt dashboard
 # must be run last
 source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)
+ZSH_HIGHLIGHT_STYLES[comment]='fg=8,bold' # 8 = bright black
