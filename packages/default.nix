@@ -11,7 +11,6 @@ in
 rec {
 
   neovim = pkgs.callPackage ./neovim.nix { };
-  siege = pkgs.callPackage ./siege.nix { };
   terminfo-collection = pkgs.callPackage ./terminfo-collection.nix { };
 
   cloudfoundry-cli-6 = pkgs.callPackage ./cloudfoundry-cli-6.nix {
