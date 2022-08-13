@@ -23,6 +23,16 @@ in
         # https://bugzilla.mozilla.org/buglist.cgi?product=Core&short_desc_type=allwordssubstr&query_format=advanced&short_desc=swipe&component=Panning%20and%20Zooming
         "widget.disable-swipe-tracker" = lib.mkDefault false;
       };
+
+      policies.Preferences."browser.contentblocking.category" = {
+        Value = lib.mkDefault "strict";
+
+        # Firefox forcibly sets this option to "custom" if:
+        #   1. The setting doesn't appear to be set by the user
+        #   2. Related settings deviate from the expected values
+        # https://searchfox.org/mozilla-central/rev/201b2c1/browser/components/BrowserGlue.jsm#5059
+        Status = lib.mkDefault "user";
+      };
     };
 
     targets.darwin = lib.mkIf isDarwin {
