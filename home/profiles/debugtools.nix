@@ -10,7 +10,8 @@ let
   # TODO: move this to NixOS system configuration
   # nixos = if isGenericLinux then pkgs else (import <nixos> { });
   # extraNixos = import ../pkgs { pkgs = nixos; };
-in {
+in
+{
   options.dotfiles.profiles.debugTools.enable =
     mkEnableOption "debugging tools";
 

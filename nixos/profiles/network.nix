@@ -3,7 +3,8 @@
 let
   cfg = config.dotfiles.profiles.network;
   hasInteractiveCfg = config.dotfiles.profiles.interactive.enable;
-in {
+in
+{
   options.dotfiles.profiles.network.enable =
     lib.mkEnableOption "collection of network configurations";
 

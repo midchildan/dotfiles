@@ -3,7 +3,8 @@
 let
   cfg = config.dotfiles.profiles.interactive;
   hasConfigHW = config.dotfiles.profiles.hardware.enable;
-in {
+in
+{
   options.dotfiles.profiles.interactive = {
     enable = lib.mkEnableOption "configuration for interactive logins";
     username = lib.mkOption {
