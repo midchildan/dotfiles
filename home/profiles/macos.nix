@@ -36,14 +36,6 @@ in
           expose-group-apps = mkDefault true;
         };
 
-        "com.apple.Safari" = {
-          AutoOpenSafeDownloads = mkDefault false;
-          AutoFillPasswords = mkDefault false;
-          AutoFillCreditCardData = mkDefault false;
-          IncludeDevelopMenu = mkDefault true;
-          ShowOverlayStatusBar = mkDefault true;
-        };
-
         # NOTE: Settings under "Preferences > Profiles" aren't covered here. To
         # obtain a more complete iTerm2 configuration, copy settings from the
         # "Template" profile included in this dotfiles. Assuming this dotfiles
@@ -75,12 +67,14 @@ in
         };
       };
 
+      currentHostDefaults = {
+        "com.apple.controlcenter".BatteryShowPercentage = mkDefault true;
+      };
+
       keybindings = {
         "^u" = mkDefault "deleteToBeginningOfLine:";
         "^w" = mkDefault "deleteWordBackward:";
       };
-
-      search = mkDefault "DuckDuckGo";
     };
   };
 }

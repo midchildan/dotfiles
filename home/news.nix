@@ -262,5 +262,22 @@
         A new module is available: 'dotfiles.git'
       '';
     }
+    {
+      time = "2022-08-13T06:53:40+00:00";
+      message = ''
+        A new option is available: 'dotfiles.firefox.preferences'
+
+        It's a convenience wrapper for 'dotfiles.firefox.policies.Preferences'.
+      '';
+    }
+    {
+      time = "2022-08-13T07:34:12+00:00";
+      message = ''
+        A new module is available: 'dotfiles.profiles.web'
+
+        Web browser configuration has been moved from
+        'dotfiles.profiles.desktop' and 'dotfiles.profiles.macos'.
+      '';
+    }
   ];
 }
