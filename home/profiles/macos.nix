@@ -67,6 +67,10 @@ in
         };
       };
 
+      currentHostDefaults = {
+        "com.apple.controlcenter".BatteryShowPercentage = mkDefault true;
+      };
+
       keybindings = {
         "^u" = mkDefault "deleteToBeginningOfLine:";
         "^w" = mkDefault "deleteWordBackward:";
