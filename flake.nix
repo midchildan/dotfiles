@@ -55,11 +55,14 @@
       };
     } // (lib.eachSupportedSystemPkgs ({ system, pkgs, nixos }:
       let
+        formatter = pkgs.nixpkgs-fmt;
         packages = import ./packages { inherit inputs pkgs nixos; };
-        devShell = pkgs.callPackage ./devshells/shell.nix { };
+        devShell = pkgs.callPackage ./devshells/shell.nix {
+          inherit formatter;
+        };
       in
       {
-        inherit packages;
+        inherit packages formatter;
 
         devShells = {
           default = devShell;
