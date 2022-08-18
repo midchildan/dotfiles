@@ -26,7 +26,7 @@ in
       '';
     };
     preferences = lib.mkOption {
-      type = with lib.types; attrsOf (oneOf [str int float bool]);
+      type = with lib.types; attrsOf (oneOf [ str int float bool ]);
       default = { };
       description = ''
         Set default preferences for Firefox.
@@ -52,10 +52,12 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = lib.optional (cfg.package != null) finalPackage;
 
-    dotfiles.firefox.policies.Preferences = lib.mapAttrs (name: value: {
-      Value = value;
-      Status = "default";
-    }) cfg.preferences;
+    dotfiles.firefox.policies.Preferences = lib.mapAttrs
+      (name: value: {
+        Value = value;
+        Status = "default";
+      })
+      cfg.preferences;
 
     targets.darwin.defaults = lib.mkIf (isDarwin && cfg.package == null) {
       "org.mozilla.firefox" = cfg.policies // {

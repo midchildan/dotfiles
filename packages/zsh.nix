@@ -4,7 +4,8 @@
 
 { lib, runCommand, makeWrapper, glibcLocales, zsh }:
 
-runCommand zsh.name {
+runCommand zsh.name
+{
   nativeBuildInputs = [ makeWrapper ];
   meta = with lib; {
     inherit (zsh.meta) homepage license;

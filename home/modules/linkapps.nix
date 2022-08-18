@@ -11,7 +11,8 @@ let
     paths = config.home.packages;
     pathsToLink = "/Applications";
   };
-in {
+in
+{
   config = mkIf isDarwin {
     home.activation.linkMacOSApplications = hm.dag.entryAfter [ "writeBoundary" ] ''
       linkMacOSApplications() {

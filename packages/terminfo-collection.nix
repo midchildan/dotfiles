@@ -1,6 +1,7 @@
 { runCommand, kitty }:
 
-runCommand "terminfo-collection" {
+runCommand "terminfo-collection"
+{
   meta = {
     description = "Collection of terminfo definitions";
     license = kitty.meta.license;

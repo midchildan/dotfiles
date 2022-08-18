@@ -1,11 +1,11 @@
 { mkShellNoCC
-, nixpkgs-fmt
+, formatter
 , shellcheck
 }:
 
 mkShellNoCC {
   nativeBuildInputs = [
-    nixpkgs-fmt
+    formatter
     shellcheck
   ];
 }

@@ -12,6 +12,15 @@ jobs:
       - uses: cachix/install-nix-action@v17
       - name: Check flake
         run: nix flake check
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v17
+      - name: Check format
+        run: |
+          nix fmt
+          git diff --exit-code
   home-manager:
     runs-on: ubuntu-latest
     steps:
