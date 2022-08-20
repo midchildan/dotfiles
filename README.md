@@ -6,7 +6,7 @@ dotfiles for my personal use.
 
 ## Requirements
 
-### Nix Package Manager (>= 2.4)
+### Nix Package Manager
 
 Consult the following for more details.
 
@@ -114,7 +114,7 @@ $ nix run '.#home' -- switch --flake .
 - NixOS:
 
 ```console
-$ sudo nix --experimental-features 'nix-command flake' run '.#nixos' -- switch --flake '.#'
+$ sudo nix --experimental-features 'nix-command flakes' run '.#nixos' -- switch --flake '.#'
 ```
 
 - nix-darwin:
