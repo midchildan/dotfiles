@@ -27,6 +27,6 @@ in
         # TODO: move this to NixOS system configuration
         # nixos.linuxPackages.bcc
         # extraNixos.bpftrace
-      ] ++ optional (isLinux && cfg.desktop.enable) radare2-cutter;
+      ] ++ optional (isLinux && cfg.desktop.enable) cutter;
   };
 }

@@ -10,8 +10,10 @@
     # would be automatically uninstalled by default.
     homebrew = {
       enable = lib.mkDefault true;
-      autoUpdate = lib.mkDefault true;
-      cleanup = lib.mkDefault "uninstall";
+      onActivation = {
+        autoUpdate = lib.mkDefault true;
+        cleanup = lib.mkDefault "uninstall";
+      };
     };
 
     homebrew.taps = [ "homebrew/cask-drivers" ];
