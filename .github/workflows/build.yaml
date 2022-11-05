@@ -9,14 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v17
+      - uses: cachix/install-nix-action@v18
       - name: Check flake
         run: nix flake check
   format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v17
+      - uses: cachix/install-nix-action@v18
       - name: Check format
         run: |
           nix fmt
@@ -25,20 +25,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v17
+      - uses: cachix/install-nix-action@v18
       - name: Build Home Manager configuration
         run: nix run '.#home' -- build --flake '.#ci'
   nixos:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v17
+      - uses: cachix/install-nix-action@v18
       - name: Build NixOS configuration
         run: nix run '.#nixos' -- build -L --flake '.#ci'
   nix-darwin:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v17
+      - uses: cachix/install-nix-action@v18
       - name: Build nix-darwin configuration
         run: nix run '.#darwin' -- build -L --flake '.#ci'
