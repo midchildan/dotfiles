@@ -13,6 +13,10 @@ let
   };
 in
 {
+  # Disable Home Manager's built-in app linking. The built-in one uses
+  # symlinks, which won't be picked up by Spotlight.
+  disabledModules = [ "targets/darwin/linkapps.nix" ];
+
   config = mkIf isDarwin {
     home.activation.linkMacOSApplications = hm.dag.entryAfter [ "writeBoundary" ] ''
       linkMacOSApplications() {

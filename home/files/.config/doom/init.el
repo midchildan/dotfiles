@@ -28,7 +28,6 @@
        :ui
        doom
        doom-dashboard
-       fill-column
        hl-todo
        ;;hydra
        indent-guides
