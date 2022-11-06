@@ -108,10 +108,13 @@ shows a different representation of the actual file.
               word-wrap nil)
 #+end_src
 
-Disable the fill column indicator when ~mixed-pitch-mode~ is enabled because
-it's not as useful with proportionate fonts.
+Enable the fill column indicator globally with some exceptions.
 
 #+begin_src emacs-lisp
+(global-display-fill-column-indicator-mode 1)
+(add-hook! 'org-mode-hook
+  (defun rc-disable-fci ()
+    (display-fill-column-indicator-mode -1)))
 (add-hook! 'mixed-pitch-mode-hook
   (defun rc-disable-fci-in-mixed-pitch-mode ()
     (if mixed-pitch-mode
