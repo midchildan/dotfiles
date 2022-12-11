@@ -13,14 +13,6 @@ rec {
   neovim = pkgs.callPackage ./neovim.nix { };
   terminfo-collection = pkgs.callPackage ./terminfo-collection.nix { };
 
-  cloudfoundry-cli-6 = pkgs.callPackage ./cloudfoundry-cli-6.nix {
-    inherit sources;
-
-    # incompatible with Go >= 1.18
-    # https://github.com/golang/go/issues/51091
-    buildGoPackage = pkgs.buildGo117Package;
-  };
-
 } // optionalAttrs isLinux {
 
   bpftrace = nixos.callPackage ./bpftrace.nix { };
