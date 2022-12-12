@@ -5,11 +5,7 @@ let
 
   inherit (pkgs.stdenv) isDarwin;
 
-  firefox = pkgs.firefox-bin.override {
-    forceWayland = true;
-  };
-
-  defaultPackage = if isDarwin then null else firefox;
+  defaultPackage = if isDarwin then null else pkgs.firefox-bin;
   finalPackage = cfg.package.override {
     extraPolicies = cfg.policies;
   };
