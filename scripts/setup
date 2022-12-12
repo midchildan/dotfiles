@@ -401,8 +401,8 @@ dot::_print_badge::failed() {
 #   coreutils, python, ruby, or perl
 dot::_absolute_path() {
   [[ "$#" != 1 ]] && dot::_abort "Wrong number of arguments."
-  if command -v realpath >/dev/null 2>&1; then
-    realpath -s "$1"
+  if command -v grealpath >/dev/null 2>&1; then
+    grealpath -s "$1"
   elif command -v perl >/dev/null 2>&1; then
     perl -e "use File::Spec; print File::Spec->rel2abs(\$ARGV[0])" "$1"
   elif command -v ruby >/dev/null 2>&1; then
@@ -427,8 +427,8 @@ dot::_absolute_path() {
 #   coreutils, python, ruby, or perl
 dot::_relative_path() {
   [[ "$#" != 1 ]] && dot::_abort "Wrong number of arguments."
-  if command -v realpath >/dev/null 2>&1; then
-    realpath --no-symlinks --relative-to=. "$1"
+  if command -v grealpath >/dev/null 2>&1; then
+    grealpath --no-symlinks --relative-to=. "$1"
   elif command -v perl >/dev/null 2>&1; then
     perl -e "use File::Spec; print File::Spec->abs2rel(\$ARGV[0])" "$1"
   elif command -v ruby >/dev/null 2>&1; then
