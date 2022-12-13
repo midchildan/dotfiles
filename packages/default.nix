@@ -14,6 +14,10 @@ rec {
   neovim = pkgs.callPackage ./neovim.nix { };
   terminfo-collection = pkgs.callPackage ./terminfo-collection.nix { };
 
+  cloudfoundry-cli-6 = pkgs.callPackage ./cloudfoundry-cli/default.nix {
+    inherit sources;
+  };
+
 } // optionalAttrs isLinux {
 
   bpftrace = nixos.callPackage ./bpftrace.nix { };
