@@ -163,6 +163,11 @@ au vimrc Syntax * syn match WhitespaceError /\s\+$\| \+\ze\t/
 au vimrc QuickfixCmdPost \C[^lA-Z]* botright cwindow
 au vimrc QuickfixCmdPost l* botright lwindow
 
+" vim-illuminate
+hi link IlluminatedWordText cursorLine
+hi link IlluminatedWordRead cursorLine
+hi link IlluminatedWordWrite cursorLine
+
 """"""""""""
 "  Search  "
 """"""""""""
