@@ -42,13 +42,14 @@ buildGoModule rec {
   # when making further changes to go.mod & go.sum.
   src = applyPatches {
     inherit (sources.cloudfoundry-cli-6) src;
+    patches = [ ./bump-go-loggregator.patch ];
     postPatch = ''
       cp ${./.}/go.{mod,sum} .
       rm -rf Gopkg.toml Gopkg.lock vendor
     '';
   };
 
-  vendorSha256 = "sha256-jMddE0madE7KBJosmk45QjrVeq4rV2plJujnbT9keQ0=";
+  vendorSha256 = "sha256-GogTenKyOuLZ6Kc0e8QInj1+VpvQaIPAJJ1x+bYF2Ec=";
   subPackages = [ "." ];
 
   # upstream have helpfully moved the bash completion script to a separate
