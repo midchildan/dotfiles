@@ -49,7 +49,10 @@ in
         };
       };
 
-      services.pcscd.enable = mkDefault true;
+      services = {
+        flatpak.enable = mkDefault true;
+        pcscd.enable = mkDefault true;
+      };
 
       # Printers https://nixos.wiki/wiki/Printing
       services.printing = {
