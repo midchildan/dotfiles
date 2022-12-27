@@ -1,8 +1,69 @@
 #+TITLE: TODO
 
+* Firefox
+** IDEA Use the official Flatpak :linux:
+*** Motivation
+Browsers deserve special attention regarding security because it has a large
+attack surface and primarily deals with untrusted code downloaded over the
+internet. As such, they should always be kept up to date.
+
+However, there are multiple factors right now that could prevent Firefox from
+being updated:
+
+- Updates are tied to this dotfiles :: The Firefox package is currently managed
+  by this dotfiles [[file:home/modules/firefox.nix][using Home Manager]]. Since this dotfiles [[file:flake.lock][locks]] its
+  dependencies using Nix Flakes, updating Firefox would require updating this
+  dotfiles and switching Home Manager over to the new configuration. Normally,
+  this is a good thing because it ensures this dotfiles work the same in the
+  future. But when browsers are involved, the work required to keep them up to
+  date would be too much of a burden because ideally you'd have to check for
+  updates daily.
+
+- Broken Nixpkgs packages can block updates :: If a package used by the Home
+  Manager configuration fails to build, Home Manager (rightfully) refuses to
+  switch to that configuration. This means build failures of packages unrelated
+  to Firefox can block updates of all packages managed by Home Manager including
+  Firefox. This does happen occassionally because this dotfiles uses Nixpkgs
+  unstable for Home Manager. There are, of course, countless ways to get around
+  this but it's best if no workarounds are required.
+
+- Home Manager rollbacks will downgrade Firefox :: If a new Home Manager
+  configuration breaks and you switch to a previous configuration, it would
+  downgrade Firefox along with it. This is great for reproducibility but bad for
+  software that should always be kept up to date.
+
+- Delays in downstream packaging :: Nixpkgs generally has a good track record of
+  keeping packages up to date and the ~firefox-bin~ package, the one currently
+  in use by this dotfiles, is likely to be updated swiftly. Even so, there's a
+  possibility of some packaging trouble blocking updates for a few days.
+
+Managing Firefox using Flatpak would solve these problems. As an aside it could
+potentially benefit from the additional sandboxing that Flatpak offers although
+exceptions made for X11 still leaves a wide open hole in that sandbox.
+
+*** Changes
+First, install Firefox using Flatpak:
+
+#+begin_src bash
+flatpak install flathub org.mozilla.firefox
+#+end_src
+
+Then remove the [[file:home/modules/firefox.nix][firefox package from the Home Manager configuration]].
+
+*** Blockers
+**** Lack of support for declaratively managing Flatpak apps
+A Home Manager equivalent of [[https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable][nix-darwin's Homebrew module]] would be nice to have
+for Flatpak.
+
+**** Inability of the Firefox Flatpak to use a custom policies.json file
+This is problematic because this dotfiles [[file:home/modules/firefox.nix][relies on it]] to manage the Firefox
+configuration.
+
+An upstream issue for this can be found [[https://bugzilla.mozilla.org/show_bug.cgi?id=1682462][here]].
+
 * tmux
 ** HOLD Use the default ~TERM~ environment variable
-*** Description
+*** Motivation
 The current configuration sets ~TERM~ to =screen-256color=. Using the default
 value of =tmux-256color= would allow various programs using terminfo to more
 accurately detect tmux capabilities.
@@ -20,7 +81,7 @@ ncurses 6.0 or later is required for a smooth experience. Unfortunately, macOS
 is stuck with version 5.7 from 2008, [[https://github.com/tmux/tmux/issues/2262][requiring the use of hacks]].
 
 ** HOLD Remove the assumption that truecolor support is always present
-*** Description
+*** Motivation
 The current configuration makes tmux assume that [[https://github.com/termstandard/colors][truecolor support]] is available
 for all terminals that set the ~TERM~ environment variable to =xterm-256color=.
 This becomes problematic if the terminal doesn't support the feature, rendering
