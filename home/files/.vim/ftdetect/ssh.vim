@@ -1,1 +1,1 @@
-au BufRead,BufNewFile */.ssh/config.d/*.conf setfiletype sshconfig
+au BufNewFile,BufRead */.ssh/config.d/*.conf setf sshconfig
