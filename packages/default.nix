@@ -24,6 +24,11 @@ rec {
   nixos-rebuild = nixos.callPackage ./nixos-rebuild.nix { inherit nix; };
   zsh = pkgs.callPackage ./zsh.nix { };
 
+  nixos-iso = nixos.callPackage ./nixos-iso.nix {
+    inherit (inputs.self.lib) mkNixOS;
+    modules = [ ];
+  };
+
 } // optionalAttrs isDarwin {
 
   nix-darwin = pkgs.callPackage ./nix-darwin.nix {

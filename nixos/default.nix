@@ -9,6 +9,7 @@ in
     ./profiles/config.nix
     ./profiles/desktop.nix
     ./profiles/hardware.nix
+    ./profiles/installer.nix
     ./profiles/interactive.nix
     ./profiles/laptop.nix
     ./profiles/network.nix
