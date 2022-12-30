@@ -10,7 +10,8 @@ let
     ];
   };
 
-  customConfig = {
+  customConfig = { lib, ... }: {
+    isoImage.edition = lib.mkOverride 10 "unofficial";
     dotfiles.profiles.installer.enable = true;
   };
 
