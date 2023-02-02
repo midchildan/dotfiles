@@ -10,6 +10,8 @@ in
   config = lib.mkIf cfg.enable {
     hardware.enableAllFirmware = true;
     nix.registry.dotfiles.flake = dotfiles;
+
+    # Override the defaults in ../../config.toml
     system.stateVersion = config.system.nixos.release;
   };
 }
