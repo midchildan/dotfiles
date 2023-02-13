@@ -1,6 +1,7 @@
 {
     "cloudfoundry-cli-6": {
         "cargoLocks": null,
+        "date": null,
         "extract": null,
         "name": "cloudfoundry-cli-6",
         "passthru": null,
