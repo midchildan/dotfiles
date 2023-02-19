@@ -3,7 +3,6 @@
 let
   cfg = config.dotfiles.nix;
   nixPath = lib.concatStringsSep ":" cfg.nixPath;
-  channelPath = "dotfiles/nix-channels";
 
   inherit (lib) literalExpression mapAttrs' mkIf mkMerge mkOption nameValuePair;
 in
@@ -52,10 +51,14 @@ in
     })
 
     (mkIf (cfg.channels != { }) {
-      dotfiles.nix.nixPath = [ "${config.xdg.dataHome}/${channelPath}" ];
-      xdg.dataFile = mapAttrs'
+      home.file = mapAttrs'
         (name: store:
-          nameValuePair "${channelPath}/${name}" { source = store.outPath; })
+          nameValuePair
+            # The directory name is prefixed with a number to make it easier for
+            # files in ~/.nix-defexpr to control the order they'll be read
+            # relative to each other.
+            ".nix-defexpr/50-dotfiles/${name}"
+            { source = store.outPath; })
         cfg.channels;
     })
   ];
