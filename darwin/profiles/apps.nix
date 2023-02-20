@@ -16,7 +16,10 @@
       };
     };
 
-    homebrew.taps = [ "homebrew/cask-drivers" ];
+    homebrew.taps = [
+      "homebrew/cask"
+      "homebrew/cask-drivers"
+    ];
 
     homebrew.casks = [
       "alfred"
