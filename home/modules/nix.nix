@@ -1,14 +1,21 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.dotfiles.nix;
   nixPath = lib.concatStringsSep ":" cfg.nixPath;
 
-  inherit (lib) literalExpression mapAttrs' mkIf mkMerge mkOption nameValuePair;
+  # The deploy path for declarative channels. The directory name is prefixed
+  # with a number to make it easier for files in ~/.nix-defexpr to control the
+  # order they'll be read relative to each other.
+  channelPath = ".nix-defexpr/50-dotfiles";
+
+  channelsDrv =
+    let mkEntry = name: drv: { inherit name; path = toString drv; };
+    in pkgs.linkFarm "channels" (lib.mapAttrsToList mkEntry cfg.channels);
 in
 {
   options.dotfiles.nix = {
-    nixPath = mkOption {
+    nixPath = lib.mkOption {
       type = with lib.types; listOf str;
       default = [ ];
       example = [
@@ -23,10 +30,10 @@ in
       '';
     };
 
-    channels = mkOption {
+    channels = lib.mkOption {
       type = with lib.types; attrsOf package;
       default = { };
-      example = literalExpression "{ inherit nixpkgs; }";
+      example = lib.literalExpression "{ inherit nixpkgs; }";
       description = ''
         A declarative alternative to Nix channels. Whereas with stock channels,
         you would register URLs and fetch them into the Nix store with
@@ -43,23 +50,16 @@ in
     };
   };
 
-  config = mkMerge [
-    (mkIf (cfg.nixPath != [ ]) {
+  config = lib.mkMerge [
+    (lib.mkIf (cfg.nixPath != [ ]) {
       home.sessionVariablesExtra = ''
         export NIX_PATH="${nixPath}''${NIX_PATH:+:$NIX_PATH}"
       '';
     })
 
-    (mkIf (cfg.channels != { }) {
-      home.file = mapAttrs'
-        (name: store:
-          nameValuePair
-            # The directory name is prefixed with a number to make it easier for
-            # files in ~/.nix-defexpr to control the order they'll be read
-            # relative to each other.
-            ".nix-defexpr/50-dotfiles/${name}"
-            { source = store.outPath; })
-        cfg.channels;
+    (lib.mkIf (cfg.channels != { }) {
+      dotfiles.nix.nixPath = [ "${config.home.homeDirectory}/${channelPath}" ];
+      home.file."${channelPath}".source = channelsDrv;
     })
   ];
 }
