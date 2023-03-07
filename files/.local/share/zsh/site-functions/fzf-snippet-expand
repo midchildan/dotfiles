@@ -16,7 +16,7 @@ fi
 autoload -Uz fzf-widgets && fzf-widgets init || return 1
 
 local snippet
-perl -MTerm::ANSIColor=colored -0777 -ne \
+perl -C -MTerm::ANSIColor=colored -0777 -ne \
   'print "$2 ", colored("## $1\n", q/bright_black/) while /^- (.*):\n\n\`(.*)\`$/mg' \
   ~/.config/shell/snippets/*/*.md \
   | __dot::fzf +m --ansi -q "$LBUFFER" \

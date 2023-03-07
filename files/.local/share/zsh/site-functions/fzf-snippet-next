@@ -7,7 +7,7 @@ if ! (( $+commands[perl] )); then
 fi
 
 local snippet
-perl -n0777e \
+perl -C -n0777e \
   'printf "%d:%s\n", pos()-length($&), $& while /\{\{.*?\}\}/g' <<< "$BUFFER" \
   | IFS= read -r snippet
 
