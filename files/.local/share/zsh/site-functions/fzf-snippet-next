@@ -1,0 +1,37 @@
+emulate -L zsh
+zmodload -i zsh/parameter
+
+if ! (( $+commands[perl] )); then
+  zle -M "perl not in PATH"
+  return 1
+fi
+
+local snippet
+perl -C -n0777e \
+  'printf "%d:%s\n", pos()-length($&), $& while /\{\{.*?\}\}/g' <<< "$BUFFER" \
+  | IFS= read -r snippet
+
+# fallback behavior when no snippet is active
+if [[ -z "$snippet" ]]; then
+  if [[ "$WIDGET" == fzf-snippet-next-or-accept-line ]]; then
+    zle accept-line
+  else
+    zle .self-insert
+  fi
+  return 0
+fi
+
+local pos="$(cut -d: -f1 <<< "$snippet")"
+local placeholder="$(cut -d: -f2- <<< "$snippet")"
+local len=$#placeholder
+
+if [[ "$WIDGET" == *-accept ]]; then
+  BUFFER="$BUFFER[1,pos]$BUFFER[pos+3,pos+len-2]$BUFFER[pos+len+1,$#BUFFER]"
+  CURSOR=$(( pos + len - 4 ))
+else
+  BUFFER="$BUFFER[1,pos]$BUFFER[pos+len+1,$#BUFFER]"
+  CURSOR="$pos"
+fi
+
+zle reset-prompt
+return 0

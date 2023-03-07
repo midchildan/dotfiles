@@ -13,18 +13,9 @@ Consult the following for more details.
 - [Official website](https://nixos.org)
 - [Official docs](https://nixos.org/learn.html)
 
-Nix can be installed on a wide range of Linux distros and even on macOS. It can
-painlessly coexist with existing system package managers. However, if you wish
-to stick with the package manager that you already have, it's also possible to
-use this dotfiles on systems without Nix albeit with reduced compatibility
-guarantees. If you wish to do so, make sure to read
-[this document](home/README.md) before proceeding.
-
 ## Installation
 
 ### Step 1: Preparation
-
-#### With Nix
 
 Drop into a [nix-shell][nix-shell] with the following command. This would
 download some commands required for setup, open a new temporary shell, and make
@@ -32,21 +23,9 @@ the commands available through `PATH`.
 
 ```console
 $ system="$(nix-instantiate --eval -E 'builtins.currentSystem' | tr -d '"')"
-$ nix-shell -A "devShells.$system.setup" 'https://github.com/midchildan/dotfiles/archive/master.tar.gz'
+$ nix-shell -A "devShells.$system.setup" 'https://github.com/midchildan/dotfiles/archive/main.tar.gz'
 $
 ```
-
-#### Without Nix
-
-Make sure the following commands are installed beforehand.
-
-- Git
-- cURL or Wget
-- Neovim
-
-Neovim is used to install Vim plugins at the end of the installation. If you
-wish to use Vim instead, you can do so manually by invoking
-[`:PlugInstall`][plug] in Vim.
 
 ### Step 2: Setup your repository
 
@@ -76,28 +55,25 @@ $ git worktree add ~/.config/dotfiles local  # checkout local branch
 
 ### Step 4: Symlink dotfiles
 
-Run the setup script. This script would symlink files in
-[home/files](home/files) to your home directory. It should be run each time
-changes are made to your dotfiles even after bootstrapping is complete. The
-`--init` flag indicates that this is the first time you've run this script.
+Run the setup script. This script would symlink files in [files](files) to your
+home directory. It should be run each time changes are made to your dotfiles
+even after bootstrapping is complete. The `--init` flag indicates that this is
+the first time you've run this script.
 
 ```console
 $ ./setup.sh --init
 ```
-
-If you're using Nix, proceed to the next step. Otherwise, bootstrapping is
-complete.
 
 ### Step 5: Bootstrap NixOS / Nix-Darwin / Home Manager Configuration
 
 For details about each, read the docs linked below. Pick the ones you need and
 configure them as needed before proceeding.
 
-| Software     | File                                 | Required? |
-| ------------ | ------------------------------------ | --------- |
-| Home Manager | [home/README.md](home/README.md)     | yes       |
-| NixOS        | [nixos/README.md](nixos/README.md)   | no        |
-| Nix-Darwin   | [darwin/README.md](darwin/README.md) | no        |
+| Software     | File                                         | Required? |
+| ------------ | -------------------------------------------- | --------- |
+| Home Manager | [nix/home/README.md](nix/home/README.md)     | yes       |
+| NixOS        | [nix/nixos/README.md](nix/nixos/README.md)   | no        |
+| Nix-Darwin   | [nix/darwin/README.md](nix/darwin/README.md) | no        |
 
 Bootstrapping instructions for each are listed below. Home Manager can
 optionally be integrated into NixOS or Nix-Darwin. If you do this, NixOS or
@@ -129,7 +105,7 @@ $ sudo -H nix-env -e '*' # remove existing packages not managed by nix-darwin
 
 | branch | platform |
 | ------ | -------- |
-| master | Linux    |
+| main   | Linux    |
 | osx    | macOS    |
 
 In addition to the platforms listed above, support for one-off remote Linux
@@ -138,13 +114,12 @@ it's cumbersome to maintain a full-blown dotfiles, e.g. docker sessions, servers
 you rarely login to directly, etc. Notably, this branch doesn't require Nix. See
 [here](https://www.midchildan.org/dotfiles) for details.
 
-Changes common to all platforms should first be made in `master`, and then
-merged into the remaining branches. Make sure you never go the other way and
-merge non-`master` branches into `master` or you'll end up with non-common
-platform-specific stuff in `master`.
+Changes common to all platforms should first be made in `main`, and then merged
+into the remaining branches. Make sure you never go the other way and merge
+non-`main` branches into `main` or you'll end up with non-common
+platform-specific stuff in `main`.
 
 [build-badge]: https://github.com/midchildan/dotfiles/actions/workflows/build.yaml/badge.svg
 [build-url]: https://github.com/midchildan/dotfiles/actions/workflows/build.yaml
 [nix-shell]: https://nixos.wiki/wiki/Development_environment_with_nix-shell
-[plug]: https://github.com/junegunn/vim-plug#commands
 [flakes]: https://nixos.wiki/wiki/Flakes

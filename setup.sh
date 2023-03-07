@@ -2,10 +2,10 @@
 # shellcheck disable=SC2215
 
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DOTFILE_FILES_DIR=home/files
+DOTFILE_FILES_DIR=files
 
-# shellcheck source=scripts/setup
-source "$DOTFILE_DIR/scripts/setup"
+# shellcheck source=scripts/lib/setup
+source "$DOTFILE_DIR/scripts/lib/setup"
 
 # Remove dead symlinks
 @clean

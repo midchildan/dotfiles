@@ -1,0 +1,30 @@
+emulate -L zsh
+zmodload -i zsh/parameter
+
+autoload -Uz fzf-snippet-next
+
+if grep -q "{{" <<< "$BUFFER"; then
+  fzf-snippet-next
+  return
+fi
+
+if ! (( $+commands[perl] )); then
+  zle -M "perl not in PATH"
+  return 1
+fi
+
+autoload -Uz fzf-widgets && fzf-widgets init || return 1
+
+local snippet
+perl -C -MTerm::ANSIColor=colored -0777 -ne \
+  'print "$2 ", colored("## $1\n", q/bright_black/) while /^- (.*):\n\n\`(.*)\`$/mg' \
+  ~/.config/shell/snippets/*/*.md \
+  | __dot::fzf +m --ansi -q "$LBUFFER" \
+      --preview 'echo {}' --preview-window down:3:wrap \
+  | IFS= read -r snippet
+
+if [[ -n "$snippet" ]]; then
+  LBUFFER="$(sed "s/ *##.*//" <<< "$snippet")"
+fi
+
+zle reset-prompt

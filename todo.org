@@ -11,7 +11,7 @@ However, there are multiple factors right now that could prevent Firefox from
 being updated:
 
 - Updates are tied to this dotfiles :: The Firefox package is currently managed
-  by this dotfiles [[file:home/modules/firefox.nix][using Home Manager]]. Since this dotfiles [[file:flake.lock][locks]] its
+  by this dotfiles [[file:nix/home/modules/firefox.nix][using Home Manager]]. Since this dotfiles [[file:flake.lock][locks]] its
   dependencies using Nix Flakes, updating Firefox would require updating this
   dotfiles and switching Home Manager over to the new configuration. Normally,
   this is a good thing because it ensures this dotfiles work the same in the
@@ -48,7 +48,7 @@ First, install Firefox using Flatpak:
 flatpak install flathub org.mozilla.firefox
 #+end_src
 
-Then remove the [[file:home/modules/firefox.nix][firefox package from the Home Manager configuration]].
+Then remove the [[file:nix/home/modules/firefox.nix][firefox package from the Home Manager configuration]].
 
 *** Blockers
 **** Lack of support for declaratively managing Flatpak apps
@@ -56,7 +56,7 @@ A Home Manager equivalent of [[https://daiderd.com/nix-darwin/manual/index.html#
 for Flatpak.
 
 **** Inability of the Firefox Flatpak to use a custom policies.json file
-This is problematic because this dotfiles [[file:home/modules/firefox.nix][relies on it]] to manage the Firefox
+This is problematic because this dotfiles [[file:nix/home/modules/firefox.nix][relies on it]] to manage the Firefox
 configuration.
 
 An upstream issue for this can be found [[https://bugzilla.mozilla.org/show_bug.cgi?id=1682462][here]].
@@ -69,7 +69,7 @@ value of =tmux-256color= would allow various programs using terminfo to more
 accurately detect tmux capabilities.
 
 *** Changes
-Remove the following line from [[file:home/files/.config/tmux/tmux.conf][tmux.conf]]:
+Remove the following line from [[file:files/.config/tmux/tmux.conf][tmux.conf]]:
 
 #+begin_src conf
 set -g default-terminal "screen-256color"
@@ -95,7 +95,7 @@ bit colors. However, without better detection of truecolor support, this would
 limit truecolor display on terminals that do support it.
 
 *** Changes
-Remove the following line from [[file:home/files/.config/tmux/tmux.conf][tmux.conf]]:
+Remove the following line from [[file:files/.config/tmux/tmux.conf][tmux.conf]]:
 
 #+begin_src conf
 set -ga terminal-overrides ",xterm-256color:Tc"
