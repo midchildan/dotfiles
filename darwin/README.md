@@ -8,7 +8,7 @@ This document focuses on aspects that are unique to this dotfiles. Detailed
 usage instructions for nix-darwin itself can be found in the [official
 docs][docs].
 
-## Configuration
+## Layout
 
 | Directory              | Contents                             |
 | ---------------------- | ------------------------------------ |

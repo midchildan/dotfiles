@@ -8,7 +8,7 @@ This document focuses on aspects that are unique to this dotfiles. Detailed
 usage instructions for NixOS itself can be found in the [official
 docs][nixos-docs].
 
-## Configuration
+## Layout
 
 | Directory              | Contents                             |
 | ---------------------- | ------------------------------------ |

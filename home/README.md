@@ -1,99 +1,6 @@
-# User Environment
+# Home Manager
 
-## About
-
-This directory contains configuration files required to setup the user
-environment. It consists of two parts, static dotfiles and Home Manager
-configuration.
-
-## Static Dotfiles
-
-### Overview
-
-These are set of configuration files in the [`files`](files) directory intended
-to be installed under the home directory. With a few exceptions, most of these
-files are deployed using a custom setup script, [`setup.sh`](../setup.sh).
-
-The setup script deploys the dotfiles by symlinking them into the home
-directory. Although dotfiles can be managed entirely with Nix using the help of
-tools like Home Manager, the custom script was chosen over Nix for two reasons.
-
-The first reason is portability. By not having the setup script rely on Nix, it
-can be installed on systems without Nix. In fact, most parts of the dotfiles
-should just work fine without Nix. Still, software version differences might
-result in incompatibilities if you use packages installed outside of Nix.
-
-Another reason is convenience. Dotfiles deployed using Nix-based tools are
-typically symlinked from the Nix store, which is an immutable directory
-typically located at `/nix/store`. This can turn out to be a bit an
-inconvenience sometimes in several ways. First, it prevents you from editing the
-files directly since the files are immutable. Second, it introduces an
-additional obstacle when you want to share the dotfiles with a containerized
-process because you'd also need to share the Nix store in addition to your home
-directory. Third, dotfiles being symlinked directly from the Git repo allows
-for neat tricks like the one used in the [rcd script](files/.local/bin/rcd),
-but unforunately precludes Nix-based deployment.
-
-### Use on non-Nix Systems
-
-Most portions of this dotfiles should work just fine on systems without Nix.
-However, some work is required to make everything work.
-
-#### Install Packages
-
-These packages would have to be installed manually.
-
-- [Fira Code](https://github.com/tonsky/FiraCode)
-- [Neovim](https://neovim.io)
-- [Node.js](https://nodejs.org) (for [coc.nvim](https://github.com/neoclide/coc.nvim))
-- [less](https://www.greenwoodsoftware.com/less/index.html) (version 530 or later)
-
-The version of less that comes preinstalled on macOS specifically causes
-problems with some settings in this dotfiles. Make sure to grab a newer version
-from your package manager of choice.
-
-#### Configure Git
-
-Git username and email would have to be configured manually. Assuming the
-information in [`config.toml`](../config.toml) is accurate, run the following
-commands from the root of this repository after the first time you've run the
-setup script:
-
-```bash
-git config -f ~/.config/git/user user.name "$(git config -f config.toml user.fullName)"
-git config -f ~/.config/git/user user.email "$(git config -f config.toml user.email)"
-```
-
-Also if you wish to sign your commits:
-
-```bash
-git config -f ~/.config/git/user user.signingkey "$(git config -f config.toml user.gpgKey)"
-git config -f ~/.config/git/user commit.gpgsign true
-```
-
-#### Configure GnuPG
-
-Run the following command from the root of this repository:
-
-```bash
-install -d -m 700 ~/.gnupg
-sed "s/@gpgKey@/$(git config -f config.toml user.gpgKey)/g" \
-  home/modules/gnupg/gpg.conf > ~/.gnupg/gpg.conf
-chmod 600 ~/.gnupg/gpg.conf
-```
-
-#### Replace Nix-dependant configuration
-
-Apply [this patch](patches/debian.patch):
-
-```bash
-git apply patches/debian.patch
-git commit -am 'feat: improve Debian compatibility'
-```
-
-## Home Manager
-
-### Overview
+## Overview
 
 [Home Manager][home] is used to manage per-user packages and daemons. It's also
 used as a means to generate configuration files from high level definitions when
@@ -103,7 +10,7 @@ This document focuses on aspects that are unique to this dotfiles. Detailed
 usage instructions for Home Manager itself can be found in the [official
 manual][home-docs].
 
-### Relationship with NixOS / nix-darwin
+## Relationship with NixOS / nix-darwin
 
 Home Manager is responsible for per-user settings while NixOS and nix-darwin
 manages system-wide settings. This dotfiles uses both.
@@ -117,7 +24,7 @@ the following benefits:
 - You can enjoy up to date packages with Home Manager while using stable
   packages for NixOS / nix-darwin
 
-### Best Practices
+## Best Practices
 
 While Home Manager is a convenient method for package management, it's not
 exactly good practice to install anything and everything with it. For software
@@ -128,7 +35,7 @@ contains a detailed explanation about this setup. [nix-direnv][nix-direnv],
 which further integrates the two, is also included as part of the Home Manager
 configuration for this dotfiles.
 
-### Configuration
+## Layout
 
 | Directory              | Contents                             |
 | ---------------------- | ------------------------------------ |
@@ -183,7 +90,7 @@ Finally, it's also possible to place host configuration in a separate repository
 by creating a new Nix flake that takes this repository as input. See the
 [description in the `templates` directory](../templates) for more details.
 
-### Custom Options
+## Custom Options
 
 This dotfiles introduces a few additional options for Home Manager. Here's some
 of the interesting ones:
