@@ -7,6 +7,11 @@ DOTFILE_FILES_DIR=home/files
 # shellcheck source=scripts/setup
 source "$DOTFILE_DIR/scripts/setup"
 
+printf '%s[WARN]%s %s\n' \
+  "$(tput bold)" \
+  "$(tput sgr0)" \
+  'The "master" branch has been discontinued. Use "main" from now on.' >&2
+
 # Remove dead symlinks
 @clean
   - gc: true

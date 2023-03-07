@@ -2,7 +2,8 @@
 
 dotfiles for my personal use.
 
-[![Build][build-badge]][build-url]
+_The `master` branch has been discontinued. Check out the `main` branch
+instead._
 
 ## Requirements
 
@@ -143,8 +144,6 @@ merged into the remaining branches. Make sure you never go the other way and
 merge non-`master` branches into `master` or you'll end up with non-common
 platform-specific stuff in `master`.
 
-[build-badge]: https://github.com/midchildan/dotfiles/actions/workflows/build.yaml/badge.svg
-[build-url]: https://github.com/midchildan/dotfiles/actions/workflows/build.yaml
 [nix-shell]: https://nixos.wiki/wiki/Development_environment_with_nix-shell
 [plug]: https://github.com/junegunn/vim-plug#commands
 [flakes]: https://nixos.wiki/wiki/Flakes
