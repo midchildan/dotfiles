@@ -20,7 +20,7 @@
           users.users.${username}.home = "/Users/${username}";
 
           # See list of options in:
-          # https://github.com/midchildan/dotfiles/blob/master/docs/nix.md
+          # https://github.com/midchildan/dotfiles/blob/main/docs/nix.md
           dotfiles.profiles.apps.enable = true;
 
           home-manager.users.${username} = {

@@ -14,7 +14,7 @@
     nixosConfigurations.my-desktop = dotfiles.lib.mkNixOS {
       modules = [{
         # See list of options in:
-        # https://github.com/midchildan/dotfiles/blob/master/docs/nix.md
+        # https://github.com/midchildan/dotfiles/blob/main/docs/nix.md
         dotfiles.profiles = {
           hardware.enable = true;
           interactive.enable = true;

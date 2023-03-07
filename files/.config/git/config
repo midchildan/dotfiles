@@ -3,16 +3,18 @@
 [diff]
 	algorithm = histogram
 	colorMoved = default
+[init]
+	defaultBranch = main
 [merge]
 	tool = vimdiff
 [mergetool]
 	keepBackup = false
-[rebase]
-	autosquash = true
 [pull]
 	ff = only
 [push]
 	default = simple
+[rebase]
+	autosquash = true
 [alias]
 	exec = "!exec " # run a shell command from the top directory
 [difftool "kitty"]

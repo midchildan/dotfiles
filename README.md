@@ -23,7 +23,7 @@ the commands available through `PATH`.
 
 ```console
 $ system="$(nix-instantiate --eval -E 'builtins.currentSystem' | tr -d '"')"
-$ nix-shell -A "devShells.$system.setup" 'https://github.com/midchildan/dotfiles/archive/master.tar.gz'
+$ nix-shell -A "devShells.$system.setup" 'https://github.com/midchildan/dotfiles/archive/main.tar.gz'
 $
 ```
 
@@ -105,7 +105,7 @@ $ sudo -H nix-env -e '*' # remove existing packages not managed by nix-darwin
 
 | branch | platform |
 | ------ | -------- |
-| master | Linux    |
+| main   | Linux    |
 | osx    | macOS    |
 
 In addition to the platforms listed above, support for one-off remote Linux
@@ -114,10 +114,10 @@ it's cumbersome to maintain a full-blown dotfiles, e.g. docker sessions, servers
 you rarely login to directly, etc. Notably, this branch doesn't require Nix. See
 [here](https://www.midchildan.org/dotfiles) for details.
 
-Changes common to all platforms should first be made in `master`, and then
-merged into the remaining branches. Make sure you never go the other way and
-merge non-`master` branches into `master` or you'll end up with non-common
-platform-specific stuff in `master`.
+Changes common to all platforms should first be made in `main`, and then merged
+into the remaining branches. Make sure you never go the other way and merge
+non-`main` branches into `main` or you'll end up with non-common
+platform-specific stuff in `main`.
 
 [build-badge]: https://github.com/midchildan/dotfiles/actions/workflows/build.yaml/badge.svg
 [build-url]: https://github.com/midchildan/dotfiles/actions/workflows/build.yaml
