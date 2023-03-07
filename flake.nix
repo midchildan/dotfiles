@@ -20,44 +20,44 @@
   };
 
   outputs = { self, home, ... } @ inputs:
-    let lib = import ./lib { inherit inputs; }; in
+    let lib = import ./nix/lib { inherit inputs; }; in
     {
       inherit lib;
 
       overlays = {
-        default = import ./overlays { inherit inputs; };
-        nixpkgs = import ./overlays/nixpkgs.nix;
-        nixos = import ./overlays/nixos.nix;
+        default = import ./nix/overlays { inherit inputs; };
+        nixpkgs = import ./nix/overlays/nixpkgs.nix;
+        nixos = import ./nix/overlays/nixos.nix;
       };
 
-      homeModules.default = import ./home { inherit inputs; };
-      homeConfigurations = import ./home/machines { inherit inputs; };
+      homeModules.default = import ./nix/home { inherit inputs; };
+      homeConfigurations = import ./nix/home/machines { inherit inputs; };
 
-      darwinModules.default = import ./darwin { inherit inputs; };
-      darwinConfigurations = import ./darwin/machines { inherit inputs; };
+      darwinModules.default = import ./nix/darwin { inherit inputs; };
+      darwinConfigurations = import ./nix/darwin/machines { inherit inputs; };
 
-      nixosModules.default = import ./nixos { inherit inputs; };
-      nixosConfigurations = import ./nixos/machines { inherit inputs; };
+      nixosModules.default = import ./nix/nixos { inherit inputs; };
+      nixosConfigurations = import ./nix/nixos/machines { inherit inputs; };
 
       templates = {
         home = {
-          path = ./templates/home;
+          path = ./nix/templates/home;
           description = "Home Manager configuration";
         };
         darwin = {
-          path = ./templates/darwin;
+          path = ./nix/templates/darwin;
           description = "Nix-Darwin configuration";
         };
         nixos = {
-          path = ./templates/nixos;
+          path = ./nix/templates/nixos;
           description = "NixOS configuration";
         };
       };
     } // (lib.eachSupportedSystemPkgs ({ system, pkgs, nixos }:
       let
         formatter = pkgs.nixpkgs-fmt;
-        packages = import ./packages { inherit inputs pkgs nixos; };
-        devShell = pkgs.callPackage ./devshells/shell.nix {
+        packages = import ./nix/packages { inherit inputs pkgs nixos; };
+        devShell = pkgs.callPackage ./nix/devshells/shell.nix {
           inherit formatter;
         };
       in
@@ -66,10 +66,10 @@
 
         devShells = {
           default = devShell;
-          setup = pkgs.callPackage ./devshells/setup.nix {
+          setup = pkgs.callPackage ./nix/devshells/setup.nix {
             inherit (packages) neovim;
           };
-          quic = pkgs.callPackage ./devshells/quic.nix { };
+          quic = pkgs.callPackage ./nix/devshells/quic.nix { };
         };
 
         apps = {
@@ -79,7 +79,7 @@
           };
           update = {
             type = "app";
-            program = "${pkgs.callPackage ./scripts/apps/update.nix { }}";
+            program = "${pkgs.callPackage ./nix/apps/update.nix { }}";
           };
         } // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
           darwin = {

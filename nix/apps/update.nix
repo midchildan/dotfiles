@@ -20,7 +20,7 @@ writers.writeBash "update.sh" ''
   nix flake update
   git submodule update --init --remote
 
-  pushd packages
+  pushd nix/packages
   nvfetcher
   popd
 ''

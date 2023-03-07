@@ -1,5 +1,5 @@
 [include]
-	path = ~/.config/git/user
+	path = ~/.config/git/hmconfig
 [diff]
 	algorithm = histogram
 	colorMoved = default

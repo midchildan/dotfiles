@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-DOTFILE_DIR="${DOTFILE_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
-DOTFILE_FILES_DIR="${DOTFILE_FILES_DIR:-home/files}"
+DOTFILE_DIR="${DOTFILE_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+DOTFILE_FILES_DIR="${DOTFILE_FILES_DIR:-files}"
 
 _DOT_LOGFILE="$(mktemp)"
 _DOT_ENABLE_GC=1

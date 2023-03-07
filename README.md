@@ -55,10 +55,10 @@ $ git worktree add ~/.config/dotfiles local  # checkout local branch
 
 ### Step 4: Symlink dotfiles
 
-Run the setup script. This script would symlink files in
-[home/files](home/files) to your home directory. It should be run each time
-changes are made to your dotfiles even after bootstrapping is complete. The
-`--init` flag indicates that this is the first time you've run this script.
+Run the setup script. This script would symlink files in [files](files) to your
+home directory. It should be run each time changes are made to your dotfiles
+even after bootstrapping is complete. The `--init` flag indicates that this is
+the first time you've run this script.
 
 ```console
 $ ./setup.sh --init
@@ -69,11 +69,11 @@ $ ./setup.sh --init
 For details about each, read the docs linked below. Pick the ones you need and
 configure them as needed before proceeding.
 
-| Software     | File                                 | Required? |
-| ------------ | ------------------------------------ | --------- |
-| Home Manager | [home/README.md](home/README.md)     | yes       |
-| NixOS        | [nixos/README.md](nixos/README.md)   | no        |
-| Nix-Darwin   | [darwin/README.md](darwin/README.md) | no        |
+| Software     | File                                         | Required? |
+| ------------ | -------------------------------------------- | --------- |
+| Home Manager | [nix/home/README.md](nix/home/README.md)     | yes       |
+| NixOS        | [nix/nixos/README.md](nix/nixos/README.md)   | no        |
+| Nix-Darwin   | [nix/darwin/README.md](nix/darwin/README.md) | no        |
 
 Bootstrapping instructions for each are listed below. Home Manager can
 optionally be integrated into NixOS or Nix-Darwin. If you do this, NixOS or

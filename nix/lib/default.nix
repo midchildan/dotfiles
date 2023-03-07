@@ -8,12 +8,12 @@ let
   inherit (nixos.lib) nixosSystem;
 
   nixpkgsArgs = {
-    config = import ../home/files/.config/nixpkgs/config.nix;
+    config = import ../../files/.config/nixpkgs/config.nix;
     overlays = [ self.overlays.default ];
   };
 in
 rec {
-  config = importTOML ../config.toml;
+  config = importTOML ../../config.toml;
 
   supportedPlatforms = [
     "aarch64-darwin"
