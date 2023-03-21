@@ -11,7 +11,7 @@ writers.writeBash "update.sh" ''
   export PATH="${lib.makeBinPath [ git nvfetcher ]}''${PATH:+:$PATH}"
   export NIX_PATH='nixpkgs=${path}'
 
-  if ! [[ -f flake.nix && -d packages ]] ||
+  if ! [[ -f flake.nix && -d nix/packages ]] ||
     [[ "$(git rev-parse --is-inside-work-tree)" != "true" ]]; then
     printf '[ERROR] This script appears to be run from the wrong directory. ' >&2
     printf 'Re-run this script from the root of the dotfiles repository.\n' >&2

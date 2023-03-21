@@ -12,6 +12,14 @@
 
 `autoreconf -if`
 
+- Create an archive whose format matches the extension of the target filename:
+
+`bsdtar acf {{target.zip}} {{files...}}`
+
+- Create an archive, but cd to the specified directory before doing it:
+
+`bsdtar -C {{dir}} acf {{target.tar.gz}} {{files...}}`
+
 - Send an HTTP request to dev.example.com, but treat it as example.com:
 
 `curl --resolve "{{example.com}}:443:$(dig +short {{dev.example.com}} A)" 'https://{{example.com}}'`
