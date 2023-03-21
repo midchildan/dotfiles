@@ -22,11 +22,11 @@ source "$DOTFILE_DIR/scripts/lib/setup"
   - .zshrc
   - .zlogout
   - .inputrc
-  - .config/shell/snippets/common
-  - .config/shell/snippets/linux
-  - .config/shell/snippets/main/common.md
-  - .config/shell/snippets/main/linux.md
   - .local/share/zsh/site-functions
+  - .local/share/zsh/snippets/common
+  - .local/share/zsh/snippets/linux
+  - .local/share/zsh/snippets/main/common.md
+  - .local/share/zsh/snippets/main/linux.md
   - .local/opt/tldr
 
 @install Install Vim Config
