@@ -25,8 +25,8 @@ source "$DOTFILE_DIR/scripts/lib/setup"
   - .local/share/zsh/site-functions
   - .local/share/zsh/snippets/common
   - .local/share/zsh/snippets/linux
-  - .local/share/zsh/snippets/main/common.md
-  - .local/share/zsh/snippets/main/linux.md
+  - .local/share/zsh/snippets/dotfiles/common.md
+  - .local/share/zsh/snippets/dotfiles/linux.md
   - .local/opt/tldr
 
 @install Install Vim Config
