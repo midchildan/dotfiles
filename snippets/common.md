@@ -119,3 +119,7 @@
 - Show the ink level of a Canon BJNP printer:
 
 `sudo ink -p bjnp`
+
+- Decode URL-encoded string from stdin:
+
+`while read; do : "${REPLY//\%/\\x}"; printf '%b\n' "${_//+/ }"; done`
