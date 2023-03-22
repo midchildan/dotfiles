@@ -3,12 +3,13 @@
 ## Overview
 
 [Home Manager][home] is used to manage per-user packages and daemons. It's also
-used as a means to generate configuration files from high level definitions when
-the convenience of doing so outweighs the benefits of using static dotfiles.
+used to generate configuration files for some software, but this dotfiles mostly
+stick to [hand-written configuration files][files] and relies on the
+Nix-agnostic [setup.sh][setup] for deployment where it makes sense.
 
-This document focuses on aspects that are unique to this dotfiles. Detailed
-usage instructions for Home Manager itself can be found in the [official
-manual][home-docs].
+This document focuses on aspects of Home Manager configuration that are unique
+to this dotfiles. Detailed usage instructions for Home Manager itself can be
+found in the [official manual][home-docs].
 
 ## Relationship with NixOS / nix-darwin
 
@@ -133,6 +134,8 @@ of the interesting ones:
   </dd>
 </dl>
 
+[files]: ../../files
+[setup]: ../../setup.sh
 [home]: https://github.com/nix-community/home-manager
 [home-conf]: https://github.com/nix-community/home-manager/blob/master/flake.nix
 [home-docs]: https://nix-community.github.io/home-manager/
