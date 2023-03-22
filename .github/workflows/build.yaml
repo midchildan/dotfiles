@@ -34,11 +34,11 @@ jobs:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v20
       - name: Build NixOS configuration
-        run: nix run '.#nixos' -- build -L --flake '.#ci'
+        run: nix run '.#os' -- build -L --flake '.#ci'
   nix-darwin:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v20
       - name: Build nix-darwin configuration
-        run: nix run '.#darwin' -- build -L --flake '.#ci'
+        run: nix run '.#os' -- build -L --flake '.#ci'
