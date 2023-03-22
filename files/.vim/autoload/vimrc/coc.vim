@@ -28,15 +28,19 @@ func! vimrc#coc#s_tab() abort
 endf
 
 func! vimrc#coc#cr() abort
-  if !exists('*coc#pum#visible')
-    return "\<CR>"
+  if exists('*coc#on_enter')
+    return "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
   endif
 
+  return "\<CR>"
+endf
+
+func! vimrc#coc#confirm_completion(fallback) abort
   if exists('*coc#pum#visible') && coc#pum#visible()
     return coc#pum#confirm()
   endif
 
-  return "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
+  return a:fallback
 endf
 
 func! vimrc#coc#scroll_up(fallback) abort

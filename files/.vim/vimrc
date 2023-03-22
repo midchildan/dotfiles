@@ -333,6 +333,7 @@ xmap s <Nop>
 
 " coc
 nnoremap <silent> K :call vimrc#coc#show_doc()<CR>
+inoremap <silent><expr> <C-y> vimrc#coc#confirm_completion("\<C-y>")
 inoremap <silent><expr> <Tab> vimrc#coc#tab()
 inoremap <silent><expr> <S-Tab> vimrc#coc#s_tab()
 inoremap <silent><expr> <CR> vimrc#coc#cr()
