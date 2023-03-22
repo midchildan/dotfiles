@@ -334,8 +334,8 @@ xmap s <Nop>
 " coc
 nnoremap <silent> K :call vimrc#coc#show_doc()<CR>
 inoremap <silent><expr> <C-y> vimrc#coc#confirm_completion("\<C-y>")
-inoremap <silent><expr> <Tab> vimrc#coc#tab()
-inoremap <silent><expr> <S-Tab> vimrc#coc#s_tab()
+inoremap <silent><expr> <Tab> vimrc#coc#cycle_completion("\<Tab>", v:true)
+inoremap <silent><expr> <S-Tab> vimrc#coc#cycle_completion("\<S-Tab>", v:false)
 inoremap <silent><expr> <CR> vimrc#coc#cr()
 nnoremap <silent><nowait><expr> <C-b> vimrc#coc#scroll_up("\<C-b>")
 nnoremap <silent><nowait><expr> <C-f> vimrc#coc#scroll_down("\<C-f>")
