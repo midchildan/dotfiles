@@ -82,12 +82,12 @@
             program = "${pkgs.callPackage ./nix/apps/update.nix { }}";
           };
         } // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
-          darwin = {
+          os = {
             type = "app";
             program = "${packages.nix-darwin}/bin/darwin-rebuild";
           };
         } // pkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
-          nixos = {
+          os = {
             type = "app";
             program = "${packages.nixos-rebuild}/bin/nixos-rebuild";
           };

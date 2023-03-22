@@ -90,14 +90,13 @@ $ nix run '.#home' -- switch --flake .
 - NixOS:
 
 ```console
-$ sudo nix --experimental-features 'nix-command flakes' run '.#nixos' -- switch --flake '.#'
+$ sudo nix --experimental-features 'nix-command flakes' run '.#os' -- switch --flake '.#'
 ```
 
 - nix-darwin:
 
 ```console
-$ mkdir ~/Applications # https://github.com/LnL7/nix-darwin/pull/226
-$ nix --experimental-features 'nix-command flakes' run '.#darwin' -- switch --flake '.#'
+$ nix --experimental-features 'nix-command flakes' run '.#os' -- switch --flake '.#'
 $ sudo -H nix-env -e '*' # remove existing packages not managed by nix-darwin
 ```
 
