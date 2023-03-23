@@ -333,16 +333,14 @@ xmap s <Nop>
 
 " coc
 nnoremap <silent> K :call vimrc#coc#show_doc()<CR>
-inoremap <silent><expr> <C-y> vimrc#coc#confirm_completion("\<C-y>")
-inoremap <silent><expr> <Tab> vimrc#coc#cycle_completion("\<Tab>", v:true)
-inoremap <silent><expr> <S-Tab> vimrc#coc#cycle_completion("\<S-Tab>", v:false)
+inoremap <silent><expr> <Tab> vimrc#coc#complete_or("\<Tab>")
 inoremap <silent><expr> <CR> vimrc#coc#cr()
-nnoremap <silent><nowait><expr> <C-b> vimrc#coc#scroll_up("\<C-b>")
-nnoremap <silent><nowait><expr> <C-f> vimrc#coc#scroll_down("\<C-f>")
-vnoremap <silent><nowait><expr> <C-b> vimrc#coc#scroll_up("\<C-b>")
-vnoremap <silent><nowait><expr> <C-f> vimrc#coc#scroll_down("\<C-f>")
-inoremap <silent><nowait><expr> <Up> vimrc#coc#i_scroll_up("\<Up>")
-inoremap <silent><nowait><expr> <Down> vimrc#coc#i_scroll_down("\<Down>")
+nnoremap <silent><nowait><expr> <C-b> vimrc#coc#n_float_scroll_or("\<C-b>", 0)
+nnoremap <silent><nowait><expr> <C-f> vimrc#coc#n_float_scroll_or("\<C-f>", 1)
+vnoremap <silent><nowait><expr> <C-b> vimrc#coc#n_float_scroll_or("\<C-b>", 0)
+vnoremap <silent><nowait><expr> <C-f> vimrc#coc#n_float_scroll_or("\<C-f>", 1)
+inoremap <silent><nowait><expr> <C-b> vimrc#coc#i_float_scroll_or("\<C-b>", 0)
+inoremap <silent><nowait><expr> <C-f> vimrc#coc#i_float_scroll_or("\<C-f>", 1)
 
 nmap <Leader>a <Plug>(coc-codeaction-selected)
 xmap <Leader>a <Plug>(coc-codeaction-selected)
