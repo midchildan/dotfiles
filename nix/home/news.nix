@@ -279,5 +279,13 @@
         'dotfiles.profiles.desktop' and 'dotfiles.profiles.macos'.
       '';
     }
+    {
+      time = "2023-03-26T16:41:50+00:00";
+      message = ''
+        Removed module 'dotfiles.syncthing'
+
+        macOS support for the syncthing module was upstreamed to Home Manager.
+      '';
+    }
   ];
 }
