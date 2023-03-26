@@ -25,7 +25,6 @@
     homebrew.casks = [
       "alfred"
       "aquaskk"
-      "calibre"
       "firefox"
       "gimp"
       "gutenprint"
