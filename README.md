@@ -30,12 +30,12 @@ $
 ### Step 2: Setup your repository
 
 Fork this repository and clone it to your location of choice. Then edit
-`config.toml` and commit the changes.
+`nix/config.toml` and commit the changes.
 
 ```console
 $ git clone https://github.com/${USER}/dotfiles.git ~/Documents/src/repos/github.com/${USER}/dotfiles
 $ cd ~/Documents/src/repos/github.com/${USER}/dotfiles
-$ nvim config.toml
+$ nvim nix/config.toml
 $ git commit -am 'chore: adjust config.toml for my own use'
 ```
 

@@ -108,6 +108,10 @@
 
 `python3 -m json.tool {{input.json}}`
 
+- Update GitHub SSH host keys in `~/.ssh/known_hosts`:
+
+`ssh-keygen -R github.com; curl -L https://api.github.com/meta | jq -r '.ssh_keys | .[]' | sed -e 's/^/github.com /' | tee -a ~/.ssh/known_hosts`
+
 - Expand an embedded Ruby template:
 
 `erb -T - {{template.txt.erb}}`

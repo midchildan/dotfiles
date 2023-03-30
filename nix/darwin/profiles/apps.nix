@@ -12,6 +12,7 @@
       enable = lib.mkDefault true;
       onActivation = {
         autoUpdate = lib.mkDefault true;
+        upgrade = lib.mkDefault true;
         cleanup = lib.mkDefault "uninstall";
       };
     };
@@ -24,7 +25,6 @@
     homebrew.casks = [
       "alfred"
       "aquaskk"
-      "calibre"
       "firefox"
       "gimp"
       "gutenprint"

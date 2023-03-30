@@ -11,7 +11,6 @@
     ./modules/linkapps.nix
     ./modules/manpages.nix
     ./modules/nix.nix
-    ./modules/syncthing.nix
     ./modules/userinfo.nix
     ./modules/vim.nix
   ];

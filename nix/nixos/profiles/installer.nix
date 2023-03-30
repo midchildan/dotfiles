@@ -11,7 +11,7 @@ in
     hardware.enableAllFirmware = true;
     nix.registry.dotfiles.flake = dotfiles;
 
-    # Override the defaults in ../../../config.toml
+    # Override the defaults in ../../config.toml
     system.stateVersion = config.system.nixos.release;
   };
 }

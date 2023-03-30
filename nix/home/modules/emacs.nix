@@ -19,6 +19,7 @@ in
       extraPackages = epkgs:
         with epkgs; [
           # include Doom Emacs dependencies that tries to build native C code
+          emacsql
           emacsql-sqlite
           pdf-tools
           vterm

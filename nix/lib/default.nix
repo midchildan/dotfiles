@@ -13,7 +13,7 @@ let
   };
 in
 rec {
-  config = importTOML ../../config.toml;
+  config = importTOML ../config.toml;
 
   supportedPlatforms = [
     "aarch64-darwin"
