@@ -40,6 +40,10 @@
 
 `docker container ls -aq | xargs docker container rm`
 
+- Run a Docker command without messing up ctrl-p key presses:
+
+`docker {{run}} --detach-keys ctrl-q,d {{args...}}`
+
 - Count the number of files in a directory:
 
 `find {{path/to/directory}} -type f -printf . | wc -c`
