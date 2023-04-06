@@ -17,6 +17,7 @@ in
       go
       gopls
       rust-analyzer
+      semgrep
       shellcheck
       tokei
       universal-ctags
