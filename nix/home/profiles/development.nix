@@ -14,9 +14,7 @@ in
     home.packages = with pkgs; [
       clang-tools
       github-cli
-      go
-      gopls
-      rust-analyzer
+      semgrep
       shellcheck
       tokei
       universal-ctags

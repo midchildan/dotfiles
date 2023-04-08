@@ -1,5 +1,7 @@
 {
   "diagnostic.displayByAle": true,
+  "go.checkForUpdates": "disabled",
   "go.goplsPath": "gopls",
-  "rust-analyzer.serverPath": "rust-analyzer"
+  "rust-analyzer.server.path": "rust-analyzer",
+  "rust-analyzer.updates.prompt": "neverDownload"
 }
