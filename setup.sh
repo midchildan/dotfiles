@@ -74,12 +74,16 @@ source "$DOTFILE_DIR/scripts/lib/setup"
 @install Install Miscellaneous Config
   - .clang-format
   - .editrc
-  - .gemrc
-  - .ideavimrc
+  - .prettierrc
+  - .screenrc
+  - .wgetrc
   - .config/bat/config
   - .config/broot/conf.hjson
   - .config/broot/launcher/refused
   - .config/containers/containers.conf
+  - .config/gem/gemrc
+  - .config/ideavim/ideavimrc
+  - .config/ipython/profile_default/ipython_config.py
   - .config/kitty/kitty.conf
   - .config/nano/nanorc
   - .config/nixpkgs/config.nix
@@ -88,12 +92,8 @@ source "$DOTFILE_DIR/scripts/lib/setup"
   - .config/ranger/scope.sh
   - .config/tmux/tmux.conf
   - .config/zathura/zathurarc
-  - .ipython/profile_default/ipython_config.py
   - .local/bin/imgcat
   - .local/bin/uninstaller
-  - .prettierrc
-  - .screenrc
-  - .wgetrc
   - Library/Application\ Support/AquaSKK/keymap.conf
   - Library/Application\ Support/iTerm2/DynamicProfiles/template.plist
   - Library/Developer/Xcode/UserData/IDETemplateMacros.plist
