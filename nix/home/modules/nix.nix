@@ -52,9 +52,7 @@ in
 
   config = lib.mkMerge [
     (lib.mkIf (cfg.nixPath != [ ]) {
-      home.sessionVariablesExtra = ''
-        export NIX_PATH="${nixPath}''${NIX_PATH:+:$NIX_PATH}"
-      '';
+      home.sessionVariables.NIX_PATH = "${nixPath}\${NIX_PATH:+:$NIX_PATH}";
     })
 
     (lib.mkIf (cfg.channels != { }) {
