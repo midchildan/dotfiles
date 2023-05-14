@@ -8,6 +8,8 @@
     inherit formatter;
   };
 
+  ansible = pkgs.callPackage ./ansible.nix { };
+
   setup = pkgs.callPackage ./setup.nix {
     inherit (packages) neovim;
   };

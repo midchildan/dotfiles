@@ -1,0 +1,11 @@
+if exists('g:did_load_vimrc_local_0af878c')
+  finish
+endif
+
+augroup filetypedetect
+  au! BufNewFile,BufRead */ansible/*.yml set filetype=yaml.ansible
+augroup END
+
+filetype detect
+
+let g:did_load_vimrc_local_0af878c = v:true

@@ -15,6 +15,11 @@
     program = "${pkgs.callPackage ./update.nix { }}";
   };
 
+  ansible = {
+    type = "app";
+    program = "${pkgs.callPackage ./ansible.nix { }}";
+  };
+
 } // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
 
   os = {
