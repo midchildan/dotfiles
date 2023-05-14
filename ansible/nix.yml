@@ -1,0 +1,27 @@
+---
+- name: Install Nix
+  hosts: all
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Download the (unofficial) Determinate Nix Installer
+      ansible.builtin.uri:
+        url: https://install.determinate.systems/nix
+        return_content: true
+        creates: /nix
+      environment: &env >-
+        {%- if proxy_env.http_proxy or proxy_env.https_proxy -%}
+          {%- set extra_env =
+            proxy_env | dict2items | json_query('[?value]') | items2dict -%}
+        {%- else -%}
+          {%- set extra_env = {} -%}
+        {%- endif -%}
+        {{ nix_install_env | combine(extra_env) }}
+      register: nix_installer
+
+    - name: Run the Nix Installer
+      ansible.builtin.command:
+        cmd: sh -s -- install
+        stdin: "{{ nix_installer.content | default({'content': 'exit 1'}) }}"
+        creates: /nix
+      environment: *env

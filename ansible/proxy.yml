@@ -1,0 +1,41 @@
+---
+- name: Configure proxy
+  hosts: all
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Add proxy settings to systemd
+      ansible.builtin.copy:
+        dest: /etc/systemd/system.conf.d/10-proxy.conf
+        mode: "0644"
+        content: |
+          [Manager]
+          DefaultEnvironment = {% for name, value in proxy_env.items() -%}
+            {%- if value -%}
+              {{ name }}={{ value }}
+          {%- if not loop.last %} {% endif %}
+          {%- endif -%}
+          {%- endfor %}
+      when:
+        - proxy_env.http_proxy or proxy_env.https_proxy or proxy_env.ftp_proxy
+        - "'/etc/systemd' is directory"
+
+    - name: Add proxy settings to the shell
+      ansible.builtin.copy:
+        dest: /etc/profile.d/proxy.sh
+        mode: "0644"
+        content: |
+          {% for name, value in proxy_env.items() -%}
+          {%- if value -%}
+            export {{ name }}={{ value | quote }}
+          {% endif -%}
+          {%- endfor %}
+      when:
+        - proxy_env.http_proxy or proxy_env.https_proxy or proxy_env.ftp_proxy
+        - "'/etc/profile.d' is directory"
+
+    - name: Reboot to apply proxy settings
+      ansible.builtin.reboot:
+      when:
+        - ansible_facts.distribution == "CentOS"
+        - ansible_facts.distribution_major_version == "7"

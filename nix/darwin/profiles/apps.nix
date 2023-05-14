@@ -19,7 +19,6 @@
 
     homebrew.taps = [
       "homebrew/cask"
-      "homebrew/cask-drivers"
     ];
 
     homebrew.casks = [

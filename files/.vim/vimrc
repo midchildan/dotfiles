@@ -392,6 +392,7 @@ let g:ale_set_loclist = v:false
 
 " CoC "
 let g:coc_start_at_startup = has('node') || executable('node')
+let g:coc_filetype_map = { 'yaml.ansible': 'ansible' }
 
 " EasyMotion"
 let g:EasyMotion_do_mapping = v:false

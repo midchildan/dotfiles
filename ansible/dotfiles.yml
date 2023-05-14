@@ -1,0 +1,29 @@
+---
+- name: Deploy dotfiles
+  hosts: all
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Download and deploy dotfiles
+      ansible.builtin.shell:
+        cmd: |
+          repo_url={{ dotfiles.repo_url | quote }}
+          archive_path={{ dotfiles.archive_path | quote }}
+          dest={{ dotfiles.dest }}
+
+          source /etc/profile.d/nix.sh
+          eval "$(nix print-dev-env "$repo_url/$archive_path#setup")"
+
+          set -euo pipefail
+          git clone "$repo_url" "$dest"
+          cd "$dest"
+          ./setup.sh -f --init
+          nix run '.#home' -- switch --flake .
+        executable: /bin/bash
+        creates: "{{ dotfiles.dest }}"
+      environment: >-
+        {%- if proxy_env.http_proxy or proxy_env.https_proxy -%}
+          {{ proxy_env | dict2items | json_query('[?value]') | items2dict }}
+        {%- else -%}
+          {}
+        {%- endif -%}

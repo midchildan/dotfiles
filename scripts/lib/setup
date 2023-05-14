@@ -10,11 +10,15 @@ _DOT_IS_INIT=
 _DOT_IS_VERBOSE=
 _DOT_LNFLAGS=""
 _DOT_SECTION=
+_DOT_BOLD="$(tput bold)"
+_DOT_RED="$(tput setaf 1)"
+_DOT_GREEN="$(tput setaf 2)"
+_DOT_CLEAR="$(tput sgr0)"
 
 
 dot::_exit() {
   if [[ -s "$_DOT_LOGFILE" ]]; then
-    echo "$(tput bold)== Print logs ==$(tput sgr0)"
+    echo "$_DOT_BOLD== Print logs ==$_DOT_CLEAR"
     cat "$_DOT_LOGFILE"
   fi
   rm "$_DOT_LOGFILE"
@@ -26,30 +30,30 @@ trap dot::_exit EXIT
 ############
 
 # shellcheck disable=SC2120
-@shell() {
+run:() {
   _DOT_SECTION="shell"
-  echo "$(tput bold)== ${*:-Run Shell Commands} ==$(tput sgr0)"
+  echo "$_DOT_BOLD== Run ${*:-shell commands} ==$_DOT_CLEAR"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
 # shellcheck disable=SC2120
-@install() {
+install:() {
   _DOT_SECTION="install"
-  echo "$(tput bold)== ${*:-Install Files} ==$(tput sgr0)"
+  echo "$_DOT_BOLD== Install ${*:-Files} ==$_DOT_CLEAR"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
 # shellcheck disable=SC2120
-@clean() {
+clean:() {
   _DOT_SECTION="clean"
-  echo "$(tput bold)== ${*:-Clean Dead Symlinks} ==$(tput sgr0)"
+  echo "$_DOT_BOLD== Clean ${*:-dead symlinks} ==$_DOT_CLEAR"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
 # shellcheck disable=SC2120
-@githooks() {
+githooks:() {
   _DOT_SECTION="githooks"
-  echo "$(tput bold)== ${*:-Register Git Hooks} ==$(tput sgr0)"
+  echo "$_DOT_BOLD== ${*:-Register Git hooks} ==$_DOT_CLEAR"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
@@ -380,7 +384,7 @@ dot::_print_badge() {
 # Returns:
 #   None
 dot::_print_badge::ok() {
-  echo "[$(tput setaf 2)OK$(tput sgr0)]"
+  echo "[${_DOT_GREEN}OK${_DOT_CLEAR}]"
 }
 
 # Indicate failure
@@ -389,7 +393,7 @@ dot::_print_badge::ok() {
 # Returns:
 #   None
 dot::_print_badge::failed() {
-  echo "[$(tput setaf 1)FAILED$(tput sgr0)]"
+  echo "[${_DOT_RED}FAILED${_DOT_CLEAR}]"
 }
 
 # Prints the absolute path of a given path
