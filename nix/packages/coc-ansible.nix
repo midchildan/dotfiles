@@ -6,8 +6,10 @@
 }:
 
 let
+  pname = "coc-ansible";
+
   yarnPackage = mkYarnPackage rec {
-    pname = "coc-ansible";
+    inherit pname;
     version = "0.13.5";
 
     src = fetchFromGitHub {
@@ -25,12 +27,33 @@ let
     };
 
     doDist = false;
-    buildPhase = "yarn --offline build";
+
+    configurePhase = ''
+      runHook preConfigure
+      ln -s $node_modules node_modules
+      runHook postConfigure
+    '';
+
+    buildPhase = ''
+      runHook preBuild
+      yarn --offline build
+      runHook postBuild
+    '';
+
+    installPhase = ''
+      runHook preInstall
+      mkdir -p $out
+      cp -r . $out
+      runHook postInstall
+    '';
   };
 in
 buildVimPluginFrom2Nix rec {
-  inherit (yarnPackage) pname version;
-  src = "${yarnPackage}/libexec/${pname}/deps/${pname}";
+  inherit pname;
+  inherit (yarnPackage) version;
+
+  src = yarnPackage;
+
   meta = with lib; {
     description = "An ansible-language-server extension for coc.nvim";
     homepage = "https://github.com/yaegassy/coc-ansible";
