@@ -8,6 +8,10 @@
 > The format of this file is derived from tldr-pages.
 > More info: <https://github.com/tldr-pages/tldr/blob/master/contributing-guides/style-guide.md>
 
+- Run Ansible playbook on localhost:
+
+`ansible-playbook {{site.yml}} -i localhost, -e ansible_connection=local`
+
 - Generate an Autoconf configure script:
 
 `autoreconf -if`
