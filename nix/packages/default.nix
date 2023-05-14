@@ -18,6 +18,10 @@ rec {
     inherit sources;
   };
 
+  coc-ansible = pkgs.callPackage ./coc-ansible.nix {
+    inherit (pkgs.vimUtils) buildVimPluginFrom2Nix;
+  };
+
 } // optionalAttrs isLinux {
 
   bpftrace = nixos.callPackage ./bpftrace.nix { };

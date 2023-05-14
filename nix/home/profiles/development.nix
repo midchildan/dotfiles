@@ -1,10 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, dotfiles, ... }:
 
 let
-  inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux system;
   isGenericLinux = (config.targets.genericLinux.enable or false);
   isNixOS = isLinux && !isGenericLinux;
   cfg = config.dotfiles.profiles;
+  myPkgs = dotfiles.packages.${system};
 in
 {
   options.dotfiles.profiles.development.enable =
@@ -34,6 +35,7 @@ in
       coc-rust-analyzer
       coc-pyright
       coc-tsserver
+      myPkgs.coc-ansible
     ];
   };
 }
