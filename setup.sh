@@ -8,13 +8,13 @@ DOTFILE_FILES_DIR=files
 source "$DOTFILE_DIR/scripts/lib/setup"
 
 # Remove dead symlinks
-@clean
+clean:
   - gc: true
 
-@shell Update Submodules
+run: submodule updates
   - git submodule --quiet update --init
 
-@install Install Shell Config
+install: shell config
   - .bash_profile
   - .bashrc
   - .bash_logout
@@ -29,14 +29,14 @@ source "$DOTFILE_DIR/scripts/lib/setup"
   - .local/share/zsh/snippets/dotfiles/linux.md
   - .local/opt/tldr
 
-@install Install Vim Config
+install: Vim config
   - .vim
   - .config/nvim
   - download: \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
       ~/.vim/autoload/plug.vim
 
-@install Install Git Config
+install: Git config
   - .config/git/attributes
   - .config/git/config
   - .config/git/ignore
@@ -44,7 +44,7 @@ source "$DOTFILE_DIR/scripts/lib/setup"
   - .local/bin/git-deploy
   - .local/bin/git-kitty
 
-@install Install SSH Config
+install: SSH config
   - shell: install -d -m 700 ~/.ssh ~/.ssh/sockets
   - chmod: 700 .ssh
   - .ssh/config
@@ -54,27 +54,27 @@ source "$DOTFILE_DIR/scripts/lib/setup"
   - .ssh/config.d/90-multiplexing.conf
   - .local/bin/rcd
 
-@install Install GDB Config
+install: GDB config
   - .gdbinit
   - .local/bin/gef
   - .local/bin/peda
 
-@install Install LaTeX Config
+install: LaTeX config
   - .config/latexmk/latexmkrc
   - .local/bin/platexmk
   - .local/bin/uplatexmk
 
-@install Install Emacs Config
+install: Emacs config
   - github: doomemacs/doomemacs ~/.config/emacs
   - .config/doom/init.el
   - .config/doom/config.org
   - .config/doom/packages.el
 
-@install Install VSCode Config
+install: VSCode config
   - shell: install -d -m 700 ~/.config/Code
   - .config/Code/User/settings.json
 
-@install Install Miscellaneous Config
+install: miscellaneous config
   - .clang-format
   - .editrc
   - .prettierrc
@@ -98,13 +98,13 @@ source "$DOTFILE_DIR/scripts/lib/setup"
   - .config/tmux/tmux.conf
   - .config/zathura/zathurarc
 
-# The below will not run unless --init is specified
+# The following will not run unless --init is specified
 
-@shell Install Packages
+run: package installation
   - init: true
   - nvim --headless +PlugInstall +'%print' +qall
   - ~/.config/emacs/bin/doom -y install --no-config
 
-@githooks
+githooks:
   - init: true
   - post-receive
