@@ -49,7 +49,7 @@ buildGoModule rec {
     '';
   };
 
-  vendorSha256 = "sha256-rC7h9dtYkT68kGNmUk8RmRCNwGMbq+zBbQHpwLEjEsg=";
+  vendorSha256 = "sha256-8wBT3isHyO/2LZlfDBtkEJdwllCSz1XC1PBGrm8/UzM=";
   subPackages = [ "." ];
 
   # upstream have helpfully moved the bash completion script to a separate
