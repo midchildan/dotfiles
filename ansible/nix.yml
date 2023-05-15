@@ -21,7 +21,8 @@
 
     - name: Run the Nix Installer
       ansible.builtin.command:
-        cmd: sh -s -- install
+        cmd: sh -s -- install --no-confirm
         stdin: "{{ nix_installer.content | default({'content': 'exit 1'}) }}"
         creates: /nix
       environment: *env
+      become: true
