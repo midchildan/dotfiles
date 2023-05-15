@@ -1,13 +1,16 @@
 { lib
-, ansible
-, python3Packages
+, python3
 , writers
 }:
 
 let
+  python = python3.withPackages (ps: with ps; [
+    ansible-core
+    jmespath
+  ]);
+
   binPath = lib.makeBinPath [
-    ansible
-    python3Packages.jmespath
+    python
   ];
 in
 writers.writeBash "ansible.sh" ''
