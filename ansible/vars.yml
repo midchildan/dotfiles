@@ -21,5 +21,13 @@ proxy_env: &proxy_env
   HTTPS_PROXY: *https_proxy
   FTP_PROXY: *ftp_proxy
   NO_PROXY: *no_proxy
+userns:
+  subuid:
+    start: 1000000
+    count: 65539
+  subgid:
+    start: 1000000
+    count: 65539
+  users: []
 nix_install_env:
   PATH: "{{ ansible_env.PATH }}:/usr/sbin"

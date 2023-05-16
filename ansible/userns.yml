@@ -1,0 +1,33 @@
+---
+- name: Configure user namespaces
+  hosts: all
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Configure subuids and subgids
+      when:
+        - userns.users | length > 0
+        - ansible_system == "Linux"
+      become: true
+      block:
+        - name: Configure subuids
+          ansible.builtin.copy:
+            dest: /etc/subuid
+            mode: "0644"
+            content: |
+              {%- set start = userns.subuid.start -%}
+              {%- set count = userns.subuid.count -%}
+              {%- for user in userns.users -%}
+                {{ user }}:{{ start + loop.index0 * count }}:{{ count }}
+              {% endfor -%}
+
+        - name: Configure subgids
+          ansible.builtin.copy:
+            dest: /etc/subgid
+            mode: "0644"
+            content: |
+              {%- set start = userns.subgid.start -%}
+              {%- set count = userns.subgid.count -%}
+              {%- for user in userns.users -%}
+                {{ user }}:{{ start + loop.index0 * count }}:{{ count }}
+              {% endfor -%}
