@@ -21,6 +21,7 @@ writers.writeBash "update.sh" ''
   git submodule update --init --remote
 
   pushd nix/packages
-  nvfetcher
+  # TODO: re-enable once nvfetcher > 0.6.0
+  # nvfetcher
   popd
 ''
