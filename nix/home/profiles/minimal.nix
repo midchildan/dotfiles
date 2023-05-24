@@ -40,7 +40,6 @@ in
       fzfWrapper
       coc-nvim
       coc-snippets
-      coc-ultisnips
       coc-json
     ];
   };

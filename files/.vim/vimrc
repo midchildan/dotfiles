@@ -1,6 +1,7 @@
 """"""""""""""""""""
 "  Initialization  "
 """"""""""""""""""""
+" NOTE: some plugins are installed through Home Manager instead of vim-plug
 call plug#begin('~/.vim/plugged')
 " editing
 Plug 'junegunn/vim-easy-align'
@@ -15,8 +16,6 @@ Plug 'easymotion/vim-easymotion', {'on': [
 " completion and linting
 Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf.vim'
-" NOTE: coc-snippets can't completely replace UltiSnips
-Plug 'SirVer/ultisnips', has('python3') ? {} : {'on': []}
 Plug 'honza/vim-snippets'
 
 " utilities
@@ -411,9 +410,6 @@ let g:indentLine_concealcursor = ''
 
 " markbar "
 let g:markbar_enable_peekaboo = v:false
-
-" UltiSnips "
-let g:UltiSnipsExpandTrigger = '<C-x><C-j>'
 
 " undotree "
 let g:undotree_WindowLayout = 2
