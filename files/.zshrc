@@ -2,9 +2,7 @@ typeset -U fpath; fpath+=~/.local/share/zsh/site-functions
 autoload -Uz add-zsh-hook is-at-least
 zmodload -i zsh/parameter
 
-if [[ ! -d ~/Library/Caches/zsh/completion ]]; then
-  mkdir -p ~/Library/Caches/zsh/completion
-fi
+[[ -d ~/.cache/zsh/completion ]] || mkdir -p ~/.cache/zsh/completion
 
 ###########################
 #  Environment Variables  #
@@ -48,12 +46,12 @@ autoload -Uz chpwd_recent_dirs cdr
 chpwd_functions=(chpwd_recent_dirs)
 zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-max 500
-zstyle ':chpwd:*' recent-dirs-file ~/Library/Caches/zsh/cdhistory
+zstyle ':chpwd:*' recent-dirs-file ~/.cache/zsh/cdhistory
 
 #############
 #  History  #
 #############
-HISTFILE=~/Library/Caches/zsh/history
+HISTFILE=~/.cache/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
 
@@ -86,7 +84,7 @@ fi
 
   zstyle ':completion:*' menu select
   zstyle ':completion:*' use-cache true
-  zstyle ':completion:*' cache-path ~/Library/Caches/zsh/completion
+  zstyle ':completion:*' cache-path ~/.cache/zsh/completion
   zstyle ':completion:*' list-colors ''
   zstyle ':completion:*' recent-dirs-insert fallback
   # case-insensitive (all),partial-word and then substring completion
@@ -103,12 +101,11 @@ fi
   zstyle ':completion:*:*:*:users' ignored-patterns '_*'
 
   # update the completion cache only once a day
-  if [[ -n ~/Library/Caches/zsh/compdump(#qN.m+1) ]]; then
+  if [[ -n ~/.cache/zsh/compdump(#qN.m+1) ]]; then
     # XXX: ignore compaudit warnings b/c it's pointless for most people
-    compinit -u -d ~/Library/Caches/zsh/compdump \
-      && touch ~/Library/Caches/zsh/compdump
+    compinit -u -d ~/.cache/zsh/compdump && touch ~/.cache/zsh/compdump
   else
-    compinit -C -d ~/Library/Caches/zsh/compdump # skip compaudit b/c it's slow
+    compinit -C -d ~/.cache/zsh/compdump # skip compaudit b/c it's slow
   fi
 
   compdef rcd=ssh
@@ -293,7 +290,7 @@ setopt no_clobber
 setopt no_flowcontrol
 autoload -Uz select-word-style && select-word-style bash
 autoload -Uz zrecompile && \
-  zrecompile -pq -R ~/.zshrc -- -M ~/Library/Caches/zsh/compdump &!
+  zrecompile -pq -R ~/.zshrc -- -M ~/.cache/zsh/compdump &!
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 if is-at-least 5.2; then
   autoload -Uz bracketed-paste-url-magic && \

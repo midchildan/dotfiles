@@ -187,12 +187,12 @@ set tags=./tags;,tags
 "  Persistent Data  "
 """""""""""""""""""""
 if !has('nvim')
-  set viminfo+=n~/Library/Caches/vim/viminfo
-  set undodir=~/Library/Caches/vim/undo
+  set viminfo+=n~/.cache/vim/viminfo
+  set undodir=~/.cache/vim/undo
 endif
-set dir=~/Library/Caches/vim/swap//
+set dir=~/.cache/vim/swap//
 set backup
-set backupdir=~/Library/Caches/vim/backup
+set backupdir=~/.cache/vim/backup
 set undofile
 for s:d in [&dir, &backupdir, &undodir]
   if !isdirectory(s:d)
