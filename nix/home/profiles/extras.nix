@@ -9,7 +9,7 @@ with lib;
   config = mkIf config.dotfiles.profiles.extras.enable {
     home.packages = with pkgs; [
       exiftool
-      ffmpeg-full
+      ffmpeg-headless
       imagemagick
       nyancat
       ripgrep-all

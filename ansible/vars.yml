@@ -3,14 +3,34 @@ dotfiles:
   repo_url: https://github.com/midchildan/dotfiles
   archive_path: archive/main.tar.gz
   dest: ~/.config/dotfiles
+
 proxy_env: &proxy_env
   http_proxy: &http_proxy
   https_proxy: &https_proxy
   ftp_proxy: &ftp_proxy
-  no_proxy: &no_proxy 127.0.0.1,127.0.0.0/8,localhost,.local,.home.arpa,.test
+  no_proxy: &no_proxy
+    "localhost,\
+     127.0.0.1,\
+     127.0.0.0/8,\
+     10.0.0.0/8,\
+     172.16.0.0/12,\
+     192.168.0.0/16,\
+     .local,\
+     .home.arpa,\
+     .test"
   HTTP_PROXY: *http_proxy
   HTTPS_PROXY: *https_proxy
   FTP_PROXY: *ftp_proxy
   NO_PROXY: *no_proxy
+
+userns:
+  subuid:
+    start: 1000000
+    count: 65539
+  subgid:
+    start: 1000000
+    count: 65539
+  users: []
+
 nix_install_env:
   PATH: "{{ ansible_env.PATH }}:/usr/sbin"

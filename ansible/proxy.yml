@@ -3,39 +3,65 @@
   hosts: all
   vars_files:
     - vars.yml
+  vars:
+    is_proxy_defined: >-
+      {{ proxy_env.http_proxy or proxy_env.https_proxy or proxy_env.ftp_proxy }}
   tasks:
-    - name: Add proxy settings to systemd
-      ansible.builtin.copy:
-        dest: /etc/systemd/system.conf.d/10-proxy.conf
-        mode: "0644"
-        content: |
-          [Manager]
-          DefaultEnvironment = {% for name, value in proxy_env.items() -%}
-            {%- if value -%}
-              {{ name }}={{ value }}
-          {%- if not loop.last %} {% endif %}
-          {%- endif -%}
-          {%- endfor %}
-      when:
-        - proxy_env.http_proxy or proxy_env.https_proxy or proxy_env.ftp_proxy
-        - "'/etc/systemd' is directory"
+    - name: Gather system info and configure proxy
+      when: is_proxy_defined
+      block:
+        - name: Check if /etc/systemd exists
+          ansible.builtin.stat:
+            path: /etc/systemd
+          register: systemd_dir
 
-    - name: Add proxy settings to the shell
-      ansible.builtin.copy:
-        dest: /etc/profile.d/proxy.sh
-        mode: "0644"
-        content: |
-          {% for name, value in proxy_env.items() -%}
-          {%- if value -%}
-            export {{ name }}={{ value | quote }}
-          {% endif -%}
-          {%- endfor %}
-      when:
-        - proxy_env.http_proxy or proxy_env.https_proxy or proxy_env.ftp_proxy
-        - "'/etc/profile.d' is directory"
+        - name: Ensure /etc/systemd/system.conf.d exists
+          ansible.builtin.file:
+            path: /etc/systemd/system.conf.d
+            mode: "0755"
+            state: directory
+          become: true
+          when: systemd_dir.stat.exists and systemd_dir.stat.isdir
 
+        - name: Add proxy settings to systemd
+          ansible.builtin.copy:
+            dest: /etc/systemd/system.conf.d/10-proxy.conf
+            mode: "0644"
+            content: |
+              [Manager]
+              DefaultEnvironment = {% for name, value in proxy_env.items() -%}
+                {%- if value -%}
+                  {{ name }}={{ value }}
+              {%- if not loop.last %} {% endif %}
+              {%- endif -%}
+              {%- endfor %}
+          become: true
+          when: systemd_dir.stat.exists and systemd_dir.stat.isdir
+
+        - name: Check if /etc/profile.d exists
+          ansible.builtin.stat:
+            path: /etc/profile.d
+          register: profile_dir
+
+        - name: Add proxy settings to the shell
+          ansible.builtin.copy:
+            dest: /etc/profile.d/proxy.sh
+            mode: "0644"
+            content: |
+              {% for name, value in proxy_env.items() -%}
+              {%- if value -%}
+                export {{ name }}={{ value | quote }}
+              {% endif -%}
+              {%- endfor %}
+          become: true
+          notify:
+            - Reboot to apply proxy settings
+          when: profile_dir.stat.exists and profile_dir.stat.isdir
+
+  handlers:
     - name: Reboot to apply proxy settings
       ansible.builtin.reboot:
+      become: true
       when:
         - ansible_facts.distribution == "CentOS"
         - ansible_facts.distribution_major_version == "7"

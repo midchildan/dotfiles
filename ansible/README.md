@@ -19,6 +19,10 @@ hosts. The main targets are non-NixOS Linux hosts.
   <dd>
     Configures proxies.
   </dd>
+  <dt>userns.yml</dt>
+  <dd>
+    Configures Linux user namespaces.
+  </dd>
   <dt>nix.yml</dt>
   <dd>
     Installs Nix.
