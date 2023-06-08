@@ -2,6 +2,7 @@
 
 let
   inherit (lib) mkDefault;
+  nix = dotfiles.lib.config.nix.package;
 in
 {
   config = {
@@ -10,7 +11,7 @@ in
 
     time.timeZone = mkDefault "Asia/Tokyo";
 
-    nix.package = mkDefault pkgs.nixVersions.nix_2_11;
+    nix.package = mkDefault pkgs.nixVersions.${nix};
     nix.extraOptions = ''
       experimental-features = nix-command flakes
     '';

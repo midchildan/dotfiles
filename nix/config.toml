@@ -34,3 +34,6 @@ system = "x86_64-darwin"
 #
 # https://daiderd.com/nix-darwin/manual/index.html#opt-system.stateVersion
 stateVersion = 4
+
+[nix]
+package = "nix_2_13"
