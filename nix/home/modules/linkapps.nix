@@ -31,7 +31,7 @@ in
             continue
           fi
 
-          $DRY_RUN_CMD osascript \
+          $DRY_RUN_CMD /usr/bin/osascript \
             -e 'tell app "Finder"' \
             -e "make new alias file at POSIX file \"${destination}\" to POSIX file \"$app_path\"" \
             -e "set name of result to \"''${app_path##*/}\"" \
