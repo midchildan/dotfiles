@@ -37,5 +37,4 @@
 	navigate = true
 	syntax-theme = gruvbox-dark
 [ghq]
-	root = ~/Documents/src/go/src
 	root = ~/Documents/src/repos

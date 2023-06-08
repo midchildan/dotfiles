@@ -40,9 +40,11 @@ in
     services.openssh = lib.mkIf hasInteractiveCfg {
       enable = lib.mkDefault true;
       startWhenNeeded = lib.mkDefault true;
-      forwardX11 = lib.mkDefault config.dotfiles.profiles.desktop.enable;
-      passwordAuthentication = lib.mkDefault false;
-      permitRootLogin = lib.mkDefault "no";
+      settings = {
+        X11Forwarding = lib.mkDefault config.dotfiles.profiles.desktop.enable;
+        PasswordAuthentication = lib.mkDefault false;
+        PermitRootLogin = lib.mkDefault "no";
+      };
     };
   };
 }

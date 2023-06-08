@@ -6,7 +6,7 @@
 let
   inherit (pkgs.lib) optionalAttrs;
   inherit (pkgs.stdenv) isDarwin isLinux;
-  nix = pkgs.nixVersions.nix_2_11;
+  nix = pkgs.nixVersions.${inputs.self.lib.config.nix.package};
   sources = pkgs.callPackage ./_sources/generated.nix { };
 in
 rec {
