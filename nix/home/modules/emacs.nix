@@ -47,7 +47,7 @@ in
             maxfiles="$(ulimit -n)"
             ulimit -n hard
 
-            PATH="$newGenPath/home-path/bin:$PATH" \
+            PATH="$newGenPath/home-path/bin:${pkgs.git}/bin:$PATH" \
               $DRY_RUN_CMD "${homeDir}/.config/emacs/bin/doom" \
                 ''${VERBOSE:+-d} sync -e > /dev/null
 
