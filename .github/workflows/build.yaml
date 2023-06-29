@@ -9,14 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v21
+      - uses: cachix/install-nix-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@v2
       - name: Check flake
         run: nix flake check
   format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v21
+      - uses: cachix/install-nix-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@v2
       - name: Check format
         run: |
           nix fmt
@@ -25,7 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v21
+      - uses: cachix/install-nix-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@v2
       - name: Build Home Manager configuration
         run: |
           nix-env -q # TODO: Remove. https://github.com/nix-community/home-manager/pull/3872
@@ -34,13 +37,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v21
+      - uses: cachix/install-nix-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@v2
       - name: Build NixOS configuration
         run: nix run '.#os' -- build -L --flake '.#ci' --print-build-logs
   nix-darwin:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v21
+      - uses: cachix/install-nix-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@v2
       - name: Build nix-darwin configuration
         run: nix run '.#os' -- build -L --flake '.#ci' --print-build-logs

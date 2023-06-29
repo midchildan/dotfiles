@@ -56,6 +56,9 @@ install: SSH config
   - .local/libexec/ssh-askpass
   - Library/LaunchAgents/com.openssh.ssh-askpass.plist
 
+install: container config
+  - .config/containers/containers.conf
+
 install: LaTeX config
   - .config/latexmk/latexmkrc
   - .local/bin/platexmk
@@ -80,7 +83,6 @@ install: miscellaneous config
   - .config/bat/config
   - .config/broot/conf.hjson
   - .config/broot/launcher/refused
-  - .config/containers/containers.conf
   - .config/gem/gemrc
   - .config/ideavim/ideavimrc
   - .config/ipython/profile_default/ipython_config.py
