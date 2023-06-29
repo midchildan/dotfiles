@@ -54,6 +54,11 @@ install: SSH config
   - .ssh/config.d/90-multiplexing.conf
   - .local/bin/rcd
 
+install: container config
+  - .config/containers/containers.conf
+  - .config/distrobox/distrobox.conf
+  - .local/libexec/distrobox/nix.sh
+
 install: GDB config
   - .gdbinit
   - .local/bin/gef
@@ -85,7 +90,6 @@ install: miscellaneous config
   - .config/bat/config
   - .config/broot/conf.hjson
   - .config/broot/launcher/refused
-  - .config/containers/containers.conf
   - .config/gem/gemrc
   - .config/ideavim/ideavimrc
   - .config/ipython/profile_default/ipython_config.py
