@@ -53,7 +53,7 @@ install: SSH config
   - .ssh/config.d/90-general.conf
   - .ssh/config.d/90-multiplexing.conf
   - .local/bin/rcd
-  - .local/libexec/ssh-askpass
+  - .local/libexec/ssh/askpass
   - Library/LaunchAgents/com.openssh.ssh-askpass.plist
 
 install: container config

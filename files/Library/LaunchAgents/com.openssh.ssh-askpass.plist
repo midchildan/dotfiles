@@ -15,7 +15,7 @@
       <string>/bin/bash</string>
       <string>-c</string>
       <string>
-        /bin/launchctl setenv SSH_ASKPASS ~/.local/libexec/ssh-askpass
+        /bin/launchctl setenv SSH_ASKPASS ~/.local/libexec/ssh/askpass
         if [[ ! -d /opt/X11 &amp;&amp; -z "$DISPLAY" ]]; then
           /bin/launchctl setenv DISPLAY /dev/null:0
         fi
