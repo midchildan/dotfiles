@@ -13,10 +13,11 @@ for dot_profile_dir in $dot_nix_profiles; do
 
   if [ -x "$dot_shell_path" ]; then
     SHELL="$dot_shell_path"
-    chsh -u "$USER" "$dot_shell_path"
     if ! grep -q "^$dot_shell_path\$" /etc/shells; then
       echo "$dot_shell_path" | tee -a /etc/shells > /dev/null
     fi
+    # shellcheck disable=SC2154
+    usermod --shell "$dot_shell_path" "$container_user_name"
     break
   fi
 done
