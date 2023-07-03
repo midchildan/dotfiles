@@ -1,12 +1,14 @@
 #!/usr/bin/env sh
 
-case "$(realpath "$SHELL" 2> /dev/null || :)" in
-  /nix/store/*|/gnu/store/*) ;;
-  *) return ;;
-esac
-
 case "$1" in
   preinit)
+    dot_shell=''
+
+    case "$(realpath "$SHELL" 2> /dev/null || :)" in
+      /nix/store/*|/gnu/store/*) ;;
+      *) return ;;
+    esac
+
     # Backup SHELL because distrobox changes it.
     dot_shell="$SHELL"
 
@@ -17,6 +19,10 @@ case "$1" in
     ;;
 
   init)
+    if [ -z "$dot_shell" ] || [ "$SHELL" = "$dot_shell" ]; then
+      return
+    fi
+
     if [ -x "$dot_shell" ]; then
       # Restore SHELL.
       SHELL="$dot_shell"
