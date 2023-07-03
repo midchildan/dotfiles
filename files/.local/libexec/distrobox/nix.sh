@@ -19,6 +19,10 @@ case "$1" in
     ;;
 
   init)
+    if [ -d /run/host/etc/nix ]; then
+      mount_bind /run/host/etc/nix /etc/nix ro
+    fi
+
     if [ -z "$dot_shell" ] || [ "$SHELL" = "$dot_shell" ]; then
       return
     fi
