@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ENABLE_DRYRUN=
-ENABLE_PREFIX=1
+USE_GHQ=1
 
 main() {
   local gitref=HEAD
@@ -10,7 +10,7 @@ main() {
     case "$n" in
       -n|--dry-run) ENABLE_DRYRUN=1; shift ;;
       -b) gitref="$2"; shift; shift ;;
-      -r) ENABLE_PREFIX=; shift ;;
+      -r) USE_GHQ=; shift ;;
       -h|--help) usage ;;
       *) break ;;
     esac
@@ -26,17 +26,21 @@ main() {
   repo_root="${repo_root/#\~/$HOME}"
   local_path="$(git rev-parse --show-toplevel)"
 
-  if [[ -n "$ENABLE_PREFIX" ]]; then
+  if [[ -n "$USE_GHQ" ]]; then
     if [[ "$remote_url" =~ :$ ]]; then
       local remote_host="${remote_url%:}"
-      local remote_path="${local_path#$repo_root/}"
+      local remote_path="${local_path#"$repo_root/"}"
     elif [[ "$remote_url" =~ : ]]; then
       local remote_host="${remote_url%%:*}"
       local remote_prefix="${remote_url#*:}"
       local remote_path="${local_path/#$repo_root/$remote_prefix}"
     else
-      local remote_host="$remote_url"
-      local remote_path="${local_path#$repo_root/}"
+      local remote_host remote_home remote_root remote_path
+      remote_host="$remote_url"
+      remote_home="$(ssh "$remote_host" 'printf "%s" "$HOME"')"
+      remote_root="$(ssh "$remote_host" git config --get ghq.root)"
+      remote_root="${remote_root/#\~/$remote_home}"
+      remote_path="${remote_root}${remote_root:+/}${local_path#"$repo_root/"}"
     fi
   else
     if [[ "$remote_url" =~ : ]]; then
