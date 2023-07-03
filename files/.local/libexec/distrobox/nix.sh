@@ -1,22 +1,47 @@
 #!/usr/bin/env sh
 
-dot_shell_name="$(basename "$SHELL")"
+case "$1" in
+  preinit)
+    dot_shell=''
 
-dot_nix_profiles="
-  $HOME/.nix-profile
-  ${XDG_STATE_HOME:-$HOME/.state}/nix/profile
-  /run/current-system/sw
-"
+    case "$(realpath "$SHELL" 2> /dev/null || :)" in
+      /nix/store/*|/gnu/store/*) ;;
+      *) return ;;
+    esac
 
-for dot_profile_dir in $dot_nix_profiles; do
-  dot_shell_path="$dot_profile_dir/bin/$dot_shell_name"
+    # Backup SHELL because distrobox changes it.
+    dot_shell="$SHELL"
 
-  if [ -x "$dot_shell_path" ]; then
-    SHELL="$dot_shell_path"
-    chsh -u "$USER" "$dot_shell_path"
-    if ! grep -q "^$dot_shell_path\$" /etc/shells; then
-      echo "$dot_shell_path" | tee -a /etc/shells > /dev/null
+    # Try to prevent distrobox from installing an another shell. Doesn't work
+    # if bash is missing from the container image.
+    SHELL=''
+
+    ;;
+
+  init)
+    if [ -d /run/host/etc/nix ]; then
+      mount_bind /run/host/etc/nix /etc/nix ro
     fi
-    break
-  fi
-done
+
+    if [ -z "$dot_shell" ] || [ "$SHELL" = "$dot_shell" ]; then
+      return
+    fi
+
+    if [ -x "$dot_shell" ]; then
+      # Restore SHELL.
+      SHELL="$dot_shell"
+
+      if ! grep -q "^$dot_shell\$" /etc/shells; then
+        echo "$dot_shell" | tee -a /etc/shells > /dev/null
+      fi
+
+      # shellcheck disable=SC2154
+      usermod --shell "$dot_shell" "$container_user_name"
+    fi
+    ;;
+
+  *)
+    printf '[ERROR] nix.sh: unknown script argument: %s' "$1"
+    return 1
+    ;;
+esac
