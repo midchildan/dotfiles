@@ -1,22 +1,14 @@
 { config, lib, pkgs, ... }:
 
-with lib;
-
 let
   inherit (pkgs.stdenv.hostPlatform) isLinux;
 in
 {
-  options.dotfiles.profiles.fonts.enable = mkOption {
-    type = types.bool;
-    default = config.dotfiles.profiles.desktop.enable;
-    description = ''
-      Whether to install recommended fonts. Disable this if you prefer to
-      install fonts through the system.
-    '';
-  };
+  options.dotfiles.profiles.fonts.enable =
+    lib.mkEnableOption "recommended fonts";
 
-  config = mkIf config.dotfiles.profiles.fonts.enable {
-    fonts.fontconfig.enable = mkDefault isLinux;
+  config = lib.mkIf config.dotfiles.profiles.fonts.enable {
+    fonts.fontconfig.enable = lib.mkDefault isLinux;
 
     home.packages = with pkgs; [
       fira-code

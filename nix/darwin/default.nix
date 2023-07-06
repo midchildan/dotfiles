@@ -2,7 +2,9 @@
 
 {
   imports = [
-    ./modules/config.nix
+    ./modules/setup.nix
+    ./modules/nix.nix
+    ./modules/shell.nix
     ./profiles/apps.nix
   ];
 
