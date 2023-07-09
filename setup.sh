@@ -14,6 +14,11 @@ clean:
 run: submodule updates
   - git submodule --quiet update --init
 
+install: Nix config
+  - .config/nix/nix.conf
+  - .config/nixpkgs/config.nix
+  - .config/nixpkgs/overlays/dotfiles.nix
+
 install: shell config
   - .bash_profile
   - .bashrc
@@ -95,8 +100,6 @@ install: miscellaneous config
   - .config/ipython/profile_default/ipython_config.py
   - .config/kitty/kitty.conf
   - .config/nano/nanorc
-  - .config/nixpkgs/config.nix
-  - .config/nixpkgs/overlays/dotfiles.nix
   - .config/ranger/rc.conf
   - .config/ranger/scope.sh
   - .config/tmux/tmux.conf
