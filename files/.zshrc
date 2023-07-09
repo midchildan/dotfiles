@@ -12,7 +12,7 @@ export GPG_TTY="$TTY"
 typeset -U path
 path=(
   ~/.local/bin
-  $path
+  "${path[@]}"
   ~/.config/emacs/bin
 )
 
