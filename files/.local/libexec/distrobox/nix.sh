@@ -2,11 +2,31 @@
 
 case "$1" in
   preinit)
+    if [ -d /run/host/run/current-system ]; then
+      mount_bind /run/host/run/current-system /run/current-system ro
+    fi
+    if [ -d /run/host/etc/nix ]; then
+      mount_bind /run/host/etc/nix /etc/nix ro
+    fi
+
+    # Expose commands in Nix profiles to Distrobox so that it can find whatever
+    # command it needs that's missing from the container image. This greatly
+    # improves the initial startup time because it can then skip installing
+    # missing packages.
+    PATH="$PATH:$HOME/.nix-profile/bin:/run/current-system/sw/bin"
+
+    # make sure it's initialized before the init hook references it
     dot_shell=''
 
     case "$(realpath "$SHELL" 2> /dev/null || :)" in
-      /nix/store/*|/gnu/store/*) ;;
-      *) return ;;
+      /nix/store/*|/gnu/store/*)
+        if ! [ -x "$SHELL" ]; then
+          return
+        fi
+        ;;
+      *)
+        return
+        ;;
     esac
 
     # Backup SHELL because distrobox changes it.
@@ -19,10 +39,6 @@ case "$1" in
     ;;
 
   init)
-    if [ -d /run/host/etc/nix ]; then
-      mount_bind /run/host/etc/nix /etc/nix ro
-    fi
-
     if [ -z "$dot_shell" ] || [ "$SHELL" = "$dot_shell" ]; then
       return
     fi
