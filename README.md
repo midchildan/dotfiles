@@ -77,9 +77,7 @@ configure them as needed before proceeding.
 
 Bootstrapping instructions for each are listed below. Home Manager can
 optionally be integrated into NixOS or Nix-Darwin. If you do this, NixOS or
-Nix-Darwin would take care of bootstrapping Home Manager for you. Otherwise if
-you're bootstrapping Home Manager yourself, make sure to enable [Nix
-flakes][flakes] beforehand.
+Nix-Darwin would take care of bootstrapping Home Manager for you.
 
 - Home Manager:
 
@@ -121,4 +119,3 @@ platform-specific stuff in `main`.
 [build-badge]: https://github.com/midchildan/dotfiles/actions/workflows/build.yaml/badge.svg
 [build-url]: https://github.com/midchildan/dotfiles/actions/workflows/build.yaml
 [nix-shell]: https://nixos.wiki/wiki/Development_environment_with_nix-shell
-[flakes]: https://nixos.wiki/wiki/Flakes
