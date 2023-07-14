@@ -304,7 +304,7 @@ inform projectile about it.
 
 #+BEGIN_SRC emacs-lisp
 (setq magit-repository-directories
-        '(("~/Documents/src/repos" . 3) ("~/Documents/src/go/src" . 3))
+        '(("~/Documents/src/repos" . 3))
       projectile-project-search-path
         (mapcar #'car magit-repository-directories))
 #+END_SRC
