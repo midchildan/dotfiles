@@ -17,10 +17,6 @@
       };
     };
 
-    homebrew.taps = [
-      "homebrew/cask"
-    ];
-
     homebrew.casks = [
       "alfred"
       "aquaskk"
@@ -32,7 +28,6 @@
       "krita"
       "netnewswire"
       "skim"
-      "visual-studio-code"
       "vlc"
       "wireshark"
     ];

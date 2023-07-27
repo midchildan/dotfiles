@@ -11,7 +11,7 @@ in
   options.dotfiles.profiles.minimal.enable = mkOption {
     type = types.bool;
     default = true;
-    description = ''
+    description = lib.mdDoc ''
       Whether to enable the bare minimum packages to make the dotfiles useful
     '';
   };

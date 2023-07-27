@@ -17,14 +17,13 @@ in
     useSystemMan = mkOption {
       type = types.bool;
       default = false;
-      description = ''
+      description = lib.mdDoc ''
         Install man pages, but don't install the man command. This helps ensure
         that the operating system's manual pages don't get hidden and avoid
-        issues like
-        <link xlink:href="https://github.com/nix-community/home-manager/issues/432">nix-community/home-manager#432</link>.
+        issues like [nix-community/home-manager#432](https://github.com/nix-community/home-manager/issues/432).
 
-        When this option is disabled, <option>program.man.enable</option> is
-        enabled instead.
+        When this option is disabled, {option}`program.man.enable` is enabled
+        instead.
       '';
     };
 
