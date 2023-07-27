@@ -11,6 +11,7 @@ let
 in
 rec {
 
+  mmdbctl = pkgs.callPackage ./mmdbctl.nix { };
   neovim = pkgs.callPackage ./neovim.nix { };
   terminfo-collection = pkgs.callPackage ./terminfo-collection.nix { };
 
