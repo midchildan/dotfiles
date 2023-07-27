@@ -17,22 +17,21 @@ in
           type = with types; listOf package;
           default = [ ];
           example = literalExpression "with pkgs.vimPlugins; [ coc-nvim ]";
-          description = ''
-            Installs plugins to be loaded manually with
-            <literal>:packadd</literal>.
+          description = lib.mdDoc ''
+            Installs plugins to be loaded manually with `:packadd`.
           '';
         };
         start = lib.mkOption {
           type = with types; listOf package;
           default = [ ];
           example = literalExpression "with pkgs.vimPlugins; [ coc-nvim ]";
-          description = ''
+          description = lib.mdDoc ''
             Installs plugins to be loaded automatically at startup.
           '';
         };
       };
     };
-    description = "Install the specified vim plugins.";
+    description = lib.mdDoc "Install the specified vim plugins.";
   };
 
   config = lib.mkIf (cfg.plugins.opt != [ ] || cfg.plugins.start != [ ]) {

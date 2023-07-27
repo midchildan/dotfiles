@@ -12,18 +12,15 @@ in
       example = {
         rebase.autosquash = true;
       };
-      description = ''
+      description = lib.mdDoc ''
         Configuration for git. This option is meant to be used in conjunction
         with existing non-Home Manager configuration, so it's not written out
         directly to the global gitconfig. Instead, it's written to
-        <filename>~/.config/git/hmconfig</filename> meant to be included by
-        existing configurations.
+        {file}`~/.config/git/hmconfig` meant to be included by existing
+        configurations.
 
         For specific options, see the CONFIGURATION FILE section of
-        <citerefentry>
-          <refentrytitle>git-config</refentrytitle>
-          <manvolnum>1</manvolnum>
-        </citerefentry>.
+        {manpage}`git-config(1)`.
       '';
     };
     enableDelta = lib.mkEnableOption "Git syntax highlighting with Delta";
