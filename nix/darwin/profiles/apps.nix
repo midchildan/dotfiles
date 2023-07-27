@@ -17,10 +17,6 @@
       };
     };
 
-    homebrew.taps = [
-      "homebrew/cask"
-    ];
-
     homebrew.casks = [
       "alfred"
       "aquaskk"
