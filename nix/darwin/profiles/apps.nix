@@ -28,7 +28,6 @@
       "krita"
       "netnewswire"
       "skim"
-      "visual-studio-code"
       "vlc"
       "wireshark"
     ];

@@ -17,7 +17,6 @@ in
         libreoffice
         lollypop
         vlc
-        vscode
         xclip
       ];
 
