@@ -7,6 +7,8 @@
 >
 > The format of this file is derived from tldr-pages.
 > More info: <https://github.com/tldr-pages/tldr/blob/master/contributing-guides/style-guide.md>
+>
+> Some snippets may include zsh-specific syntax.
 
 - Run Ansible playbook on localhost:
 
@@ -28,9 +30,13 @@
 
 `curl --resolve "{{example.com}}:443:$(dig +short {{dev.example.com}} A)" 'https://{{example.com}}'`
 
-- Attatch a bearer token to an HTTP request:
+- Attach a bearer token to an HTTP request:
 
 `curl '{{https://example.com/}}' -H "Authorization: Bearer {{$token}}"`
+
+- Send a DNS-over-HTTPS request:
+
+`curl -sSL -H 'application/dns-json' '{{https://cloudflare-dns.com/dns-query}}?name={{example.com}}&type={{A}}'`
 
 - Lookup the manpage for a specific version of tmux:
 
@@ -56,6 +62,10 @@
 
 `git add --intent-to-add {{flake.nix}}`
 
+- Delete merged git branches:
+
+`git for-each-ref --format='%(refname:short)' --merged=HEAD refs/heads/ | grep -v "^$(git rev-parse --abbrev-ref HEAD)\$" | grep -Ev '{{^main|master|dev(elop(ment){0,1}){0,1}$}}' | xargs git branch -d`
+
 - Tell git whether it should assume that certain files are unchaged:
 
 `git update-index --{{no-}}assume-unchanged {{flake.nix}}`
@@ -67,6 +77,10 @@
 - Trigger a rebuild of GitHub Pages for the specified repository:
 
 `gh api -X POST repos/{{:owner/:repo}}/pages/builds`
+
+- List open GitHub PRs created by me today:
+
+`gh search prs --author '@me' --state open --archived=false --created "$(date +%Y-%m-%d)" --json url -q '.[].url'`
 
 - Start gpg-agent. Try this when Git fails to sign commits:
 
@@ -102,7 +116,7 @@
 
 - Show diagnostic information for remote TLS servers:
 
-`openssl s_client -connect {{localhost:443}} < /dev/null`
+`openssl s_client -connect {{localhost:443}} -servername {{domain.example}} < /dev/null`
 
 - Generate a random string of length n:
 
@@ -119,6 +133,10 @@
 - Update GitHub SSH host keys in `~/.ssh/known_hosts`:
 
 `ssh-keygen -R github.com; curl -L https://api.github.com/meta | jq -r '.ssh_keys | .[]' | sed -e 's/^/github.com /' | tee -a ~/.ssh/known_hosts`
+
+- Create n additional split tmux windows:
+
+`repeat {{n}}; do tmux split-window; tmux select-layout main-horizontal; done`
 
 - Expand an embedded Ruby template:
 

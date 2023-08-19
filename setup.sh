@@ -27,6 +27,7 @@ install: shell config
   - .zshrc
   - .hushlogin
   - .inputrc
+  - .local/share/zsh/fzf-sources
   - .local/share/zsh/site-functions
   - .local/share/zsh/snippets/common
   - .local/share/zsh/snippets/osx
