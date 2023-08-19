@@ -1,0 +1,21 @@
+AdGuard Default,https://dns.adguard-dns.com/dns-query
+Adguard Family,https://family.adguard-dns.com/dns-query
+Adguard Uncensored,https://unfiltered.adguard-dns.com/dns-query
+OpenDNS Standard,https://doh.opendns.com/dns-query
+OpenDNS FamilyShield,https://doh.familyshield.opendns.com/dns-query
+Cloudflare,https://cloudflare-dns.com/dns-query
+Cloudflare for Families,https://family.cloudflare-dns.com/dns-query
+Cloudflare for Mozilla,https://mozilla.cloudflare-dns.com/dns-query
+Cloudflare for Security,https://security.cloudflare-dns.com/dns-query
+Cloudflare DNS64,https://dns64.cloudflare-dns.com/dns-query
+DNS0 Non-blocking,https://open.dns0.eu
+DNS0 Malware blocking,https://dns0.eu
+DNS0 Hardened security,https://zero.dns0.eu
+DNS0 for Kids,https://kids.dns0.eu
+Google,https://dns.google/query
+Google DNS64,https://dns64.dns.google/query
+Mullvad Non-blocking,https://doh.mullvad.net/dns-query
+Mullvad Adblocking,https://adblock.doh.mullvad.net/dns-query
+NextDNS,https://dns.nextdns.io
+Quad9,https://dns.quad9.net:5053/dns-query
+280blocker,https://doh003.280blocker.net/dns-query

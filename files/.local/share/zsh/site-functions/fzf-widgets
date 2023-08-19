@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 emulate -L zsh
 
 # Alternative FZF completion and keybinding widgets that extends the stock
@@ -131,6 +133,21 @@ fzf-dictionary-widget() {
 
   if [[ -n "$selected" ]]; then
     LBUFFER+="${(j: :)${(@q)${(f)selected}}}"
+  fi
+  zle reset-prompt
+}
+
+fzf-doh-widget() {
+  local doh_list
+  if ! zstyle -s ':dotfiles:fzf' doh-list doh_list; then
+    doh_list=~/.local/share/zsh/fzf-sources/doh.csv
+  fi
+
+  local selected
+  __dot::fzf +m < "$doh_list" | IFS= read -r selected
+
+  if [[ -n "$selected" ]]; then
+    LBUFFER+="${selected#*,}"
   fi
   zle reset-prompt
 }
@@ -351,6 +368,7 @@ fzf-menu-widget() {
 local selected
 __dot::fzf +m <<EOF | awk '{ print $NF }' | IFS= read -r selected
 Dictionary words      : fzf-dictionary-widget
+DNS-over-HTTPS URLs   : fzf-doh-widget
 Environment variables : fzf-environment-variable-widget
 Files                 : fzf-file-widget
 Git branches          : fzf-git-branch-widget
@@ -375,6 +393,7 @@ EOF
 }
 
 zle -N fzf-dictionary-widget
+zle -N fzf-doh-widget
 zle -N fzf-environment-variable-widget
 zle -N fzf-git-branch-widget
 zle -N fzf-git-log-widget
