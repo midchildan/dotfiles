@@ -1,7 +1,7 @@
 """"""""""""""""""""
 "  Initialization  "
 """"""""""""""""""""
-" NOTE: some plugins are installed through Home Manager instead of vim-plug
+" NOTE: Plugins with dependencies are installed through Home Manager.
 call plug#begin('~/.vim/plugged')
 " editing
 Plug 'junegunn/vim-easy-align'
@@ -241,8 +241,6 @@ onoremap <silent> <Leader>f! /\v(!<Bar>！)<CR>
 nnoremap <silent> <Leader>f? /\v(\?<Bar>？)<CR>
 xnoremap <silent> <Leader>f? /\v(\?<Bar>？)<CR>
 onoremap <silent> <Leader>f? /\v(\?<Bar>？)<CR>
-" NERDTreeFind
-nnoremap <silent> <Leader>ff :NERDTreeFind<CR>
 
 " text objects
 xnoremap <silent> al <Esc>0v$
@@ -268,6 +266,7 @@ omap am <Plug>(textobj-sandwich-literal-query-a)
 " toggles
 nmap <Leader>tm <Plug>ToggleMarkbar
 nnoremap <silent> <Leader>tf :NERDTreeToggle<CR>
+nnoremap <silent> <Leader>tF :NERDTreeFind<CR>
 nnoremap <silent> <Leader>th :set bufhidden! bufhidden?<CR>
 nnoremap <silent> <Leader>tp :call vimrc#toggle_recursive_path()<CR>
 nnoremap <silent> <Leader>tl :ALEToggle<CR>
@@ -296,16 +295,15 @@ nnoremap <silent> <Leader><Leader> :GitFiles<CR>
 nnoremap <silent> <Leader>, :Buffers<CR>
 nnoremap <silent> <Leader>. :Files<CR>
 nnoremap <silent> <Leader>gp :Projects<CR>
-nnoremap <silent> <Leader>gK :Helptags<CR>
 nnoremap <silent> <Leader>g/ :Lines<CR>
-nnoremap <silent> <Leader>g<C-]> :Tags <C-r>=expand("<cword>")<CR><CR>
+nnoremap <silent> <Leader>g] :Tags <C-r>=expand("<cword>")<CR><CR>
+nnoremap <silent> <Leader>o :History<CR>
 nnoremap <silent> <Leader>q: :History:<CR>
 nnoremap <silent> <Leader>q/ :History/<CR>
 nnoremap <silent> <Leader>' :Marks<CR>
 nnoremap <silent> <Leader>/ :BLines<CR>
 nnoremap <silent> <Leader>: :Commands<CR>
-nnoremap <silent> <Leader><C-o> :History<CR>
-nnoremap <silent> <Leader><C-]> :BTags <C-r>=expand("<cword>")<CR><CR>
+nnoremap <silent> <Leader>] :BTags <C-r>=expand("<cword>")<CR><CR>
 
 " easymotion
 nmap <Leader>j <Plug>(easymotion-j)
