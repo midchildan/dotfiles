@@ -287,5 +287,11 @@
         macOS support for the syncthing module was upstreamed to Home Manager.
       '';
     }
+    {
+      time = "2023-11-08T19:00:56+00:00";
+      message = ''
+        A new module is available: 'dotfiles.aquaskk'
+      '';
+    }
   ];
 }

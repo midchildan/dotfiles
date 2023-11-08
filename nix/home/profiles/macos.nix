@@ -76,5 +76,16 @@ in
         "^w" = mkDefault "deleteWordBackward:";
       };
     };
+
+    dotfiles.aquaskk = {
+      enable = mkDefault true;
+      config = {
+        beep_on_registration = mkDefault false;
+        enable_annotation = mkDefault true;
+        enable_dynamic_completion = mkDefault true;
+        enable_extended_completion = mkDefault true;
+        show_input_mode_icon = mkDefault true;
+      };
+    };
   };
 }
