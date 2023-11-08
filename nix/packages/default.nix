@@ -41,4 +41,4 @@ rec {
     inherit (inputs) darwin;
   };
 
-}
+} // pkgs.callPackages ./skk-jisyo.nix { }

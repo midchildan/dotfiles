@@ -4,6 +4,9 @@ let
   cfg = config.dotfiles.aquaskk;
   dictTypes = [ "euc-jp" "online" "skkserv" "kotoeri" "program" "utf-8" ];
 
+  inherit (pkgs.stdenv.hostPlatform) system;
+  myPkgs = dotfiles.packages.${system};
+
   dictionarySet = lib.mapAttrsToList
     (name: config: {
       inherit (config) active location;
@@ -53,8 +56,8 @@ in
 
       default = {
         "SKK-JISYO.L" = {
-          location = "${pkgs.skk-dicts}/share/SKK-JISYO.L";
-          type = "utf-8";
+          location = "${myPkgs.skk-jisyo-l}/share/skk/SKK-JISYO.L";
+          type = "euc-jp";
         };
       };
 
