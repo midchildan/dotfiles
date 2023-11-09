@@ -74,9 +74,8 @@ in
         dictionaries can be seen at <https://skk-dev.github.io/dict/>.
 
         ::: {.warning}
-        Setting this option to a non-empty value will make the dictionary
-        settings immutable. Because of this, you won't be able to add or remove
-        dictionaries from the graphical UI.
+        This option will overwrite any previous configuration you may have set
+        through the AquaSKK's preference dialog.
         :::
 
         ::: {.warning}
@@ -107,6 +106,7 @@ in
     home.file."Library/Application Support/AquaSKK/DictionarySet.plist" =
       lib.mkIf (cfg.dictionaries != { }) {
         text = lib.generators.toPlist { } dictionarySet;
+        force = true;
       };
   };
 }
