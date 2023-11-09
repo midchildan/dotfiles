@@ -4,6 +4,7 @@
   imports = [
     ./profiles
     ./news.nix
+    ./modules/aquaskk.nix
     ./modules/gnupg
     ./modules/emacs.nix
     ./modules/firefox.nix

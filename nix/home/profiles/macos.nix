@@ -1,7 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, dotfiles, ... }:
 
 let
   inherit (lib) mkDefault mkEnableOption mkIf;
+  inherit (pkgs.stdenv.hostPlatform) system;
+  myPkgs = dotfiles.packages.${system};
 in
 {
   options.dotfiles.profiles.macos.enable =
@@ -74,6 +76,35 @@ in
       keybindings = {
         "^u" = mkDefault "deleteToBeginningOfLine:";
         "^w" = mkDefault "deleteWordBackward:";
+      };
+    };
+
+    dotfiles.aquaskk = {
+      enable = mkDefault true;
+      config = {
+        beep_on_registration = mkDefault false;
+        enable_annotation = mkDefault true;
+        enable_dynamic_completion = mkDefault true;
+        enable_extended_completion = mkDefault true;
+        show_input_mode_icon = mkDefault true;
+      };
+      dictionaries = {
+        "SKK-JISYO.propernoun" = {
+          location = "${myPkgs.skk-jisyo-propernoun}/share/skk/SKK-JISYO.propernoun";
+          type = "euc-jp";
+        };
+        "SKK-JISYO.zipcode" = {
+          location = "${myPkgs.skk-jisyo-zipcode}/share/skk/SKK-JISYO.zipcode";
+          type = "euc-jp";
+        };
+        "SKK-JISYO.office.zipcode" = {
+          location = "${myPkgs.skk-jisyo-zipcode}/share/skk/SKK-JISYO.office.zipcode";
+          type = "euc-jp";
+        };
+        "SKK-JISYO.emoji" = {
+          location = "${myPkgs.skk-jisyo-emoji}/share/skk/SKK-JISYO.emoji";
+          type = "utf-8";
+        };
       };
     };
   };

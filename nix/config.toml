@@ -27,7 +27,7 @@ system = "x86_64-linux"
 stateVersion = "23.05"
 
 [os.darwin]
-system = "x86_64-darwin"
+system = "aarch64-darwin"
 
 # NOTE: Make sure to understand what the following does. It's a good idea to
 # override this option this per host.

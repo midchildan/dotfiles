@@ -12,9 +12,8 @@ in
 
     home.packages = with pkgs; [
       fira-code
-      powerline-symbols
       xkcd-font
-      emacs-all-the-icons-fonts
+      (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
     ];
   };
 }

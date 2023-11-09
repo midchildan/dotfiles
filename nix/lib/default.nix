@@ -2,9 +2,9 @@
 
 let
   inherit (inputs) self flake-utils home darwin nixpkgs nixos;
+  inherit (nixpkgs) lib;
   inherit (home.lib) homeManagerConfiguration;
   inherit (darwin.lib) darwinSystem;
-  inherit (nixpkgs.lib) importTOML mkDefault recursiveUpdate;
   inherit (nixos.lib) nixosSystem;
 
   nixpkgsArgs = {
@@ -13,7 +13,7 @@ let
   };
 in
 rec {
-  config = importTOML ../config.toml;
+  config = lib.importTOML ../config.toml;
 
   supportedPlatforms = [
     "aarch64-darwin"
@@ -163,7 +163,7 @@ rec {
   # Sets hardening options for systemd services.
   #
   hardenSystemdService = args:
-    recursiveUpdate args {
+    lib.recursiveUpdate args {
       serviceConfig = {
         # this enables the following options:
         #  - PrivateTmp       = true
@@ -172,22 +172,34 @@ rec {
         #  - RestrictSUIDSGID = true
         #  - ProtectSystem    = strict
         #  - ProtectHome      = read-only
-        DynamicUser = mkDefault true;
+        DynamicUser = lib.mkDefault true;
 
-        PrivateDevices = mkDefault true;
-        PrivateUsers = mkDefault true;
-        ProtectHostname = mkDefault true;
-        ProtectClock = mkDefault true;
-        ProtectProc = mkDefault "invisible";
-        ProtectKernelTunables = mkDefault true;
-        ProtectKernelModules = mkDefault true;
-        ProtectKernelLogs = mkDefault true;
-        ProtectControlGroups = mkDefault true;
-        RestrictNamespaces = mkDefault true;
-        LockPersonality = mkDefault true;
-        MemoryDenyWriteExecute = mkDefault true;
-        RestrictRealtime = mkDefault true;
-        SystemCallFilter = mkDefault [ "@system-service" "~@mount" ];
+        PrivateDevices = lib.mkDefault true;
+        PrivateUsers = lib.mkDefault true;
+        ProtectHostname = lib.mkDefault true;
+        ProtectClock = lib.mkDefault true;
+        ProtectProc = lib.mkDefault "invisible";
+        ProtectKernelTunables = lib.mkDefault true;
+        ProtectKernelModules = lib.mkDefault true;
+        ProtectKernelLogs = lib.mkDefault true;
+        ProtectControlGroups = lib.mkDefault true;
+        RestrictNamespaces = lib.mkDefault true;
+        LockPersonality = lib.mkDefault true;
+        MemoryDenyWriteExecute = lib.mkDefault true;
+        RestrictRealtime = lib.mkDefault true;
+        SystemCallFilter = lib.mkDefault [ "@system-service" "~@mount" ];
       };
     };
+
+  indexOf = target: lib.foldl'
+    (index: el:
+      if index < 0 then
+        if el == target then
+          - index - 1
+        else
+          index - 1
+      else
+        index
+    )
+    (-1);
 }

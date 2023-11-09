@@ -136,7 +136,7 @@
 
 - Create n additional split tmux windows:
 
-`repeat {{n}}; do tmux split-window; tmux select-layout main-horizontal; done`
+`repeat {{n}}; do tmux split-window -dh \; select-layout main-horizontal; done`
 
 - Expand an embedded Ruby template:
 

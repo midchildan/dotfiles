@@ -8,16 +8,16 @@ jobs:
   flake:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v22
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
       - uses: DeterminateSystems/magic-nix-cache-action@v2
       - name: Check flake
         run: nix flake check
   format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v22
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
       - uses: DeterminateSystems/magic-nix-cache-action@v2
       - name: Check format
         run: |
@@ -26,8 +26,8 @@ jobs:
   home-manager:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v22
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
       - uses: DeterminateSystems/magic-nix-cache-action@v2
       - name: Build Home Manager configuration
         run: |
@@ -36,16 +36,16 @@ jobs:
   nixos:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v22
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
       - uses: DeterminateSystems/magic-nix-cache-action@v2
       - name: Build NixOS configuration
         run: nix run '.#os' -- build -L --flake '.#ci' --print-build-logs
-  nix-darwin:
+  nix-darwin-amd64:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: cachix/install-nix-action@v22
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v23
       - uses: DeterminateSystems/magic-nix-cache-action@v2
       - name: Build nix-darwin configuration
-        run: nix run '.#os' -- build -L --flake '.#ci' --print-build-logs
+        run: nix run '.#os' -- build -L --flake '.#ci-amd64' --print-build-logs
