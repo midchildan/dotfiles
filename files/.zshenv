@@ -8,6 +8,9 @@ fi
 if [[ -z "$__DOT_ZPROFILE_DONE" ]]; then
   # Let macOS's path_helper(8) setup the system shell exactly once.
   source /etc/zprofile
+  if [[ -d /opt/homebrew ]]; then
+    path=(/opt/homebrew/{,s}bin "${path[@]}")
+  fi
   export __DOT_ZPROFILE_DONE=1
 fi
 if [[ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" && -f /etc/nix/darwin.sh ]]; then

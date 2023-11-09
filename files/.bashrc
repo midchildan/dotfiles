@@ -16,6 +16,10 @@ if shopt -q login_shell; then
   # nested ones.
   unset __NIX_DARWIN_SET_ENVIRONMENT_DONE
   unset __HM_SESS_VARS_SOURCED
+  if [[ -d /opt/homebrew ]]; then
+    printf -v PATH '%s:' /opt/homebrew/{,s}bin "$PATH"
+    PATH="${PATH%%:}"
+  fi
 fi
 if [[ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" && -f /etc/nix/darwin.sh ]]; then
   source /etc/nix/darwin.sh
