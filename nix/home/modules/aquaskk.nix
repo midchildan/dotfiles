@@ -2,23 +2,26 @@
 
 let
   cfg = config.dotfiles.aquaskk;
+
+  # This has to be in a specific order.
+  # https://github.com/codefirst/aquaskk/blob/0e7a88f/platform/mac/src/server/SKKServer.mm#L56-L63
   dictTypes = [ "euc-jp" "online" "skkserv" "kotoeri" "program" "utf-8" ];
 
-  inherit (pkgs.stdenv.hostPlatform) system;
-  myPkgs = dotfiles.packages.${system};
+  # Creates an entry for DictionarySet.plist from an item in cfg.dictionary.
+  mkDictionary = name: config: {
+    inherit (config) active location;
+    type =
+      let
+        index = dotfiles.lib.indexOf config.type dictTypes;
+        option = "dotfiles.aquaskk.dictionaries.${name}";
+        value = config.type;
+      in
+      if index >= 0 then index
+      else throw "Option '${option}' has unknown value '${value}'.";
+  };
 
-  dictionarySet = lib.mapAttrsToList
-    (name: config: {
-      inherit (config) active location;
-      type =
-        let
-          index = dotfiles.lib.indexOf config.type dictTypes;
-          option = "dotfiles.aquaskk.dictionaries.${name}";
-          value = config.type;
-        in
-        if index >= 0 then index
-        else throw "Option '${option}' has unknown value '${value}'.";
-    })
+  dictionarySet = dotfiles.lib.mapPrioritizedAttrsToList mkDictionary
+    (a: b: a.value.priority > b.value.priority)
     cfg.dictionaries;
 in
 {
@@ -35,7 +38,7 @@ in
     };
 
     dictionaries = lib.mkOption {
-      type = with lib.types; attrsOf (submodule ({ name, ... }: {
+      type = with lib.types; attrsOf (submodule ({ name, config, ... }: {
         options = {
           active = lib.mkOption {
             type = bool;
@@ -45,29 +48,51 @@ in
           location = lib.mkOption {
             type = str;
             default = name;
-            description = "Location of the dictionary \"${name}\".";
+            description = ''
+              Location of the dictionary "${name}". This option will emptied if
+              {option}`type` is set to `program`.
+            '';
           };
           type = lib.mkOption {
             type = enum dictTypes;
             description = "Type of the dictionary \"${name}\".";
           };
+          priority = lib.mkOption {
+            type = ints.between 0 99;
+            default = 50;
+            description = ''
+              Priority of the dicionary "${name}". Conversion candidates will
+              be sorted according to this value. Candidates from dictionaries
+              with higher priority will come first.
+            '';
+          };
+        };
+
+        config = lib.mkIf (config.type == "program") {
+          location = "";
         };
       }));
 
-      default = {
-        "SKK-JISYO.L" = {
-          location = "${myPkgs.skk-jisyo-l}/share/skk/SKK-JISYO.L";
-          type = "euc-jp";
-        };
-      };
+      default = { };
 
-      example = {
-        "~/.skk-jisyo".type = "euc-jp";
-        "SKK-JISYO.L".type = "online";
-      };
+      example = lib.literalExpression ''
+        {
+          "~/.skk-jisyo" = {
+            type = "euc-jp";
+            priority = 70;
+          };
+          "SKK-JISYO.L" = {
+            type = "euc-jp";
+            location = "''${pkgs.skk-dicts}/share/SKK-JISYO.L";
+          };
+          program.type = "program";
+        }
+      '';
 
       description = ''
-        Dictionaries to use for SKK conversion.
+        Dictionaries to use for SKK conversion. Upstream documentation about
+        this option can be found in Japanese at
+        <https://aquaskk.osdn.jp/dictionary_settings.html>.
 
         Dictionaries of type `online` will be fetched from
         {option}`dotfiles.aquaskk.config.openlab_host`. The list of available
