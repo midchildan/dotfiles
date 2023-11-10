@@ -3,6 +3,11 @@
 let
   cfg = config.dotfiles.aquaskk;
 
+  inherit (lib) hm;
+  inherit (pkgs.stdenv.hostPlatform) system;
+
+  myPkgs = dotfiles.packages.${system};
+
   # This has to be in a specific order.
   # https://github.com/codefirst/aquaskk/blob/0e7a88f/platform/mac/src/server/SKKServer.mm#L56-L63
   dictTypes = [ "euc-jp" "online" "skkserv" "kotoeri" "program" "utf-8" ];
@@ -133,5 +138,10 @@ in
         text = lib.generators.toPlist { } dictionarySet;
         force = true;
       };
+
+    home.activation.reloadAquaSKK = hm.dag.entryAfter [ "setDarwinDefaults" ] ''
+      $VERBOSE_ECHO "Reloading AquaSKK configuration"
+      ${myPkgs.aquaskk-reload-config}/bin/aquaskk-reload-config
+    '';
   };
 }
