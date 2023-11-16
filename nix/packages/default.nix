@@ -36,6 +36,10 @@ rec {
 
 } // optionalAttrs isDarwin {
 
+  aquaskk-reload-config = pkgs.callPackage ./aquaskk-reload-config {
+    inherit (pkgs.darwin.apple_sdk.frameworks) Foundation;
+  };
+
   nix-darwin = pkgs.callPackage ./nix-darwin.nix {
     inherit nix;
     inherit (inputs) darwin;

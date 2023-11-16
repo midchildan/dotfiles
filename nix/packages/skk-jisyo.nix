@@ -1,7 +1,6 @@
 { lib
 , stdenvNoCC
 , fetchFromGitHub
-, nix-update-script
 , nkf
 , useUtf8 ? false
 }:
@@ -55,10 +54,6 @@ let
           (map (file: file + suffix) files) + ''
           runHook postInstall
         '';
-
-        passthru.updateScript = nix-update-script {
-          extraArgs = [ "--version" "branch" ];
-        };
 
         meta = with lib; {
           inherit description license;

@@ -202,4 +202,13 @@ rec {
         index
     )
     (-1);
+
+  mapPrioritizedAttrsToList = mapFn: compareFn: attrs:
+    let
+      nameValueFor = name: lib.nameValuePair name attrs.${name};
+      compareNames = name1: name2:
+        compareFn (nameValueFor name1) (nameValueFor name2);
+      names = lib.sort compareNames (lib.attrNames attrs);
+    in
+    map (name: mapFn name attrs.${name}) names;
 }

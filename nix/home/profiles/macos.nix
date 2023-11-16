@@ -89,22 +89,29 @@ in
         show_input_mode_icon = mkDefault true;
       };
       dictionaries = {
-        "SKK-JISYO.propernoun" = {
-          location = "${myPkgs.skk-jisyo-propernoun}/share/skk/SKK-JISYO.propernoun";
+        "SKK-JISYO.L" = {
           type = "euc-jp";
+          priority = 70;
+          location = "${myPkgs.skk-jisyo-l}/share/skk/SKK-JISYO.L";
+        };
+        "SKK-JISYO.propernoun" = {
+          type = "euc-jp";
+          location = "${myPkgs.skk-jisyo-propernoun}/share/skk/SKK-JISYO.propernoun";
         };
         "SKK-JISYO.zipcode" = {
-          location = "${myPkgs.skk-jisyo-zipcode}/share/skk/SKK-JISYO.zipcode";
           type = "euc-jp";
+          location = "${myPkgs.skk-jisyo-zipcode}/share/skk/SKK-JISYO.zipcode";
         };
         "SKK-JISYO.office.zipcode" = {
-          location = "${myPkgs.skk-jisyo-zipcode}/share/skk/SKK-JISYO.office.zipcode";
           type = "euc-jp";
+          location = "${myPkgs.skk-jisyo-zipcode}/share/skk/SKK-JISYO.office.zipcode";
         };
         "SKK-JISYO.emoji" = {
-          location = "${myPkgs.skk-jisyo-emoji}/share/skk/SKK-JISYO.emoji";
           type = "utf-8";
+          priority = 30;
+          location = "${myPkgs.skk-jisyo-emoji}/share/skk/SKK-JISYO.emoji";
         };
+        program.type = "program";
       };
     };
   };
