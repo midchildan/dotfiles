@@ -16,7 +16,7 @@ in
     package = lib.mkOption {
       type = with lib.types; nullOr package;
       default = defaultPackage;
-      description = lib.mdDoc ''
+      description = ''
         The Firefox package to use. If `null`, it is assumed that Firefox is
         installed outside of Nix.
       '';
@@ -24,7 +24,7 @@ in
     preferences = lib.mkOption {
       type = with lib.types; attrsOf (oneOf [ str int float bool ]);
       default = { };
-      description = lib.mdDoc ''
+      description = ''
         Set default preferences for Firefox.
 
         The list of available options can be viewed by navigating to
@@ -34,7 +34,7 @@ in
     policies = lib.mkOption {
       type = with lib.types; attrsOf anything;
       default = { };
-      description = lib.mdDoc ''
+      description = ''
         Configure firefox enterprise policies. On platforms other than macOS,
         this option requires the {option}`package` option to be a non `null`
         value in order for it to work.

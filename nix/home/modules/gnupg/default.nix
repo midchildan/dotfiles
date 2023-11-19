@@ -11,14 +11,14 @@ in
     enablePackage = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = lib.mdDoc "Whether to install the GnuPG package.";
+      description = "Whether to install the GnuPG package.";
     };
 
     package = lib.mkOption {
       type = lib.types.package;
       default = pkgs.gnupg;
       defaultText = lib.literalExpression "pkgs.gnupg";
-      description = lib.mdDoc "The GnuPG package to use.";
+      description = "The GnuPG package to use.";
     };
   };
 

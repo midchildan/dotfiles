@@ -17,7 +17,7 @@ in
           type = with types; listOf package;
           default = [ ];
           example = literalExpression "with pkgs.vimPlugins; [ coc-nvim ]";
-          description = lib.mdDoc ''
+          description = ''
             Installs plugins to be loaded manually with `:packadd`.
           '';
         };
@@ -25,13 +25,13 @@ in
           type = with types; listOf package;
           default = [ ];
           example = literalExpression "with pkgs.vimPlugins; [ coc-nvim ]";
-          description = lib.mdDoc ''
+          description = ''
             Installs plugins to be loaded automatically at startup.
           '';
         };
       };
     };
-    description = lib.mdDoc "Install the specified vim plugins.";
+    description = "Install the specified vim plugins.";
   };
 
   config = lib.mkIf (cfg.plugins.opt != [ ] || cfg.plugins.start != [ ]) {

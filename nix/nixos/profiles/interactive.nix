@@ -10,7 +10,7 @@ in
     username = lib.mkOption {
       type = lib.types.str;
       default = dotfiles.lib.config.user.name;
-      description = lib.mdDoc "Username for interactive logins.";
+      description = "Username for interactive logins.";
     };
   };
 

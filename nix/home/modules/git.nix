@@ -12,7 +12,7 @@ in
       example = {
         rebase.autosquash = true;
       };
-      description = lib.mdDoc ''
+      description = ''
         Configuration for git. This option is meant to be used in conjunction
         with existing non-Home Manager configuration, so it's not written out
         directly to the global gitconfig. Instead, it's written to
