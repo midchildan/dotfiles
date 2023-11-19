@@ -28,7 +28,7 @@ in
         "/nix/var/nix/profiles/per-user/root/channels"
         "nixpkgs=https://nixos.org/channels/nixpkgs-unstable"
       ];
-      description = lib.mdDoc ''
+      description = ''
         Additional directories to prepend to the Nix expression search path.
 
         It is used by the Nix evaluator to look up paths enclosed in angle
@@ -40,7 +40,7 @@ in
       type = with lib.types; attrsOf package;
       default = { };
       example = lib.literalExpression "{ inherit nixpkgs; }";
-      description = lib.mdDoc ''
+      description = ''
         A declarative alternative to Nix channels. Whereas with stock channels,
         you would register URLs and fetch them into the Nix store with
         {manpage}`nix-channel(1)`, this option allows you to register the store

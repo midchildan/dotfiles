@@ -13,7 +13,7 @@ in
     desktop = mkOption {
       type = types.enum [ "gnome" "kde" ];
       default = "gnome";
-      description = lib.mdDoc "Which DM to use.";
+      description = "Which DM to use.";
     };
   };
 

@@ -20,7 +20,7 @@ rec {
   };
 
   coc-ansible = pkgs.callPackage ./coc-ansible.nix {
-    inherit (pkgs.vimUtils) buildVimPluginFrom2Nix;
+    inherit (pkgs.vimUtils) buildVimPlugin;
   };
 
 } // optionalAttrs isLinux {
