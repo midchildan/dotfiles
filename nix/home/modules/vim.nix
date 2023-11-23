@@ -2,6 +2,7 @@
 
 let
   cfg = config.dotfiles.vim;
+  inherit (config.dotfiles) flakeOptions;
 
   vimPackDrv = pkgs.vimUtils.packDir {
     home-manager = cfg.plugins;
@@ -32,9 +33,18 @@ in
     description = "Install the specified vim plugins.";
   };
 
-  config = lib.mkIf (cfg.plugins.opt != [ ] || cfg.plugins.start != [ ]) {
-    home.file = {
-      ".vim/pack/home-manager".source = "${vimPackDrv}/pack/home-manager";
-    };
-  };
+  config = lib.mkMerge [
+    {
+      home.file.".vim/plugin/hmvars.vim".text = ''
+        let g:snips_author = '${flakeOptions.user.name}'
+        let g:snips_email = '${flakeOptions.user.email}'
+        let g:snips_github = 'https://github.com/${flakeOptions.user.name}'
+      '';
+    }
+    (lib.mkIf (cfg.plugins.opt != [ ] || cfg.plugins.start != [ ]) {
+      home.file = {
+        ".vim/pack/home-manager".source = "${vimPackDrv}/pack/home-manager";
+      };
+    })
+  ];
 }

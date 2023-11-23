@@ -1,98 +1,36 @@
-{ inputs }:
+{ inputs }@local:
+{ lib, config, getSystem, ... }@flake:
 
 let
-  inherit (inputs) self flake-utils home darwin nixpkgs nixos;
-  inherit (nixpkgs) lib;
+  inherit (local.inputs) home;
   inherit (home.lib) homeManagerConfiguration;
-  inherit (darwin.lib) darwinSystem;
-  inherit (nixos.lib) nixosSystem;
+  inherit (local.inputs.darwin.lib) darwinSystem;
+  inherit (local.inputs.nixos.lib) nixosSystem;
 
-  nixpkgsArgs = {
-    config = import ../../files/.config/nixpkgs/config.nix;
-    overlays = [ self.overlays.default ];
-  };
-in
-rec {
-  config = lib.importTOML ../config.toml;
-
-  supportedPlatforms = [
-    "aarch64-darwin"
-    "x86_64-darwin"
-    "aarch64-linux"
-    "x86_64-linux"
-  ];
-
-  # Wrapper function for creating a Nixpkgs package set that includes the
-  # dotfiles overlays and unfree packages.
-  #
-  # Example:
-  #   mkPkgs nixpkgs { }
-  #   mkPkgs { system = "x86_64-linux"; }
-  #
-  mkPkgs = pkgs:
-    { system ? config.os.system
-    , config ? { }
-    , overlays ? [ ]
-    , ...
-    } @ args:
-    import pkgs (args // {
-      inherit system;
-      config = nixpkgsArgs.config // config;
-      overlays = nixpkgsArgs.overlays ++ overlays;
-    });
-
-  # Builds a map from attr=value to attr.system=value for each system. Based
-  # upon eachSystem in flake-utils, this also provides the Nixpkgs and NixOS
-  # package sets each system when iterating through it.
-  #
-  # Type: eachSystemPkgs :: [ System ] -> ({ system, pkgs, nixos } -> Attrs) -> Attrs
-  #
-  # Example:
-  #   eachSystemPkgs [ "aarch64-linux" "x86_64-linux" ] ({ ... }:
-  #     { white-album = 2; }
-  #   )
-  #   => {
-  #        white-album = {
-  #          aarch64-linux = 2;
-  #          x86_64-linux = 2;
-  #        };
-  #      }
-  #
-  eachSystemPkgs = systems: f: flake-utils.lib.eachSystem systems (
-    system:
-    let
-      pkgs = mkPkgs inputs.nixpkgs { inherit system; };
-      nixos = mkPkgs inputs.nixos { inherit system; };
-    in
-    f { inherit system pkgs nixos; }
-  );
-
-  # eachSystem pre-populated with all Unix systems supported by Nixpkgs.
-  #
-  # Type: eachSupportedSystemPkgs :: (System -> Pkgs -> Attrs) -> Attrs
-  #
-  eachSupportedSystemPkgs = eachSystemPkgs supportedPlatforms;
+  cfg = config.dotfiles;
 
   # Creates a Home Manager configuration with addtional modules. The interface
   # is identical to homeManagerConfiguration from Home Manager.
   #
   mkHome =
-    { system ? config.os.system
-    , pkgs ? mkPkgs nixpkgs { inherit system; }
+    { system
+    , pkgs ? (getSystem system).allModuleArgs.pkgs
     , modules ? [ ]
     , ...
     } @ args:
-    let hmArgs = builtins.removeAttrs args [ "system" ];
+    let
+      hmArgs = builtins.removeAttrs args [ "system" ];
+      userDir = if pkgs.stdenv.isDarwin then "/Users" else "/home";
     in
     homeManagerConfiguration (hmArgs // {
       inherit pkgs;
-      modules = modules ++ [
-        self.homeModules.default
-        ({ lib, ... }: {
+      modules = modules ++ cfg.home.modules ++ [
+        local.inputs.self.homeModules.default
+        ({ lib, config, ... }: {
+          dotfiles._flakeOptions = flake.config.dotfiles;
           home = {
-            username = lib.mkDefault config.user.name;
-            homeDirectory = lib.mkDefault config.user.homeDirectory;
-            stateVersion = lib.mkDefault config.user.stateVersion;
+            username = lib.mkDefault config.dotfiles._flakeOptions.user.name;
+            homeDirectory = lib.mkDefault "${userDir}/${config.home.username}";
           };
         })
       ];
@@ -107,24 +45,22 @@ rec {
   # Creates a nix-darwin configuration with addtional modules. The interface
   # is identical to darwinSystem from nix-darwin.
   #
-  mkDarwin = { modules ? [ ], system ? config.os.darwin.system, ... } @ args:
+  mkDarwin = { modules ? [ ], system, ... } @ args:
     darwinSystem (args // {
       inherit system;
-      modules = modules ++ [
-        self.darwinModules.default
+      modules = modules ++ cfg.darwin.modules ++ [
+        local.inputs.self.darwinModules.default
         home.darwinModules.default
-        ({ lib, ... }:
-          {
-            system.stateVersion = lib.mkDefault config.os.darwin.stateVersion;
-            nixpkgs = nixpkgsArgs;
-            home-manager = {
-              useGlobalPkgs = true;
-              sharedModules = [
-                self.homeModules.default
-                { home.stateVersion = lib.mkDefault config.user.stateVersion; }
-              ];
-            };
-          })
+        {
+          dotfiles._flakeOptions = config.dotfiles;
+          home-manager = {
+            useGlobalPkgs = true;
+            sharedModules = cfg.home.modules ++ [
+              local.inputs.self.homeModules.default
+              { dotfiles._flakeOptions = config.dotfiles; }
+            ];
+          };
+        }
       ];
     });
 
@@ -139,18 +75,14 @@ rec {
   #
   mkNixOS =
     { modules ? [ ]
-    , system ? config.os.system
+    , system
     , ...
     } @ args:
     nixosSystem (args // {
       inherit system;
-      modules = modules ++ [
-        self.nixosModules.default
-        ({ lib, ... }:
-          {
-            system.stateVersion = lib.mkDefault config.os.stateVersion;
-            nixpkgs = nixpkgsArgs;
-          })
+      modules = modules ++ cfg.nixos.modules ++ [
+        local.inputs.self.nixosModules.default
+        { dotfiles._flakeOptions = config.dotfiles; }
       ];
     });
 
@@ -211,4 +143,10 @@ rec {
       names = lib.sort compareNames (lib.attrNames attrs);
     in
     map (name: mapFn name attrs.${name}) names;
+in
+{
+  flake.lib = {
+    inherit mkHome importHome mkDarwin importDarwin mkNixOS importNixOS
+      hardenSystemdService indexOf mapPrioritizedAttrsToList;
+  };
 }

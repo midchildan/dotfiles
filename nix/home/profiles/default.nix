@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./common.nix
     ./minimal.nix
     ./essential.nix
     ./extras.nix

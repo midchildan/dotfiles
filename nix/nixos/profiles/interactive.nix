@@ -1,4 +1,4 @@
-{ config, lib, pkgs, dotfiles, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.dotfiles.profiles.interactive;
@@ -9,7 +9,7 @@ in
     enable = lib.mkEnableOption "configuration for interactive logins";
     username = lib.mkOption {
       type = lib.types.str;
-      default = dotfiles.lib.config.user.name;
+      default = config.dotfiles.flakeOptions.user.name;
       description = "Username for interactive logins.";
     };
   };

@@ -1,11 +1,10 @@
-{ dotfiles, ... }:
+{ config, ... }:
 
 let
-  username = dotfiles.lib.config.user.name;
-  homeDirectory = dotfiles.lib.config.user.darwin.homeDirectory;
+  username = config.dotfiles.flakeOptions.user.name;
 in
 {
-  users.users.${username}.home = homeDirectory;
+  users.users.${username}.home = "/Users/${username}";
 
   dotfiles.profiles.apps.enable = true;
 
