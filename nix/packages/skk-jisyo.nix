@@ -16,7 +16,7 @@ let
     , files ? [ "SKK-JISYO.${name}" ]
     }: {
       name =
-        pkgPrefix + lib.toLower (builtins.replaceStrings [ "." ] [ "_" ] name);
+        pkgPrefix + lib.toLower (lib.replaceStrings [ "." ] [ "_" ] name);
 
       value = stdenvNoCC.mkDerivation {
         pname = pkgPrefix + lib.toLower name;
