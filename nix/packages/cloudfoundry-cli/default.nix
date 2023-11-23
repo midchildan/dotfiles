@@ -73,7 +73,7 @@ buildGoModule rec {
     installShellCompletion --bash $bashCompletionScript
   '';
 
-  meta = with lib; {
+  meta = {
     description = "The official command line client for Cloud Foundry";
     longDescription = ''
       Version 6 of the Cloud Foundry CLI that supports CAPI v2. For differences
@@ -82,6 +82,6 @@ buildGoModule rec {
       https://docs.cloudfoundry.org/cf-cli/v7.html
     '';
     homepage = "https://github.com/cloudfoundry/cli";
-    license = licenses.asl20;
+    license = lib.licenses.asl20;
   };
 }

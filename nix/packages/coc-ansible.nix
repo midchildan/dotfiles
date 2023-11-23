@@ -59,10 +59,10 @@ buildVimPlugin rec {
 
   src = yarnPackage;
 
-  meta = with lib; {
+  meta = {
     description = "An ansible-language-server extension for coc.nvim";
     homepage = "https://github.com/yaegassy/coc-ansible";
-    license = licenses.mit;
-    maintainers = with maintainers; [ midchildan ];
+    license = lib.licenses.mit;
+    maintainers = with lib.maintainers; [ midchildan ];
   };
 }

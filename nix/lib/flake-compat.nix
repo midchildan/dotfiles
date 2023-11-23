@@ -1,7 +1,7 @@
 { src ? ./../.., ... } @ args:
 
 let
-  lock = with builtins; fromJSON (readFile ../../flake.lock);
+  lock = builtins.fromJSON (builtins.readFile ../../flake.lock);
   flake-compat = rec {
     inherit (lock.nodes.flake-compat.locked) owner repo rev;
     src = fetchTarball {

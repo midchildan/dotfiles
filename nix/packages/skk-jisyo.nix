@@ -55,10 +55,10 @@ let
           runHook postInstall
         '';
 
-        meta = with lib; {
+        meta = {
           inherit description license;
           homepage = "https://github.com/skk-dev/dict";
-          platforms = platforms.all;
+          platforms = lib.platforms.all;
         };
       };
     };

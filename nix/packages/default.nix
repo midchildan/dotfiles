@@ -4,7 +4,7 @@
 }:
 
 let
-  inherit (pkgs.lib) optionalAttrs;
+  inherit (pkgs) lib;
   inherit (pkgs.stdenv) isDarwin isLinux;
   nix = pkgs.nixVersions.${inputs.self.lib.config.nix.package};
   sources = pkgs.callPackage ./_sources/generated.nix { };
@@ -23,7 +23,7 @@ rec {
     inherit (pkgs.vimUtils) buildVimPlugin;
   };
 
-} // optionalAttrs isLinux {
+} // lib.optionalAttrs isLinux {
 
   bpftrace = nixos.callPackage ./bpftrace.nix { };
   nixos-rebuild = nixos.callPackage ./nixos-rebuild.nix { inherit nix; };
@@ -34,7 +34,7 @@ rec {
     modules = [ ];
   };
 
-} // optionalAttrs isDarwin {
+} // lib.optionalAttrs isDarwin {
 
   aquaskk-reload-config = pkgs.callPackage ./aquaskk-reload-config {
     inherit (pkgs.darwin.apple_sdk.frameworks) Foundation;

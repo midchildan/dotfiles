@@ -1,21 +1,19 @@
 { config, lib, pkgs, ... }:
 
-with lib;
-
 let
   cfg = config.dotfiles.manpages;
 
-  pager = with pkgs; writeScript "batman" ''
-    #!${runtimeShell}
-    col -bx | ${bat}/bin/bat -l man -p "$@"
+  pager = pkgs.writeScript "batman" ''
+    #!${pkgs.runtimeShell}
+    col -bx | ${pkgs.bat}/bin/bat -l man -p "$@"
   '';
 in
 {
   options.dotfiles.manpages = {
-    enable = mkEnableOption "manpages";
+    enable = lib.mkEnableOption "manpages";
 
-    useSystemMan = mkOption {
-      type = types.bool;
+    useSystemMan = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         Install man pages, but don't install the man command. This helps ensure
@@ -27,14 +25,14 @@ in
       '';
     };
 
-    colorize = mkEnableOption "colorized man pages";
+    colorize = lib.mkEnableOption "colorized man pages";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.man.enable = !cfg.useSystemMan;
     home.extraOutputsToInstall = [ "man" ];
 
-    home.sessionVariables = mkIf cfg.colorize {
+    home.sessionVariables = lib.mkIf cfg.colorize {
       MANPAGER = pager;
       MANROFFOPT = "-c";
     };
