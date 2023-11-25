@@ -28,7 +28,6 @@ in
       };
     })
     (lib.mkIf (cfg.enable && cfg.hidpi.enable) {
-      services.xserver.upscaleDefaultCursor = lib.mkDefault true;
       environment.variables.QT_AUTO_SCREEN_SCALE_FACTOR = lib.mkDefault "1";
     })
   ];
