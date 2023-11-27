@@ -1,9 +1,9 @@
-{ inputs }@local:
-{ lib, config, ... }:
+{ inputs }@localFlake:
+{ lib, config, ... }@flake:
 
 let
-  cfg = config.dotfiles;
-  nixosRelease = inputs.nixos.lib.trivial.release;
+  cfg = flake.config.dotfiles;
+  nixosRelease = localFlake.inputs.nixos.lib.trivial.release;
 in
 {
   options.dotfiles = {

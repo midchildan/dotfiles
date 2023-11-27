@@ -1,5 +1,5 @@
-{ inputs, ... }@local:
-{ lib, config, ... }:
+{ inputs, ... }@localFlake:
+{ lib, config, ... }@flake:
 
 let
   inherit (lib.types)
@@ -10,7 +10,7 @@ let
     description = "nixpkgs overlay";
   };
 
-  cfg = config.dotfiles.nixpkgs;
+  cfg = flake.config.dotfiles.nixpkgs;
 in
 {
   options.dotfiles.nixpkgs.args = lib.mkOption {

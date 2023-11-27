@@ -1,11 +1,10 @@
-{ inputs }@local:
+{ inputs }@localFlake:
 { lib, config, getSystem, ... }@flake:
 
 let
-  inherit (local.inputs) home;
-  inherit (home.lib) homeManagerConfiguration;
-  inherit (local.inputs.darwin.lib) darwinSystem;
-  inherit (local.inputs.nixos.lib) nixosSystem;
+  inherit (localFlake.inputs.home.lib) homeManagerConfiguration;
+  inherit (localFlake.inputs.darwin.lib) darwinSystem;
+  inherit (localFlake.inputs.nixos.lib) nixosSystem;
 
   cfg = config.dotfiles;
 
@@ -25,7 +24,7 @@ let
     homeManagerConfiguration (hmArgs // {
       inherit pkgs;
       modules = modules ++ cfg.home.modules ++ [
-        local.inputs.self.homeModules.default
+        localFlake.inputs.self.homeModules.default
         ({ lib, config, ... }: {
           dotfiles._flakeOptions = flake.config.dotfiles;
           home = {
@@ -49,14 +48,14 @@ let
     darwinSystem (args // {
       inherit system;
       modules = modules ++ cfg.darwin.modules ++ [
-        local.inputs.self.darwinModules.default
-        home.darwinModules.default
+        localFlake.inputs.self.darwinModules.default
+        localFlake.inputs.home.darwinModules.default
         {
           dotfiles._flakeOptions = config.dotfiles;
           home-manager = {
             useGlobalPkgs = true;
             sharedModules = cfg.home.modules ++ [
-              local.inputs.self.homeModules.default
+              localFlake.inputs.self.homeModules.default
               { dotfiles._flakeOptions = config.dotfiles; }
             ];
           };
@@ -81,7 +80,7 @@ let
     nixosSystem (args // {
       inherit system;
       modules = modules ++ cfg.nixos.modules ++ [
-        local.inputs.self.nixosModules.default
+        localFlake.inputs.self.nixosModules.default
         { dotfiles._flakeOptions = config.dotfiles; }
       ];
     });
