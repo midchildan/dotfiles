@@ -1,7 +1,7 @@
 { lib, flakeOptions, ... }:
 
 let
-  hasSigningKey = lib.hasAttr "pgpKey" flakeOptions.user;
+  hasSigningKey = flakeOptions.user.pgpKey != "";
 in
 {
   freeformType = with lib.types; attrsOf (attrsOf anything);
