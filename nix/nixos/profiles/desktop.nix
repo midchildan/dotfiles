@@ -1,6 +1,4 @@
-{ config, lib, pkgs, pkgsUnstable, ... }:
-
-with lib;
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.dotfiles.profiles.desktop;
@@ -9,24 +7,24 @@ let
 in
 {
   options.dotfiles.profiles.desktop = {
-    enable = mkEnableOption "configuration for desktop environments";
-    desktop = mkOption {
-      type = types.enum [ "gnome" "kde" ];
+    enable = lib.mkEnableOption "configuration for desktop environments";
+    desktop = lib.mkOption {
+      type = lib.types.enum [ "gnome" "kde" ];
       default = "gnome";
       description = "Which DM to use.";
     };
   };
 
-  config = mkIf cfg.enable (mkMerge [
+  config = lib.mkIf cfg.enable (lib.mkMerge [
     {
       dotfiles.profiles.interactive.enable = true;
 
-      console.useXkbConfig = mkDefault true;
-      hardware.pulseaudio.enable = mkDefault true;
+      console.useXkbConfig = lib.mkDefault true;
+      hardware.pulseaudio.enable = lib.mkDefault true;
 
       i18n = {
         inputMethod = {
-          enabled = mkDefault "ibus";
+          enabled = lib.mkDefault "ibus";
           ibus.engines = with pkgs.ibus-engines; [ mozc ];
         };
       };
@@ -50,8 +48,8 @@ in
       };
 
       services = {
-        flatpak.enable = mkDefault true;
-        pcscd.enable = mkDefault true;
+        flatpak.enable = lib.mkDefault true;
+        pcscd.enable = lib.mkDefault true;
       };
 
       # Printers https://nixos.wiki/wiki/Printing
@@ -62,25 +60,25 @@ in
 
       # Scanners https://nixos.wiki/wiki/Scanners
       hardware.sane = {
-        enable = mkDefault true;
+        enable = lib.mkDefault true;
         extraBackends = with pkgs; [ sane-airscan ];
       };
 
       services.xserver = {
         enable = true;
-        layout = mkDefault "us";
+        layout = lib.mkDefault "us";
         excludePackages = [ pkgs.xterm ];
       };
 
       programs.gnupg.agent = {
-        enable = mkDefault true;
-        enableSSHSupport = mkDefault true;
+        enable = lib.mkDefault true;
+        enableSSHSupport = lib.mkDefault true;
       };
 
       users.users.${username}.extraGroups = [ "networkmanager" ];
     }
 
-    (mkIf (cfg.desktop == "gnome") {
+    (lib.mkIf (cfg.desktop == "gnome") {
       environment.systemPackages = with pkgs.gnome; [ gnome-session ];
       environment.gnome.excludePackages = with pkgs.gnome; [ gnome-music ];
 
@@ -91,17 +89,17 @@ in
       };
 
       services.xserver = {
-        displayManager.gdm.enable = mkDefault true;
-        desktopManager.gnome.enable = mkDefault true;
+        displayManager.gdm.enable = lib.mkDefault true;
+        desktopManager.gnome.enable = lib.mkDefault true;
       };
 
       services.tlp.enable = false;
     })
 
-    (mkIf (cfg.desktop == "kde") {
+    (lib.mkIf (cfg.desktop == "kde") {
       services.xserver = {
-        displayManager.sddm.enable = mkDefault true;
-        desktopManager.plasma5.enable = mkDefault true;
+        displayManager.sddm.enable = lib.mkDefault true;
+        desktopManager.plasma5.enable = lib.mkDefault true;
       };
     })
   ]);

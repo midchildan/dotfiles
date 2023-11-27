@@ -7,9 +7,9 @@
 runCommand zsh.name
 {
   nativeBuildInputs = [ makeWrapper ];
-  meta = with lib; {
+  meta = {
     inherit (zsh.meta) homepage license;
-    platforms = platforms.linux;
+    platforms = lib.platforms.linux;
     description = ''
       The Z shell. This package is intended for use on stable Linux
       distributions shipping an outdated version of zsh.

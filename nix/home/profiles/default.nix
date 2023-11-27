@@ -1,9 +1,8 @@
 { config, lib, ... }:
 
-with lib;
-
 {
   imports = [
+    ./common.nix
     ./minimal.nix
     ./essential.nix
     ./extras.nix
@@ -16,15 +15,15 @@ with lib;
   ];
 
   options.dotfiles.profiles.enableAll =
-    mkEnableOption "all profiles provided by the dotfiles";
+    lib.mkEnableOption "all profiles provided by the dotfiles";
 
-  config = mkIf config.dotfiles.profiles.enableAll {
+  config = lib.mkIf config.dotfiles.profiles.enableAll {
     dotfiles.profiles = {
-      essential.enable = mkDefault true;
-      extras.enable = mkDefault true;
-      debugTools.enable = mkDefault true;
-      desktop.enable = mkDefault true;
-      development.enable = mkDefault true;
+      essential.enable = lib.mkDefault true;
+      extras.enable = lib.mkDefault true;
+      debugTools.enable = lib.mkDefault true;
+      desktop.enable = lib.mkDefault true;
+      development.enable = lib.mkDefault true;
     };
   };
 }

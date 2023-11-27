@@ -1,15 +1,14 @@
 { config, lib, pkgs, dotfiles, ... }:
 
 let
-  inherit (lib) mkDefault mkEnableOption mkIf optionals;
   inherit (pkgs.stdenv.hostPlatform) isDarwin system;
   myPkgs = dotfiles.packages.${system};
 in
 {
   options.dotfiles.profiles.essential.enable =
-    mkEnableOption "essential packages for servers and desktops alike";
+    lib.mkEnableOption "essential packages for servers and desktops alike";
 
-  config = mkIf config.dotfiles.profiles.essential.enable {
+  config = lib.mkIf config.dotfiles.profiles.essential.enable {
     home.packages = with pkgs;
       [
         bat
@@ -33,7 +32,7 @@ in
         zsh-completions
         gitAndTools.git-absorb
         nodePackages.prettier
-      ] ++ optionals (!isDarwin) [
+      ] ++ lib.optionals (!isDarwin) [
         dnsutils
         file
         libarchive
@@ -41,14 +40,14 @@ in
         netcat
         whois
         myPkgs.terminfo-collection
-      ] ++ optionals isDarwin [
+      ] ++ lib.optionals isDarwin [
         ssh-copy-id
         watch
       ];
 
     dotfiles = {
-      git.enableDelta = mkDefault true;
-      manpages.colorize = mkDefault true;
+      git.enableDelta = lib.mkDefault true;
+      manpages.colorize = lib.mkDefault true;
     };
   };
 }

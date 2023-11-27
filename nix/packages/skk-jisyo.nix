@@ -16,7 +16,7 @@ let
     , files ? [ "SKK-JISYO.${name}" ]
     }: {
       name =
-        pkgPrefix + lib.toLower (builtins.replaceStrings [ "." ] [ "_" ] name);
+        pkgPrefix + lib.toLower (lib.replaceStrings [ "." ] [ "_" ] name);
 
       value = stdenvNoCC.mkDerivation {
         pname = pkgPrefix + lib.toLower name;
@@ -55,10 +55,10 @@ let
           runHook postInstall
         '';
 
-        meta = with lib; {
+        meta = {
           inherit description license;
           homepage = "https://github.com/skk-dev/dict";
-          platforms = platforms.all;
+          platforms = lib.platforms.all;
         };
       };
     };

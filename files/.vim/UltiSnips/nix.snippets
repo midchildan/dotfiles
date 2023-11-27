@@ -5,10 +5,11 @@ endglobal
 snippet nixshell "A nix-shell environment template" b
 { pkgs ? import <nixpkgs> {} }:
 
-with pkgs;
+inherit (pkgs) stdenv builEnv runtimeShell writeScript;
 
 stdenv.mkDerivation rec {
 	name = "${1:name}";
+
 	buildInputs = [
 		$2
 	];
@@ -18,7 +19,8 @@ stdenv.mkDerivation rec {
 		inherit name;
 	};
 
-	builder = builtins.toFile "builder.sh" ''
+	builder = writeScript "builder" ''
+		#!\${runtimeShell}
 		source \$stdenv/setup
 		ln -s \$env $out
 	'';

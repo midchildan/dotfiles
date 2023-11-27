@@ -1,4 +1,4 @@
-{ lib, config, pkgs, dotfiles, ... }:
+{ lib, config, pkgs, ... }:
 
 let
   cfg = config.dotfiles.gnupg;
@@ -28,7 +28,7 @@ in
 
       home.file.".gnupg/gpg.conf".source = pkgs.substituteAll {
         src = ./gpg.conf;
-        gpgKey = dotfiles.lib.config.user.gpgKey or "@removeMe@";
+        pgpKey = config.dotfiles.flakeOptions.user.pgpKey or "@removeMe@";
         postInstall = ''
           sed -i '/@removeMe@/d' "$target"
         '';

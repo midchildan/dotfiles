@@ -1,7 +1,5 @@
 { config, lib, pkgs, ... }:
 
-with lib;
-
 let
   cfg = config.dotfiles.profiles;
   isLinux = pkgs.stdenv.hostPlatform.isLinux;
@@ -13,11 +11,11 @@ let
 in
 {
   options.dotfiles.profiles.debugTools.enable =
-    mkEnableOption "debugging tools";
+    lib.mkEnableOption "debugging tools";
 
-  config = mkIf cfg.debugTools.enable {
+  config = lib.mkIf cfg.debugTools.enable {
     home.packages = with pkgs;
-      [ nmap socat ] ++ optionals isLinux [
+      [ nmap socat ] ++ lib.optionals isLinux [
         binutils
         powertop
         pwndbg
@@ -27,6 +25,6 @@ in
         # TODO: move this to NixOS system configuration
         # nixos.linuxPackages.bcc
         # extraNixos.bpftrace
-      ] ++ optional (isLinux && cfg.desktop.enable) cutter;
+      ] ++ lib.optional (isLinux && cfg.desktop.enable) cutter;
   };
 }

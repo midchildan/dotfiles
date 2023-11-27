@@ -10,10 +10,10 @@ stdenv.mkDerivation {
 
   makeFlags = [ "PREFIX=${placeholder "out"}" ];
 
-  meta = with lib; {
+  meta = {
     description = "A tool to make AquaSKK reload its configuration.";
     homepage = "https://github.com/midchildan/dotfiles";
-    license = licenses.gpl2Plus;
-    maintainers = with maintainers; [ midchildan ];
+    license = lib.licenses.gpl2Plus;
+    maintainers = with lib.maintainers; [ midchildan ];
   };
 }

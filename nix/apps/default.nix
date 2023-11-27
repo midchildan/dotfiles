@@ -1,36 +1,17 @@
-{ inputs
-, pkgs
-, system
-, packages
-}:
+{ lib, ... }:
 
 {
-  home = {
-    type = "app";
-    program = "${inputs.home.defaultPackage.${system}}/bin/home-manager";
-  };
+  perSystem = { pkgs, inputs', self', ... }: {
+    apps = {
+      home.program = "${inputs'.home.packages.default}/bin/home-manager";
+      update.program = "${pkgs.callPackage ./update.nix { }}";
+      ansible.program = "${pkgs.callPackage ./ansible.nix { }}";
 
-  update = {
-    type = "app";
-    program = "${pkgs.callPackage ./update.nix { }}";
-  };
+    } // lib.optionalAttrs pkgs.stdenv.isLinux {
+      os.program = "${self'.packages.nixos-rebuild}/bin/nixos-rebuild";
 
-  ansible = {
-    type = "app";
-    program = "${pkgs.callPackage ./ansible.nix { }}";
-  };
-
-} // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
-
-  os = {
-    type = "app";
-    program = "${packages.nix-darwin}/bin/darwin-rebuild";
-  };
-
-} // pkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
-
-  os = {
-    type = "app";
-    program = "${packages.nixos-rebuild}/bin/nixos-rebuild";
+    } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      os.program = "${self'.packages.nix-darwin}/bin/darwin-rebuild";
+    };
   };
 }

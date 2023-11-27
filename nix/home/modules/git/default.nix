@@ -7,7 +7,13 @@ in
 {
   options.dotfiles.git = {
     config = lib.mkOption {
-      type = with lib.types; attrsOf (attrsOf anything);
+      type = lib.types.submoduleWith {
+        modules = [
+          ./option.nix
+          { _module.args = { inherit (config.dotfiles) flakeOptions; }; }
+        ];
+        shorthandOnlyDefinesConfig = true;
+      };
       default = { };
       example = {
         rebase.autosquash = true;
