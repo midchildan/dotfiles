@@ -36,9 +36,11 @@
 }:
 
 let
-  packageList = lib.mapAttrsToList (attrPath: package: {
-    inherit attrPath package;
-  }) packages;
+  packageList = lib.mapAttrsToList
+    (attrPath: package: {
+      inherit attrPath package;
+    })
+    packages;
 
   packagesWithUpdateScript =
     lib.filter (p: lib.hasAttr "updateScript" p.package) packageList;
