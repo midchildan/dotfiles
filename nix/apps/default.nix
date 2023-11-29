@@ -1,17 +1,26 @@
-{ lib, config, ... }:
+{ flake-parts-lib, lib, config, ... }:
 
 let
+  inherit (flake-parts-lib) importApply;
   nixAttrName = config.dotfiles.nix.package;
+
+  flakeModules.updater = {
+    imports = [
+      (importApply ./flake-modules.nix { inherit config; })
+    ];
+  };
 in
 {
+  imports = [ flakeModules.updater ];
+
+  flake = {
+    inherit flakeModules;
+  };
+
   perSystem = { pkgs, inputs', self', ... }: {
     apps = {
       home.program = "${inputs'.home.packages.default}/bin/home-manager";
       ansible.program = "${pkgs.callPackage ./ansible.nix { }}";
-      update.program = "${pkgs.callPackage ./update.nix {
-        inherit (self') packages;
-        nix = pkgs.nixVersions.${nixAttrName};
-      }}";
 
     } // lib.optionalAttrs pkgs.stdenv.isLinux {
       os.program = "${self'.packages.nixos-rebuild}/bin/nixos-rebuild";
