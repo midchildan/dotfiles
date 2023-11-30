@@ -14,6 +14,7 @@ in
 {
   imports = [
     flakeModules.default
+    inputs.flake-parts.flakeModules.flakeModules
     ./apps
     ./darwin
     ./devshells
