@@ -105,7 +105,7 @@ writers.writeBash "update.sh" ''
   ${python3.interpreter} ${path}/maintainers/scripts/update.py \
     ${lib.escapeShellArgs args} <<<$'\n'
 
-  if [[ "$1" == '--packages-only' ]]; then
+  if [[ "''${1:-}" == '--packages-only' ]]; then
     exit
   fi
 
