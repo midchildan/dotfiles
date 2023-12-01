@@ -37,11 +37,6 @@
           inherit (pkgs.darwin.apple_sdk.frameworks) Foundation;
         };
 
-        nix-darwin = pkgs.callPackage ./nix-darwin.nix {
-          inherit nix;
-          inherit (inputs) darwin;
-        };
-
       } // pkgs.callPackages ./skk-jisyo.nix { };
     };
 }

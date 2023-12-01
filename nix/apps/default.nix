@@ -26,7 +26,7 @@ in
       os.program = "${self'.packages.nixos-rebuild}/bin/nixos-rebuild";
 
     } // lib.optionalAttrs pkgs.stdenv.isDarwin {
-      os.program = "${self'.packages.nix-darwin}/bin/darwin-rebuild";
+      os.program = "${inputs'.darwin.packages.default}/bin/darwin-rebuild";
     };
   };
 }
