@@ -2,12 +2,12 @@
   description = "Darwin configuration";
 
   inputs = {
-    flake-parts.url = "github:hercules-ci/flake-parts";
     dotfiles.url = "github:midchildan/dotfiles";
+    flake-parts.follows = "dotfiles/flake-parts";
   };
 
   outputs = { self, flake-parts, ... }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } ({ config, ... }: {
+    flake-parts.lib.mkFlake { inherit inputs; } ({ config, pkgsFor, ... }: {
       imports = [
         inputs.dotfiles.flakeModules.default
       ];
@@ -21,7 +21,7 @@
       };
 
       flake.darwinConfigurations.my-macbook = self.lib.mkDarwin {
-        system = "aarch64-darwin";
+        pkgs = pkgsFor "aarch64-darwin";
         modules = [{
           # Options are defined in:
           # https://github.com/midchildan/dotfiles/blob/nix/darwin

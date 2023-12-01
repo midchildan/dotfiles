@@ -16,6 +16,5 @@ in
   '' + lib.optionalString pkgs.stdenv.isAarch64 ''
     extra-platforms = aarch64-darwin x86_64-darwin
   '';
-  nixpkgs = flakeOptions.nixpkgs.args;
   services.nix-daemon.enable = lib.mkDefault true;
 }

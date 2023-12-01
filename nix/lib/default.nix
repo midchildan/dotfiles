@@ -39,22 +39,25 @@ let
   # Creates a nix-darwin configuration with addtional modules. The interface
   # is identical to darwinSystem from nix-darwin.
   #
-  mkDarwin = { modules ? [ ], system, ... } @ args:
+  mkDarwin = { pkgs, modules ? [ ], ... }@args:
+    let
+      flakeOptionsModule = {
+        dotfiles._flakeOptions = config.dotfiles;
+        home-manager = {
+          useGlobalPkgs = true;
+          sharedModules = cfg.home.modules ++ [
+            localFlake.inputs.self.homeModules.default
+            { dotfiles._flakeOptions = config.dotfiles; }
+          ];
+        };
+      };
+    in
     darwinSystem (args // {
-      inherit system;
+      inherit pkgs;
       modules = modules ++ cfg.darwin.modules ++ [
         localFlake.inputs.self.darwinModules.default
         localFlake.inputs.home.darwinModules.default
-        {
-          dotfiles._flakeOptions = config.dotfiles;
-          home-manager = {
-            useGlobalPkgs = true;
-            sharedModules = cfg.home.modules ++ [
-              localFlake.inputs.self.homeModules.default
-              { dotfiles._flakeOptions = config.dotfiles; }
-            ];
-          };
-        }
+        flakeOptionsModule
       ];
     });
 
