@@ -11,27 +11,22 @@ let
   # Creates a Home Manager configuration with addtional modules. The interface
   # is identical to homeManagerConfiguration from Home Manager.
   #
-  mkHome =
-    { system
-    , pkgs ? (getSystem system).allModuleArgs.pkgs
-    , modules ? [ ]
-    , ...
-    } @ args:
+  mkHome = { pkgs, modules ? [ ], ... }@args:
     let
-      hmArgs = builtins.removeAttrs args [ "system" ];
       userDir = if pkgs.stdenv.isDarwin then "/Users" else "/home";
+      flakeOptionsModule = { lib, config, ... }: {
+        dotfiles._flakeOptions = flake.config.dotfiles;
+        home = {
+          username = lib.mkDefault config.dotfiles._flakeOptions.user.name;
+          homeDirectory = lib.mkDefault "${userDir}/${config.home.username}";
+        };
+      };
     in
-    homeManagerConfiguration (hmArgs // {
+    homeManagerConfiguration (args // {
       inherit pkgs;
       modules = modules ++ cfg.home.modules ++ [
         localFlake.inputs.self.homeModules.default
-        ({ lib, config, ... }: {
-          dotfiles._flakeOptions = flake.config.dotfiles;
-          home = {
-            username = lib.mkDefault config.dotfiles._flakeOptions.user.name;
-            homeDirectory = lib.mkDefault "${userDir}/${config.home.username}";
-          };
-        })
+        flakeOptionsModule
       ];
     });
 
