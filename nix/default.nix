@@ -7,7 +7,7 @@ let
     imports = [
       (importApply ./config.nix { inherit inputs; })
       (importApply ./nixpkgs.nix { inherit inputs; })
-      (importApply ./lib { inherit inputs; })
+      (importApply ./lib/flake-module.nix { inherit inputs; })
     ];
   };
 in
@@ -19,6 +19,7 @@ in
     ./darwin
     ./devshells
     ./home
+    ./lib
     ./nixos
     ./overlays
     ./packages

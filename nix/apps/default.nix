@@ -6,7 +6,7 @@ let
 
   flakeModules.updater = {
     imports = [
-      (importApply ./flake-modules.nix { inherit config; })
+      (importApply ./flake-module.nix { inherit config; })
     ];
   };
 in
