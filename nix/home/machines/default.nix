@@ -1,7 +1,7 @@
-{ inputs, config, pkgsFor, ... }:
+{ inputs, config, ... }:
 
 let
-  inherit (inputs.self.lib) importHome;
+  inherit (inputs.self.lib) importHome pkgsFor;
   username = config.dotfiles.user.name;
 in
 {

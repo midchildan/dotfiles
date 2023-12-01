@@ -7,7 +7,7 @@
   };
 
   outputs = { self, flake-parts, ... }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } ({ config, pkgsFor, ... }: {
+    flake-parts.lib.mkFlake { inherit inputs; } ({ config, ... }: {
       imports = [
         inputs.dotfiles.flakeModules.default
       ];
@@ -22,7 +22,7 @@
 
       flake.homeManagerConfigurations = {
         "${config.dotfiles.user}@my-desktop" = self.lib.mkHome {
-          pkgs = pkgsFor "x86_64-linux";
+          pkgs = self.lib.pkgsFor "x86_64-linux";
           modules = [{
             # Options are defined in:
             # https://github.com/midchildan/dotfiles/blob/nix/home

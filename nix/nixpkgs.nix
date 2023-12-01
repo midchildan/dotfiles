@@ -48,10 +48,5 @@ in
           nixos = importPkgs inputs.nixos;
         };
       };
-
-    _module.args = {
-      pkgsFor = system: (getSystem system).allModuleArgs.pkgs;
-      nixosFor = system: (getSystem system).allModuleArgs.nixos;
-    };
   };
 }

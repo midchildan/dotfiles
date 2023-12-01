@@ -1,7 +1,7 @@
-{ inputs, nixosFor, ... }:
+{ inputs, ... }:
 
 let
-  inherit (inputs.self.lib) importNixOS;
+  inherit (inputs.self.lib) importNixOS nixosFor;
 in
 {
   flake.nixosConfigurations = {

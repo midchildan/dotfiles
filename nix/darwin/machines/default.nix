@@ -1,7 +1,7 @@
-{ inputs, pkgsFor, ... }:
+{ inputs, ... }:
 
 let
-  inherit (inputs.self.lib) importDarwin;
+  inherit (inputs.self.lib) importDarwin pkgsFor;
 in
 {
   flake.darwinConfigurations = {

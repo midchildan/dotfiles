@@ -7,7 +7,7 @@
   };
 
   outputs = { self, flake-parts, ... }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } ({ config, pkgsFor, ... }: {
+    flake-parts.lib.mkFlake { inherit inputs; } ({ config, ... }: {
       imports = [
         inputs.dotfiles.flakeModules.default
       ];
@@ -21,7 +21,7 @@
       };
 
       flake.darwinConfigurations.my-macbook = self.lib.mkDarwin {
-        pkgs = pkgsFor "aarch64-darwin";
+        pkgs = self.lib.pkgsFor "aarch64-darwin";
         modules = [{
           # Options are defined in:
           # https://github.com/midchildan/dotfiles/blob/nix/darwin

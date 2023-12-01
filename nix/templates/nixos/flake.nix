@@ -7,7 +7,7 @@
   };
 
   outputs = { self, flake-parts, ... }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } ({ config, nixosFor, ... }: {
+    flake-parts.lib.mkFlake { inherit inputs; } ({ config, ... }: {
       imports = [
         inputs.dotfiles.flakeModules.default
       ];
@@ -21,7 +21,7 @@
       };
 
       flake.nixosConfigurations.my-desktop = self.lib.mkNixOS {
-        pkgs = nixosFor "x86_64-linux";
+        pkgs = self.lib.nixosFor "x86_64-linux";
         modules = [{
           # Options are defined in:
           # https://github.com/midchildan/dotfiles/blob/nix/nixos

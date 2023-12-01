@@ -1,5 +1,5 @@
 { inputs }@localFlake:
-{ lib, config, ... }@flake:
+{ lib, config, getSystem, ... }@flake:
 
 let
   inherit (localFlake.inputs.home.lib) homeManagerConfiguration;
@@ -84,14 +84,24 @@ let
   #
   importNixOS = configPath: args:
     mkNixOS (args // { modules = [ (import configPath) ]; });
+
+  # Instantiates Nixpkgs for the given architecture.
+  #
+  pkgsFor = system: (getSystem system).allModuleArgs.pkgs;
+
+  # Instantiates stable Nixpkgs for the given architecture.
+  #
+  nixosFor = system: (getSystem system).allModuleArgs.nixos;
 in
 {
   # Allow downstream flakes to define additional things under lib.
+  #
   options.flake.lib = lib.mkOption {
     type = with lib.types; lazyAttrsOf raw;
   };
 
   config.flake.lib = {
-    inherit mkHome importHome mkDarwin importDarwin mkNixOS importNixOS;
+    inherit mkHome importHome mkDarwin importDarwin mkNixOS importNixOS
+      pkgsFor nixosFor;
   };
 }
