@@ -26,6 +26,7 @@
         zsh = pkgs.callPackage ./zsh.nix { };
 
         nixos-iso = nixos.callPackage ./nixos-iso.nix {
+          inherit nixos;
           inherit (inputs.self.lib) mkNixOS;
           modules = [ ];
         };

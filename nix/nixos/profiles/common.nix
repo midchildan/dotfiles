@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, options, pkgs, ... }:
 
 let
   inherit (lib) mkDefault;
@@ -17,7 +17,12 @@ in
       experimental-features = nix-command flakes
     '';
 
-    nixpkgs = flakeOptions.nixpkgs.args;
+    # FIXME: remove after upgrading to NixOS 23.11
+    # https://github.com/NixOS/nixpkgs/pull/257458
+    nixpkgs.config =
+      if options.nixpkgs.pkgs.isDefined
+      then pkgs.config
+      else flakeOptions.nixpkgs.args.config;
 
     system.stateVersion = lib.mkDefault flakeOptions.nixos.stateVersion;
   };

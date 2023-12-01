@@ -70,13 +70,9 @@ let
   # Creates a NixOS configuration with addtional modules. The interface is
   # identical to nixosSystem from NixOS.
   #
-  mkNixOS =
-    { modules ? [ ]
-    , system
-    , ...
-    } @ args:
+  mkNixOS = { pkgs, modules ? [ ], ... }@args:
     nixosSystem (args // {
-      inherit system;
+      inherit pkgs;
       modules = modules ++ cfg.nixos.modules ++ [
         localFlake.inputs.self.nixosModules.default
         { dotfiles._flakeOptions = config.dotfiles; }
