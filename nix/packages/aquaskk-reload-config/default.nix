@@ -1,4 +1,4 @@
-{ lib, stdenv, Foundation }:
+{ lib, stdenv, darwin }:
 
 stdenv.mkDerivation {
   pname = "aquaskk-reload-config";
@@ -6,7 +6,7 @@ stdenv.mkDerivation {
 
   src = ./.;
 
-  buildInputs = [ Foundation ];
+  buildInputs = [ darwin.apple_sdk.Foundation ];
 
   makeFlags = [ "PREFIX=${placeholder "out"}" ];
 

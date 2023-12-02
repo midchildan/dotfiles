@@ -33,9 +33,7 @@
 
       } // lib.optionalAttrs isDarwin {
 
-        aquaskk-reload-config = pkgs.callPackage ./aquaskk-reload-config {
-          inherit (pkgs.darwin.apple_sdk.frameworks) Foundation;
-        };
+        aquaskk-reload-config = pkgs.callPackage ./aquaskk-reload-config { };
 
       } // pkgs.callPackages ./skk-jisyo.nix { };
     };
