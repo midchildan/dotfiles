@@ -6,16 +6,16 @@
 
 buildGoModule rec {
   pname = "mmdbctl";
-  version = "1.4.2";
+  version = "1.4.4";
 
   src = fetchFromGitHub {
     owner = "ipinfo";
     repo = "mmdbctl";
     rev = "mmdbctl-${version}";
-    hash = "sha256-idvTjBCHhqsbffUOJHSa7sCR3bfzU8X4ZHog4RxRaec=";
+    hash = "sha256-K+eZ8a/TJrzR4iYu3vbNDlXeRoLuTYEAw0yoRqMJpyI=";
   };
 
-  vendorHash = "sha256-QS5PoIO0SmJK8/yoQTkYBVyvZW8anA4tYqaC1mrVEBU=";
+  vendorHash = "sha256-k+/VPxCDNw8J3opPL7zuU6Kk4rp76UbacvdI/14Iedc=";
 
   doCheck = true;
 
