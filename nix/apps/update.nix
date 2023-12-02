@@ -90,11 +90,21 @@ let
     lib.optional (max-workers != null) "--max-workers=${max-workers}";
 
   args = [ packagesJson ] ++ optionalArgs;
+  binPath = lib.makeBinPath [ coreutils git nix ];
 in
 writers.writeBash "update.sh" ''
-  set -euxo pipefail
+  set -euo pipefail
 
-  export PATH=${lib.makeBinPath [ coreutils git nix ]}
+  PACKAGES_ONLY=
+
+  for arg in "$@"; do
+    case "$arg" in
+      --packages-only) PACKAGES_ONLY=1 ;;
+      --verbose) set -x ;;
+    esac
+  done
+
+  export PATH=${lib.escapeShellArg binPath}
 
   if ! [[ -f flake.nix && -d nix/packages ]] ||
     [[ "$(git rev-parse --is-inside-work-tree)" != "true" ]]; then
@@ -102,13 +112,18 @@ writers.writeBash "update.sh" ''
     printf 'Re-run this script from the root of the dotfiles repository.\n' >&2
   fi
 
-  ${python3.interpreter} ${path}/maintainers/scripts/update.py \
-    ${lib.escapeShellArgs args} <<<$'\n'
+  printf 'Updating packages...\n'
+  ${lib.escapeShellArgs [
+    python3.interpreter "${path}/maintainers/scripts/update.py" args
+  ]} <<<$'\n'
 
-  if [[ "''${1:-}" == '--packages-only' ]]; then
+  if [[ -n "$PACKAGES_ONLY" ]]; then
     exit
   fi
 
+  printf 'Updating flake inputs...\n'
   nix flake update
+
+  printf 'Updating git submodules...\n'
   git submodule update --init --remote
 ''
