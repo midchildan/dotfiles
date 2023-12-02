@@ -6,7 +6,7 @@ stdenv.mkDerivation {
 
   src = ./.;
 
-  buildInputs = [ darwin.apple_sdk.Foundation ];
+  buildInputs = [ darwin.apple_sdk.frameworks.Foundation ];
 
   makeFlags = [ "PREFIX=${placeholder "out"}" ];
 
