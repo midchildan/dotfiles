@@ -1,6 +1,7 @@
 { lib
 , buildGoModule
 , fetchFromGitHub
+, nix-update-script
 }:
 
 buildGoModule rec {
@@ -17,6 +18,10 @@ buildGoModule rec {
   vendorHash = "sha256-QS5PoIO0SmJK8/yoQTkYBVyvZW8anA4tYqaC1mrVEBU=";
 
   doCheck = true;
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = [ "--flake" "--version-regex" "mmdbctl-(.*)" ];
+  };
 
   meta = {
     description = "MMDB file management CLI";
