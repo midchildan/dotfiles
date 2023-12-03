@@ -39,85 +39,31 @@ in
       default = "nix_2_18";
     };
 
-    home = {
-      modules = lib.mkOption {
-        type = with lib.types; listOf deferredModule;
-        default = [ ];
-        description = ''
-          Default list of modules to include when generating Home Manager
-          configuration with `lib.mkHome` and `lib.importHome`.
-        '';
-      };
-
-      stateVersion = lib.mkOption {
-        type = lib.types.str;
-        default = nixosRelease;
-        description = ''
-          The default `stateVersion` to use for Home Manager.
-
-          More info is available at
-          <https://nix-community.github.io/home-manager/options.html#opt-home.stateVersion>.
-
-          ::: {.warning}
-          Make sure to understand what the following does. It's strongly
-          recommended to override this option this per host.
-          :::
-        '';
-      };
+    home.modules = lib.mkOption {
+      type = with lib.types; listOf deferredModule;
+      default = [ ];
+      description = ''
+        Default list of modules to include when generating Home Manager
+        configuration with `lib.mkHome` and `lib.importHome`.
+      '';
     };
 
-    nixos = {
-      modules = lib.mkOption {
-        type = with lib.types; listOf deferredModule;
-        default = [ ];
-        description = ''
-          Default list of modules to include when generating NixOS configuration
-          with `lib.mkNixOS` and `lib.importNixOS`.
-        '';
-      };
-
-      stateVersion = lib.mkOption {
-        type = lib.types.str;
-        default = nixosRelease;
-        description = ''
-          The default `stateVersion` to use for NixOS.
-
-          More info is available at
-          <https://search.nixos.org/options?show=system.stateVersion>.
-
-          ::: {.warning}
-          Make sure to understand what the following does. It's strongly
-          recommended to override this option this per host.
-          :::
-        '';
-      };
+    nixos.modules = lib.mkOption {
+      type = with lib.types; listOf deferredModule;
+      default = [ ];
+      description = ''
+        Default list of modules to include when generating NixOS configuration
+        with `lib.mkNixOS` and `lib.importNixOS`.
+      '';
     };
 
-    darwin = {
-      modules = lib.mkOption {
-        type = with lib.types; listOf deferredModule;
-        default = [ ];
-        description = ''
-          Default list of modules to include when generating nix-darwin
-          configuration with `lib.mkDarwin` and `lib.importDarwin`.
-        '';
-      };
-
-      stateVersion = lib.mkOption {
-        type = lib.types.ints.positive;
-        default = 4;
-        description = ''
-          The default `stateVersion` to use for nix-darwin.
-
-          More info is available at
-          <https://daiderd.com/nix-darwin/manual/index.html#opt-system.stateVersion>.
-
-          ::: {.warning}
-          Make sure to understand what the following does. It's strongly
-          recommended to override this option this per host.
-          :::
-        '';
-      };
+    darwin.modules = lib.mkOption {
+      type = with lib.types; listOf deferredModule;
+      default = [ ];
+      description = ''
+        Default list of modules to include when generating nix-darwin
+        configuration with `lib.mkDarwin` and `lib.importDarwin`.
+      '';
     };
   };
 }

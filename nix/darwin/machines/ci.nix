@@ -13,5 +13,8 @@ in
       enableAll = true;
       extras.enable = false;
     };
+    home.stateVersion = "23.11";
   };
+
+  system.stateVersion = 4;
 }

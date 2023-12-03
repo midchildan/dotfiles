@@ -15,4 +15,6 @@ in
   };
 
   users.users.${username}.password = "";
+
+  system.stateVersion = "23.11";
 }

@@ -8,7 +8,6 @@
       ./modules/setup.nix
       ./modules/nix.nix
       ./modules/shell.nix
-      ./profiles/common.nix
       ./profiles/apps.nix
     ];
 

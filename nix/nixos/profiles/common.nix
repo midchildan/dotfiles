@@ -16,7 +16,5 @@ in
     nix.extraOptions = ''
       experimental-features = nix-command flakes
     '';
-
-    system.stateVersion = lib.mkDefault flakeOptions.nixos.stateVersion;
   };
 }
