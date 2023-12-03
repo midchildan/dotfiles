@@ -17,13 +17,6 @@ in
       experimental-features = nix-command flakes
     '';
 
-    # FIXME: remove after upgrading to NixOS 23.11
-    # https://github.com/NixOS/nixpkgs/pull/257458
-    nixpkgs.config =
-      if options.nixpkgs.pkgs.isDefined
-      then pkgs.config
-      else flakeOptions.nixpkgs.args.config;
-
     system.stateVersion = lib.mkDefault flakeOptions.nixos.stateVersion;
   };
 }
