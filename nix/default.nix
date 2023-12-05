@@ -1,19 +1,19 @@
-{ flake-parts-lib, inputs, ... }:
+{ lib, flake-parts-lib, inputs, ... }:
 
 let
   inherit (flake-parts-lib) importApply;
 
-  flakeModules.default = {
-    imports = [
+  flakeModules = {
+    default.imports = [
       (importApply ./config.nix { inherit inputs; })
       (importApply ./nixpkgs.nix { inherit inputs; })
       (importApply ./lib/flake-module.nix { inherit inputs; })
     ];
+    checks = ./checks.nix;
   };
 in
 {
-  imports = [
-    flakeModules.default
+  imports = lib.attrValues flakeModules ++ [
     inputs.flake-parts.flakeModules.flakeModules
     ./apps
     ./darwin
