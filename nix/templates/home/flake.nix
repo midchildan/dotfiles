@@ -10,6 +10,7 @@
     flake-parts.lib.mkFlake { inherit inputs; } ({ config, ... }: {
       imports = [
         inputs.dotfiles.flakeModules.default
+        inputs.dotfiles.flakeModules.checks # optional
       ];
 
       dotfiles.user = {
