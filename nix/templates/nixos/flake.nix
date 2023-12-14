@@ -2,8 +2,8 @@
   description = "NixOS configuration";
 
   inputs = {
-    flake-parts.url = "github:hercules-ci/flake-parts";
     dotfiles.url = "github:midchildan/dotfiles";
+    flake-parts.follows = "dotfiles/flake-parts";
   };
 
   outputs = { self, flake-parts, ... }@inputs:
@@ -21,7 +21,7 @@
       };
 
       flake.nixosConfigurations.my-desktop = self.lib.mkNixOS {
-        system = "x86_64-linux";
+        pkgs = self.lib.nixosFor "x86_64-linux";
         modules = [{
           # Options are defined in:
           # https://github.com/midchildan/dotfiles/blob/nix/nixos
@@ -31,7 +31,7 @@
             network.enable = true;
             desktop.enable = true;
           };
-          system.stateVersion = "23.05";
+          system.stateVersion = "23.11";
         }];
       };
     });

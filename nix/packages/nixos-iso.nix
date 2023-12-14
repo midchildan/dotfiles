@@ -1,5 +1,5 @@
-{ stdenv
-, mkNixOS
+{ mkNixOS
+, nixos
 , modules ? [ ]
 }:
 
@@ -16,7 +16,7 @@ let
   };
 
   installer = mkNixOS {
-    inherit (stdenv.hostPlatform) system;
+    pkgs = nixos;
     modules = [ upstreamConfig customConfig ] ++ modules;
   };
 

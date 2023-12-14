@@ -25,7 +25,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 { lib
-, sources
+, fetchFromGitHub
 , applyPatches
 , buildGoModule
 , fetchurl
@@ -33,16 +33,23 @@
 }:
 
 buildGoModule rec {
-  inherit (sources.cloudfoundry-cli-6) pname;
-
-  version = lib.removePrefix "v" sources.cloudfoundry-cli-6.version;
+  pname = "cloudfoundry-cli-6";
+  version = "6.53.0";
 
   # Use applyPatches rather than patching it inside buildGoModule because it's
   # more convenient to have cloudfoundry-cli-6.src evaluate to the patched code
   # when making further changes to go.mod & go.sum.
   src = applyPatches {
-    inherit (sources.cloudfoundry-cli-6) src;
+    src = fetchFromGitHub ({
+      owner = "cloudfoundry";
+      repo = "cli";
+      rev = "v${version}";
+      fetchSubmodules = false;
+      sha256 = "sha256-1IFufrKZvKlbgyoItOnapNCOTWqvV62BH+3q8d1oMtw=";
+    });
+
     patches = [ ./bump-go-loggregator.patch ];
+
     postPatch = ''
       cp ${./.}/go.{mod,sum} .
       rm -rf Gopkg.toml Gopkg.lock vendor

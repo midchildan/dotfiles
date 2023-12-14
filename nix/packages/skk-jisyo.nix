@@ -3,6 +3,7 @@
 , fetchFromGitHub
 , nkf
 , useUtf8 ? false
+, nix-update-script
 }:
 
 let
@@ -54,6 +55,10 @@ let
           (map (file: file + suffix) files) + ''
           runHook postInstall
         '';
+
+        passthru.updateScript = nix-update-script {
+          extraArgs = [ "--flake" "--version" "branch" ];
+        };
 
         meta = {
           inherit description license;

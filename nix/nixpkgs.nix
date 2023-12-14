@@ -1,5 +1,5 @@
-{ inputs, ... }@localFlake:
-{ lib, config, ... }@flake:
+{ inputs }@localFlake:
+{ lib, config, getSystem, ... }@flake:
 
 let
   inherit (lib.types)
@@ -34,17 +34,19 @@ in
     };
   };
 
-  config.perSystem = { system, ... }:
-    let
-      mkPkgs = path: import path (cfg.args // {
-        inherit system;
-        overlays = [ inputs.self.overlays.default ] ++ cfg.args.overlays;
-      });
-    in
-    {
-      _module.args = {
-        pkgs = mkPkgs inputs.nixpkgs;
-        nixos = mkPkgs inputs.nixos;
+  config = {
+    perSystem = { system, ... }:
+      let
+        importPkgs = path: import path (cfg.args // {
+          inherit system;
+          overlays = [ inputs.self.overlays.default ] ++ cfg.args.overlays;
+        });
+      in
+      {
+        _module.args = {
+          pkgs = importPkgs inputs.nixpkgs;
+          nixos = importPkgs inputs.nixos;
+        };
       };
-    };
+  };
 }

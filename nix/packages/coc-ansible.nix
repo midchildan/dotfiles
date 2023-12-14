@@ -4,6 +4,7 @@
 , fetchYarnDeps
 , mkYarnPackage
 , cacert
+, nix-update-script
 }:
 
 let
@@ -58,6 +59,10 @@ buildVimPlugin rec {
   inherit (yarnPackage) version;
 
   src = yarnPackage;
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = [ "--flake" "--url" src.src.url ];
+  };
 
   meta = {
     description = "An ansible-language-server extension for coc.nvim";

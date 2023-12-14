@@ -1,96 +1,6 @@
-{ inputs }@localFlake:
-{ lib, config, getSystem, ... }@flake:
+{ lib, ... }:
 
 let
-  inherit (localFlake.inputs.home.lib) homeManagerConfiguration;
-  inherit (localFlake.inputs.darwin.lib) darwinSystem;
-  inherit (localFlake.inputs.nixos.lib) nixosSystem;
-
-  cfg = config.dotfiles;
-
-  # Creates a Home Manager configuration with addtional modules. The interface
-  # is identical to homeManagerConfiguration from Home Manager.
-  #
-  mkHome =
-    { system
-    , pkgs ? (getSystem system).allModuleArgs.pkgs
-    , modules ? [ ]
-    , ...
-    } @ args:
-    let
-      hmArgs = builtins.removeAttrs args [ "system" ];
-      userDir = if pkgs.stdenv.isDarwin then "/Users" else "/home";
-    in
-    homeManagerConfiguration (hmArgs // {
-      inherit pkgs;
-      modules = modules ++ cfg.home.modules ++ [
-        localFlake.inputs.self.homeModules.default
-        ({ lib, config, ... }: {
-          dotfiles._flakeOptions = flake.config.dotfiles;
-          home = {
-            username = lib.mkDefault config.dotfiles._flakeOptions.user.name;
-            homeDirectory = lib.mkDefault "${userDir}/${config.home.username}";
-          };
-        })
-      ];
-    });
-
-  # Creates a Home Manager configuration from the specified file. It calls into
-  # mkHome under the hood.
-  #
-  importHome = configPath: args:
-    mkHome (args // { modules = [ (import configPath) ]; });
-
-  # Creates a nix-darwin configuration with addtional modules. The interface
-  # is identical to darwinSystem from nix-darwin.
-  #
-  mkDarwin = { modules ? [ ], system, ... } @ args:
-    darwinSystem (args // {
-      inherit system;
-      modules = modules ++ cfg.darwin.modules ++ [
-        localFlake.inputs.self.darwinModules.default
-        localFlake.inputs.home.darwinModules.default
-        {
-          dotfiles._flakeOptions = config.dotfiles;
-          home-manager = {
-            useGlobalPkgs = true;
-            sharedModules = cfg.home.modules ++ [
-              localFlake.inputs.self.homeModules.default
-              { dotfiles._flakeOptions = config.dotfiles; }
-            ];
-          };
-        }
-      ];
-    });
-
-  # Creates a nix-darwin configuration from the specified file. It calls into
-  # mkDarwin under the hood.
-  #
-  importDarwin = configPath: args:
-    mkDarwin (args // { modules = [ (import configPath) ]; });
-
-  # Creates a NixOS configuration with addtional modules. The interface is
-  # identical to nixosSystem from NixOS.
-  #
-  mkNixOS =
-    { modules ? [ ]
-    , system
-    , ...
-    } @ args:
-    nixosSystem (args // {
-      inherit system;
-      modules = modules ++ cfg.nixos.modules ++ [
-        localFlake.inputs.self.nixosModules.default
-        { dotfiles._flakeOptions = config.dotfiles; }
-      ];
-    });
-
-  # Creates a NixOS configuration from the specified file. It calls into mkNixOS
-  # under the hood.
-  #
-  importNixOS = configPath: args:
-    mkNixOS (args // { modules = [ (import configPath) ]; });
-
   # Sets hardening options for systemd services.
   #
   hardenSystemdService = args:
@@ -145,7 +55,6 @@ let
 in
 {
   flake.lib = {
-    inherit mkHome importHome mkDarwin importDarwin mkNixOS importNixOS
-      hardenSystemdService indexOf mapPrioritizedAttrsToList;
+    inherit hardenSystemdService indexOf mapPrioritizedAttrsToList;
   };
 }

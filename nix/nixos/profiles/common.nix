@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, options, pkgs, ... }:
 
 let
   inherit (lib) mkDefault;
@@ -16,9 +16,5 @@ in
     nix.extraOptions = ''
       experimental-features = nix-command flakes
     '';
-
-    nixpkgs = flakeOptions.nixpkgs.args;
-
-    system.stateVersion = lib.mkDefault flakeOptions.nixos.stateVersion;
   };
 }
