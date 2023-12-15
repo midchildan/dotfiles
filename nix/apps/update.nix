@@ -26,9 +26,14 @@
 { lib
 , path
 , coreutils
+, curl
+, gawk
 , git
+, gnused
+, jq
 , nix
 , python3
+, runtimeShellPackage
 , writers
 
 , packages
@@ -86,16 +91,23 @@ let
   packagesJson =
     writers.writeJSON "packages.json" (map packageData uniqueUpdatables);
 
-  optionalArgs =
-    lib.optional (max-workers != null) "--max-workers=${max-workers}";
-
   updaterArgs = [
     python3.interpreter
     "${path}/maintainers/scripts/update.py"
     packagesJson
-  ] ++ optionalArgs;
+  ]
+  ++ lib.optional (max-workers != null) "--max-workers=${max-workers}";
 
-  binPath = lib.makeBinPath [ coreutils git nix ];
+  binPath = lib.makeBinPath [
+    coreutils
+    curl
+    gawk
+    git
+    gnused
+    jq
+    nix
+    runtimeShellPackage
+  ];
 in
 writers.writeBash "update.sh" ''
   set -euo pipefail
