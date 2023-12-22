@@ -9,8 +9,6 @@
     {
       packages = rec {
 
-        cloudfoundry-cli-6 =
-          pkgs.callPackage ./cloudfoundry-cli/default.nix { };
         mmdbctl = pkgs.callPackage ./mmdbctl.nix { };
         neovim = pkgs.callPackage ./neovim.nix { };
         terminfo-collection = pkgs.callPackage ./terminfo-collection.nix { };
