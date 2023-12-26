@@ -69,3 +69,4 @@ if (( count > 0 )); then
 fi
 
 builtin cd -- "$destination"
+printf '%s\n' "$PWD"
