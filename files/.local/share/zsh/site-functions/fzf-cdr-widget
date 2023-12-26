@@ -23,7 +23,7 @@ fzf-cdr-widget() {
   fi
 
   zle push-line
-  BUFFER="cd ${(q)dir}"
+  BUFFER="builtin cd -- ${(q)dir}"
   zle accept-line
   local ret=$?
 
