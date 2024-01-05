@@ -29,7 +29,7 @@ in
       pgpKey = lib.mkOption {
         type = lib.types.str;
         description = "The default PGP key to use throughout this flake.";
-        default = "FEF0AE2D544934825F0640AA186A1EDAC5C63F83";
+        default = "5AC3E26C62BB5AAEC79DEDB5BA2B2D09C65A909B";
       };
     };
 
