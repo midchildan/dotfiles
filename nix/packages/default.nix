@@ -19,7 +19,6 @@
 
       } // lib.optionalAttrs isLinux {
 
-        bpftrace = nixos.callPackage ./bpftrace.nix { };
         nixos-rebuild = nixos.callPackage ./nixos-rebuild.nix { inherit nix; };
         zsh = pkgs.callPackage ./zsh.nix { };
 
