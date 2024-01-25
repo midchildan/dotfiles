@@ -1,17 +1,110 @@
 emulate -L zsh
 
+setopt localoptions extended_glob
 local match mbegin mend MATCH MBEGIN MEND
 
-# locate the digit
-integer pos=$(( CURSOR + 1 ))
-while [[ $BUFFER[pos] != [[:digit:]] ]]; do
-  (( pos++ ))
-  (( $pos > $#BUFFER )) && return
-done
+# find the number and determine the base
+integer pos=$(( CURSOR + 1 )) base=10
+case "$BUFFER[1,pos]" in
+  *0[xX][0-9a-fA-F]#)
+    if [[ "$BUFFER[pos]" != [xX] || "$BUFFER[post+1]" == [0-9a-fA-F] ]]; then
+      base=16
+    fi
+    ;;
+  *0[oO][0-7]#)
+    if [[ "$BUFFER[pos]" != [oO] || "$BUFFER[post+1]" == [0-7] ]]; then
+      base=8
+    fi
+    ;;
+  *0[bB][01]#)
+    if [[ "$BUFFER[pos]" != [xX] || "$BUFFER[post+1]" == [01] ]]; then
+      base=2
+    fi
+    ;;
+esac
+if (( base == 10 )); then
+  while [[ "$BUFFER[pos]" != [0-9] ]]; do
+    (( pos++ ))
+    (( pos > $#BUFFER )) && return
+  done
+fi
+case "$BUFFER[pos,-1]" in
+  0[xX][0-9a-fA-F]*)
+    base=16
+    (( pos += 2 ))
+    ;;
+  0[oO][0-7]*)
+    base=8
+    (( pos += 2 ))
+    ;;
+  0[bB][01]*)
+    base=2
+    (( pos += 2 ))
+    ;;
+esac
+
+# find the start of the number
+integer first="$pos"
+case "$base" in
+  10)
+    while [[ "$BUFFER[first-1]" == [0-9] ]]; do
+      (( first-- ))
+    done
+    if [[ $BUFFER[first-1] = - ]]; then
+      (( first-- ))
+    fi
+    ;;
+  2)
+    while [[ "$BUFFER[first-1]" == [01] ]]; do
+      (( first-- ))
+    done
+    ;;
+  8)
+    while [[ "$BUFFER[first-1]" == [0-7] ]]; do
+      (( first-- ))
+    done
+    ;;
+  16)
+    while [[ "$BUFFER[first-1]" == [0-9a-fA-F] ]]; do
+      (( first-- ))
+    done
+    ;;
+esac
+
+# find the end of the number
+integer last="$pos"
+case "$base" in
+  10)
+    while [[ "$BUFFER[last+1]" == [0-9] ]]; do
+      (( last++ ))
+    done
+    ;;
+  2)
+    while [[ "$BUFFER[last+1]" == [01] ]]; do
+      (( last++ ))
+    done
+    ;;
+  8)
+    while [[ "$BUFFER[last+1]" == [0-7] ]]; do
+      (( last++ ))
+    done
+    ;;
+  16)
+    while [[ "$BUFFER[last+1]" == [0-9a-fA-F] ]]; do
+      (( last++ ))
+    done
+    ;;
+esac
+
+# calculate the width
+integer ndigits=0
+case "$BUFFER[first,first+1]" in
+  0*|-0) ndigits=$(( last - first + 1 )) ;;
+esac
 
 # determine the amount to increment
 integer ninc=${NUMERIC:-1}
-if [[ "$WIDGET" = *-decarg ]]; then
+if [[ "$WIDGET" = *decarg ]]; then
   (( ninc = -ninc ))
 fi
 if [[ "$WIDGET" = sync-* ]]; then
@@ -24,30 +117,19 @@ if [[ "$WIDGET" = sync-* ]]; then
   (( ninc *= pane_index ))
 fi
 
-# find the start of the number
-integer first=$pos
-while [[ $BUFFER[first-1] = [[:digit:]] ]]; do
-  (( first-- ))
-done
-if [[ $BUFFER[first-1] = - ]]; then
-  (( first-- ))
-fi
-
-# find the end of the number
-integer last=$pos
-while [[ $BUFFER[last+1] = [[:digit:]] ]]; do
-  (( last++ ))
-done
-
-# calculate the width
-integer ndigits=0
-case "$BUFFER[first,first+1]" in
-  0*|-0) ndigits=$((last - first + 1)) ;;
+local fmt1 fmt2 result
+case "$base" in
+  10) fmt1=d; fmt2='#10' ;;
+  2) fmt1=s; fmt2='##2' ;;
+  8) fmt1=s; fmt2='##8' ;;
+  16) fmt1="$BUFFER[first-1]"; fmt2='#16' ;;
 esac
+# ignore overflows because there's no way to query the size of integers
+result="$(printf "%0$ndigits$fmt1" $(( [$fmt2] "$base#$BUFFER[first,last]" + ninc )) 2> /dev/null)"
 
 # change the number and move the cursor after it
 integer oldlen=$#BUFFER
-BUFFER[first,last]="$(printf "%0${ndigits}d" $((BUFFER[first,last] + ninc)))"
+BUFFER[first,last]="${result// /0}"
 (( CURSOR = last + $#BUFFER - oldlen - 1 ))
 
 return 0
