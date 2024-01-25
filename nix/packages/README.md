@@ -20,9 +20,6 @@ $ nix search
 * packages.x86_64-linux.bpftrace (0.13.0)
   High-level tracing language for Linux eBPF
 
-* packages.x86_64-linux.cloudfoundry-cli-6 (6-v6.53.0)
-  The official command line client for Cloud Foundry
-
 * packages.x86_64-linux.neovim (0.7.0)
   Vim text editor fork focused on extensibility and agility
 

@@ -102,10 +102,10 @@ fi
 
   # update the completion cache only once a day
   if [[ -n ~/.cache/zsh/compdump(#qN.m+1) ]]; then
-    # XXX: ignore compaudit warnings b/c it's pointless for most people
+    # ignore compaudit warnings because it's pointless on single user systems
     compinit -u -d ~/.cache/zsh/compdump && touch ~/.cache/zsh/compdump
   else
-    compinit -C -d ~/.cache/zsh/compdump # skip compaudit b/c it's slow
+    compinit -C -d ~/.cache/zsh/compdump # skip compaudit because it's slow
   fi
 
   compdef rcd=ssh

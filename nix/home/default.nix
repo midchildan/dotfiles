@@ -1,9 +1,9 @@
-{ inputs, config, ... }@flake:
+{ inputs, config, getSystem, ... }@flake:
 
 {
   imports = [ ./machines ];
 
-  flake.homeModules.default = { lib, config, ... }: {
+  flake.homeModules.default = { lib, config, pkgs, ... }: {
     imports = [ ./modules ./profiles ./news.nix ];
 
     options.dotfiles = {
@@ -29,7 +29,10 @@
     };
 
     config = {
-      _module.args.dotfiles = inputs.self;
+      _module.args = {
+        dotfiles = inputs.self;
+        nixos = (getSystem pkgs.stdenv.system).allModuleArgs.nixos;
+      };
 
       # NOTE: The following enables declarative management of the Nix user
       # registry using Home Manager. As a consequence, it makes the Nix registry

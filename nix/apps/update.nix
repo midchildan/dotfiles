@@ -26,9 +26,14 @@
 { lib
 , path
 , coreutils
+, curl
+, gawk
 , git
+, gnused
+, jq
 , nix
 , python3
+, runtimeShellPackage
 , writers
 
 , packages
@@ -42,8 +47,8 @@ let
     })
     packages;
 
-  packagesWithUpdateScript =
-    lib.filter (p: lib.hasAttr "updateScript" p.package) packageList;
+  checkEligibility = p: lib.hasAttr "updateScript" p.package;
+  updatables = lib.filter checkEligibility packageList;
 
   somewhatUniqueRepresentant = p: {
     inherit (p.package) updateScript;
@@ -67,7 +72,7 @@ let
       in
       [ x ] ++ nubOn f xs;
 
-  uniquePackages = nubOn somewhatUniqueRepresentant packagesWithUpdateScript;
+  uniqueUpdatables = nubOn somewhatUniqueRepresentant updatables;
 
   # Transform a matched package into an object for update.py.
   #
@@ -84,13 +89,25 @@ let
   # JSON file with data for update.py.
   #
   packagesJson =
-    writers.writeJSON "packages.json" (map packageData uniquePackages);
+    writers.writeJSON "packages.json" (map packageData uniqueUpdatables);
 
-  optionalArgs =
-    lib.optional (max-workers != null) "--max-workers=${max-workers}";
+  updaterArgs = [
+    python3.interpreter
+    "${path}/maintainers/scripts/update.py"
+    packagesJson
+  ]
+  ++ lib.optional (max-workers != null) "--max-workers=${max-workers}";
 
-  args = [ packagesJson ] ++ optionalArgs;
-  binPath = lib.makeBinPath [ coreutils git nix ];
+  binPath = lib.makeBinPath [
+    coreutils
+    curl
+    gawk
+    git
+    gnused
+    jq
+    nix
+    runtimeShellPackage
+  ];
 in
 writers.writeBash "update.sh" ''
   set -euo pipefail
@@ -113,9 +130,7 @@ writers.writeBash "update.sh" ''
   fi
 
   printf 'Updating packages...\n'
-  ${lib.escapeShellArgs [
-    python3.interpreter "${path}/maintainers/scripts/update.py" args
-  ]} <<<$'\n'
+  ${lib.escapeShellArgs updaterArgs} <<<$'\n'
 
   if [[ -n "$PACKAGES_ONLY" ]]; then
     exit
