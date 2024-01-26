@@ -1,47 +1,71 @@
 emulate -L zsh
 
 setopt localoptions extended_glob
-local match mbegin mend MATCH MBEGIN MEND
+local match mbegin mend MATCH MBEGIN MEND i
 
 # find the number and determine the base
-integer pos=$(( CURSOR + 1 )) base=10
-case "$BUFFER[1,pos]" in
-  *0[xX][0-9a-fA-F]#)
-    if [[ "$BUFFER[pos]" != [xX] || "$BUFFER[post+1]" == [0-9a-fA-F] ]]; then
-      base=16
-    fi
-    ;;
-  *0[oO][0-7]#)
-    if [[ "$BUFFER[pos]" != [oO] || "$BUFFER[post+1]" == [0-7] ]]; then
-      base=8
-    fi
-    ;;
-  *0[bB][01]#)
-    if [[ "$BUFFER[pos]" != [xX] || "$BUFFER[post+1]" == [01] ]]; then
-      base=2
-    fi
-    ;;
-esac
-if (( base == 10 )); then
-  while [[ "$BUFFER[pos]" != [0-9] ]]; do
-    (( pos++ ))
-    (( pos > $#BUFFER )) && return
-  done
+integer pos=$(( CURSOR + 1 )) base=0
+
+# avoid miscalculating positions when cursor is at the end of the line
+while (( pos > 0 )) && [[ "$BUFFER[pos]" == '' ]]; do
+  (( pos-- ))
+done
+
+# check for a prefix (e.g., 0x) before the cursor
+for (( i = 0; i < 2; i++ )); do
+  case "$BUFFER[1,pos]" in
+    *0[xX][0-9a-fA-F]##) base=16 ;;
+    *0[oO][0-7]##) base=8 ;;
+    *0[bB][01]##) base=2 ;;
+    *[1-9]) base=10 ;;
+    *0) ;; # there may be a prefix right after the cursor
+    *)
+      # the non-Vim variant looks right before the cursor too, but not after it
+      if [[ "$WIDGET" != vi* ]]; then
+        if (( i == 0 )); then
+          (( pos-- ))
+          continue
+        else
+          return 1
+        fi
+      fi
+      ;;
+  esac
+
+  break
+done
+
+# check for a prefix on the cursor
+if (( base == 0 && pos < $#BUFFER )); then
+  case "$BUFFER[1,pos+1]" in
+    *0[xX][0-9a-fA-F]) base=16; (( pos++ )) ;;
+    *0[oO][0-7]) base=8; (( pos++ )) ;;
+    *0[bB][01]) base=2; (( pos++ )) ;;
+  esac
 fi
-case "$BUFFER[pos,-1]" in
-  0[xX][0-9a-fA-F]*)
-    base=16
-    (( pos += 2 ))
-    ;;
-  0[oO][0-7]*)
-    base=8
-    (( pos += 2 ))
-    ;;
-  0[bB][01]*)
-    base=2
-    (( pos += 2 ))
-    ;;
-esac
+
+if (( base == 0 )); then
+  if [[ "$WIDGET" == vi* ]]; then
+    # jump to the nearest number after the cursor
+    while [[ "$BUFFER[pos]" == [^0-9] ]]; do
+      (( pos++ ))
+      (( pos > $#BUFFER )) && return 1
+    done
+  fi
+
+  # check for a prefix right after the cursor and jump right after it, if any
+  if (( pos <= 1 )) || [[ "$BUFFER[pos-1]" == [^0-9] ]]; then
+    case "$BUFFER[pos,-1]" in
+      0[xX][0-9a-fA-F]*) base=16; (( pos += 2 )) ;;
+      0[oO][0-7]*) base=8; (( pos += 2 )) ;;
+      0[bB][01]*) base=2; (( pos += 2 )) ;;
+    esac
+  fi
+fi
+
+if (( base == 0 )); then
+  base=10
+fi
 
 # find the start of the number
 integer first="$pos"
@@ -96,40 +120,59 @@ case "$base" in
     ;;
 esac
 
-# calculate the width
+# calculate the number of digits
 integer ndigits=0
 case "$BUFFER[first,first+1]" in
   0*|-0) ndigits=$(( last - first + 1 )) ;;
 esac
 
 # determine the amount to increment
-integer ninc=${NUMERIC:-1}
+integer delta=${NUMERIC:-1}
 if [[ "$WIDGET" = *decarg ]]; then
-  (( ninc = -ninc ))
+  (( delta = -delta ))
 fi
-if [[ "$WIDGET" = sync-* ]]; then
+if [[ "$WIDGET" = *sync-* ]]; then
   integer pane_index=1
   if [[ -n "$TMUX_PANE" ]]; then
     pane_index="$(tmux display-message -pt "$TMUX_PANE" '#{pane_index}')"
   elif [[ "$ITERM_SESSION_ID" =~ '^w[0-9]+t[0-9]+p([0-9]+)' ]]; then
-    pane_index=$match[1]
+    pane_index="$match[1]"
   fi
-  (( ninc *= pane_index ))
+  (( delta *= pane_index ))
 fi
 
-local fmt1 fmt2 result
+local old="$BUFFER[first,last]"
+integer oldlen=$#BUFFER
+
+local fmt1 fmt2
 case "$base" in
   10) fmt1=d; fmt2='#10' ;;
   2) fmt1=s; fmt2='##2' ;;
   8) fmt1=s; fmt2='##8' ;;
   16) fmt1="$BUFFER[first-1]"; fmt2='#16' ;;
 esac
-# ignore overflows because there's no way to query the size of integers
-result="$(printf "%0$ndigits$fmt1" $(( [$fmt2] "$base#$BUFFER[first,last]" + ninc )) 2> /dev/null)"
 
-# change the number and move the cursor after it
-integer oldlen=$#BUFFER
-BUFFER[first,last]="${result// /0}"
-(( CURSOR = last + $#BUFFER - oldlen - 1 ))
+local raw_result new
+raw_result="$( \
+  printf "%0$ndigits$fmt1" $(( [$fmt2] "$base#$old" + delta )) 2> /dev/null)"
+new="${raw_result// /0}"
+
+if zstyle -t ":zle:$WIDGET" debug; then
+  zle -M "[$WIDGET] base: $base delta: $delta old: '$old' new: '$new'"
+fi
+
+integer oldnum="$base#$old" newnum="$base#$new" 2> /dev/null
+if (( delta > 0 && newnum < oldnum || delta < 0 && newnum > oldnum  )); then
+  zle -M "[$WIDGET] The resulting number is either too big or too small."
+  return 1
+fi
+
+BUFFER[first,last]="$new"
+
+integer offset=0
+if [[ "$WIDGET" == vi* ]]; then
+  offset=-1
+fi
+(( CURSOR = last + $#BUFFER - oldlen + offset ))
 
 return 0

@@ -141,8 +141,8 @@ autoload -Uz surround \
 autoload -Uz vim-incarg \
   && zle -N vim-incarg \
   && zle -N vim-decarg vim-incarg \
-  && zle -N sync-incarg vim-incarg \
-  && zle -N sync-decarg vim-incarg
+  && zle -N vim-sync-incarg vim-incarg \
+  && zle -N vim-sync-decarg vim-incarg
 
 (( $+aliases[run-help] )) && unalias run-help
 autoload -Uz run-help run-help-{git,ip,openssl,sudo,gh,nix}
@@ -177,8 +177,8 @@ bindkey -v \
   '^?' backward-delete-char
 bindkey -ra 's'
 bindkey -a \
-  'g^A' sync-incarg \
-  'g^X' sync-decarg \
+  'g^A' vim-sync-incarg \
+  'g^X' vim-sync-decarg \
   'sa' add-surround \
   'sd' delete-surround \
   'sr' change-surround \
