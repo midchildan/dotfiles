@@ -115,6 +115,8 @@ zstyle ':completion:complete-from-help:*' completer _complete _gnu_generic
 ##}}}
 # Editing & Keybindings {{{
 
+setopt interactive_comments
+
 autoload -Uz copy-earlier-word && zle -N copy-earlier-word
 autoload -Uz edit-command-line && zle -N edit-command-line
 autoload -Uz insert-composed-char && zle -N insert-composed-char
@@ -210,8 +212,18 @@ bindkey -M menuselect \
   done
 }
 
+autoload -Uz select-word-style && select-word-style bash
+autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
+
+if is-at-least 5.2; then
+  autoload -Uz bracketed-paste-url-magic && \
+    zle -N bracketed-paste bracketed-paste-url-magic
+fi
+
 ##}}}
 # Terminal Support {{{
+
+setopt no_flowcontrol
 
 __set_title() {
   if [[ -n "$SSH_CONNECTION" ]]; then
@@ -281,19 +293,12 @@ fi
 
 setopt long_list_jobs
 setopt no_clobber
-setopt no_flowcontrol
-autoload -Uz select-word-style && select-word-style bash
 autoload -Uz zrecompile && \
-  zrecompile -pq -R ~/.zshrc -- -M ~/.cache/zsh/compdump &!
-autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
-if is-at-least 5.2; then
-  autoload -Uz bracketed-paste-url-magic && \
-    zle -N bracketed-paste bracketed-paste-url-magic
-fi
+  zrecompile -pq ~/.cache/zsh/compdump &!
 
-###########
-#  Theme  #
-###########
+##}}}
+# Theme {{{
+
 if [[ "$TERM" == "dumb" ]]; then
   unsetopt zle prompt_cr prompt_subst
   add-zsh-hook -D precmd '*'
