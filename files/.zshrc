@@ -4,9 +4,9 @@ zmodload -i zsh/parameter
 
 [[ -d ~/.cache/zsh/completion ]] || mkdir -p ~/.cache/zsh/completion
 
-###########################
-#  Environment Variables  #
-###########################
+##}}}
+# Environment Variables {{{
+
 export CLICOLOR=1
 export GPG_TTY="$TTY"
 
@@ -19,9 +19,9 @@ path=(
 
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
-###########################
-#  Aliases and Functions  #
-###########################
+##}}}
+# Aliases & Functions {{{
+
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -34,9 +34,9 @@ alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 autoload -Uz zmv
 autoload -Uz bd br
 
-#################
-#  Directories  #
-#################
+##}}}
+# Directories {{{
+
 setopt auto_name_dirs
 setopt auto_pushd
 setopt pushd_ignore_dups
@@ -48,9 +48,9 @@ zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-max 500
 zstyle ':chpwd:*' recent-dirs-file ~/.cache/zsh/cdhistory
 
-#############
-#  History  #
-#############
+##}}}
+# History {{{
+
 HISTFILE=~/.cache/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
@@ -62,9 +62,9 @@ setopt hist_ignore_space
 setopt hist_reduce_blanks
 setopt share_history
 
-################
-#  Completion  #
-################
+##}}}
+# Completion {{{
+
 setopt always_to_end
 setopt complete_in_word
 setopt correct
@@ -115,9 +115,11 @@ fi
 zle -C complete-from-help complete-word _generic
 zstyle ':completion:complete-from-help:*' completer _complete _gnu_generic
 
-#################
-#  Keybindings  #
-#################
+##}}}
+# Editing & Keybindings {{{
+
+setopt interactive_comments
+
 autoload -Uz copy-earlier-word && zle -N copy-earlier-word
 autoload -Uz edit-command-line && zle -N edit-command-line
 autoload -Uz insert-composed-char && zle -N insert-composed-char
@@ -144,8 +146,8 @@ autoload -Uz surround \
 autoload -Uz vim-incarg \
   && zle -N vim-incarg \
   && zle -N vim-decarg vim-incarg \
-  && zle -N sync-incarg vim-incarg \
-  && zle -N sync-decarg vim-incarg
+  && zle -N vim-sync-incarg vim-incarg \
+  && zle -N vim-sync-decarg vim-incarg
 
 (( $+aliases[run-help] )) && unalias run-help
 autoload -Uz run-help run-help-{git,openssl,sudo,gh,nix}
@@ -180,8 +182,8 @@ bindkey -v \
   '^?' backward-delete-char
 bindkey -ra 's'
 bindkey -a \
-  'g^A' sync-incarg \
-  'g^X' sync-decarg \
+  'g^A' vim-sync-incarg \
+  'g^X' vim-sync-decarg \
   'sa' add-surround \
   'sd' delete-surround \
   'sr' change-surround \
@@ -213,9 +215,19 @@ bindkey -M menuselect \
   done
 }
 
-######################
-#  Terminal Support  #
-######################
+autoload -Uz select-word-style && select-word-style bash
+autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
+
+if is-at-least 5.2; then
+  autoload -Uz bracketed-paste-url-magic && \
+    zle -N bracketed-paste bracketed-paste-url-magic
+fi
+
+##}}}
+# Terminal Support {{{
+
+setopt no_flowcontrol
+
 __set_title() {
   if [[ -n "$SSH_CONNECTION" ]]; then
     print -Pn "\e]0;%m: %1~\a"
@@ -281,25 +293,17 @@ if [[ -n "$INSIDE_EMACS" ]]; then
     '^P' history-beginning-search-backward
 fi
 
-##########
-#  Misc  #
-##########
-setopt interactive_comments
+##}}}
+# Misc {{{
+
 setopt long_list_jobs
 setopt no_clobber
-setopt no_flowcontrol
-autoload -Uz select-word-style && select-word-style bash
 autoload -Uz zrecompile && \
-  zrecompile -pq -R ~/.zshrc -- -M ~/.cache/zsh/compdump &!
-autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
-if is-at-least 5.2; then
-  autoload -Uz bracketed-paste-url-magic && \
-    zle -N bracketed-paste bracketed-paste-url-magic
-fi
+  zrecompile -pq ~/.cache/zsh/compdump &!
 
-###########
-#  Theme  #
-###########
+##}}}
+# Theme {{{
+
 if [[ "$TERM" == "dumb" ]]; then
   unsetopt zle prompt_cr prompt_subst
   unset CLICOLOR
@@ -318,3 +322,7 @@ prompt dashboard
 source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)
 ZSH_HIGHLIGHT_STYLES[comment]='fg=8,bold' # 8 = bright black
+
+##}}}
+
+# vim:set foldmethod=marker:
