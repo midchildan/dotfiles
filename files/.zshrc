@@ -1,11 +1,13 @@
+#{{{ Preamble
+
 typeset -U fpath; fpath+=~/.local/share/zsh/site-functions
 autoload -Uz add-zsh-hook is-at-least
 zmodload -i zsh/parameter
 
 [[ -d ~/.cache/zsh/completion ]] || mkdir -p ~/.cache/zsh/completion
 
-##}}}
-# Environment Variables {{{
+#}}}
+#{{{ Environment Variables
 
 export GPG_TTY="$TTY"
 
@@ -18,8 +20,8 @@ path=(
 
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
-##}}}
-# Aliases & Functions {{{
+#}}}
+#{{{ Aliases & Functions
 
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -31,8 +33,8 @@ alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 autoload -Uz zmv
 autoload -Uz bd br
 
-##}}}
-# Directories {{{
+#}}}
+#{{{ Directories
 
 setopt auto_name_dirs
 setopt auto_pushd
@@ -45,8 +47,8 @@ zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-max 500
 zstyle ':chpwd:*' recent-dirs-file ~/.cache/zsh/cdhistory
 
-##}}}
-# History {{{
+#}}}
+#{{{ History
 
 HISTFILE=~/.cache/zsh/history
 HISTSIZE=10000
@@ -59,8 +61,8 @@ setopt hist_ignore_space
 setopt hist_reduce_blanks
 setopt share_history
 
-##}}}
-# Completion {{{
+#}}}
+#{{{ Completion
 
 setopt always_to_end
 setopt complete_in_word
@@ -112,8 +114,8 @@ fi
 zle -C complete-from-help complete-word _generic
 zstyle ':completion:complete-from-help:*' completer _complete _gnu_generic
 
-##}}}
-# Editing & Keybindings {{{
+#}}}
+#{{{ Editing & Keybindings
 
 setopt interactive_comments
 
@@ -220,8 +222,8 @@ if is-at-least 5.2; then
     zle -N bracketed-paste bracketed-paste-url-magic
 fi
 
-##}}}
-# Terminal Support {{{
+#}}}
+#{{{ Terminal Support
 
 setopt no_flowcontrol
 
@@ -288,16 +290,16 @@ if [[ -n "$INSIDE_EMACS" ]]; then
     '^P' history-beginning-search-backward
 fi
 
-##}}}
-# Misc {{{
+#}}}
+#{{{ Misc
 
 setopt long_list_jobs
 setopt no_clobber
 autoload -Uz zrecompile && \
   zrecompile -pq ~/.cache/zsh/compdump &!
 
-##}}}
-# Theme {{{
+#}}}
+#{{{ Theme
 
 if [[ "$TERM" == "dumb" ]]; then
   unsetopt zle prompt_cr prompt_subst
@@ -317,6 +319,5 @@ source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)
 ZSH_HIGHLIGHT_STYLES[comment]='fg=8,bold' # 8 = bright black
 
-##}}}
-
+#}}}
 # vim:set foldmethod=marker:
