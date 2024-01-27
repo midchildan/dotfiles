@@ -152,19 +152,34 @@ case "$base" in
   16) fmt1="$BUFFER[first-1]"; fmt2='#16' ;;
 esac
 
-local raw_result new
+local raw_result padded
 raw_result="$( \
   printf "%0$ndigits$fmt1" $(( [$fmt2] "$base#$old" + delta )) 2> /dev/null)"
-new="${raw_result// /0}"
+padded="${raw_result// /0}"
+
+integer oldnum="$base#$old" newnum="$base#$padded" 2> /dev/null
+if (( base != 10 && newnum < 0
+        || delta > 0 && newnum < oldnum
+        || delta < 0 && newnum > oldnum  )); then
+  zle -M "[$WIDGET] The resulting number is either too big or too small."
+  return 1
+fi
+
+# adjust the number of leading zeros if the sign of the integer changed
+local new
+if (( base == 10 && ndigits == $#padded )); then
+  if (( oldnum < 0 && newnum >= 0 )); then
+    new="${padded#0}"
+  elif (( oldnum >= 0 && newnum < 0 )); then
+    new="-0${padded#-}"
+  fi
+fi
+if [[ -z "$new" ]]; then
+  new="$padded"
+fi
 
 if zstyle -t ":zle:$WIDGET" debug; then
   zle -M "[$WIDGET] base: $base delta: $delta old: '$old' new: '$new'"
-fi
-
-integer oldnum="$base#$old" newnum="$base#$new" 2> /dev/null
-if (( delta > 0 && newnum < oldnum || delta < 0 && newnum > oldnum  )); then
-  zle -M "[$WIDGET] The resulting number is either too big or too small."
-  return 1
 fi
 
 BUFFER[first,last]="$new"
