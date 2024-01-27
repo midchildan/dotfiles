@@ -1,17 +1,23 @@
+#{{{ Preamble
+
 autoload -Uz add-zsh-hook is-at-least
 
-###########################
-#  Environment Variables  #
-###########################
+#}}}
+#{{{ Environment Variables
+
 export EDITOR="vim"
 export LANG="en_US.UTF-8"
 export LESS="iMR"
 export PAGER="less"
 export SYSTEMD_LESS="iRSMK"
+if [[ "$OSTYPE" == darwin* ]]; then
+  export CLICOLOR=1
+  export COPYFILE_DISABLE=1
+fi
 
-###########################
-#  Aliases and Functions  #
-###########################
+#}}}
+#{{{ Aliases & Functions
+
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -48,17 +54,17 @@ if ! command -v neofetch >/dev/null 2>&1; then
   }
 fi
 
-#################
-#  Directories  #
-#################
+#}}}
+#{{{ Directories
+
 setopt auto_name_dirs
 setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushd_minus
 
-################
-#  Completion  #
-################
+#}}}
+#{{{ Completion
+
 setopt always_to_end
 setopt complete_in_word
 setopt correct
@@ -89,7 +95,7 @@ zmodload -i zsh/complist
     command "ps -u $USER -o pid,user,comm -w -w"
   zstyle ':completion:*:*:*:users' ignored-patterns '_*'
 
-  # XXX: may be slow since caching is disabled
+  # NOTE: may be slow since caching is disabled
   autoload -Uz compinit && compinit -D
 }
 
@@ -97,9 +103,11 @@ zmodload -i zsh/complist
 zle -C complete-from-help complete-word _generic
 zstyle ':completion:complete-from-help:*' completer _complete _gnu_generic
 
-#################
-#  Keybindings  #
-#################
+#}}}
+#{{{ Editing & Keybindings
+
+setopt interactive_comments
+
 autoload -Uz copy-earlier-word && zle -N copy-earlier-word
 autoload -Uz edit-command-line && zle -N edit-command-line
 autoload -Uz insert-composed-char && zle -N insert-composed-char
@@ -162,9 +170,19 @@ if bindkey -l viopp &> /dev/null; then () {
   done
 }; fi
 
-######################
-#  Terminal Support  #
-######################
+autoload -Uz select-word-style && select-word-style bash
+autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
+
+if is-at-least 5.2; then
+  autoload -Uz bracketed-paste-url-magic && \
+    zle -N bracketed-paste bracketed-paste-url-magic
+fi
+
+#}}}
+#{{{ Terminal Support
+
+setopt no_flowcontrol
+
 __set_title() {
   if [[ -n "$SSH_CONNECTION" ]]; then
     print -Pn "\e]0;%m: %1~\a"
@@ -227,33 +245,17 @@ if [[ -n "$INSIDE_EMACS" ]]; then
     '^P' history-beginning-search-backward
 fi
 
-##########
-#  Misc  #
-##########
-setopt interactive_comments
+#}}}
+#{{{ Misc
+
 setopt long_list_jobs
 setopt no_clobber
-setopt no_flowcontrol
+
 zstyle ':dotfiles' baseurl 'https://www.midchildan.org/dotfiles'
-autoload -Uz select-word-style && select-word-style bash
-autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
-if is-at-least 5.2; then
-  autoload -Uz bracketed-paste-url-magic && \
-    zle -N bracketed-paste bracketed-paste-url-magic
-fi
 
-command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
+#}}}
+#{{{ Theme
 
-# for macOS
-if [[ "$OSTYPE" == darwin* ]]; then
-  export CLICOLOR=1
-  export COPYFILE_DISABLE=1
-  alias ls='ls -F'
-fi
-
-###########
-#  Theme  #
-###########
 if [[ "$TERM" == "dumb" ]]; then
   unsetopt zle prompt_cr prompt_subst
   add-zsh-hook -D precmd '*'
@@ -284,3 +286,6 @@ prompt_portable_setup() { # stripped down version of the "dashboard" theme
 autoload -Uz promptinit && promptinit
 prompt_themes+=(concise dashboard portable) # XXX: register prompts not in fpath
 prompt portable
+
+#}}}
+# vim:set foldmethod=marker:
