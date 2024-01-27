@@ -4,9 +4,9 @@ zmodload -i zsh/parameter
 
 [[ -d ~/.cache/zsh/completion ]] || mkdir -p ~/.cache/zsh/completion
 
-###########################
-#  Environment Variables  #
-###########################
+##}}}
+# Environment Variables {{{
+
 export GPG_TTY="$TTY"
 
 typeset -U path
@@ -18,9 +18,9 @@ path=(
 
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
-###########################
-#  Aliases and Functions  #
-###########################
+##}}}
+# Aliases & Functions {{{
+
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -31,9 +31,9 @@ alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 autoload -Uz zmv
 autoload -Uz bd br
 
-#################
-#  Directories  #
-#################
+##}}}
+# Directories {{{
+
 setopt auto_name_dirs
 setopt auto_pushd
 setopt pushd_ignore_dups
@@ -45,9 +45,9 @@ zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-max 500
 zstyle ':chpwd:*' recent-dirs-file ~/.cache/zsh/cdhistory
 
-#############
-#  History  #
-#############
+##}}}
+# History {{{
+
 HISTFILE=~/.cache/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
@@ -59,9 +59,9 @@ setopt hist_ignore_space
 setopt hist_reduce_blanks
 setopt share_history
 
-################
-#  Completion  #
-################
+##}}}
+# Completion {{{
+
 setopt always_to_end
 setopt complete_in_word
 setopt correct
@@ -112,9 +112,9 @@ fi
 zle -C complete-from-help complete-word _generic
 zstyle ':completion:complete-from-help:*' completer _complete _gnu_generic
 
-#################
-#  Keybindings  #
-#################
+##}}}
+# Editing & Keybindings {{{
+
 autoload -Uz copy-earlier-word && zle -N copy-earlier-word
 autoload -Uz edit-command-line && zle -N edit-command-line
 autoload -Uz insert-composed-char && zle -N insert-composed-char
@@ -210,9 +210,9 @@ bindkey -M menuselect \
   done
 }
 
-######################
-#  Terminal Support  #
-######################
+##}}}
+# Terminal Support {{{
+
 __set_title() {
   if [[ -n "$SSH_CONNECTION" ]]; then
     print -Pn "\e]0;%m: %1~\a"
@@ -276,10 +276,9 @@ if [[ -n "$INSIDE_EMACS" ]]; then
     '^P' history-beginning-search-backward
 fi
 
-##########
-#  Misc  #
-##########
-setopt interactive_comments
+##}}}
+# Misc {{{
+
 setopt long_list_jobs
 setopt no_clobber
 setopt no_flowcontrol
@@ -312,3 +311,7 @@ prompt dashboard
 source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets)
 ZSH_HIGHLIGHT_STYLES[comment]='fg=8,bold' # 8 = bright black
+
+##}}}
+
+# vim:set foldmethod=marker:
