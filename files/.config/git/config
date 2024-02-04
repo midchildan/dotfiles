@@ -3,6 +3,9 @@
 [diff]
 	algorithm = histogram
 	colorMoved = default
+[format]
+	signature = 
+	useAutoBase = true
 [init]
 	defaultBranch = main
 [merge]
