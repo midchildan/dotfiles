@@ -1,6 +1,5 @@
-""""""""""""""""""""
-"  Initialization  "
-""""""""""""""""""""
+"{{{ Preamble
+
 " NOTE: Plugins with dependencies are installed through Home Manager.
 call plug#begin('~/.vim/plugged')
 " editing
@@ -60,9 +59,9 @@ augroup END
 
 let s:has_rg = executable('rg')
 
-"""""""""""""
-"  Editing  "
-"""""""""""""
+"}}}
+"{{{ Editing
+
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,default,latin1
 set fileformats=unix,dos,mac
@@ -90,9 +89,9 @@ if !has('nvim') && has('patch-8.0.0238') && $TERM =~? 'screen'
   exec "set t_PS=\<ESC>[200~ | set t_PE=\<ESC>[201~"
 endif
 
-""""""""
-"  UI  "
-""""""""
+"}}}
+"{{{ UI
+
 set hidden
 set colorcolumn=81
 set number
@@ -172,9 +171,9 @@ hi link IlluminatedWordText cursorLine
 hi link IlluminatedWordRead cursorLine
 hi link IlluminatedWordWrite cursorLine
 
-""""""""""""
-"  Search  "
-""""""""""""
+"}}}
+"{{{ Search
+
 set incsearch
 set hlsearch
 set ignorecase
@@ -182,9 +181,9 @@ set smartcase
 set wrapscan
 set tags=./tags;,tags
 
-"""""""""""""""""""""
-"  Persistent Data  "
-"""""""""""""""""""""
+"}}}
+"{{{ Persistent Data
+
 if !has('nvim')
   set viminfo+=n~/.cache/vim/viminfo
   set undodir=~/.cache/vim/undo
@@ -199,12 +198,12 @@ for s:d in [&dir, &backupdir, &undodir]
   endif
 endfor
 
-"""""""""""""""""
-"  Keybindings  "
-"""""""""""""""""
+"}}}
+"{{{ Keybindings
+
 let mapleader="\<Space>"
 let maplocalleader="\<CR>"
-" XXX: Workaround for <Nop> bug in vim/vim#1548, neovim/neovim#6241
+" NOTE: Workaround for <Nop> bug in vim/vim#1548, neovim/neovim#6241
 nnoremap <Space> \
 xnoremap <Space> \
 
@@ -262,7 +261,7 @@ xmap ic <Plug>(coc-classobj-i)
 omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
-" XXX: Same feature as vim/vim#958
+" NOTE: Same feature as vim/vim#958
 xmap im <Plug>(textobj-sandwich-literal-query-i)
 omap im <Plug>(textobj-sandwich-literal-query-i)
 xmap am <Plug>(textobj-sandwich-literal-query-a)
@@ -366,9 +365,9 @@ nnoremap <silent> <Leader>1 :diffget LOCAL<CR>
 nnoremap <silent> <Leader>2 :diffget BASE<CR>
 nnoremap <silent> <Leader>3 :diffget REMOTE<CR>
 
-"""""""""""""
-"  Plugins  "
-"""""""""""""
+"}}}
+"{{{ Plugins
+
 " airline "
 let g:airline_skip_empty_sections = v:true
 if $USE_POWERLINE
@@ -417,9 +416,9 @@ let g:markbar_enable_peekaboo = v:false
 " undotree "
 let g:undotree_WindowLayout = 2
 
-""""""""""
-"  Misc  "
-""""""""""
+"}}}
+"{{{ Misc
+
 let g:tex_flavor = 'latex'
 
 " See :h :DiffOrig
@@ -429,3 +428,6 @@ command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
 if s:has_rg
   set grepprg=rg\ --vimgrep\ --hidden
 endif
+
+"}}}
+" vim:set foldmethod=marker:
