@@ -19,6 +19,7 @@
 [rebase]
 	autosquash = true
 [sendemail]
+	annotate = true
 	confirm = auto
 	xmailer = false
 [alias]
