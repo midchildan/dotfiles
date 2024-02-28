@@ -114,6 +114,11 @@ autoload -Uz insert-composed-char && zle -N insert-composed-char
 autoload -Uz select-bracketed && zle -N select-bracketed
 autoload -Uz select-quoted && zle -N select-quoted
 autoload -Uz smart-insert-last-word && zle -N smart-insert-last-word
+autoload -Uz incarg \
+  && zle -N vim-incarg incarg \
+  && zle -N vim-decarg incarg \
+  && zle -N vim-sync-incarg incarg \
+  && zle -N vim-sync-decarg incarg
 autoload -Uz surround \
   && zle -N delete-surround surround \
   && zle -N add-surround surround \
@@ -141,11 +146,15 @@ bindkey -v \
   '^?' backward-delete-char
 bindkey -ra 's'
 bindkey -a \
+  'g^A' vim-sync-incarg \
+  'g^X' vim-sync-decarg \
   'sa' add-surround \
   'sd' delete-surround \
   'sr' change-surround \
   'z=' spell-word \
   'K' run-help \
+  '^A' vim-incarg \
+  '^X' vim-decarg \
   '!' edit-command-line
 bindkey -M menuselect \
   '^B' backward-char \
