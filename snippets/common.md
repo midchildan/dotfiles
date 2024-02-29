@@ -110,6 +110,10 @@
 
 `nc towel.blinkenlights.nl 23`
 
+- Launch Neovim and run ex command:
+
+`nvim '+{{setfiletype confluence}}'`
+
 - Start an OpenSSL test HTTP server:
 
 `openssl s_server -accept {{4443}} -www`

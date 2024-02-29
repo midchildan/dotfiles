@@ -1,7 +1,16 @@
 emulate -L zsh
 
+# This widget has been upstreamed to zsh
+# https://www.zsh.org/mla/workers/2024/msg00082.html
+#
+# TODO: Remove this copy once the upstreamed version gets widely deployed.
+
+zle -f vichange
+
 setopt localoptions extended_glob
 local match mbegin mend MATCH MBEGIN MEND i
+
+[[ -z "$BUFFER" ]] && return 1
 
 # find the number and determine the base
 integer pos=$(( CURSOR + 1 )) base=0
@@ -46,11 +55,35 @@ fi
 
 if (( base == 0 )); then
   if [[ "$WIDGET" == vi* ]]; then
-    # jump to the nearest number after the cursor
-    while [[ "$BUFFER[pos]" == [^0-9] ]]; do
-      (( pos++ ))
-      (( pos > $#BUFFER )) && return 1
-    done
+    if [[ "$WIDGET" == *backward-* ]]; then
+      # search backwards for a number
+      while true; do
+        case "$BUFFER[1,pos]" in
+          *0[xX][0-9a-fA-F]##) base=16 ;;
+          *0[oO][0-7]##) base=8 ;;
+          *0[bB][01]##) base=2 ;;
+          *[0-9]) base=10 ;;
+          *-)
+            case "$BUFFER[pos,-1]" in
+              -0[xX][0-9a-fA-F]*) ;;
+              -0[oO][0-7]*) ;;
+              -0[bB][01]*) ;;
+              -[0-9]*) base=10 ;;
+            esac
+            ;;
+        esac
+        (( base != 0 )) && break
+
+        (( pos-- ))
+        (( pos <= 0 )) && return 1
+      done
+    else
+      # jump to the nearest number after the cursor
+      while [[ "$BUFFER[pos]" == [^0-9] ]]; do
+        (( pos++ ))
+        (( pos > $#BUFFER )) && return 1
+      done
+    fi
   fi
 
   # check for a prefix right after the cursor and jump right after it, if any
@@ -127,22 +160,31 @@ case "$BUFFER[first,first+1]" in
 esac
 
 # determine the amount to increment
-integer delta=${NUMERIC:-1}
+integer delta=${NUMERIC:-${incarg:-1}}
 if [[ "$WIDGET" = *decarg ]]; then
   (( delta = -delta ))
 fi
 if [[ "$WIDGET" = *sync-* ]]; then
-  integer pane_index=1
+  integer pane_index=0
   if [[ -n "$TMUX_PANE" ]]; then
     pane_index="$(tmux display-message -pt "$TMUX_PANE" '#{pane_index}')"
   elif [[ "$ITERM_SESSION_ID" =~ '^w[0-9]+t[0-9]+p([0-9]+)' ]]; then
     pane_index="$match[1]"
+  else
+    zle -M "[$WIDGET] unsupported terminal"
+    return 1
   fi
   (( delta *= pane_index ))
 fi
 
 local old="$BUFFER[first,last]"
 integer oldlen=$#BUFFER
+integer oldnum="$base#$old" 2> /dev/null
+
+# -00 should increment to 01 instead of 001
+if [[ "$BUFFER[first]" == '-' ]] && (( oldnum == 0 )); then
+  (( ndigits-- ))
+fi
 
 local fmt1 fmt2
 case "$base" in
@@ -153,11 +195,12 @@ case "$base" in
 esac
 
 local raw_result padded
-raw_result="$( \
-  printf "%0$ndigits$fmt1" $(( [$fmt2] "$base#$old" + delta )) 2> /dev/null)"
+# $(( )) outputs an error message to stderr when integer truncation occurs
+printf -v raw_result "%0$ndigits$fmt1" $(( [$fmt2] "$base#$old" + delta )) 2> /dev/null
 padded="${raw_result// /0}"
+integer newnum="$base#$padded" 2> /dev/null
 
-integer oldnum="$base#$old" newnum="$base#$padded" 2> /dev/null
+# try to detect integer truncation
 if (( base != 10 && newnum < 0
         || delta > 0 && newnum < oldnum
         || delta < 0 && newnum > oldnum  )); then
@@ -182,7 +225,12 @@ if zstyle -t ":zle:$WIDGET" debug; then
   zle -M "[$WIDGET] base: $base delta: $delta old: '$old' new: '$new'"
 fi
 
-BUFFER[first,last]="$new"
+if (( 0 < first && first <= last && last <= $#BUFFER )); then
+  BUFFER[first,last]="$new"
+else
+  zle -M "[$WIDGET] The detected location of the integer was invalid. [location=BUFFER[$first,$last]]"
+  return 1
+fi
 
 integer offset=0
 if [[ "$WIDGET" == vi* ]]; then

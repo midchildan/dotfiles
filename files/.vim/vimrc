@@ -38,11 +38,10 @@ Plug 'morhetz/gruvbox'
 
 " filetypes
 Plug 'midchildan/ft-confluence.vim'
-Plug 'google/vim-jsonnet'
+Plug 'google/vim-jsonnet' " https://github.com/google/vim-jsonnet/issues/30
 Plug 'ledger/vim-ledger'
 Plug 'LnL7/vim-nix'
 Plug 'lervag/vimtex'
-Plug 'cespare/vim-toml'
 
 " filetype plugin indent and syntax is handled by plug#end
 call plug#end()
