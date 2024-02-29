@@ -1,0 +1,7 @@
+global !p
+import uuid
+endglobal
+
+snippet messageid "Generate a Message-Id email header" b
+Message-Id: `!p snip.rv = uuid.uuid4()`@${1:`!v g:snips_author`}
+endsnippet
