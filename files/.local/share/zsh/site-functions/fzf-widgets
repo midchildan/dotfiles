@@ -30,12 +30,12 @@ local searchpath
 if ! zstyle -s ':dotfiles:fzf' script-dir searchpath; then
   searchpath=(
     ~/.nix-profile/share/fzf
-    ~/.vim/plugged/fzf/shell
     /run/current-system/sw/share/fzf
-    /usr/local/opt/fzf/shell
-    /usr/share/doc/fzf/examples
     ~/.fzf.zsh
     "${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzf.zsh"
+    ~/.vim/plugged/fzf/shell
+    /usr/local/opt/fzf/shell
+    /usr/share/doc/fzf/examples
   )
 fi
 
