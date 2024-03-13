@@ -1,6 +1,8 @@
 emulate -L zsh
 zmodload -i zsh/parameter
 
+zle split-undo
+
 if ! (( $+commands[perl] )); then
   zle -M "perl not in PATH"
   return 1
