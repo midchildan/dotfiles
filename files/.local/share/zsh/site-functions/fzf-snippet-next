@@ -1,6 +1,8 @@
 emulate -L zsh
 zmodload -i zsh/parameter
 
+zle split-undo
+
 if ! (( $+commands[perl] )); then
   zle -M "perl not in PATH"
   return 1
@@ -13,19 +15,19 @@ perl -C -n0777e \
 
 # fallback behavior when no snippet is active
 if [[ -z "$snippet" ]]; then
-  if [[ "$WIDGET" == fzf-snippet-next-or-accept-line ]]; then
-    zle accept-line
-  else
-    zle .self-insert
+  local fallback
+  if [[ "$WIDGET" == *-or-* ]]; then
+    fallback="${WIDGET#*-or-}"
   fi
+  zle "${fallback:-.self-insert}"
   return 0
 fi
 
 local pos="$(cut -d: -f1 <<< "$snippet")"
 local placeholder="$(cut -d: -f2- <<< "$snippet")"
-local len=$#placeholder
+integer len=$#placeholder
 
-if [[ "$WIDGET" == *-accept ]]; then
+if [[ "$WIDGET" == *snippet-accept* ]]; then
   BUFFER="$BUFFER[1,pos]$BUFFER[pos+3,pos+len-2]$BUFFER[pos+len+1,$#BUFFER]"
   CURSOR=$(( pos + len - 4 ))
 else

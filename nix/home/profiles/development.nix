@@ -13,7 +13,6 @@ in
 
   config = lib.mkIf cfg.development.enable {
     home.packages = with pkgs; [
-      clang-tools
       github-cli
       semgrep
       shellcheck
