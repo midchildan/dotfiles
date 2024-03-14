@@ -4,7 +4,9 @@ typeset -U fpath; fpath+=~/.local/share/zsh/site-functions
 autoload -Uz add-zsh-hook is-at-least
 zmodload -i zsh/parameter
 
-[[ -d ~/.cache/zsh/completion ]] || mkdir -p ~/.cache/zsh/completion
+if [[ ! ( -d ~/.cache/zsh/completion && -d ~/.local/state/zsh ) ]]; then
+  mkdir -p ~/.cache/zsh/completion ~/.local/state/zsh
+fi
 
 #}}}
 #{{{ Environment Variables
@@ -45,14 +47,14 @@ autoload -Uz chpwd_recent_dirs cdr
 chpwd_functions=(chpwd_recent_dirs)
 zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-max 500
-zstyle ':chpwd:*' recent-dirs-file ~/.cache/zsh/cdhistory
+zstyle ':chpwd:*' recent-dirs-file ~/.local/state/zsh/cdhistory
 
 #}}}
 #{{{ History
 
-HISTFILE=~/.cache/zsh/history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTFILE=~/.local/state/zsh/history
+HISTSIZE=100000
+SAVEHIST=100000
 
 setopt extended_history
 setopt hist_expire_dups_first
