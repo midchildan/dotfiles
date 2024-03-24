@@ -193,15 +193,16 @@ bindkey -a \
   '^A' vim-incarg \
   '^X' vim-decarg \
   '!' edit-command-line
+# https://zsh.sourceforge.io/Doc/Release/Zsh-Modules.html#Menu-selection
 bindkey -M menuselect \
   '^B' backward-char \
   '^E' undo \
   '^F' forward-char \
   '^J' accept-and-menu-complete \
   '^N' down-line-or-history \
+  '^O' accept-and-infer-next-history \
   '^P' up-line-or-history \
-  '^X^F' accept-and-infer-next-history \
-  '^X^X' vi-insert \
+  '^X' vi-insert \
   '^Y' accept-line
 
 () {
