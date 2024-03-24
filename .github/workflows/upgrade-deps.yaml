@@ -2,7 +2,7 @@ name: Upgrade dependencies
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 10 * * THU"
+    - cron: "0 10 * * FRI"
 jobs:
   upgrade-dependencies:
     runs-on: ubuntu-latest
