@@ -19,7 +19,11 @@ if [[ -z "$snippet" ]]; then
   if [[ "$WIDGET" == *-or-* ]]; then
     fallback="${WIDGET#*-or-}"
   fi
-  zle "${fallback:-.self-insert}"
+  if [[ -n "$fallback" ]]; then
+    zle "$fallback"
+  else
+    CURSOR="$#BUFFER"
+  fi
   return 0
 fi
 
