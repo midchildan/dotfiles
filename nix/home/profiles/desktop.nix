@@ -16,7 +16,6 @@ in
         kitty
         libreoffice
         lollypop
-        vlc
         xclip
       ];
 
