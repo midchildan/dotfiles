@@ -16,9 +16,25 @@ in
         kitty
         libreoffice
         lollypop
-        vlc
         xclip
       ];
+
+    programs.mpv = {
+      enable = lib.mkDefault true;
+      config = {
+        profile = lib.mkDefault "fast"; # trade quality for power efficiency
+        autofit-larger = lib.mkDefault "100%x100%";
+        hwdec = lib.mkDefault "auto";
+        keep-open = lib.mkDefault true;
+      };
+      profiles = {
+        "protocol.https" = {
+          # use a format friendly to hardware decoders
+          ytdl-format = lib.mkDefault "mp4[height<=?720]";
+        };
+        "protocol.http".profile = lib.mkDefault "protocol.https";
+      };
+    };
 
     dotfiles.emacs.enable = lib.mkDefault true;
     dotfiles.profiles = {

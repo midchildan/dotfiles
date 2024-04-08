@@ -21,7 +21,7 @@ let
 
       value = stdenvNoCC.mkDerivation {
         pname = pkgPrefix + lib.toLower name;
-        version = "unstable-2024-01-31";
+        version = "0-unstable-2024-01-31";
 
         src = fetchFromGitHub {
           owner = "skk-dev";
