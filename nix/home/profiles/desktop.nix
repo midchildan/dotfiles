@@ -22,6 +22,8 @@ in
     programs.mpv = {
       enable = lib.mkDefault true;
       config = {
+        profile = lib.mkDefault "fast"; # trade quality for power efficiency
+        autofit-larger = lib.mkDefault "100%x100%";
         hwdec = lib.mkDefault "auto";
         keep-open = lib.mkDefault true;
       };
