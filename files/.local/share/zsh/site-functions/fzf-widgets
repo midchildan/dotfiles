@@ -24,52 +24,7 @@ if [[ "$TERM" == 'dumb' ]]; then
   return
 fi
 
-# find and load upstream fzf widgets
-
-local searchpath
-if ! zstyle -s ':dotfiles:fzf' script-dir searchpath; then
-  searchpath=(
-    ~/.nix-profile/share/fzf
-    /run/current-system/sw/share/fzf
-    ~/.fzf.zsh
-    "${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzf.zsh"
-    ~/.vim/plugged/fzf/shell
-    /usr/local/opt/fzf/shell
-    /usr/share/doc/fzf/examples
-  )
-fi
-
-local f is_found=0
-for f in "$searchpath[@]"; do
-  if [[ -f "$f/completion.zsh" && -f "$f/key-bindings.zsh" ]]; then
-    FZF_CTRL_R_OPTS="${FZF_CTRL_R_OPTS:---reverse}"
-
-    {
-      function bindkey() {} # don't let fzf change the shell keybindings
-      source "$f/completion.zsh"
-      source "$f/key-bindings.zsh"
-    } always {
-      unfunction bindkey
-    }
-
-    is_found=1
-    break
-  elif [[ "$f" == *.zsh && -f "$f" ]]; then
-    FZF_CTRL_R_OPTS="${FZF_CTRL_R_OPTS:---reverse}"
-
-    {
-      function bindkey() {} # don't let fzf change the shell keybindings
-      source "$f"
-    } always {
-      unfunction bindkey
-    }
-
-    is_found=1
-    break
-  fi
-done
-
-if (( ! is_found )); then
+if ! (( $+commands[fzf] )); then
   local loglevel='WARN'
   case "$WIDGET" in
     fzf-completion)
@@ -93,6 +48,17 @@ if (( ! is_found )); then
   zle -M "[$loglevel] fzf-widgets: The directory containing the stock FZF widgets were not detected. Specify one with 'zstyle \":dotfiles:fzf\" script-dir /path/to/fzf/shell/dir'"
   return 1
 fi
+
+# load zsh shell integeration
+
+FZF_CTRL_R_OPTS="${FZF_CTRL_R_OPTS:---reverse}"
+
+{
+  function bindkey() {} # don't let fzf change the shell keybindings
+  eval "$(fzf --zsh)"
+} always {
+  unfunction bindkey
+}
 
 # define additional functions and widgets
 
