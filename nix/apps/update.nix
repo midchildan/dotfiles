@@ -29,6 +29,7 @@
 , curl
 , gawk
 , git
+, gnugrep
 , gnused
 , jq
 , nix
@@ -103,6 +104,7 @@ let
     curl
     gawk
     git
+    gnugrep
     gnused
     jq
     nix
