@@ -7,10 +7,6 @@ DOTFILE_FILES_DIR=files
 # shellcheck source=scripts/lib/setup
 source "$DOTFILE_DIR/scripts/lib/setup"
 
-# Remove dead symlinks
-clean:
-  - gc: true
-
 run: submodule updates
   - git submodule --quiet update --init
 

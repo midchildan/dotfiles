@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# {{{ Preamble
+
 DOTFILE_DIR="${DOTFILE_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 DOTFILE_FILES_DIR="${DOTFILE_FILES_DIR:-files}"
 
@@ -25,9 +27,8 @@ dot::_exit() {
 }
 trap dot::_exit EXIT
 
-############
-#  syntax  #
-############
+# }}}
+# {{{ DSL Syntax
 
 # shellcheck disable=SC2120
 run:() {
@@ -40,13 +41,6 @@ run:() {
 install:() {
   _DOT_SECTION="install"
   echo "$_DOT_BOLD== Install ${*:-Files} ==$_DOT_CLEAR"
-  cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
-}
-
-# shellcheck disable=SC2120
-clean:() {
-  _DOT_SECTION="clean"
-  echo "$_DOT_BOLD== Clean ${*:-dead symlinks} ==$_DOT_CLEAR"
   cd "$DOTFILE_DIR" || dot::_abort "can't enter dir $DOTFILE_DIR"
 }
 
@@ -68,14 +62,12 @@ githooks:() {
   case "$_DOT_SECTION" in
     shell) dot::shell::task "$@" ;;
     install) dot::install::task "$@" ;;
-    clean) dot::clean::task "$@" ;;
     githooks) dot::githooks::task "$@" ;;
   esac
 }
 
-###########
-#  tasks  #
-###########
+# }}}
+# {{{ Tasks
 
 # Creates an symlink from $DOTFILE_DIR/$DOTFILE_FILES_DIR/$path_to_file to
 # ~/$path_to_file
@@ -123,24 +115,6 @@ dot::install::task() {
 #   None
 dot::shell::task() {
   dot::shell "$@"
-}
-
-# [DEPRECATED] This function is no longer necessary since the garbage collector
-#   will automatically keep track of symlinks installed by the setup script.
-# Removes ~/$path_to_file if it is a dead symlink
-# Arguments:
-#   path_to_file : file to clean
-# Returns:
-#   None
-dot::clean::task() {
-  [[ "$#" != 1 ]] && dot::_abort "Wrong number of arguments."
-  [[ "$1" == /* ]] && dot::_abort "Cannot use absoulte path."
-
-  echo -n "Cleaning $1..."
-
-  local filepath=~/"$1"
-  [[ ! -L "$filepath" || -e "$filepath" ]] || rm "$filepath"
-  dot::_print_badge
 }
 
 # Symlinks $DOTFILE_DIR/scripts/githooks/$hook into $GIT_DIR/hook
@@ -262,36 +236,6 @@ dot::github() {
   echo "Cloning $1...$(dot::_print_badge)"
 }
 
-# Automatically remove dead symlinks
-# Globals:
-#   _DOT_ENABLE_GC
-# Arguments:
-#   enable: Whether to run the GC (true/false)
-# Returns:
-#   None
-dot::gc() {
-  [[ "$_DOT_SECTION" != "clean" ]] && return
-
-  case "$1" in
-    true|yes|1) [[ -z "$_DOT_ENABLE_GC" ]] && return ;;
-    false|no|0) return ;;
-    *) dot::_abort "Invalid argument: $1" ;;
-  esac
-
-  for root in "$_DOT_GCROOT"/*; do
-    link="$(readlink "$root")"
-    if [[ -L "$link" && ! -e "$link" ]]; then
-      echo -n "Cleaning $link..."
-      rm "$link" "$root"
-      dot::_print_badge
-    elif [[ ! -e "$root" ]]; then
-      echo -n "Cleaning GC root for $link..."
-      rm "$root"
-      dot::_print_badge
-    fi
-  done
-}
-
 # Run a shell script
 # Arguments:
 #   path: target path/url
@@ -321,9 +265,8 @@ dot::shell() {
   dot::_print_badge
 }
 
-#############
-#  helpers  #
-#############
+# }}}
+# {{{ Helpers
 
 # Print an error message and exit
 # Arguments:
@@ -491,11 +434,11 @@ tput() {
   esac
 }
 
-#################
-#  subcommands  #
-#################
+# }}}
+# {{{ Subcommands
 
 dot::_command::uninstall() {
+  local root link
   for root in "$_DOT_GCROOT"/*; do
     link="$(readlink "$root")"
     if [[ -L "$link" ]]; then
@@ -527,23 +470,55 @@ EOF
 exit
 }
 
-###########################
-#  command line arguments #
-###########################
+# }}}
+# {{{ Setup
 
-for n in "$@"; do
-  case "$n" in
-    -h|--help) dot::_command::help ;;
-    --init) _DOT_IS_INIT=1 ;;
-    -f|--force) _DOT_LNFLAGS+="f" ;;
-    --disable-gc) _DOT_ENABLE_GC= ;;
-    -V|--verbose) _DOT_IS_VERBOSE=1 ;;
-    uninstall) dot::_command::uninstall ;;
-    *) ;;
-  esac
-done
+dot::setup::parse_args() {
+  local n
+  for n in "$@"; do
+    case "$n" in
+      -h|--help) dot::_command::help ;;
+      --init) _DOT_IS_INIT=1 ;;
+      -f|--force) _DOT_LNFLAGS+="f" ;;
+      --disable-gc) _DOT_ENABLE_GC= ;;
+      -V|--verbose) _DOT_IS_VERBOSE=1 ;;
+      uninstall) dot::_command::uninstall ;;
+      *) ;;
+    esac
+  done
+}
 
-# redirect stderr to log file
-if [[ -z "$_DOT_IS_VERBOSE" ]]; then
-  exec 2>>"$_DOT_LOGFILE"
-fi
+dot::setup::gc() {
+  [[ -z "$_DOT_ENABLE_GC" ]] && return
+
+  echo "$_DOT_BOLD== Remove dead symlinks ==$_DOT_CLEAR"
+  local root link
+  for root in "$_DOT_GCROOT"/*; do
+    link="$(readlink "$root")"
+    if [[ -L "$link" && ! -e "$link" ]]; then
+      echo -n "Removing $link..."
+      rm "$link" "$root"
+      dot::_print_badge
+    elif [[ ! -e "$root" ]]; then
+      echo -n "Removing GC root for $link..."
+      rm "$root"
+      dot::_print_badge
+    fi
+  done
+}
+
+main() {
+  dot::setup::parse_args "$@"
+
+  # redirect stderr to log file
+  if [[ -z "$_DOT_IS_VERBOSE" ]]; then
+    exec 2>>"$_DOT_LOGFILE"
+  fi
+
+  dot::setup::gc
+}
+
+main "$@"
+
+# }}}
+# vim:set foldmethod=marker:
