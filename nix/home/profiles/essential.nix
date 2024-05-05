@@ -29,7 +29,6 @@ in
         lsof
         magic-wormhole
         neofetch
-        nixpkgs-fmt
         nkf
         ranger
         tig
