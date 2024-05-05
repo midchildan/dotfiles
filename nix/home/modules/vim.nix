@@ -1,12 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.dotfiles.vim;
   inherit (config.dotfiles) flakeOptions;
 
-  vimPackDrv = pkgs.vimUtils.packDir {
-    home-manager = cfg.plugins;
-  };
+  vimPackDrv = pkgs.vimUtils.packDir { home-manager = cfg.plugins; };
 in
 {
   options.dotfiles.vim.plugins = lib.mkOption {

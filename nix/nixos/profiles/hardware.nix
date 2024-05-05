@@ -1,6 +1,12 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.dotfiles.profiles.hardware;
+let
+  cfg = config.dotfiles.profiles.hardware;
 in
 {
   options.dotfiles.profiles.hardware = {

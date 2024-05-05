@@ -1,7 +1,8 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
-, nix-update-script
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  nix-update-script,
 }:
 
 buildGoModule rec {
@@ -20,7 +21,11 @@ buildGoModule rec {
   doCheck = true;
 
   passthru.updateScript = nix-update-script {
-    extraArgs = [ "--flake" "--version-regex" "mmdbctl-(.*)" ];
+    extraArgs = [
+      "--flake"
+      "--version-regex"
+      "mmdbctl-(.*)"
+    ];
   };
 
   meta = {

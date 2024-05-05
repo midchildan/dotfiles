@@ -1,14 +1,20 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.dotfiles.nix;
   nixPath = lib.concatStringsSep ":" cfg.nixPath;
 
-  useXdg = config.nix.enable
-    && (config.nix.settings.use-xdg-base-directories or false);
+  useXdg = config.nix.enable && (config.nix.settings.use-xdg-base-directories or false);
   defexprDir =
-    if useXdg then "${config.xdg.dataHome}/nix/defexpr"
-    else "${config.home.homeDirectory}/.nix-defexpr";
+    if useXdg then
+      "${config.xdg.dataHome}/nix/defexpr"
+    else
+      "${config.home.homeDirectory}/.nix-defexpr";
 
   # The deploy path for declarative channels. The directory name is prefixed
   # with a number to make it easier for files in defexprDir to control the order
@@ -16,8 +22,13 @@ let
   channelPath = "${defexprDir}/50-dotfiles";
 
   channelsDrv =
-    let mkEntry = name: drv: { inherit name; path = toString drv; };
-    in pkgs.linkFarm "channels" (lib.mapAttrsToList mkEntry cfg.channels);
+    let
+      mkEntry = name: drv: {
+        inherit name;
+        path = toString drv;
+      };
+    in
+    pkgs.linkFarm "channels" (lib.mapAttrsToList mkEntry cfg.channels);
 in
 {
   options.dotfiles.nix = {

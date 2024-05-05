@@ -1,9 +1,21 @@
 { inputs }@localFlake:
-{ lib, config, getSystem, ... }@flake:
+{
+  lib,
+  config,
+  getSystem,
+  ...
+}@flake:
 
 let
   inherit (lib.types)
-    attrsOf anything functionTo lazyAttrsOf listOf uniq unspecified;
+    attrsOf
+    anything
+    functionTo
+    lazyAttrsOf
+    listOf
+    uniq
+    unspecified
+    ;
 
   overlayType = uniq (functionTo (functionTo (lazyAttrsOf unspecified))) // {
     name = "nixpkgs-overlay";
@@ -35,12 +47,18 @@ in
   };
 
   config = {
-    perSystem = { system, ... }:
+    perSystem =
+      { system, ... }:
       let
-        importPkgs = path: import path (cfg.args // {
-          inherit system;
-          overlays = [ inputs.self.overlays.default ] ++ cfg.args.overlays;
-        });
+        importPkgs =
+          path:
+          import path (
+            cfg.args
+            // {
+              inherit system;
+              overlays = [ inputs.self.overlays.default ] ++ cfg.args.overlays;
+            }
+          );
       in
       {
         _module.args = {

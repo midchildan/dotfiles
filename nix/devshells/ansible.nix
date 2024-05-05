@@ -1,7 +1,8 @@
-{ mkShellNoCC
-, ansible
-, ansible-lint
-, python3Packages
+{
+  mkShellNoCC,
+  ansible,
+  ansible-lint,
+  python3Packages,
 }:
 
 mkShellNoCC {

@@ -1,7 +1,8 @@
-{ lib
-, flake-parts-lib
-, inputs
-, ...
+{
+  lib,
+  flake-parts-lib,
+  inputs,
+  ...
 }:
 
 let
@@ -41,7 +42,7 @@ in
       treefmt = {
         projectRootFile = "flake.nix";
         programs = {
-          nixpkgs-fmt.enable = true;
+          nixfmt-rfc-style.enable = true;
           shellcheck.enable = true;
           prettier = {
             enable = true;

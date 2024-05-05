@@ -1,4 +1,10 @@
-{ config, lib, pkgs, dotfiles, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  dotfiles,
+  ...
+}:
 
 let
   cfg = config.dotfiles.aquaskk;
@@ -10,7 +16,14 @@ let
 
   # This has to be in a specific order.
   # https://github.com/codefirst/aquaskk/blob/0e7a88f/platform/mac/src/server/SKKServer.mm#L56-L63
-  dictTypes = [ "euc-jp" "online" "skkserv" "kotoeri" "program" "utf-8" ];
+  dictTypes = [
+    "euc-jp"
+    "online"
+    "skkserv"
+    "kotoeri"
+    "program"
+    "utf-8"
+  ];
 
   # Creates an entry for DictionarySet.plist from an item in cfg.dictionary.
   mkDictionary = name: config: {
@@ -21,13 +34,12 @@ let
         option = "dotfiles.aquaskk.dictionaries.${name}";
         value = config.type;
       in
-      if index >= 0 then index
-      else throw "Option '${option}' has unknown value '${value}'.";
+      if index >= 0 then index else throw "Option '${option}' has unknown value '${value}'.";
   };
 
-  dictionarySet = dotfiles.lib.mapPrioritizedAttrsToList mkDictionary
-    (a: b: a.value.priority > b.value.priority)
-    cfg.dictionaries;
+  dictionarySet = dotfiles.lib.mapPrioritizedAttrsToList mkDictionary (
+    a: b: a.value.priority > b.value.priority
+  ) cfg.dictionaries;
 in
 {
   options.dotfiles.aquaskk = {
@@ -43,40 +55,45 @@ in
     };
 
     dictionaries = lib.mkOption {
-      type = with lib.types; attrsOf (submodule ({ name, config, ... }: {
-        options = {
-          active = lib.mkOption {
-            type = bool;
-            default = true;
-            description = "Whether to enable the dictionary \"${name}\".";
-          };
-          location = lib.mkOption {
-            type = str;
-            default = name;
-            description = ''
-              Location of the dictionary "${name}". This option will emptied if
-              {option}`type` is set to `program`.
-            '';
-          };
-          type = lib.mkOption {
-            type = enum dictTypes;
-            description = "Type of the dictionary \"${name}\".";
-          };
-          priority = lib.mkOption {
-            type = ints.between 0 99;
-            default = 50;
-            description = ''
-              Priority of the dicionary "${name}". Conversion candidates will
-              be sorted according to this value. Candidates from dictionaries
-              with higher priority will come first.
-            '';
-          };
-        };
+      type =
+        with lib.types;
+        attrsOf (
+          submodule (
+            { name, config, ... }:
+            {
+              options = {
+                active = lib.mkOption {
+                  type = bool;
+                  default = true;
+                  description = "Whether to enable the dictionary \"${name}\".";
+                };
+                location = lib.mkOption {
+                  type = str;
+                  default = name;
+                  description = ''
+                    Location of the dictionary "${name}". This option will emptied if
+                    {option}`type` is set to `program`.
+                  '';
+                };
+                type = lib.mkOption {
+                  type = enum dictTypes;
+                  description = "Type of the dictionary \"${name}\".";
+                };
+                priority = lib.mkOption {
+                  type = ints.between 0 99;
+                  default = 50;
+                  description = ''
+                    Priority of the dicionary "${name}". Conversion candidates will
+                    be sorted according to this value. Candidates from dictionaries
+                    with higher priority will come first.
+                  '';
+                };
+              };
 
-        config = lib.mkIf (config.type == "program") {
-          location = "";
-        };
-      }));
+              config = lib.mkIf (config.type == "program") { location = ""; };
+            }
+          )
+        );
 
       default = { };
 
@@ -124,20 +141,18 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    assertions = [
-      (lib.hm.assertions.assertPlatform "dotfiles.aquaskk" pkgs
-        lib.platforms.darwin)
-    ];
+    assertions = [ (lib.hm.assertions.assertPlatform "dotfiles.aquaskk" pkgs lib.platforms.darwin) ];
 
     targets.darwin.defaults = {
       "jp.sourceforge.inputmethod.aquaskk.plist" = cfg.config;
     };
 
     home.file."Library/Application Support/AquaSKK/DictionarySet.plist" =
-      lib.mkIf (cfg.dictionaries != { }) {
-        text = lib.generators.toPlist { } dictionarySet;
-        force = true;
-      };
+      lib.mkIf (cfg.dictionaries != { })
+        {
+          text = lib.generators.toPlist { } dictionarySet;
+          force = true;
+        };
 
     home.activation.reloadAquaSKK = hm.dag.entryAfter [ "setDarwinDefaults" ] ''
       $VERBOSE_ECHO "Reloading AquaSKK configuration"

@@ -1,11 +1,16 @@
-{ lib, config, modulesPath, dotfiles, ... }:
+{
+  lib,
+  config,
+  modulesPath,
+  dotfiles,
+  ...
+}:
 
 let
   cfg = config.dotfiles.profiles.installer;
 in
 {
-  options.dotfiles.profiles.installer.enable =
-    lib.mkEnableOption "custom configuration for NixOS installation media";
+  options.dotfiles.profiles.installer.enable = lib.mkEnableOption "custom configuration for NixOS installation media";
 
   config = lib.mkIf cfg.enable {
     hardware.enableAllFirmware = true;

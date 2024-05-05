@@ -28,7 +28,5 @@ in
     };
   };
 
-  config = lib.mkIf hasSigningKey {
-    user.signingkey = flakeOptions.user.pgpKey;
-  };
+  config = lib.mkIf hasSigningKey { user.signingkey = flakeOptions.user.pgpKey; };
 }

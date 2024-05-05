@@ -1,6 +1,7 @@
-{ mkShellNoCC
-, curlHTTP3
-, quictls
+{
+  mkShellNoCC,
+  curlHTTP3,
+  quictls,
 }:
 
 mkShellNoCC {
