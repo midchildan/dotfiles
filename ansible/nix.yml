@@ -9,6 +9,7 @@
         url: https://install.determinate.systems/nix
         return_content: true
         creates: /nix
+      # prettier-ignore
       environment: &env >-
         {%- if proxy_env.http_proxy or proxy_env.https_proxy -%}
           {%- set extra_env =

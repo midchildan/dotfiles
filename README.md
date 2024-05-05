@@ -116,6 +116,8 @@ into the remaining branches. Make sure you never go the other way and merge
 non-`main` branches into `main` or you'll end up with non-common
 platform-specific stuff in `main`.
 
+<!-- prettier-ignore-start -->
 [build-badge]: https://github.com/midchildan/dotfiles/actions/workflows/build.yaml/badge.svg
 [build-url]: https://github.com/midchildan/dotfiles/actions/workflows/build.yaml
 [nix-shell]: https://nixos.wiki/wiki/Development_environment_with_nix-shell
+<!-- prettier-ignore-end -->
