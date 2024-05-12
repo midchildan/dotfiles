@@ -4,8 +4,8 @@
 DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILE_FILES_DIR=files
 
-# shellcheck source=scripts/lib/setup
-source "$DOTFILE_DIR/scripts/lib/setup"
+# shellcheck source=scripts/lib/setup.sh
+source "$DOTFILE_DIR/scripts/lib/setup.sh"
 
 run: submodule updates
   - git submodule --quiet update --init

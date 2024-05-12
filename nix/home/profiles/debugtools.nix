@@ -1,4 +1,10 @@
-{ config, lib, pkgs, nixos, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  nixos,
+  ...
+}:
 
 let
   cfg = config.dotfiles.profiles;
@@ -6,12 +12,16 @@ let
   isGenericLinux = (config.targets.genericLinux.enable or false);
 in
 {
-  options.dotfiles.profiles.debugTools.enable =
-    lib.mkEnableOption "debugging tools";
+  options.dotfiles.profiles.debugTools.enable = lib.mkEnableOption "debugging tools";
 
   config = lib.mkIf cfg.debugTools.enable {
-    home.packages = with pkgs;
-      [ nmap socat ] ++ lib.optionals isLinux [
+    home.packages =
+      with pkgs;
+      [
+        nmap
+        socat
+      ]
+      ++ lib.optionals isLinux [
         binutils
         powertop
         pwndbg
@@ -19,8 +29,7 @@ in
         valgrind
         nixos.linuxPackages.bcc
         (lowPrio nixos.linuxPackages.bpftrace)
-      ] ++ lib.optionals (isLinux && cfg.desktop.enable) [
-        cutter
-      ];
+      ]
+      ++ lib.optionals (isLinux && cfg.desktop.enable) [ cutter ];
   };
 }

@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.dotfiles.gnupg;
@@ -22,38 +27,40 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable (lib.mkMerge [
-    {
-      home.packages = lib.optional cfg.enablePackage cfg.package;
+  config = lib.mkIf cfg.enable (
+    lib.mkMerge [
+      {
+        home.packages = lib.optional cfg.enablePackage cfg.package;
 
-      home.file.".gnupg/gpg.conf".source = pkgs.substituteAll {
-        src = ./gpg.conf;
-        pgpKey = config.dotfiles.flakeOptions.user.pgpKey or "@removeMe@";
-        postInstall = ''
-          sed -i '/@removeMe@/d' "$target"
-        '';
-      };
-    }
-
-    (lib.mkIf pkgs.stdenv.isDarwin {
-      home.file.".gnupg/gpg-agent.conf".text = ''
-        pinentry-program ${pinentry-mac}
-      '';
-
-      # FIXME: workaround for https://github.com/NixOS/nixpkgs/issues/155629
-      home.file.".gnupg/scdaemon.conf".source = ./scdaemon.conf;
-
-      launchd.agents.gpg-agent = lib.mkIf cfg.enablePackage {
-        enable = true;
-        config = {
-          ProgramArguments = [
-            "${cfg.package}/bin/gpgconf"
-            "--launch"
-            "gpg-agent"
-          ];
-          RunAtLoad = true;
+        home.file.".gnupg/gpg.conf".source = pkgs.substituteAll {
+          src = ./gpg.conf;
+          pgpKey = config.dotfiles.flakeOptions.user.pgpKey or "@removeMe@";
+          postInstall = ''
+            sed -i '/@removeMe@/d' "$target"
+          '';
         };
-      };
-    })
-  ]);
+      }
+
+      (lib.mkIf pkgs.stdenv.isDarwin {
+        home.file.".gnupg/gpg-agent.conf".text = ''
+          pinentry-program ${pinentry-mac}
+        '';
+
+        # FIXME: workaround for https://github.com/NixOS/nixpkgs/issues/155629
+        home.file.".gnupg/scdaemon.conf".source = ./scdaemon.conf;
+
+        launchd.agents.gpg-agent = lib.mkIf cfg.enablePackage {
+          enable = true;
+          config = {
+            ProgramArguments = [
+              "${cfg.package}/bin/gpgconf"
+              "--launch"
+              "gpg-agent"
+            ];
+            RunAtLoad = true;
+          };
+        };
+      })
+    ]
+  );
 }

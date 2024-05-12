@@ -1,4 +1,9 @@
-{ lib, flake-parts-lib, inputs, ... }:
+{
+  lib,
+  flake-parts-lib,
+  inputs,
+  ...
+}:
 
 let
   inherit (flake-parts-lib) importApply;
@@ -15,6 +20,7 @@ in
 {
   imports = lib.attrValues flakeModules ++ [
     inputs.flake-parts.flakeModules.flakeModules
+    inputs.treefmt-nix.flakeModule
     ./apps
     ./darwin
     ./devshells
@@ -30,7 +36,23 @@ in
     inherit flakeModules;
   };
 
-  perSystem = { pkgs, ... }: {
-    formatter = pkgs.nixpkgs-fmt;
-  };
+  perSystem =
+    { pkgs, ... }:
+    {
+      treefmt = {
+        projectRootFile = "flake.nix";
+        programs = {
+          nixfmt-rfc-style.enable = true;
+          shellcheck.enable = true;
+          prettier = {
+            enable = true;
+            settings.proseWrap = "always";
+          };
+        };
+        settings.formatter.shellcheck.options = [
+          "--external-sources"
+          "--source-path=SCRIPTDIR"
+        ];
+      };
+    };
 }

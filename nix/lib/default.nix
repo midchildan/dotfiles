@@ -3,7 +3,8 @@
 let
   # Sets hardening options for systemd services.
   #
-  hardenSystemdService = args:
+  hardenSystemdService =
+    args:
     lib.recursiveUpdate args {
       serviceConfig = {
         # this enables the following options:
@@ -28,27 +29,24 @@ let
         LockPersonality = lib.mkDefault true;
         MemoryDenyWriteExecute = lib.mkDefault true;
         RestrictRealtime = lib.mkDefault true;
-        SystemCallFilter = lib.mkDefault [ "@system-service" "~@mount" ];
+        SystemCallFilter = lib.mkDefault [
+          "@system-service"
+          "~@mount"
+        ];
       };
     };
 
-  indexOf = target: lib.foldl'
-    (index: el:
-      if index < 0 then
-        if el == target then
-          - index - 1
-        else
-          index - 1
-      else
-        index
-    )
-    (-1);
+  indexOf =
+    target:
+    lib.foldl' (
+      index: el: if index < 0 then if el == target then -index - 1 else index - 1 else index
+    ) (-1);
 
-  mapPrioritizedAttrsToList = mapFn: compareFn: attrs:
+  mapPrioritizedAttrsToList =
+    mapFn: compareFn: attrs:
     let
       nameValueFor = name: lib.nameValuePair name attrs.${name};
-      compareNames = name1: name2:
-        compareFn (nameValueFor name1) (nameValueFor name2);
+      compareNames = name1: name2: compareFn (nameValueFor name1) (nameValueFor name2);
       names = lib.sort compareNames (lib.attrNames attrs);
     in
     map (name: mapFn name attrs.${name}) names;

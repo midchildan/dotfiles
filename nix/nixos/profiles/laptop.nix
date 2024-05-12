@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.dotfiles.profiles.laptop;
-in {
+let
+  cfg = config.dotfiles.profiles.laptop;
+in
+{
   options.dotfiles.profiles.laptop = {
     enable = lib.mkEnableOption "Configuration for laptops.";
   };

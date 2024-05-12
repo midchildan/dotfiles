@@ -1,10 +1,11 @@
-{ lib
-, buildVimPlugin
-, fetchFromGitHub
-, fetchYarnDeps
-, mkYarnPackage
-, cacert
-, nix-update-script
+{
+  lib,
+  buildVimPlugin,
+  fetchFromGitHub,
+  fetchYarnDeps,
+  mkYarnPackage,
+  cacert,
+  nix-update-script,
 }:
 
 let
@@ -61,7 +62,11 @@ buildVimPlugin rec {
   src = yarnPackage;
 
   passthru.updateScript = nix-update-script {
-    extraArgs = [ "--flake" "--url" src.src.url ];
+    extraArgs = [
+      "--flake"
+      "--url"
+      src.src.url
+    ];
   };
 
   meta = {

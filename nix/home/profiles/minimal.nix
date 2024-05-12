@@ -1,7 +1,19 @@
-{ config, lib, pkgs, dotfiles, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  dotfiles,
+  ...
+}:
 
 let
-  inherit (lib) mkDefault mkIf mkOption optional types;
+  inherit (lib)
+    mkDefault
+    mkIf
+    mkOption
+    optional
+    types
+    ;
   inherit (pkgs.stdenv.hostPlatform) isLinux isDarwin system;
   isGenericLinux = (config.targets.genericLinux.enable or false);
   isNixOS = isLinux && !isGenericLinux;
@@ -17,14 +29,13 @@ in
   };
 
   config = mkIf config.dotfiles.profiles.minimal.enable {
-    home.packages = with pkgs;
-      [
-        fzf
-        less
-        ripgrep
-        zsh-syntax-highlighting
-        myPkgs.neovim
-      ];
+    home.packages = with pkgs; [
+      fzf
+      less
+      ripgrep
+      zsh-syntax-highlighting
+      myPkgs.neovim
+    ];
 
     programs.direnv = {
       enable = mkDefault true;

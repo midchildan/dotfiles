@@ -1,4 +1,8 @@
-{ lib, stdenv, darwin }:
+{
+  lib,
+  stdenv,
+  darwin,
+}:
 
 stdenv.mkDerivation {
   pname = "aquaskk-reload-config";

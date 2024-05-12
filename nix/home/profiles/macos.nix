@@ -1,4 +1,10 @@
-{ config, lib, pkgs, dotfiles, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  dotfiles,
+  ...
+}:
 
 let
   inherit (lib) mkDefault mkEnableOption mkIf;
@@ -6,15 +12,17 @@ let
   myPkgs = dotfiles.packages.${system};
 in
 {
-  options.dotfiles.profiles.macos.enable =
-    mkEnableOption "nice defaults for macOS preferences";
+  options.dotfiles.profiles.macos.enable = mkEnableOption "nice defaults for macOS preferences";
 
   config = mkIf config.dotfiles.profiles.macos.enable {
     targets.darwin = {
       defaults = {
         NSGlobalDomain = {
           # Locale
-          AppleLanguages = mkDefault [ "en" "ja" ];
+          AppleLanguages = mkDefault [
+            "en"
+            "ja"
+          ];
           AppleLocale = mkDefault "en_JP";
           AppleMeasurementUnits = mkDefault "Centimeters";
           AppleMetricUnits = mkDefault true;

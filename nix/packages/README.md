@@ -51,4 +51,5 @@ NVIM v0.5.0
 ```
 
 [1]: https://nixos.wiki/wiki/Flakes
-[2]: https://nixos.org/manual/nix/unstable/command-ref/experimental-commands.html
+[2]:
+  https://nixos.org/manual/nix/unstable/command-ref/experimental-commands.html

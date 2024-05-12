@@ -1,0 +1,15 @@
+Fix breakage caused by
+https://github.com/pyside/pyside-setup/commit/5d05065b57f5e37c2229ff6a2d98d936c5c7f2bb
+
+diff -Naur a/src/plugins/PluginManager.cpp b/src/plugins/PluginManager.cpp
+--- a/src/plugins/PluginManager.cpp	2024-05-13 02:21:36
++++ b/src/plugins/PluginManager.cpp	2024-05-13 02:29:46
+@@ -215,7 +215,7 @@
+     }
+ 
+     PythonToCppFunc pythonToCpp = Shiboken::Conversions::isPythonToCppPointerConvertible(
+-            reinterpret_cast<SbkObjectType *>(SbkCutterBindingsTypes[SBK_CUTTERPLUGIN_IDX]),
++            SbkCutterBindingsTypeStructs[SBK_CUTTERPLUGIN_IDX].type,
+             pluginObject);
+     if (!pythonToCpp) {
+         qWarning() << "Plugin's create_cutter_plugin() function did not return an instance of "

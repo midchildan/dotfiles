@@ -17,8 +17,8 @@ Home Manager is responsible for per-user settings while NixOS and nix-darwin
 manages system-wide settings. This dotfiles uses both.
 
 When choosing where to place a given configuration, prefer Home Manager over
-system-wide configuration unless there's a reason not to. This would provide
-the following benefits:
+system-wide configuration unless there's a reason not to. This would provide the
+following benefits:
 
 - Home Manager is usable on any Linux distro with Nix installed
 - Home Manager can share configuration between Linux and macOS

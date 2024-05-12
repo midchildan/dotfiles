@@ -1,6 +1,7 @@
-{ mkShellNoCC
-, formatter
-, shellcheck
+{
+  mkShellNoCC,
+  formatter,
+  shellcheck,
 }:
 
 mkShellNoCC {

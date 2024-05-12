@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.dotfiles.emacs;
@@ -16,8 +21,8 @@ in
               insert-directory-program "${pkgs.coreutils}/bin/ls"
               treemacs-python-executable "${pkgs.python3}/bin/python")
       '';
-      extraPackages = epkgs:
-        with epkgs; [
+      extraPackages =
+        epkgs: with epkgs; [
           # include Doom Emacs dependencies that tries to build native C code
           emacsql
           emacsql-sqlite

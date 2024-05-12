@@ -13,8 +13,7 @@
     ./web.nix
   ];
 
-  options.dotfiles.profiles.enableAll =
-    lib.mkEnableOption "all profiles provided by the dotfiles";
+  options.dotfiles.profiles.enableAll = lib.mkEnableOption "all profiles provided by the dotfiles";
 
   config = lib.mkIf config.dotfiles.profiles.enableAll {
     dotfiles.profiles = {

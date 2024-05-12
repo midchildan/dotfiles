@@ -1,4 +1,7 @@
-{ src ? ./../.., ... } @ args:
+{
+  src ? ./../..,
+  ...
+}@args:
 
 let
   lock = builtins.fromJSON (builtins.readFile ../../flake.lock);

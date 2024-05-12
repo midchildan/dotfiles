@@ -1,11 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (pkgs.stdenv.hostPlatform) isLinux;
 in
 {
-  options.dotfiles.profiles.fonts.enable =
-    lib.mkEnableOption "recommended fonts";
+  options.dotfiles.profiles.fonts.enable = lib.mkEnableOption "recommended fonts";
 
   config = lib.mkIf config.dotfiles.profiles.fonts.enable {
     fonts.fontconfig.enable = lib.mkDefault isLinux;

@@ -23,30 +23,27 @@
 # meta.updateScript handling is based on
 # https://github.com/NixOS/nixpkgs/blob/231ffe1/maintainers/scripts/update.nix
 
-{ lib
-, path
-, coreutils
-, curl
-, gawk
-, git
-, gnugrep
-, gnused
-, jq
-, nix
-, python3
-, runtimeShellPackage
-, writers
+{
+  lib,
+  path,
+  coreutils,
+  curl,
+  gawk,
+  git,
+  gnugrep,
+  gnused,
+  jq,
+  nix,
+  python3,
+  runtimeShellPackage,
+  writers,
 
-, packages
-, max-workers ? null
+  packages,
+  max-workers ? null,
 }:
 
 let
-  packageList = lib.mapAttrsToList
-    (attrPath: package: {
-      inherit attrPath package;
-    })
-    packages;
+  packageList = lib.mapAttrsToList (attrPath: package: { inherit attrPath package; }) packages;
 
   checkEligibility = p: lib.hasAttr "updateScript" p.package;
   updatables = lib.filter checkEligibility packageList;
@@ -63,7 +60,8 @@ let
   # Remove duplicate elements from the list based on some extracted value.
   # O(n^2) complexity.
   #
-  nubOn = f: list:
+  nubOn =
+    f: list:
     if list == [ ] then
       [ ]
     else
@@ -77,27 +75,28 @@ let
 
   # Transform a matched package into an object for update.py.
   #
-  packageData = { package, attrPath }: {
-    name = package.name;
-    pname = lib.getName package;
-    oldVersion = lib.getVersion package;
-    updateScript = map builtins.toString (
-      lib.toList (package.updateScript.command or package.updateScript));
-    supportedFeatures = package.updateScript.supportedFeatures or [ ];
-    attrPath = package.updateScript.attrPath or attrPath;
-  };
+  packageData =
+    { package, attrPath }:
+    {
+      name = package.name;
+      pname = lib.getName package;
+      oldVersion = lib.getVersion package;
+      updateScript = map builtins.toString (
+        lib.toList (package.updateScript.command or package.updateScript)
+      );
+      supportedFeatures = package.updateScript.supportedFeatures or [ ];
+      attrPath = package.updateScript.attrPath or attrPath;
+    };
 
   # JSON file with data for update.py.
   #
-  packagesJson =
-    writers.writeJSON "packages.json" (map packageData uniqueUpdatables);
+  packagesJson = writers.writeJSON "packages.json" (map packageData uniqueUpdatables);
 
   updaterArgs = [
     python3.interpreter
     "${path}/maintainers/scripts/update.py"
     packagesJson
-  ]
-  ++ lib.optional (max-workers != null) "--max-workers=${max-workers}";
+  ] ++ lib.optional (max-workers != null) "--max-workers=${max-workers}";
 
   binPath = lib.makeBinPath [
     coreutils

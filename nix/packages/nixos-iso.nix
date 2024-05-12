@@ -1,23 +1,29 @@
-{ mkNixOS
-, nixos
-, modules ? [ ]
+{
+  mkNixOS,
+  nixos,
+  modules ? [ ],
 }:
 
 let
-  upstreamConfig = { modulesPath, ... }: {
-    imports = [
-      "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
-    ];
-  };
+  upstreamConfig =
+    { modulesPath, ... }:
+    {
+      imports = [ "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix" ];
+    };
 
-  customConfig = { lib, ... }: {
-    isoImage.edition = lib.mkOverride 10 "unofficial";
-    dotfiles.profiles.installer.enable = true;
-  };
+  customConfig =
+    { lib, ... }:
+    {
+      isoImage.edition = lib.mkOverride 10 "unofficial";
+      dotfiles.profiles.installer.enable = true;
+    };
 
   installer = mkNixOS {
     pkgs = nixos;
-    modules = [ upstreamConfig customConfig ] ++ modules;
+    modules = [
+      upstreamConfig
+      customConfig
+    ] ++ modules;
   };
 
   inherit (installer.config.system.build) isoImage;

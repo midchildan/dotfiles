@@ -5,8 +5,8 @@
 > mode, and the placeholders can be replaced by pressing `^J` also in insert
 > mode.
 >
-> The format of this file is derived from tldr-pages.
-> More info: <https://github.com/tldr-pages/tldr/blob/master/contributing-guides/style-guide.md>
+> The format of this file is derived from tldr-pages. More info:
+> <https://github.com/tldr-pages/tldr/blob/master/contributing-guides/style-guide.md>
 >
 > Some snippets may include zsh-specific syntax.
 
@@ -33,6 +33,10 @@
 - Attach a bearer token to an HTTP request:
 
 `curl '{{https://example.com/}}' -H "Authorization: Bearer {{$token}}"`
+
+- Print an HTTP URL after redirections:
+
+`curl -sSfL -w '%{url_effective}' -o /dev/null {{https://example.com}}`
 
 - Send a DNS-over-HTTPS request:
 
