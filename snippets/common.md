@@ -34,6 +34,10 @@
 
 `curl '{{https://example.com/}}' -H "Authorization: Bearer {{$token}}"`
 
+- Print an HTTP URL after redirections:
+
+`curl -sSfL -w '%{url_effective}' -o /dev/null {{https://example.com}}`
+
 - Send a DNS-over-HTTPS request:
 
 `curl -sSL -H 'application/dns-json' '{{https://cloudflare-dns.com/dns-query}}?name={{example.com}}&type={{A}}'`
