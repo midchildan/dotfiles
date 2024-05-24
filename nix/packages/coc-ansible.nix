@@ -13,7 +13,7 @@ let
 
   yarnPackage = mkYarnPackage rec {
     inherit pname;
-    version = "0.14.2";
+    version = "0.14.3";
 
     src = fetchFromGitHub {
       owner = "yaegassy";
