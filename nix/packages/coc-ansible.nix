@@ -19,14 +19,14 @@ let
       owner = "yaegassy";
       repo = "coc-ansible";
       rev = "v${version}";
-      sha256 = "sha256-BJQ6FA4FRs7vaQX1NZ593gazRkaCWrZ2G+zPy+ISXMs=";
+      hash = "sha256-tF0O9lhY0eML/RT7hN39NaV6dSq+vlfc9DSbPaJlR0s=";
     };
 
     packageJSON = "${src}/package.json";
     yarnLock = "${src}/yarn.lock";
     offlineCache = fetchYarnDeps {
       yarnLock = "${src}/yarn.lock";
-      sha256 = "sha256-urBprEeGoA41LQnLzg+HGwGdaCgAGKy/Sn5EM0VQ5I8=";
+      hash = "sha256-1QyloXlHuwClUyLR9CTtQa9lqUIMNLuTihETCYfB8nc=";
 
       # TODO: Follow the below discussion. Same solution was attempted there.
       # https://github.com/NixOS/nixpkgs/pull/265771/files#r1398252435
