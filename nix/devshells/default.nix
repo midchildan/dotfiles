@@ -1,6 +1,12 @@
 {
   perSystem =
-    { lib, pkgs, config, self', ... }:
+    {
+      lib,
+      pkgs,
+      config,
+      self',
+      ...
+    }:
     {
       devShells = {
         default = pkgs.callPackage ./shell.nix {
