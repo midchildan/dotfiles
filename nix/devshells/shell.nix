@@ -1,12 +1,8 @@
 {
   mkShellNoCC,
-  formatter,
-  shellcheck,
+  formatters,
 }:
 
 mkShellNoCC {
-  nativeBuildInputs = [
-    formatter
-    shellcheck
-  ];
+  nativeBuildInputs = formatters;
 }

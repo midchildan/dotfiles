@@ -1,9 +1,11 @@
 {
   perSystem =
-    { pkgs, self', ... }:
+    { lib, pkgs, config, self', ... }:
     {
       devShells = {
-        default = pkgs.callPackage ./shell.nix { inherit (self') formatter; };
+        default = pkgs.callPackage ./shell.nix {
+          formatters = [ self'.formatter ] ++ (lib.attrValues config.treefmt.build.programs);
+        };
 
         ansible = pkgs.callPackage ./ansible.nix { };
 
