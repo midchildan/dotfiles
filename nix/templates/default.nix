@@ -1,18 +1,8 @@
 {
   flake.templates = {
-    home = {
-      path = ./home;
-      description = "Home Manager configuration";
-    };
-
-    darwin = {
-      path = ./darwin;
-      description = "Nix-Darwin configuration";
-    };
-
-    nixos = {
-      path = ./nixos;
-      description = "NixOS configuration";
+    dotfiles = {
+      path = ./dotfiles;
+      description = "for Home Manager, NixOS, or Nix-Darwin";
     };
   };
 }
