@@ -1,3 +1,5 @@
+/.direnv
+/.pre-commit-config.yaml
 /result
 /result-*
 /update-git-commits.txt

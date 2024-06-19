@@ -9,9 +9,7 @@
     }:
     {
       devShells = {
-        default = pkgs.callPackage ./shell.nix {
-          formatters = [ self'.formatter ] ++ (lib.attrValues config.treefmt.build.programs);
-        };
+        default = pkgs.callPackage ./shell.nix { inherit config; };
 
         ansible = pkgs.callPackage ./ansible.nix { };
 
