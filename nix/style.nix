@@ -10,7 +10,7 @@
     treefmt = {
       projectRootFile = lib.mkDefault "flake.nix";
       programs = {
-        nixfmt-rfc-style.enable = lib.mkDefault true;
+        nixfmt.enable = lib.mkDefault true;
         shellcheck.enable = lib.mkDefault true;
         prettier = {
           enable = lib.mkDefault true;
