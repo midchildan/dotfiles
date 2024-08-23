@@ -23,13 +23,13 @@ let
 
       value = stdenvNoCC.mkDerivation {
         pname = pkgPrefix + lib.toLower name;
-        version = "0-unstable-2024-01-31";
+        version = "0-unstable-2024-08-28";
 
         src = fetchFromGitHub {
           owner = "skk-dev";
           repo = "dict";
-          rev = "b798a46b886f71c0c25ad2a9e78b1c3e8933970c";
-          sha256 = "sha256-IvQFi/VA+klwolJGRyxAgT/ZOI5EYRNvXfAqWGhTTKM=";
+          rev = "4eb91a3bbfef70bde940668ec60f3beae291e971";
+          sha256 = "sha256-sWz85Q6Bu2WoKsckSp5SlcuPUQN2mcq+BHMqNXQ/aho=";
         };
 
         nativeBuildInputs = lib.optionals useUtf8 [ nkf ];
