@@ -1,4 +1,8 @@
-{ runCommand, kitty }:
+{
+  lib,
+  runCommand,
+  kitty,
+}:
 
 runCommand "terminfo-collection"
   {
@@ -6,6 +10,7 @@ runCommand "terminfo-collection"
       description = "Collection of terminfo definitions";
       license = kitty.meta.license;
       priority = 10;
+      maintainers = with lib.maintainers; [ midchildan ];
     };
   }
   ''

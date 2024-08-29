@@ -72,6 +72,7 @@ let
           inherit description license;
           homepage = "https://github.com/skk-dev/dict";
           platforms = lib.platforms.all;
+          maintainers = with lib.maintainers; [ midchildan ];
         };
       };
     };

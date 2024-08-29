@@ -1,11 +1,11 @@
 {
   lib,
-  buildVimPlugin,
   fetchFromGitHub,
   fetchYarnDeps,
   mkYarnPackage,
   cacert,
   nix-update-script,
+  vimUtils,
 }:
 
 let
@@ -55,7 +55,7 @@ let
     '';
   };
 in
-buildVimPlugin rec {
+vimUtils.buildVimPlugin rec {
   inherit pname;
   inherit (yarnPackage) version;
 

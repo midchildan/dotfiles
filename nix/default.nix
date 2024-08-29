@@ -13,6 +13,7 @@ let
       (importApply ./config.nix { inherit inputs; })
       (importApply ./nixpkgs.nix { inherit inputs; })
       (importApply ./lib/flake-module.nix { inherit inputs; })
+      (importApply ./packages/flake-modules.nix { inherit inputs; })
     ];
     checks = ./checks.nix;
     style = ./style.nix;
