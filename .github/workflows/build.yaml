@@ -8,7 +8,7 @@ jobs:
   flake:
     strategy:
       matrix:
-        runners: [ubuntu-latest, macos-latest, macos-13]
+        runners: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.runners }}
     steps:
       - uses: actions/checkout@v4
