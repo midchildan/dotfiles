@@ -2,6 +2,7 @@
   flake-parts-lib,
   lib,
   config,
+  self,
   ...
 }:
 
@@ -32,6 +33,28 @@ in
         {
           home.program = "${inputs'.home.packages.default}/bin/home-manager";
           ansible.program = "${pkgs.callPackage ./ansible.nix { }}";
+          neovim.program =
+            let
+              homeConf = self.lib.mkHome {
+                inherit pkgs;
+                modules = [
+                  {
+                    dotfiles.profiles = {
+                      minimal.enable = false;
+                      neovim.enable = true;
+                    };
+                    home.stateVersion = "24.05";
+                  }
+                ];
+              };
+              nvim = "${homeConf.activationPackage}/home-path/bin/nvim";
+              configDir = "${homeConf.activationPackage}/home-files/.config";
+            in
+            pkgs.writers.writeBashBin "nvim" ''
+              unset NVIM_APPNAME MYVIMRC
+              export XDG_CONFIG_HOME=${configDir}
+              ${nvim} "$@"
+            '';
         }
         // lib.optionalAttrs pkgs.stdenv.isLinux {
           os.program = "${self'.packages.nixos-rebuild}/bin/nixos-rebuild";
