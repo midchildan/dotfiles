@@ -33,10 +33,13 @@ install: shell config
 
 install: Vim config
   - .vim
-  - .config/nvim
   - download: \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
       ~/.vim/autoload/plug.vim
+
+install: Neovim config
+  - skip: true # It's installed by Home Manager
+  - .config/nvim/init.lua
 
 install: Git config
   - .config/git/attributes
@@ -106,7 +109,6 @@ install: miscellaneous config
 
 run: package installation
   - init: true
-  - nvim --headless +PlugInstall +'%print' +qall
   - ~/.config/emacs/bin/doom -y install --no-config
 
 githooks:

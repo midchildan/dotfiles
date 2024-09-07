@@ -4,7 +4,6 @@
   curl,
   emacs-nox,
   git,
-  neovim,
 }:
 
 mkShellNoCC {
@@ -13,6 +12,5 @@ mkShellNoCC {
     curl
     emacs-nox
     git
-    neovim
   ];
 }

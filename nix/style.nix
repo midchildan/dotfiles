@@ -12,6 +12,7 @@
       programs = {
         nixfmt.enable = lib.mkDefault true;
         shellcheck.enable = lib.mkDefault true;
+        stylua.enable = lib.mkDefault true;
         prettier = {
           enable = lib.mkDefault true;
           settings.proseWrap = lib.mkDefault "always";
