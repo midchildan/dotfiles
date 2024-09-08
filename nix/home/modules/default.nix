@@ -7,7 +7,6 @@
     ./git
     ./linkapps.nix
     ./manpages.nix
-    ./nix.nix
     ./vim.nix
   ];
 }

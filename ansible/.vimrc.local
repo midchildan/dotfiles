@@ -2,8 +2,14 @@ if exists('g:did_load_vimrc_local_0af878c')
   finish
 endif
 
+func! s:setfiletype()
+  if stridx(expand('%:p:h'), expand('<script>:p:h')) == 0
+    set filetype=yaml.ansible
+  endif
+endf
+
 augroup filetypedetect
-  au! BufNewFile,BufRead */ansible/*.yml set filetype=yaml.ansible
+  au! BufNewFile,BufRead *.yml call s:setfiletype()
 augroup END
 
 filetype detect

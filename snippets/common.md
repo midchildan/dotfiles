@@ -130,6 +130,10 @@
 
 `openssl rand -base64 {{n}} | head -c{{n}}`
 
+- Convert hexadecimal to text:
+
+`perl -lne 'print pack "H*", $_' <<<'{{e38392e382abe383aae382ace3839fe382a8e383ab}}'`
+
 - Serve the current directory over HTTP:
 
 `python3 -m http.server {{8000}} --bind {{127.0.0.1}}`

@@ -13,14 +13,15 @@ let
       (importApply ./config.nix { inherit inputs; })
       (importApply ./nixpkgs.nix { inherit inputs; })
       (importApply ./lib/flake-module.nix { inherit inputs; })
+      (importApply ./packages/flake-modules.nix { inherit inputs; })
     ];
     checks = ./checks.nix;
+    style = ./style.nix;
   };
 in
 {
   imports = lib.attrValues flakeModules ++ [
     inputs.flake-parts.flakeModules.flakeModules
-    inputs.treefmt-nix.flakeModule
     ./apps
     ./darwin
     ./devshells
@@ -35,24 +36,4 @@ in
   flake = {
     inherit flakeModules;
   };
-
-  perSystem =
-    { pkgs, ... }:
-    {
-      treefmt = {
-        projectRootFile = "flake.nix";
-        programs = {
-          nixfmt-rfc-style.enable = true;
-          shellcheck.enable = true;
-          prettier = {
-            enable = true;
-            settings.proseWrap = "always";
-          };
-        };
-        settings.formatter.shellcheck.options = [
-          "--external-sources"
-          "--source-path=SCRIPTDIR"
-        ];
-      };
-    };
 }

@@ -34,13 +34,14 @@ in
       less
       ripgrep
       zsh-syntax-highlighting
-      myPkgs.neovim
     ];
 
     programs.direnv = {
       enable = mkDefault true;
       nix-direnv.enable = mkDefault true;
     };
+
+    dotfiles.profiles.neovim.enable = mkDefault true;
 
     dotfiles.manpages = {
       enable = mkDefault true;

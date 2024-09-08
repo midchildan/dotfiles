@@ -40,7 +40,7 @@ in
 
         syncDoomEmacs() {
           local oldEmacs newEmacs
-          oldEmacs="$(readlink -m "$oldGenPath/home-path/bin/emacs")"
+          oldEmacs="$(readlink -m "''${oldGenPath:-/nonexistent}/home-path/bin/emacs")"
           newEmacs="$(readlink -m "$newGenPath/home-path/bin/emacs")"
           if [[ "$newEmacs" == "$oldEmacs" ]]; then
             return

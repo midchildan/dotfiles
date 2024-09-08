@@ -39,6 +39,7 @@ in
         };
         "protocol.http".profile = lib.mkDefault "protocol.https";
       };
+      scripts = lib.optionals isLinux [ pkgs.mpvScripts.mpris ];
     };
 
     dotfiles.emacs.enable = lib.mkDefault true;

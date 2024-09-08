@@ -1,6 +1,5 @@
+/.devenv
 /.direnv
 /.pre-commit-config.yaml
 /result
 /result-*
-/update-git-commits.txt
-*.qcow2

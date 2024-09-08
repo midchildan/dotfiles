@@ -10,6 +10,7 @@
     ./development.nix
     ./fonts.nix
     ./macos.nix
+    ./neovim.nix
     ./web.nix
   ];
 

@@ -8,19 +8,19 @@ jobs:
   flake:
     strategy:
       matrix:
-        runners: [ubuntu-latest, macos-latest, macos-13]
+        runners: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.runners }}
     steps:
       - uses: actions/checkout@v4
-      - uses: cachix/install-nix-action@v26
-      - uses: DeterminateSystems/magic-nix-cache-action@v4
+      - uses: cachix/install-nix-action@V27
+      - uses: DeterminateSystems/magic-nix-cache-action@v7
       - name: Check flake
         run: nix flake check
   nixos:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: cachix/install-nix-action@v26
-      - uses: DeterminateSystems/magic-nix-cache-action@v4
+      - uses: cachix/install-nix-action@V27
+      - uses: DeterminateSystems/magic-nix-cache-action@v7
       - name: Build NixOS configuration
         run: nix run '.#os' -- build -L --flake '.#ci' --print-build-logs

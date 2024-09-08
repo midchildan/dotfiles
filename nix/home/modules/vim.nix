@@ -33,6 +33,7 @@ in
         };
       };
     };
+    default = { };
     description = "Install the specified vim plugins.";
   };
 

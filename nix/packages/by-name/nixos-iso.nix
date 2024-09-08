@@ -1,4 +1,7 @@
 {
+  lib,
+  stdenv,
+  emptyFile,
   mkNixOS,
   nixos,
   modules ? [ ],
@@ -26,10 +29,14 @@ let
     ] ++ modules;
   };
 
-  inherit (installer.config.system.build) isoImage;
+  # The original isoImage may refuse to evaluate meta.platforms for incompatible systems because it
+  # contains an assertion which depends on another Linux only derivation.
+  isoImage = if stdenv.isLinux then installer.config.system.build.isoImage else emptyFile;
 in
 isoImage.overrideAttrs (old: {
   meta = (old.meta or { }) // {
     description = "Custom installer ISO image for NixOS.";
+    platforms = lib.platforms.linux;
+    maintainers = with lib.maintainers; [ midchildan ];
   };
 })

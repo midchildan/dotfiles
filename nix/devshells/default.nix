@@ -1,13 +1,19 @@
 {
   perSystem =
-    { pkgs, self', ... }:
+    {
+      lib,
+      pkgs,
+      config,
+      self',
+      ...
+    }:
     {
       devShells = {
-        default = pkgs.callPackage ./shell.nix { inherit (self') formatter; };
+        default = pkgs.callPackage ./shell.nix { inherit config; };
 
         ansible = pkgs.callPackage ./ansible.nix { };
 
-        setup = pkgs.callPackage ./setup.nix { inherit (self'.packages) neovim; };
+        setup = pkgs.callPackage ./setup.nix { };
 
         quic = pkgs.callPackage ./quic.nix { };
       };

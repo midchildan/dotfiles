@@ -69,8 +69,8 @@
         # is undesirable, disable this by placing the following line in your Home
         # Manager configuration:
         #
-        #     dotfiles.nix.channels = lib.mkForce { };
-        dotfiles.nix.channels = {
+        #     nix.channels = lib.mkForce { };
+        nix.channels = {
           nixpkgs = lib.mkDefault inputs.nixpkgs;
           dotfiles = lib.mkDefault inputs.self;
         };
