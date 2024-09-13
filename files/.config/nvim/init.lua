@@ -26,7 +26,7 @@ vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
 vim.opt.copyindent = true
 vim.opt.preserveindent = true
-vim.opt.formatoptions:append({ "m", "B" })
+vim.opt.formatoptions:append("mB")
 vim.opt.fileencodings = {
   "ucs-bom",
   "utf-8",
