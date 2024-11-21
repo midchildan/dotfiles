@@ -293,5 +293,11 @@
         A new module is available: 'dotfiles.aquaskk'
       '';
     }
+    {
+      time = "2024-11-21T19:00:00+00:00";
+      message = ''
+        A new module is available: 'dotfiles.iterm2'
+      '';
+    }
   ];
 }
