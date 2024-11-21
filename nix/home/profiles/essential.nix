@@ -28,7 +28,6 @@ in
         jq
         lsof
         magic-wormhole
-        neofetch
         nkf
         ranger
         tig
