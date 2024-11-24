@@ -31,6 +31,29 @@ in
 
         # Editing
         {
+          plugin = pkgs.vimPlugins.conform-nvim;
+          type = "lua";
+          config = ''
+            vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
+
+            require("conform").setup({
+              formatters_by_ft = {
+                ["*"] = { "treefmt" },
+              },
+              default_format_opts = {
+                lsp_format = "fallback",
+              },
+              formatters = {
+                treefmt = {
+                  command = "treefmt",
+                  args = { "--stdin", "--on-unmatched=fatal", "$FILENAME" },
+                  cwd = require("conform.util").root_file({ "treefmt.toml", "flake.nix" })
+                },
+              },
+            })
+          '';
+        }
+        {
           plugin = pkgs.vimPlugins.vim-easy-align;
           type = "lua";
           config = ''
