@@ -173,14 +173,6 @@ in
           '';
         }
         {
-          plugin = pkgs.vimPlugins.context-vim;
-          type = "lua";
-          config = ''
-            vim.g.context_enabled = false
-            vim.keymap.set("n", "<Leader>tz", "<Cmd>ContextToggle<CR>")
-          '';
-        }
-        {
           plugin = pkgs.vimPlugins.fzfWrapper;
           config = ''
             let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
@@ -258,6 +250,14 @@ in
               enabled = false,
             })
             vim.keymap.set("n", "<Leader>t<Tab>", "<Cmd>IBLToggle<CR>")
+          '';
+        }
+        {
+          plugin = pkgs.vimPlugins.nvim-treesitter-context;
+          type = "lua";
+          config = ''
+            require("treesitter-context").setup({ enable = false })
+            vim.keymap.set("n", "<Leader>tz", "<Cmd>TSContextToggle<CR>")
           '';
         }
 
