@@ -57,7 +57,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.opt.colorcolumn = "81"
 vim.opt.foldenable = false
 vim.opt.inccommand = "split"
-vim.opt.lazyredraw = true
 vim.opt.mouse = "a"
 vim.opt.number = true
 vim.opt.showmatch = true
