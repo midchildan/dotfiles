@@ -339,6 +339,9 @@ in
               highlight = {
                 enable = true,
               },
+              indent = {
+                enable = true,
+              },
             })
           '';
         }
