@@ -95,6 +95,13 @@ in
             )
           '';
         }
+        {
+          plugin = pkgs.vimPlugins.nvim-snippets;
+          type = "lua";
+          config = ''
+            require("snippets").setup({ friendly_snippets = true })
+          '';
+        }
 
         # Colorscheme
         {
@@ -220,6 +227,7 @@ in
         pkgs.vimPlugins.cmp-path
         pkgs.vimPlugins.cmp-nvim-lsp
         pkgs.vimPlugins.cmp-nvim-lsp-signature-help
+        pkgs.vimPlugins.friendly-snippets
         {
           plugin = pkgs.vimPlugins.nvim-lspconfig;
           type = "lua";
@@ -257,13 +265,9 @@ in
               }, {
                 { name = "path" },
               }, {
+                { name = "snippets" },
                 { name = "buffer" },
               }),
-              snippet = {
-                expand = function(args)
-                  vim.snippet.expand(args.body)
-                end,
-              },
             })
           '';
         }
