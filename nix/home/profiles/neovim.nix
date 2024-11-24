@@ -114,23 +114,62 @@ in
         }
 
         # UI
-        pkgs.vimPlugins.vim-airline-themes
         pkgs.vimPlugins.vim-peekaboo
         {
-          plugin = pkgs.vimPlugins.vim-airline;
+          plugin = pkgs.vimPlugins.lualine-nvim;
           type = "lua";
           # https://github.com/neovim/neovim/issues/14281
           config = ''
-            vim.opt.showmode = false
-            vim.g.airline_skip_empty_sections = true
-            if vim.env.USE_POWERLINE ~= "" then
-              vim.g.airline_powerline_fonts = true
-
-              -- Fira Code doesn't contain the colnr symbol yet
-              -- https://github.com/tonsky/FiraCode/issues/1243
-              vim.g.airline_symbols = { colnr = "${builtins.fromJSON ''"\u33c7"''}" }
-            end
-            vim.g["airline#parts#ffenc#skip_expected_string"] = "utf-8[unix]"
+            require("lualine").setup({
+              options = {
+                icons_enabled = false,
+              },
+              sections = {
+                lualine_a = { "mode" },
+                lualine_b = {
+                  {
+                    "branch",
+                    icons_enabled = true,
+                  },
+                  {
+                    "diff",
+                    colored = false,
+                  },
+                  "diagnostics",
+                },
+                lualine_c = {
+                  {
+                    "filename",
+                    path = 1,
+                  },
+                },
+                lualine_x = {
+                  {
+                    "encoding",
+                    cond = function()
+                      return vim.opt.fileencoding:get() ~= "utf-8"
+                    end,
+                  },
+                  {
+                    "fileformat",
+                    icons_enabled = false,
+                    cond = function()
+                      return vim.opt.fileformat:get() ~= "unix"
+                    end,
+                  },
+                  "filetype"
+                },
+                lualine_y = { "progress" },
+                lualine_z = { "location" }
+              },
+              extensions = {
+                "fugitive",
+                "fzf",
+                "man",
+                "neo-tree",
+                "quickfix",
+              },
+            })
           '';
         }
         {
