@@ -380,11 +380,48 @@ in
         pkgs.vimPlugins.vim-fugitive
         pkgs.vimPlugins.gv-vim
         {
-          plugin = pkgs.vimPlugins.nerdtree;
+          plugin = pkgs.vimPlugins.neo-tree-nvim;
           type = "lua";
           config = ''
-            vim.keymap.set("n", "<Leader>tf", "<Cmd>NERDTreeToggle<CR>")
-            vim.keymap.set("n", "<Leader>tF", "<Cmd>NERDTreeFind<CR>")
+            require("neo-tree").setup({
+              close_if_last_window = true,
+              sources = {
+                "filesystem",
+                "buffers",
+                "git_status",
+                "document_symbols",
+              },
+              source_selector = {
+                winbar = true,
+                sources = {
+                  { source = "filesystem", display_name = " 󰉓 Files" },
+                  { source = "buffers", display_name = " 󰈙 Buffers" },
+                  { source = "git_status", display_name = "  Git" },
+                  { source = "document_symbols", display_name = "  Symbols" },
+                },
+              },
+              filesystem = {
+                group_empty_dirs = true,
+                scan_mode = "deep",
+                follow_current_file = {
+                  enabled = true,
+                },
+              },
+              default_component_configs = {
+                icon = {
+                  enabled = false,
+                },
+                git_status = {
+                  symbols = false,
+                },
+                name = {
+                  trailing_slash = true,
+                },
+              },
+            })
+
+            vim.keymap.set("n", "<Leader>tf", "<Cmd>Neotree toggle<CR>")
+            vim.keymap.set("n", "<Leader>tF", "<Cmd>Neotree reveal<CR>")
           '';
         }
         {
