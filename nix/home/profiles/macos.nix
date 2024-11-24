@@ -9,7 +9,6 @@
 let
   inherit (lib) mkDefault mkEnableOption mkIf;
   inherit (pkgs.stdenv.hostPlatform) system;
-  myPkgs = dotfiles.packages.${system};
 in
 {
   options.dotfiles.profiles.macos.enable = mkEnableOption "nice defaults for macOS preferences";
@@ -100,24 +99,24 @@ in
         "SKK-JISYO.L" = {
           type = "euc-jp";
           priority = 70;
-          location = "${myPkgs.skk-jisyo-l}/share/skk/SKK-JISYO.L";
+          location = "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L";
         };
         "SKK-JISYO.propernoun" = {
           type = "euc-jp";
-          location = "${myPkgs.skk-jisyo-propernoun}/share/skk/SKK-JISYO.propernoun";
+          location = "${pkgs.skkDictionaries.propernoun}/share/skk/SKK-JISYO.propernoun";
         };
         "SKK-JISYO.zipcode" = {
           type = "euc-jp";
-          location = "${myPkgs.skk-jisyo-zipcode}/share/skk/SKK-JISYO.zipcode";
+          location = "${pkgs.skkDictionaries.zipcode}/share/skk/SKK-JISYO.zipcode";
         };
         "SKK-JISYO.office.zipcode" = {
           type = "euc-jp";
-          location = "${myPkgs.skk-jisyo-zipcode}/share/skk/SKK-JISYO.office.zipcode";
+          location = "${pkgs.skkDictionaries.zipcode}/share/skk/SKK-JISYO.office.zipcode";
         };
         "SKK-JISYO.emoji" = {
           type = "utf-8";
           priority = 30;
-          location = "${myPkgs.skk-jisyo-emoji}/share/skk/SKK-JISYO.emoji";
+          location = "${pkgs.skkDictionaries.emoji}/share/skk/SKK-JISYO.emoji";
         };
         program.type = "program";
       };
