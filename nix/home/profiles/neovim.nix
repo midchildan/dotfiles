@@ -284,11 +284,12 @@ in
               "ansiblels",
               "clangd",
               "eslint",
+              "gopls",
               "jdtls",
               "rust_analyzer",
               "rubocop",
               "pyright",
-              "tsserver",
+              "ts_ls",
             }
 
             for _, lsp in ipairs(servers) do
