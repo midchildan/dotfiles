@@ -313,7 +313,14 @@ in
                 { name = "path" },
               }, {
                 { name = "snippets" },
-                { name = "buffer" },
+                {
+                  name = "buffer",
+                  option = {
+                    get_bufnrs = function()
+                      return vim.api.nvim_list_bufs()
+                    end,
+                  },
+                },
               }),
             })
           '';
