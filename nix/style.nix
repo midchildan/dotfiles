@@ -18,6 +18,10 @@
           settings.proseWrap = lib.mkDefault "always";
         };
       };
+      settings.global.excludes = [
+        # Prettier chokes on symlinks
+        "files/.local/share/zsh/snippets/dotfiles/*.md"
+      ];
       settings.formatter.shellcheck.options = lib.mkDefault [
         "--external-sources"
         "--source-path=SCRIPTDIR"
