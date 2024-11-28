@@ -9,7 +9,7 @@
     ./desktop.nix
     ./development.nix
     ./fonts.nix
-    ./macos.nix
+    ./macos
     ./neovim.nix
     ./web.nix
   ];

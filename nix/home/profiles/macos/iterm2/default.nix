@@ -6,6 +6,26 @@
 
 {
   config = lib.mkIf config.dotfiles.profiles.macos.enable {
+    dotfiles.iterm2.settings = {
+      "Default Bookmark Guid" = config.dotfiles.iterm2.profiles.home-manager.Guid;
+      AddNewTabAtEndOfTabs = lib.mkDefault false;
+      AllowClipboardAccess = lib.mkDefault true;
+      AlternateMouseScroll = lib.mkDefault true;
+      AlwaysAcceptFirstMouse = lib.mkDefault true;
+      TabStyleWithAutomaticOption = 5;
+      CopySelection = lib.mkDefault false;
+      OpenTmuxWindowsIn = lib.mkDefault 2; # tabs in existing window
+
+      # For AquaSKK
+      #
+      # This option is disabled by default in iTerm2 for supposed problems
+      # with key repeats.
+      #
+      # https://github.com/gnachman/iTerm2/pull/279
+      # https://gitlab.com/gnachman/iterm2/-/issues/6052
+      ExperimentalKeyHandling = lib.mkDefault true;
+    };
+
     dotfiles.iterm2.profiles.home-manager = (import ./gruvbox.nix) // {
       # General
       "Name" = "Home Manager";
