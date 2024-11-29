@@ -17,7 +17,7 @@ in
     home.packages = with pkgs; [
       fira-code
       xkcd-font
-      (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+      nerd-fonts.symbols-only
     ];
   };
 }
