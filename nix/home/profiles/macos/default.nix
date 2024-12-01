@@ -2,12 +2,12 @@
   config,
   lib,
   pkgs,
-  dotfiles,
   ...
 }:
 
 let
   inherit (pkgs.stdenv.hostPlatform) system;
+  cfg = config.dotfiles.profiles.macos;
 in
 {
   options.dotfiles.profiles.macos.enable = lib.mkEnableOption "nice defaults for macOS preferences";
@@ -17,15 +17,14 @@ in
     ./iterm2
   ];
 
-  config = lib.mkIf config.dotfiles.profiles.macos.enable {
-
+  config = lib.mkIf cfg.enable {
     targets.darwin = {
       defaults = {
         NSGlobalDomain = {
           # Locale
           AppleLanguages = lib.mkDefault [
-            "en"
-            "ja"
+            "en-US"
+            "ja-JP"
           ];
           AppleLocale = lib.mkDefault "en_JP";
           AppleMeasurementUnits = lib.mkDefault "Centimeters";
@@ -48,6 +47,7 @@ in
           tilesize = lib.mkDefault 32;
           size-immutable = lib.mkDefault true;
           expose-group-apps = lib.mkDefault true;
+          showAppExposeGestureEnabled = lib.mkDefault true;
         };
       };
 
