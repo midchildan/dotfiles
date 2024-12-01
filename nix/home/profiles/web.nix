@@ -40,12 +40,15 @@ in
     };
 
     targets.darwin = lib.mkIf isDarwin {
-      defaults."com.apple.Safari" = {
-        AutoOpenSafeDownloads = lib.mkDefault false;
-        AutoFillPasswords = lib.mkDefault false;
-        AutoFillCreditCardData = lib.mkDefault false;
-        IncludeDevelopMenu = lib.mkDefault true;
-        ShowOverlayStatusBar = lib.mkDefault true;
+      defaults = {
+        "com.apple.Safari" = {
+          AutoOpenSafeDownloads = lib.mkDefault false;
+          AutoFillPasswords = lib.mkDefault false;
+          AutoFillCreditCardData = lib.mkDefault false;
+          IncludeDevelopMenu = lib.mkDefault true;
+          ShowOverlayStatusBar = lib.mkDefault true;
+        };
+        "com.apple.Safari.SandboxBroker".ShowDevelopMenu = lib.mkDefault true;
       };
 
       search = lib.mkDefault "DuckDuckGo";

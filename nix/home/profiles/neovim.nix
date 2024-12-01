@@ -31,6 +31,29 @@ in
 
         # Editing
         {
+          plugin = pkgs.vimPlugins.conform-nvim;
+          type = "lua";
+          config = ''
+            vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
+
+            require("conform").setup({
+              formatters_by_ft = {
+                ["*"] = { "treefmt" },
+              },
+              default_format_opts = {
+                lsp_format = "fallback",
+              },
+              formatters = {
+                treefmt = {
+                  command = "treefmt",
+                  args = { "--stdin", "--on-unmatched=fatal", "$FILENAME" },
+                  cwd = require("conform.util").root_file({ "treefmt.toml", "flake.nix" })
+                },
+              },
+            })
+          '';
+        }
+        {
           plugin = pkgs.vimPlugins.vim-easy-align;
           type = "lua";
           config = ''
@@ -72,6 +95,13 @@ in
             )
           '';
         }
+        {
+          plugin = pkgs.vimPlugins.nvim-snippets;
+          type = "lua";
+          config = ''
+            require("snippets").setup({ friendly_snippets = true })
+          '';
+        }
 
         # Colorscheme
         {
@@ -84,31 +114,62 @@ in
         }
 
         # UI
-        pkgs.vimPlugins.vim-airline-themes
         pkgs.vimPlugins.vim-peekaboo
         {
-          plugin = pkgs.vimPlugins.vim-airline;
+          plugin = pkgs.vimPlugins.lualine-nvim;
           type = "lua";
           # https://github.com/neovim/neovim/issues/14281
           config = ''
-            vim.opt.showmode = false
-            vim.g.airline_skip_empty_sections = true
-            if vim.env.USE_POWERLINE ~= "" then
-              vim.g.airline_powerline_fonts = true
-
-              -- Fira Code doesn't contain the colnr symbol yet
-              -- https://github.com/tonsky/FiraCode/issues/1243
-              vim.g.airline_symbols = { colnr = "${builtins.fromJSON ''"\u33c7"''}" }
-            end
-            vim.g["airline#parts#ffenc#skip_expected_string"] = "utf-8[unix]"
-          '';
-        }
-        {
-          plugin = pkgs.vimPlugins.context-vim;
-          type = "lua";
-          config = ''
-            vim.g.context_enabled = false
-            vim.keymap.set("n", "<Leader>tz", "<Cmd>ContextToggle<CR>")
+            require("lualine").setup({
+              options = {
+                icons_enabled = false,
+              },
+              sections = {
+                lualine_a = { "mode" },
+                lualine_b = {
+                  {
+                    "branch",
+                    icons_enabled = true,
+                  },
+                  {
+                    "diff",
+                    colored = false,
+                  },
+                  "diagnostics",
+                },
+                lualine_c = {
+                  {
+                    "filename",
+                    path = 1,
+                  },
+                },
+                lualine_x = {
+                  {
+                    "encoding",
+                    cond = function()
+                      return vim.opt.fileencoding:get() ~= "utf-8"
+                    end,
+                  },
+                  {
+                    "fileformat",
+                    icons_enabled = false,
+                    cond = function()
+                      return vim.opt.fileformat:get() ~= "unix"
+                    end,
+                  },
+                  "filetype"
+                },
+                lualine_y = { "progress" },
+                lualine_z = { "location" }
+              },
+              extensions = {
+                "fugitive",
+                "fzf",
+                "man",
+                "neo-tree",
+                "quickfix",
+              },
+            })
           '';
         }
         {
@@ -191,12 +252,28 @@ in
             vim.keymap.set("n", "<Leader>t<Tab>", "<Cmd>IBLToggle<CR>")
           '';
         }
+        {
+          plugin = pkgs.vimPlugins.nvim-notify;
+          type = "lua";
+          config = ''
+            vim.notify = require("notify")
+          '';
+        }
+        {
+          plugin = pkgs.vimPlugins.nvim-treesitter-context;
+          type = "lua";
+          config = ''
+            require("treesitter-context").setup({ enable = false })
+            vim.keymap.set("n", "<Leader>tz", "<Cmd>TSContextToggle<CR>")
+          '';
+        }
 
         # Language Support
         pkgs.vimPlugins.cmp-buffer
         pkgs.vimPlugins.cmp-path
         pkgs.vimPlugins.cmp-nvim-lsp
         pkgs.vimPlugins.cmp-nvim-lsp-signature-help
+        pkgs.vimPlugins.friendly-snippets
         {
           plugin = pkgs.vimPlugins.nvim-lspconfig;
           type = "lua";
@@ -207,16 +284,18 @@ in
               "ansiblels",
               "clangd",
               "eslint",
+              "gopls",
               "jdtls",
               "rust_analyzer",
               "rubocop",
               "pyright",
-              "tsserver",
+              "ts_ls",
             }
 
             for _, lsp in ipairs(servers) do
               lspconfig[lsp].setup({
                 capabilities = capabilities,
+                silent = true,
               })
             end
           '';
@@ -234,13 +313,16 @@ in
               }, {
                 { name = "path" },
               }, {
-                { name = "buffer" },
+                { name = "snippets" },
+                {
+                  name = "buffer",
+                  option = {
+                    get_bufnrs = function()
+                      return vim.api.nvim_list_bufs()
+                    end,
+                  },
+                },
               }),
-              snippet = {
-                expand = function(args)
-                  vim.snippet.expand(args.body)
-                end,
-              },
             })
           '';
         }
@@ -263,6 +345,9 @@ in
             require("nvim-treesitter.configs").setup({
               auto_install = false,
               highlight = {
+                enable = true,
+              },
+              indent = {
                 enable = true,
               },
             })
@@ -303,11 +388,48 @@ in
         pkgs.vimPlugins.vim-fugitive
         pkgs.vimPlugins.gv-vim
         {
-          plugin = pkgs.vimPlugins.nerdtree;
+          plugin = pkgs.vimPlugins.neo-tree-nvim;
           type = "lua";
           config = ''
-            vim.keymap.set("n", "<Leader>tf", "<Cmd>NERDTreeToggle<CR>")
-            vim.keymap.set("n", "<Leader>tF", "<Cmd>NERDTreeFind<CR>")
+            require("neo-tree").setup({
+              close_if_last_window = true,
+              sources = {
+                "filesystem",
+                "buffers",
+                "git_status",
+                "document_symbols",
+              },
+              source_selector = {
+                winbar = true,
+                sources = {
+                  { source = "filesystem", display_name = " 󰉓 Files" },
+                  { source = "buffers", display_name = " 󰈙 Buffers" },
+                  { source = "git_status", display_name = "  Git" },
+                  { source = "document_symbols", display_name = "  Symbols" },
+                },
+              },
+              filesystem = {
+                group_empty_dirs = true,
+                scan_mode = "deep",
+                follow_current_file = {
+                  enabled = true,
+                },
+              },
+              default_component_configs = {
+                icon = {
+                  enabled = false,
+                },
+                git_status = {
+                  symbols = false,
+                },
+                name = {
+                  trailing_slash = true,
+                },
+              },
+            })
+
+            vim.keymap.set("n", "<Leader>tf", "<Cmd>Neotree toggle<CR>")
+            vim.keymap.set("n", "<Leader>tF", "<Cmd>Neotree reveal<CR>")
           '';
         }
         {

@@ -20,8 +20,6 @@
           nix = pkgs.nixVersions.${config.dotfiles.nix.package};
         };
 
-        skk-jisyo = ps.callPackages ./by-name/skk-jisyo.nix { };
-
         zsh = ps.callPackage ./by-name/zsh.nix { inherit (pkgs) zsh; };
       };
     };
