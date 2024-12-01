@@ -14,6 +14,7 @@ in
 
   imports = [
     ./aquaskk.nix
+    ./keyboard.nix
     ./iterm2
   ];
 
@@ -53,11 +54,6 @@ in
 
       currentHostDefaults = {
         "com.apple.controlcenter".BatteryShowPercentage = lib.mkDefault true;
-      };
-
-      keybindings = {
-        "^u" = lib.mkDefault "deleteToBeginningOfLine:";
-        "^w" = lib.mkDefault "deleteWordBackward:";
       };
     };
   };
