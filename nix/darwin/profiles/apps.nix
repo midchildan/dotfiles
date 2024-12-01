@@ -29,9 +29,5 @@
       "skim"
       "wireshark"
     ];
-
-    homebrew.masApps = {
-      "1Blocker" = 1365531024;
-    };
   };
 }
