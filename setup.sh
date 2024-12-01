@@ -100,7 +100,6 @@ install: miscellaneous config
   - .local/bin/imgcat
   - .local/bin/uninstaller
   - Library/Application\ Support/AquaSKK/keymap.conf
-  - Library/Application\ Support/iTerm2/DynamicProfiles/template.plist
   - Library/Developer/Xcode/UserData/IDETemplateMacros.plist
 
 # The following will not run unless --init is specified
