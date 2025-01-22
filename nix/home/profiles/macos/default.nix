@@ -50,6 +50,8 @@ in
           expose-group-apps = lib.mkDefault true;
           showAppExposeGestureEnabled = lib.mkDefault true;
         };
+
+        "com.apple.mail".SwipeAction = lib.mkDefault 1; # swipe to archive
       };
 
       currentHostDefaults = {
