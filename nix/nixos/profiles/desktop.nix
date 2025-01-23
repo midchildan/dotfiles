@@ -29,7 +29,6 @@ in
         dotfiles.profiles.interactive.enable = true;
 
         console.useXkbConfig = lib.mkDefault true;
-        hardware.pulseaudio.enable = lib.mkDefault true;
 
         i18n = {
           inputMethod = {
@@ -98,7 +97,7 @@ in
 
       (lib.mkIf (cfg.desktop == "gnome") {
         environment.systemPackages = with pkgs.gnome; [ gnome-session ];
-        environment.gnome.excludePackages = with pkgs.gnome; [ gnome-music ];
+        environment.gnome.excludePackages = [ pkgs.gnome-music ];
 
         services.gnome = {
           core-os-services.enable = true;
