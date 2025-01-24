@@ -9,7 +9,8 @@ let
   inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
 in
 {
-  options.dotfiles.profiles.desktop.enable = lib.mkEnableOption "essential packages for desktop environemnts";
+  options.dotfiles.profiles.desktop.enable =
+    lib.mkEnableOption "essential packages for desktop environemnts";
 
   config = lib.mkIf config.dotfiles.profiles.desktop.enable {
     home.packages =
