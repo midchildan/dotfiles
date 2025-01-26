@@ -33,13 +33,6 @@ in
         hwdec = lib.mkDefault "auto";
         keep-open = lib.mkDefault true;
       };
-      profiles = {
-        "protocol.https" = {
-          # use a format friendly to hardware decoders
-          ytdl-format = lib.mkDefault "mp4[height<=?720]";
-        };
-        "protocol.http".profile = lib.mkDefault "protocol.https";
-      };
       scripts = lib.optionals isLinux [ pkgs.mpvScripts.mpris ];
     };
 
