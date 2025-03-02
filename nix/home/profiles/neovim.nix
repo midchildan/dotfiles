@@ -95,13 +95,6 @@ in
             )
           '';
         }
-        {
-          plugin = pkgs.vimPlugins.nvim-snippets;
-          type = "lua";
-          config = ''
-            require("snippets").setup({ friendly_snippets = true })
-          '';
-        }
 
         # Colorscheme
         {
@@ -269,16 +262,22 @@ in
         }
 
         # Language Support
-        pkgs.vimPlugins.cmp-buffer
-        pkgs.vimPlugins.cmp-path
-        pkgs.vimPlugins.cmp-nvim-lsp
-        pkgs.vimPlugins.cmp-nvim-lsp-signature-help
         pkgs.vimPlugins.friendly-snippets
+        {
+          plugin = pkgs.vimPlugins.blink-cmp;
+          type = "lua";
+          config = ''
+            local blink = require("blink-cmp")
+            blink.setup({
+              signature = { enabled = true }
+            })
+          '';
+        }
         {
           plugin = pkgs.vimPlugins.nvim-lspconfig;
           type = "lua";
           config = ''
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+            local capabilities = blink.get_lsp_capabilities()
             local lspconfig = require("lspconfig")
             local servers = {
               "ansiblels",
@@ -298,32 +297,6 @@ in
                 silent = true,
               })
             end
-          '';
-        }
-        {
-          plugin = pkgs.vimPlugins.nvim-cmp;
-          type = "lua";
-          config = ''
-            local cmp = require("cmp")
-            cmp.setup({
-              mapping = cmp.mapping.preset.insert(),
-              sources = cmp.config.sources({
-                { name = "nvim_lsp" },
-                { name = "nvim_lsp_signature_help" },
-              }, {
-                { name = "path" },
-              }, {
-                { name = "snippets" },
-                {
-                  name = "buffer",
-                  option = {
-                    get_bufnrs = function()
-                      return vim.api.nvim_list_bufs()
-                    end,
-                  },
-                },
-              }),
-            })
           '';
         }
         {
