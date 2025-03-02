@@ -388,17 +388,6 @@ in
                   enabled = true,
                 },
               },
-              default_component_configs = {
-                icon = {
-                  enabled = false,
-                },
-                git_status = {
-                  symbols = false,
-                },
-                name = {
-                  trailing_slash = true,
-                },
-              },
             })
 
             vim.keymap.set("n", "<Leader>tf", "<Cmd>Neotree toggle<CR>")
