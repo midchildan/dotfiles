@@ -24,7 +24,6 @@ in
       ++ lib.optionals isLinux [
         binutils
         powertop
-        pwndbg
         radare2
         valgrind
         nixos.linuxPackages.bcc
