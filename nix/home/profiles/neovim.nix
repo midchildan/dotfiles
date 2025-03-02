@@ -114,16 +114,10 @@ in
           # https://github.com/neovim/neovim/issues/14281
           config = ''
             require("lualine").setup({
-              options = {
-                icons_enabled = false,
-              },
               sections = {
                 lualine_a = { "mode" },
                 lualine_b = {
-                  {
-                    "branch",
-                    icons_enabled = true,
-                  },
+                  "branch",
                   {
                     "diff",
                     colored = false,
@@ -150,7 +144,10 @@ in
                       return vim.opt.fileformat:get() ~= "unix"
                     end,
                   },
-                  "filetype"
+                  {
+                    "filetype",
+                    colored = false,
+                  },
                 },
                 lualine_y = { "progress" },
                 lualine_z = { "location" }
