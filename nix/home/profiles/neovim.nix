@@ -266,7 +266,23 @@ in
           config = ''
             local blink = require("blink-cmp")
             blink.setup({
-              signature = { enabled = true }
+              completion = {
+                menu = {
+                  winblend = vim.o.pumblend,
+                },
+                documentation = {
+                  auto_show = true,
+                  window = {
+                    winblend = vim.o.pumblend,
+                  },
+                },
+              },
+              signature = {
+                enabled = true,
+                window = {
+                  winblend = vim.o.pumblend,
+                },
+              },
             })
           '';
         }
