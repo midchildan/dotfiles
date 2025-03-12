@@ -15,6 +15,9 @@ let
   vimRuntime = lib.genAttrs vimFilesFiltered (path: {
     source = toString vimDir + "/" + path;
   });
+
+  javaDebug = pkgs.vscode-extensions.vscjava.vscode-java-debug;
+  javaDebugGlob = "${javaDebug}/share/vscode/extensions/vscjava.vscode-java-debug/server/com.microsoft.java.debug.plugin-*.jar";
 in
 {
   options.dotfiles.profiles.neovim.enable = lib.mkEnableOption "neovim";
@@ -271,6 +274,7 @@ in
 
         # Language Support
         pkgs.vimPlugins.friendly-snippets
+        pkgs.vimPlugins.nvim-dap
         {
           plugin = pkgs.vimPlugins.blink-cmp;
           type = "lua";
@@ -308,7 +312,6 @@ in
               "clangd",
               "eslint",
               "gopls",
-              "jdtls",
               "rust_analyzer",
               "rubocop",
               "pyright",
@@ -321,6 +324,16 @@ in
                 silent = true,
               })
             end
+
+            lspconfig.jdtls.setup({
+              capabilities = capabilities,
+              silent = true,
+              settings = {
+                initializationOptions = {
+                  vim.fn.glob("${javaDebugGlob}", 1)
+                },
+              },
+            })
           '';
         }
         {
