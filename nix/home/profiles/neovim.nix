@@ -163,33 +163,44 @@ in
           '';
         }
         {
-          plugin = pkgs.vimPlugins.fzfWrapper;
-          config = ''
-            let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-
-            command! -bang Compilers call vimrc#fzf_compilers(0, <bang>0)
-            command! -bang BCompilers call vimrc#fzf_compilers(1, <bang>0)
-            command! -bang -nargs=* Projects call vimrc#fzf_projects(<q-args>, <bang>0)
-          '';
-        }
-        {
-          plugin = pkgs.vimPlugins.fzf-vim;
+          plugin = pkgs.vimPlugins.fzf-lua;
           type = "lua";
-          config = ''
-            vim.keymap.set("n", "<Leader><Leader>", "<Cmd>GitFiles<CR>")
-            vim.keymap.set("n", "<Leader>,", "<Cmd>Buffers<CR>")
-            vim.keymap.set("n", "<Leader>.", "<Cmd>Files<CR>")
-            vim.keymap.set("n", "<Leader>gp", "<Cmd>Projects<CR>")
-            vim.keymap.set("n", "<Leader>g/", "<Cmd>Lines<CR>")
-            vim.keymap.set("n", "<Leader>g]", "<Cmd>Tags <C-r>=expand('<cword>')<CR><CR>")
-            vim.keymap.set("n", "<Leader>o", "<Cmd>History<CR>")
-            vim.keymap.set("n", "<Leader>q:", "<Cmd>History:<CR>")
-            vim.keymap.set("n", "<Leader>q/", "<Cmd>History/<CR>")
-            vim.keymap.set("n", "<Leader>'", "<Cmd>Marks<CR>")
-            vim.keymap.set("n", "<Leader>/", "<Cmd>BLines<CR>")
-            vim.keymap.set("n", "<Leader>:", "<Cmd>Commands<CR>")
-            vim.keymap.set("n", "<Leader>]", "<Cmd>BTags <C-r>=expand('<cword>')<CR><CR>")
-          '';
+          config = # lua
+            ''
+              local fzf = require("fzf-lua")
+              fzf.setup({
+                winopts = {
+                  winblend = vim.opt.winblend:get()
+                }
+              })
+
+              local function fzf_projects(opts)
+                opts = opts or {}
+                opts.prompt = "Projects> "
+                opts.actions = {
+                  default = function(selected)
+                    vim.cmd("tcd " .. selected[1])
+                  end
+                }
+                fzf.fzf_exec("${lib.getExe pkgs.ghq} list -p", opts)
+              end
+
+              vim.keymap.set("n", "<Leader><Leader>", fzf.git_files)
+              vim.keymap.set("n", "<Leader>,", fzf.buffers)
+              vim.keymap.set("n", "<Leader>.", fzf.files)
+              vim.keymap.set("n", "<Leader>gp", fzf_projects)
+              vim.keymap.set("n", "<Leader>g/", fzf.lines)
+              vim.keymap.set("n", "<Leader>g]", fzf.tags)
+              vim.keymap.set("n", "<Leader>o", fzf.oldfiles)
+              vim.keymap.set("n", "<Leader>p", fzf.builtin)
+              vim.keymap.set("n", "<Leader>P", fzf.resume)
+              vim.keymap.set("n", "<Leader>q:", fzf.command_history)
+              vim.keymap.set("n", "<Leader>q/", fzf.search_history)
+              vim.keymap.set("n", "<Leader>'", fzf.marks)
+              vim.keymap.set("n", "<Leader>/", fzf.blines)
+              vim.keymap.set("n", "<Leader>:", fzf.commands)
+              vim.keymap.set("n", "<Leader>]", fzf.btags)
+            '';
         }
         {
           plugin = pkgs.vimPlugins.gitsigns-nvim;
