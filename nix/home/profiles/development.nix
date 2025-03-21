@@ -33,15 +33,5 @@ in
       enable = lib.mkDefault true;
       enablePackage = lib.mkDefault (!isNixOS); # use the NixOS module instead
     };
-
-    dotfiles.vim.plugins.start = with pkgs.vimPlugins; [
-      coc-clangd
-      coc-cmake
-      coc-go
-      coc-rust-analyzer
-      coc-pyright
-      coc-tsserver
-      myPkgs.coc-ansible
-    ];
   };
 }
