@@ -38,7 +38,7 @@ in
           type = "lua";
           config = # lua
             ''
-              vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
+              vim.opt.formatexpr = "v:lua.require('conform').formatexpr()"
 
               require("conform").setup({
                 formatters_by_ft = {
@@ -122,6 +122,8 @@ in
           # https://github.com/neovim/neovim/issues/14281
           config = # lua
             ''
+              vim.opt.showmode = false
+
               require("lualine").setup({
                 sections = {
                   lualine_a = { "mode" },
@@ -295,19 +297,19 @@ in
               blink.setup({
                 completion = {
                   menu = {
-                    winblend = vim.o.pumblend,
+                    winblend = vim.opt.pumblend:get(),
                   },
                   documentation = {
                     auto_show = true,
                     window = {
-                      winblend = vim.o.pumblend,
+                      winblend = vim.opt.pumblend:get(),
                     },
                   },
                 },
                 signature = {
                   enabled = true,
                   window = {
-                    winblend = vim.o.pumblend,
+                    winblend = vim.opt.pumblend:get(),
                   },
                 },
               })
