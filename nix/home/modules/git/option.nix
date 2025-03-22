@@ -4,8 +4,6 @@ let
   hasSigningKey = flakeOptions.user.pgpKey != "";
 in
 {
-  freeformType = with lib.types; attrsOf (attrsOf anything);
-
   options = {
     commit.gpgsign = lib.mkOption {
       type = lib.types.bool;
