@@ -1,7 +1,6 @@
 {
   imports = [
     ./aquaskk.nix
-    ./gnupg
     ./emacs.nix
     ./firefox.nix
     ./git

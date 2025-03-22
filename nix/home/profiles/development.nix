@@ -7,11 +7,10 @@
 }:
 
 let
-  inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux system;
+  inherit (pkgs.stdenv.hostPlatform) isLinux;
   isGenericLinux = (config.targets.genericLinux.enable or false);
   isNixOS = isLinux && !isGenericLinux;
   cfg = config.dotfiles.profiles;
-  myPkgs = dotfiles.packages.${system};
 in
 {
   options.dotfiles.profiles.development.enable = lib.mkEnableOption "development packages";
@@ -28,10 +27,5 @@ in
       ]
       ++ lib.optionals isLinux [ distrobox ]
       ++ lib.optionals isNixOS [ man-pages ];
-
-    dotfiles.gnupg = {
-      enable = lib.mkDefault true;
-      enablePackage = lib.mkDefault (!isNixOS); # use the NixOS module instead
-    };
   };
 }
