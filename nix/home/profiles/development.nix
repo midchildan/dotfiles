@@ -27,5 +27,11 @@ in
       ]
       ++ lib.optionals isLinux [ distrobox ]
       ++ lib.optionals isNixOS [ man-pages ];
+
+    dotfiles.gitsign = {
+      enable = lib.mkDefault true;
+      enableCredentialCache = lib.mkDefault true;
+      settings.connectorID = lib.mkDefault "https://github.com/login/oauth";
+    };
   };
 }
