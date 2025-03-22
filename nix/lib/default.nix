@@ -107,6 +107,10 @@ let
       allPackages = collectLegacyPackages attrs packagesFn;
     in
     lib.filterAttrs (_: lib.isDerivation) (flattenAttrs allPackages);
+
+  importDir = dir: lib.mapAttrsToList (path: _: lib.path.append dir path) (builtins.readDir dir);
+
+  importDirs = lib.concatMap importDir;
 in
 {
   flake.lib = {
@@ -119,6 +123,8 @@ in
       mapPrioritizedAttrsToList
       collectLegacyPackages
       collectPackages
+      importDir
+      importDirs
       ;
   };
 }

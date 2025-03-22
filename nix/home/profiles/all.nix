@@ -1,19 +1,6 @@
 { config, lib, ... }:
 
 {
-  imports = [
-    ./minimal.nix
-    ./essential.nix
-    ./extras.nix
-    ./debugtools.nix
-    ./desktop.nix
-    ./development.nix
-    ./fonts.nix
-    ./macos
-    ./neovim.nix
-    ./web.nix
-  ];
-
   options.dotfiles.profiles.enableAll = lib.mkEnableOption "all profiles provided by the dotfiles";
 
   config = lib.mkIf config.dotfiles.profiles.enableAll {

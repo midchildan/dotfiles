@@ -5,6 +5,9 @@
   ...
 }@flake:
 
+let
+  dotfiles = inputs.self;
+in
 {
   imports = [ ./machines ];
 
@@ -16,10 +19,9 @@
       ...
     }:
     {
-      imports = [
+      imports = dotfiles.lib.importDirs [
         ./modules
         ./profiles
-        ./news.nix
       ];
 
       options.dotfiles = {
@@ -46,7 +48,7 @@
 
       config = {
         _module.args = {
-          dotfiles = inputs.self;
+          inherit dotfiles;
           nixos = (getSystem pkgs.stdenv.system).allModuleArgs.nixos;
         };
 
