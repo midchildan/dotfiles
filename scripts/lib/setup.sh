@@ -209,21 +209,6 @@ dot::chmod() {
   chmod "$1" "$DOTFILE_DIR/$DOTFILE_FILES_DIR/$2"
 }
 
-# Download a file
-# Arguments:
-#   url : URL of the file to download
-#   dst: path to target
-# Returns:
-#   None
-dot::download() {
-  (( $# != 2 )) && dot::_abort "Wrong number of arguments."
-
-  local src="$1" dst="$2"
-  echo -n "Downloading $src..."
-  curl -sSfLo "$dst" --create-dirs "$src"
-  dot::_print_badge
-}
-
 # Clone a repository from GitHub
 # Arguments:
 #   repository: the target repository

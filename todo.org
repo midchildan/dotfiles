@@ -61,25 +61,6 @@ configuration.
 
 An upstream issue for this can be found [[https://bugzilla.mozilla.org/show_bug.cgi?id=1682462][here]].
 
-* tmux
-** HOLD Use the default ~TERM~ environment variable
-*** Motivation
-The current configuration sets ~TERM~ to =screen-256color=. Using the default
-value of =tmux-256color= would allow various programs using terminfo to more
-accurately detect tmux capabilities.
-
-*** Changes
-Remove the following line from [[file:files/.config/tmux/tmux.conf][tmux.conf]]:
-
-#+begin_src conf
-set -g default-terminal "screen-256color"
-#+end_src
-
-*** Blockers
-**** Outdated terminfo databases
-ncurses 6.0 or later is required for a smooth experience. Unfortunately, macOS
-is stuck with version 5.7 from 2008, [[https://github.com/tmux/tmux/issues/2262][requiring the use of hacks]].
-
 ** HOLD Remove the assumption that truecolor support is always present
 *** Motivation
 The current configuration makes tmux assume that [[https://github.com/termstandard/colors][truecolor support]] is available
@@ -98,7 +79,7 @@ limit truecolor display on terminals that do support it.
 Remove the following line from [[file:files/.config/tmux/tmux.conf][tmux.conf]]:
 
 #+begin_src conf
-set -ga terminal-overrides ",xterm-256color:Tc"
+set -sa terminal-features ",xterm-256color:RGB"
 #+end_src
 
 *** Blockers

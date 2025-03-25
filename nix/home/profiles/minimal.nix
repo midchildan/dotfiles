@@ -47,12 +47,5 @@ in
       enable = mkDefault true;
       useSystemMan = mkDefault (!isNixOS);
     };
-
-    dotfiles.vim.plugins.start = with pkgs.vimPlugins; [
-      fzfWrapper
-      coc-nvim
-      coc-snippets
-      coc-json
-    ];
   };
 }

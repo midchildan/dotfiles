@@ -19,7 +19,7 @@
       }
       {
         "Bundle ID" = "jp.sourceforge.inputmethod.aquaskk";
-        "Input Method" = "com.apple.inputmethod.Roman";
+        "Input Mode" = "com.apple.inputmethod.Roman";
         InputSourceKind = "Input Mode";
       }
     ];

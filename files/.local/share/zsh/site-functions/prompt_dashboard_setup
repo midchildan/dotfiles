@@ -95,7 +95,7 @@ prompt_dashboard_vcs_info() {
 }
 
 prompt_dashboard_precmd() {
-  local prompt_mark=">" pbegin pend vcs_icon nix_icon
+  local prompt_mark='%#' pbegin pend vcs_icon nix_icon
   if zstyle -T ':dotfiles:iterm2:osc' enable; then
     pbegin=$'%{\e]133;D;%?\a\e]133;A\a%}'
     pend=$'%{\e]133;B\a%}'

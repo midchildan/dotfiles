@@ -1,62 +1,12 @@
 "{{{ Preamble
 
-" NOTE: Plugins with dependencies are installed through Home Manager.
-call plug#begin('~/.vim/plugged')
-" editing
-Plug 'junegunn/vim-easy-align'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-commentary'
-Plug 'machakann/vim-sandwich'
-Plug 'easymotion/vim-easymotion', {'on': [
-  \ '<Plug>(easymotion-j)', '<Plug>(easymotion-k)',
-  \ '<Plug>(easymotion-s2)', '<Plug>(easymotion-overwin-f2)',
-  \ '<Plug>(easymotion-sn)', '<Plug>(easymotion-tn)' ]}
-
-" completion and linting
-Plug 'dense-analysis/ale'
-Plug 'junegunn/fzf.vim'
-Plug 'honza/vim-snippets'
-
-" utilities
-Plug 'direnv/direnv.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'machakann/vim-highlightedyank'
-Plug 'RRethy/vim-illuminate'
-Plug 'junegunn/vim-peekaboo'
-Plug 'mhinz/vim-signify'
-Plug 'wellle/context.vim', {'on': 'ContextToggle'}
-Plug 'junegunn/gv.vim', {'on': 'GV'}
-Plug 'Yggdroot/indentLine', {'on': 'IndentLinesEnable'}
-Plug 'Yilin-Yang/vim-markbar', {'on': '<Plug>ToggleMarkbar'}
-Plug 'preservim/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
-Plug 'preservim/tagbar', {'on': 'TagbarToggle'}
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
-Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-
-" colorschemes
-Plug 'morhetz/gruvbox'
-
-" filetypes
-Plug 'midchildan/ft-confluence.vim'
-Plug 'google/vim-jsonnet' " https://github.com/google/vim-jsonnet/issues/30
-Plug 'ledger/vim-ledger'
-Plug 'LnL7/vim-nix'
-Plug 'lervag/vimtex'
-
-" filetype plugin indent and syntax is handled by plug#end
-call plug#end()
-
 silent! packadd! cfilter
-if !has('nvim')
-  packadd! matchit
-  runtime ftplugin/man.vim
-endif
+packadd! matchit
+runtime ftplugin/man.vim
 
 augroup vimrc
   autocmd!
 augroup END
-
-let s:has_rg = executable('rg')
 
 "}}}
 "{{{ Editing
@@ -74,6 +24,7 @@ set copyindent
 set preserveindent
 set formatoptions+=jmB
 set omnifunc=syntaxcomplete#Complete
+filetype plugin indent on
 
 " jump to the last known cursor position
 au vimrc BufReadPost *
@@ -82,7 +33,7 @@ au vimrc BufReadPost *
   \ | endif
 
 " enable bracketed paste mode
-if !has('nvim') && has('patch-8.0.0238') && $TERM =~? 'screen'
+if has('patch-8.0.0238') && $TERM =~? 'screen'
   let &t_BE = "\<Esc>[?2004h"
   let &t_BD = "\<Esc>[?2004l"
   exec "set t_PS=\<ESC>[200~ | set t_PE=\<ESC>[201~"
@@ -92,11 +43,11 @@ endif
 "{{{ UI
 
 set hidden
+set cursorline
 set colorcolumn=81
 set number
 set ruler
 set showcmd
-set noshowmode
 set shortmess+=c
 set listchars=tab:>\ ,trail:-,nbsp:+
 set cmdheight=1
@@ -116,45 +67,16 @@ catch /E474:/
   set diffopt=filler,closeoff
 endtry
 
-" colors
-if has('gui_running')
-  let s:color_level = 2
-elseif &t_Co < 256 && $TERM !~? '.*-256color'
-  let s:color_level = 0
-elseif $TERM_PROGRAM ==? 'Apple_Terminal'
-  let s:color_level = 1
-else
-  let s:color_level = 2
-  if !has('nvim') && $TERM =~? 'screen'
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  endif
-endif
+set background=dark
+colorscheme retrobox
 
-if s:color_level >=? 2
-  set termguicolors
-  if exists('+pumblend')
-    set pumblend=15 winblend=15
-  endif
-endif
-if s:color_level >=? 1
-  set background=dark
-  try
-    colorscheme gruvbox
-    set cursorline
-  catch /E185:/ " colorscheme doesn't exist
-  endtry
-endif
+syntax enable
 
 " cursor shape
 if !has('nvim') && $TERM =~? '\(xterm\|screen\)'
   let &t_SI = "\<Esc>[6 q"
   let &t_SR = "\<Esc>[4 q"
   let &t_EI = "\<Esc>[2 q"
-endif
-
-if exists('+inccommand')
-  set inccommand=split
 endif
 
 " show whitespace errors
@@ -165,11 +87,6 @@ au vimrc Syntax * syn match WhitespaceError /\s\+$\| \+\ze\t/
 au vimrc QuickfixCmdPost \C[^lA-Z]* botright cwindow
 au vimrc QuickfixCmdPost l* botright lwindow
 
-" vim-illuminate
-hi link IlluminatedWordText cursorLine
-hi link IlluminatedWordRead cursorLine
-hi link IlluminatedWordWrite cursorLine
-
 "}}}
 "{{{ Search
 
@@ -179,17 +96,18 @@ set ignorecase
 set smartcase
 set wrapscan
 set tags=./tags;,tags
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --hidden
+endif
 
 "}}}
 "{{{ Persistent Data
 
-if !has('nvim')
-  set viminfo+=n~/.cache/vim/viminfo
-  set undodir=~/.cache/vim/undo
-endif
-set dir=~/.cache/vim/swap//
+set viminfo+=n~/.local/state/vim/viminfo
+set undodir=~/.local/state/vim/undo
+set dir=~/.local/state/vim/swap//
 set backup
-set backupdir=~/.cache/vim/backup
+set backupdir=~/.local/state/vim/backup
 set undofile
 for s:d in [&dir, &backupdir, &undodir]
   if !isdirectory(s:d)
@@ -209,19 +127,16 @@ xnoremap <Space> \
 " make Y consistent with C and D
 nnoremap Y y$
 " make & preserve flags and create a visual mode equivalent
-nnoremap & :&&<CR>
-xnoremap & :&&<CR>
-" break undo before deleting a whole line
+nnoremap & :<C-u>&&<CR>
+xnoremap & :<C-u>&&<CR>
+" make ctrl-l also clear highlights and update diffs
+nnoremap <C-l> :<C-u>nohlsearch<Bar>diffupdate<Bar>normal! <C-l><CR>
+" break undo before deleting words or whole lines
 inoremap <C-u> <C-g>u<C-u>
+inoremap <C-w> <C-g>u<C-w>
 
-" handy mapping for :noh
-nnoremap <silent> <BS> :nohlsearch<CR>
-" open the alternate file and close the current one
-nnoremap <silent> <Leader>6 :<C-u>bprevious<Bar>bunload #<Bar>bdelete #<CR>
 " switch to the next modified buffer
 nnoremap <silent> <Leader>b :bmodified<CR>
-" a more powerful <C-l>
-nnoremap <silent> <Leader>l :nohlsearch<CR>:call vimrc#refresh()<CR>
 
 " find merge conflict marker
 nnoremap <silent> <Leader>fc /\v^[<=>]{7}( .*<Bar>$)<CR>
@@ -252,168 +167,19 @@ xnoremap <silent> il <Esc>^vg_
 onoremap <silent> il :<C-u>normal! ^vg_<CR>
 xnoremap <silent> ag gg0oG$
 onoremap <silent> ag :<C-u>exe "normal! m`"<Bar>keepjumps normal! ggVG<CR>
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
-" NOTE: Same feature as vim/vim#958
-xmap im <Plug>(textobj-sandwich-literal-query-i)
-omap im <Plug>(textobj-sandwich-literal-query-i)
-xmap am <Plug>(textobj-sandwich-literal-query-a)
-omap am <Plug>(textobj-sandwich-literal-query-a)
 
 " toggles
-nmap <Leader>tm <Plug>ToggleMarkbar
-nnoremap <silent> <Leader>tf :NERDTreeToggle<CR>
-nnoremap <silent> <Leader>tF :NERDTreeFind<CR>
-nnoremap <silent> <Leader>th :set bufhidden! bufhidden?<CR>
-nnoremap <silent> <Leader>tp :call vimrc#toggle_recursive_path()<CR>
-nnoremap <silent> <Leader>tl :ALEToggle<CR>
 nnoremap <silent> <Leader>ts :setlocal spell! spell?<CR>
-nnoremap <silent> <Leader>tt :TagbarToggle<CR>
-nnoremap <silent> <Leader>tu :UndotreeToggle<CR>
 nnoremap <silent> <Leader>tv :call vimrc#toggle_virtualedit()<CR>
 nnoremap <silent> <Leader>tq :call vimrc#toggle_textwidth()<CR>
-nnoremap <silent> <Leader>tz :ContextToggle<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
-nnoremap <silent> <Leader>t* :IlluminationToggle<CR>
 nnoremap <silent> <Leader>t~ :set ignorecase! ignorecase?<CR>
-nnoremap <silent> <Leader>t<Space> :call vimrc#toggle_whitespace_check()<CR>
 nnoremap <silent> <Leader>t<Tab> :call vimrc#toggle_whitespace_visibility()<CR>
-
-" ALE
-nnoremap <silent> <Leader>wc :ALEPopulateQuickfix<CR>
-nnoremap <silent> <Leader>wl :ALEPopulateLocList<CR>
-
-" FZF mappings
-imap <C-x><C-x><C-f> <Plug>(fzf-complete-path)
-imap <C-x><C-x><C-k> <Plug>(fzf-complete-word)
-imap <C-x><C-x><C-l> <Plug>(fzf-complete-line)
-inoremap <silent> <C-x><C-x><C-j> <Esc>:Snippets<CR>
-nnoremap <silent> <Leader><Leader> :GitFiles<CR>
-nnoremap <silent> <Leader>, :Buffers<CR>
-nnoremap <silent> <Leader>. :Files<CR>
-nnoremap <silent> <Leader>gp :Projects<CR>
-nnoremap <silent> <Leader>g/ :Lines<CR>
-nnoremap <silent> <Leader>g] :Tags <C-r>=expand("<cword>")<CR><CR>
-nnoremap <silent> <Leader>o :History<CR>
-nnoremap <silent> <Leader>q: :History:<CR>
-nnoremap <silent> <Leader>q/ :History/<CR>
-nnoremap <silent> <Leader>' :Marks<CR>
-nnoremap <silent> <Leader>/ :BLines<CR>
-nnoremap <silent> <Leader>: :Commands<CR>
-nnoremap <silent> <Leader>] :BTags <C-r>=expand("<cword>")<CR><CR>
-
-" easymotion
-nmap <Leader>j <Plug>(easymotion-j)
-xmap <Leader>j <Plug>(easymotion-j)
-omap <Leader>j <Plug>(easymotion-j)
-nmap <Leader>k <Plug>(easymotion-k)
-xmap <Leader>k <Plug>(easymotion-k)
-omap <Leader>k <Plug>(easymotion-k)
-nmap <Leader>s <Plug>(easymotion-s2)
-xmap <Leader>s <Plug>(easymotion-s2)
-omap <Leader>s <Plug>(easymotion-s2)
-nmap <Leader>s <Plug>(easymotion-overwin-f2)
-nmap g/ <Plug>(easymotion-sn)
-xmap g/ <Plug>(easymotion-sn)
-omap g/ <Plug>(easymotion-tn)
-
-" vim-easy-align
-nmap g= <Plug>(EasyAlign)
-xmap g= <Plug>(EasyAlign)
-
-" vim-sandwich
-nmap s <Nop>
-xmap s <Nop>
-
-" coc
-nnoremap <silent> K :call vimrc#coc#show_doc()<CR>
-inoremap <silent><expr> <Tab> vimrc#coc#complete_or("\<Tab>")
-inoremap <silent><expr> <CR> vimrc#coc#cr()
-nnoremap <silent><nowait><expr> <C-b> vimrc#coc#n_float_scroll_or("\<C-b>", 0)
-nnoremap <silent><nowait><expr> <C-f> vimrc#coc#n_float_scroll_or("\<C-f>", 1)
-vnoremap <silent><nowait><expr> <C-b> vimrc#coc#n_float_scroll_or("\<C-b>", 0)
-vnoremap <silent><nowait><expr> <C-f> vimrc#coc#n_float_scroll_or("\<C-f>", 1)
-inoremap <silent><nowait><expr> <C-b> vimrc#coc#i_float_scroll_or("\<C-b>", 0)
-inoremap <silent><nowait><expr> <C-f> vimrc#coc#i_float_scroll_or("\<C-f>", 1)
-
-nmap <Leader>a <Plug>(coc-codeaction-selected)
-xmap <Leader>a <Plug>(coc-codeaction-selected)
-nmap <Leader>cf <Plug>(coc-fix-current)
-nmap <Leader>cw <Plug>(coc-rename)
-xmap <Leader>gq <Plug>(coc-format-selected)
-nmap <Leader>gq <Plug>(coc-format-selected)
-nmap <silent> <Leader>gd <Plug>(coc-definition)
-nmap <silent> <Leader>gD <Plug>(coc-declaration)
-nmap <silent> <Leader>gt <Plug>(coc-type-definition)
-nmap <silent> <Leader>g] <Plug>(coc-implementation)
-nmap <silent> <Leader>p :CocList<CR>
-nmap <silent> <Leader>P :CocListResume<CR>
-nmap <silent> <Leader>* <Plug>(coc-references)
-nnoremap <silent> <Leader>; :CocList commands<CR>
-
-au vimrc User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
 " 3-way merge
 nnoremap <silent> <Leader>1 :diffget LOCAL<CR>
 nnoremap <silent> <Leader>2 :diffget BASE<CR>
 nnoremap <silent> <Leader>3 :diffget REMOTE<CR>
-
-"}}}
-"{{{ Plugins
-
-" airline "
-let g:airline_skip_empty_sections = v:true
-if $USE_POWERLINE
-  let g:airline_powerline_fonts = v:true
-
-  " Fira Code doesn't contain the colnr symbol yet
-  " https://github.com/tonsky/FiraCode/issues/1243
-  if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-  endif
-  let g:airline_symbols.colnr = "\u33c7"
-endif
-let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
-
-" ALE "
-let g:ale_set_quickfix = v:false
-let g:ale_set_loclist = v:false
-
-" CoC "
-let g:coc_start_at_startup = has('node') || executable('node')
-let g:coc_filetype_map = { 'yaml.ansible': 'ansible' }
-
-" EasyMotion"
-let g:EasyMotion_do_mapping = v:false
-let g:EasyMotion_smartcase = v:true
-let g:EasyMotion_use_migemo = v:true
-
-" EditorConfig "
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
-
-" FZF "
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-
-command! -bang Compilers call vimrc#fzf_compilers(0, <bang>0)
-command! -bang BCompilers call vimrc#fzf_compilers(1, <bang>0)
-command! -bang -nargs=* Projects call vimrc#fzf_projects(<q-args>, <bang>0)
-
-" indentLine "
-let g:indentLine_enabled = v:false
-let g:indentLine_setColors = v:false
-let g:indentLine_concealcursor = ''
-
-" markbar "
-let g:markbar_enable_peekaboo = v:false
-
-" undotree "
-let g:undotree_WindowLayout = 2
 
 "}}}
 "{{{ Misc
@@ -423,10 +189,6 @@ let g:tex_flavor = 'latex'
 " See :h :DiffOrig
 command! DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
   \ | wincmd p | diffthis
-
-if s:has_rg
-  set grepprg=rg\ --vimgrep\ --hidden
-endif
 
 "}}}
 " vim:set foldmethod=marker:

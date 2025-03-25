@@ -1,16 +1,17 @@
 { inputs, config, ... }@flake:
 
+let
+  dotfiles = inputs.self;
+in
 {
   imports = [ ./machines ];
 
   flake.darwinModules.default =
     { lib, config, ... }:
     {
-      imports = [
-        ./modules/setup.nix
-        ./modules/nix.nix
-        ./modules/shell.nix
-        ./profiles/apps.nix
+      imports = dotfiles.lib.importDirs [
+        ./modules
+        ./profiles
       ];
 
       options.dotfiles = {
@@ -35,6 +36,8 @@
         };
       };
 
-      config._module.args.dotfiles = inputs.self;
+      config._module.args = {
+        inherit dotfiles;
+      };
     };
 }

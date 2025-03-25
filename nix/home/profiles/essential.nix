@@ -11,7 +11,8 @@ let
   myPkgs = dotfiles.packages.${system};
 in
 {
-  options.dotfiles.profiles.essential.enable = lib.mkEnableOption "essential packages for servers and desktops alike";
+  options.dotfiles.profiles.essential.enable =
+    lib.mkEnableOption "essential packages for servers and desktops alike";
 
   config = lib.mkIf config.dotfiles.profiles.essential.enable {
     home.packages =

@@ -10,7 +10,8 @@ let
   hasInteractiveCfg = config.dotfiles.profiles.interactive.enable;
 in
 {
-  options.dotfiles.profiles.network.enable = lib.mkEnableOption "collection of network configurations";
+  options.dotfiles.profiles.network.enable =
+    lib.mkEnableOption "collection of network configurations";
 
   config = lib.mkIf cfg.enable {
     networking = {

@@ -5,6 +5,9 @@
   ...
 }@flake:
 
+let
+  dotfiles = inputs.self;
+in
 {
   imports = [ ./machines ];
 
@@ -16,7 +19,7 @@
       ...
     }:
     {
-      imports = [ ./profiles ];
+      imports = dotfiles.lib.importDir ./profiles;
 
       options.dotfiles = {
         flakeOptions = lib.mkOption {
@@ -41,7 +44,7 @@
       };
 
       config._module.args = {
-        dotfiles = inputs.self;
+        inherit dotfiles;
         pkgsUnstable = (getSystem pkgs.stdenv.system).allModuleArgs.pkgs;
       };
     };

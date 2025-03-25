@@ -33,9 +33,6 @@ install: shell config
 
 install: Vim config
   - .vim
-  - download: \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
-      ~/.vim/autoload/plug.vim
 
 install: Neovim config
   - skip: true # It's installed by Home Manager

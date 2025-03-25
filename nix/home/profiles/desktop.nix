@@ -9,7 +9,8 @@ let
   inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
 in
 {
-  options.dotfiles.profiles.desktop.enable = lib.mkEnableOption "essential packages for desktop environemnts";
+  options.dotfiles.profiles.desktop.enable =
+    lib.mkEnableOption "essential packages for desktop environemnts";
 
   config = lib.mkIf config.dotfiles.profiles.desktop.enable {
     home.packages =
@@ -31,13 +32,6 @@ in
         autofit-larger = lib.mkDefault "100%x100%";
         hwdec = lib.mkDefault "auto";
         keep-open = lib.mkDefault true;
-      };
-      profiles = {
-        "protocol.https" = {
-          # use a format friendly to hardware decoders
-          ytdl-format = lib.mkDefault "mp4[height<=?720]";
-        };
-        "protocol.http".profile = lib.mkDefault "protocol.https";
       };
       scripts = lib.optionals isLinux [ pkgs.mpvScripts.mpris ];
     };

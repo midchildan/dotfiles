@@ -15,7 +15,6 @@ in
   config = lib.mkIf cfg.enable {
     programs.emacs = {
       enable = lib.mkDefault true;
-      package = lib.mkDefault pkgs.emacsNativeComp;
       extraConfig = ''
         (setq dired-use-ls-dired t
               insert-directory-program "${pkgs.coreutils}/bin/ls"
@@ -25,7 +24,6 @@ in
         epkgs: with epkgs; [
           # include Doom Emacs dependencies that tries to build native C code
           emacsql
-          emacsql-sqlite
           pdf-tools
           vterm
         ];
