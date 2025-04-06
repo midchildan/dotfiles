@@ -93,6 +93,12 @@ vim.api.nvim_create_autocmd("QuickfixCmdPost", {
   command = "botright lwindow",
 })
 
+vim.diagnostic.config({
+  virtual_lines = {
+    current_line = true,
+  },
+})
+
 -- }}}
 -- {{{ Keybindings
 
