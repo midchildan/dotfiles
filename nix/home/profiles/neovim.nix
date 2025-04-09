@@ -356,10 +356,10 @@ in
           type = "lua";
           config = # lua
             ''
-              vim.g.ale_use_neovim_diagnostics_api = true
-              vim.g.ale_disable_lsp = true
               vim.g.ale_set_quickfix = false
               vim.g.ale_set_loclist = false
+              vim.g.ale_use_neovim_diagnostics_api = true
+              vim.g.ale_virtualtext_cursor = 'disabled'
             '';
         }
 
