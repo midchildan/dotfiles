@@ -28,12 +28,17 @@ if [[ -f ~/.nix-profile/etc/profile.d/hm-session-vars.sh ]]; then
   source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 fi
 
-export COPYFILE_DISABLE=1
-export EDITOR="nvim"
 export LANG="en_US.UTF-8"
-export LESS="iFMR"
+export EDITOR="nvim"
 export PAGER="less"
+export COPYFILE_DISABLE=1
 export GOPATH=~/Documents/src/go
+export LESS="\
+--ignore-case \
+--incsearch \
+--long-prompt \
+--RAW-CONTROL-CHARS \
+--quit-if-one-screen"
 
 # whether to make use of powerline fonts
 if [[ -z "$USE_POWERLINE" ]]; then
