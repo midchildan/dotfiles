@@ -293,7 +293,7 @@ in
           type = "lua";
           config = # lua
             ''
-              local blink = require("blink-cmp")
+              local blink = require("blink.cmp")
               blink.setup({
                 completion = {
                   menu = {
@@ -312,7 +312,14 @@ in
                     winblend = vim.opt.pumblend:get(),
                   },
                 },
+                keymap = {
+                  -- Fixes builtin completion
+                  ["<C-y>"] = { "select_and_accept", "fallback" },
+                },
               })
+
+              -- Fixes builtin completion
+              vim.api.nvim_create_autocmd('TextChangedP', { callback = blink.hide })
             '';
         }
         {
