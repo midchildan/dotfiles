@@ -319,7 +319,9 @@ in
               })
 
               -- Fixes builtin completion
-              vim.api.nvim_create_autocmd('TextChangedP', { callback = blink.hide })
+              vim.api.nvim_create_autocmd('TextChangedP', {
+                callback = function() blink.hide() end
+              })
             '';
         }
         {
