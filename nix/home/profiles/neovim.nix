@@ -306,34 +306,22 @@ in
           type = "lua";
           config = # lua
             ''
-              local capabilities = blink.get_lsp_capabilities()
-              local lspconfig = require("lspconfig")
-              local servers = {
+              vim.lsp.config("jdtls", {
+                init_options = {
+                  bundles = { vim.fn.glob("${javaDebugGlob}", 1) }
+                },
+              })
+
+              vim.lsp.enable({
                 "ansiblels",
                 "clangd",
                 "eslint",
                 "gopls",
+                "jdtls",
                 "rust_analyzer",
                 "rubocop",
                 "pyright",
                 "ts_ls",
-              }
-
-              for _, lsp in ipairs(servers) do
-                lspconfig[lsp].setup({
-                  capabilities = capabilities,
-                  silent = true,
-                })
-              end
-
-              lspconfig.jdtls.setup({
-                capabilities = capabilities,
-                silent = true,
-                settings = {
-                  initializationOptions = {
-                    vim.fn.glob("${javaDebugGlob}", 1)
-                  },
-                },
               })
             '';
         }
