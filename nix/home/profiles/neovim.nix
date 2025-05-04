@@ -268,14 +268,6 @@ in
             '';
         }
         {
-          plugin = pkgs.vimPlugins.nvim-notify;
-          type = "lua";
-          config = # lua
-            ''
-              vim.notify = require("notify")
-            '';
-        }
-        {
           plugin = pkgs.vimPlugins.nvim-treesitter-context;
           type = "lua";
           config = # lua
