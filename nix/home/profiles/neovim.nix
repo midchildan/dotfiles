@@ -404,12 +404,6 @@ in
                 },
                 source_selector = {
                   winbar = true,
-                  sources = {
-                    { source = "filesystem", display_name = " 󰉓 Files" },
-                    { source = "buffers", display_name = " 󰈙 Buffers" },
-                    { source = "git_status", display_name = "  Git" },
-                    { source = "document_symbols", display_name = "  Symbols" },
-                  },
                 },
                 filesystem = {
                   group_empty_dirs = true,
@@ -422,14 +416,8 @@ in
 
               vim.keymap.set("n", "<Leader>tf", "<Cmd>Neotree toggle<CR>")
               vim.keymap.set("n", "<Leader>tF", "<Cmd>Neotree reveal<CR>")
-            '';
-        }
-        {
-          plugin = pkgs.vimPlugins.tagbar;
-          type = "lua";
-          config = # lua
-            ''
-              vim.keymap.set("n", "<Leader>tt", "<Cmd>TagbarToggle<CR>")
+              vim.keymap.set("n", "<Leader>tt",
+                "<Cmd>Neotree document_symbols toggle right selector=false<CR>")
             '';
         }
         {
