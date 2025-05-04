@@ -66,21 +66,6 @@ in
             '';
         }
         {
-          plugin = pkgs.vimPlugins.vim-easymotion;
-          type = "lua";
-          config = # lua
-            ''
-              vim.g.EasyMotion_do_mapping = false
-              vim.g.EasyMotion_smartcase = true
-              vim.g.EasyMotion_use_migemo = true
-              vim.keymap.set({ "n", "x", "o" }, "<Leader>j", "<Plug>(easymotion-j)", { remap = true })
-              vim.keymap.set({ "n", "x", "o" }, "<Leader>k", "<Plug>(easymotion-k)", { remap = true })
-              vim.keymap.set({ "x", "o" }, "<Leader>s", "<Plug>(easymotion-s2)", { remap = true })
-              vim.keymap.set("n", "<Leader>s", "<Plug>(easymotion-overwin-f2)", { remap = true })
-              vim.keymap.set({ "n", "x", "o" }, "g/", "<Plug>(easymotion-sn)", { remap = true })
-            '';
-        }
-        {
           plugin = pkgs.vimPlugins.vim-sandwich;
           type = "lua";
           config = # lua
