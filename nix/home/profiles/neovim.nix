@@ -166,8 +166,11 @@ in
               local fzf = require("fzf-lua")
               fzf.setup({
                 winopts = {
-                  winblend = vim.opt.winblend:get()
-                }
+                  winblend = vim.opt.winblend:get(),
+                  preview = {
+                    layout = "vertical",
+                  },
+                },
               })
 
               local function fzf_projects(opts)
