@@ -169,7 +169,7 @@ nnoremap <silent> <Leader>tv :call vimrc#toggle_virtualedit()<CR>
 nnoremap <silent> <Leader>tq :call vimrc#toggle_textwidth()<CR>
 nnoremap <silent> <Leader>t# :setlocal relativenumber! relativenumber?<CR>
 nnoremap <silent> <Leader>t~ :set ignorecase! ignorecase?<CR>
-nnoremap <silent> <Leader>t<Tab> :call vimrc#toggle_whitespace_visibility()<CR>
+nnoremap <silent> <Leader>t<Tab> :setlocal list! list?<CR>
 
 " 3-way merge
 nnoremap <silent> <Leader>1 :diffget LOCAL<CR>

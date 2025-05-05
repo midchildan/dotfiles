@@ -1,10 +1,8 @@
-let b:EditorConfig_disable=1
-
-" save commit message to register l (l:last)
+" save commit message to register g
 func! s:save_commitmsg()
-  let @l=''
+  let @g=''
   silent! keepmarks keepjumps keeppatterns g/\v(^$)|^([^#].*$)/y L
-  let @l=@l[1:]
+  let @g=@g[1:]
 endf
 
 augroup vimrc_gitcommit
