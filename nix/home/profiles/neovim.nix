@@ -292,6 +292,15 @@ in
                     winblend = vim.opt.pumblend:get(),
                   },
                 },
+                sources = {
+                  providers = {
+                    snippets = {
+                      opts = {
+                        global_snippets = { "all", "license", "loremipsum" },
+                      },
+                    },
+                  },
+                },
                 keymap = {
                   -- Fixes builtin completion
                   ["<C-y>"] = { "select_and_accept", "fallback" },
