@@ -26,7 +26,6 @@
       "iterm2"
       "krita"
       "netnewswire"
-      "skim"
       "wireshark"
     ];
   };
