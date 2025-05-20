@@ -26,6 +26,7 @@
       "krita"
       "netnewswire"
       "wireshark"
+      "zotero"
     ];
   };
 }
