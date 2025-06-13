@@ -1,3 +1,7 @@
+# Configure web browsers. Installation is out of scope here because I have different web browser
+# installation strategies on different machines. I also don't even install all of the browsers
+# configured here on every machine I use.
+
 {
   config,
   lib,
@@ -7,6 +11,19 @@
 
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
+
+  chromeExtensions = [
+    rec {
+      name = "uBlock Origin Lite";
+      id = "ddkjiahejlhfcafbddmgiahcphecmpfh";
+      url = "https://chromewebstore.google.com/detail/ublock-origin-lite/${id}";
+    }
+    rec {
+      name = "SponsorBlock";
+      id = "mnjggcdmjocbbbhaepdhchncahnbgone";
+      url = "https://chromewebstore.google.com/detail/sponsorblock-for-youtube/${id}";
+    }
+  ];
 in
 {
   options.dotfiles.profiles.web.enable = lib.mkEnableOption "nice defaults for web browsers";
@@ -49,6 +66,37 @@ in
           ShowOverlayStatusBar = lib.mkDefault true;
         };
         "com.apple.Safari.SandboxBroker".ShowDevelopMenu = lib.mkDefault true;
+
+        # The configuration here is only for macOS. On Linux, Chrome doesn't appear to support OS
+        # user level policies, so policies would have to be set at the system level.
+        "com.google.Chrome" = {
+          RestoreOnStartup = 1; # restore the last session
+          PasswordManagerEnabled = lib.mkDefault false;
+
+          AdsSettingForIntrusiveAdsSites = lib.mkDefault 2; # disallow
+          BlockThirdPartyCookies = lib.mkDefault true;
+          BrowserSignin = lib.mkDefault 0; # disable
+          DefaultBrowserSettingEnabled = lib.mkDefault false;
+          GenAiDefaultSettings = lib.mkDefault 2; # 1: allow but no training, 2: disallow
+          MetricsReportingEnabled = lib.mkDefault false;
+          PrivacySandboxAdMeasurementEnabled = lib.mkDefault false;
+          PrivacySandboxSandboxAdTopicsEnabled = lib.mkDefault false;
+          PrivacySandboxPromptEnabled = lib.mkDefault false;
+          PrivacySandboxSiteEnabledAdsEnabled = lib.mkDefault false;
+          SyncDisabled = lib.mkDefault true;
+
+          DefaultSearchProviderEnabled = lib.mkDefault true;
+          DefaultSearchProviderName = lib.mkDefault "DuckDuckGo";
+          DefaultSearchProviderKeyword = lib.mkDefault "ddg";
+          DefaultSearchProviderSearchURL = lib.mkDefault "https://start.duckduckgo.com/?q={searchTerms}";
+          DefaultSearchProviderSuggestURL = lib.mkDefault "https://start.duckduckgo.com/ac/?q={searchTerms}&type=list";
+          DefaultSearchProviderNewTabURL = lib.mkDefault "https://start.duckduckgo.com/chrome_newtab";
+
+          # If a system wide policy already includes these settings, they'll unfortunately be
+          # overriden instead of being merged.
+          ExtensionInstallForceList = map (e: e.id) chromeExtensions;
+          ManagedBookmarks = map (e: { inherit (e) name url; }) chromeExtensions;
+        };
       };
 
       search = lib.mkDefault "DuckDuckGo";
