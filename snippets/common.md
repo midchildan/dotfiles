@@ -42,6 +42,10 @@
 
 `curl -sSL -H 'application/dns-json' '{{https://cloudflare-dns.com/dns-query}}?name={{example.com}}&type={{A}}'`
 
+- Generate a DuckDuckGo email address:
+
+`curl -sSfL -X POST https://quack.duckduckgo.com/api/email/addresses -H "Authorization: Bearer {{$token}}" | jq -r '.address + "@duck.com"'`
+
 - Lookup the manpage for a specific version of tmux:
 
 `curl -sSfL https://raw.githubusercontent.com/tmux/tmux/{{2.8}}/tmux.1 | nroff -mdoc | less`
