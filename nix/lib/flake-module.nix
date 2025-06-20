@@ -27,9 +27,9 @@ let
       flakeOptionsModule =
         { lib, config, ... }:
         {
-          dotfiles._flakeOptions = flake.config.dotfiles;
+          dotfiles._flakeOptions = cfg;
           home = {
-            username = lib.mkDefault config.dotfiles._flakeOptions.user.name;
+            username = lib.mkDefault cfg.user.name;
             homeDirectory = lib.mkDefault "${userDir}/${config.home.username}";
           };
         };
@@ -63,16 +63,19 @@ let
       ...
     }@args:
     let
-      flakeOptionsModule = {
-        dotfiles._flakeOptions = config.dotfiles;
-        home-manager = {
-          useGlobalPkgs = true;
-          sharedModules = cfg.home.modules ++ [
-            localFlake.inputs.self.homeModules.default
-            { dotfiles._flakeOptions = config.dotfiles; }
-          ];
+      flakeOptionsModule =
+        { lib, ... }:
+        {
+          dotfiles._flakeOptions = cfg;
+          system.primaryUser = lib.mkDefault cfg.user.name;
+          home-manager = {
+            useGlobalPkgs = true;
+            sharedModules = cfg.home.modules ++ [
+              localFlake.inputs.self.homeModules.default
+              { dotfiles._flakeOptions = config.dotfiles; }
+            ];
+          };
         };
-      };
     in
     darwinSystem (
       args
