@@ -146,8 +146,7 @@ vim.keymap.set("n", "<Leader>ts", "<Cmd>setlocal spell! spell?<CR>")
 vim.keymap.set("n", "<Leader>tv", "<Cmd>call vimrc#toggle_virtualedit()<CR>")
 vim.keymap.set("n", "<Leader>tq", "<Cmd>call vimrc#toggle_textwidth()<CR>")
 vim.keymap.set("n", "<Leader>t#", "<Cmd>setlocal relativenumber! relativenumber?<CR>")
-vim.keymap.set("n", "<Leader>t ", "<Cmd>call vimrc#toggle_whitespace_check()<CR>")
-vim.keymap.set("n", "<Leader>t<Tab>", "<Cmd>call vimrc#toggle_whitespace_visibility()<CR>")
+vim.keymap.set("n", "<Leader>t<Tab>", "<Cmd>setlocal list! list?<CR>")
 
 -- 3-way merge
 vim.keymap.set("n", "<Leader>1", "<Cmd>diffget LOCAL<CR>")

@@ -79,7 +79,6 @@ install: VSCode config
 install: miscellaneous config
   - .clang-format
   - .editrc
-  - .prettierrc
   - .screenrc
   - .wgetrc
   - .config/bat/config

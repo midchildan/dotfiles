@@ -20,7 +20,6 @@ in
       [
         bat
         broot
-        cmigemo
         fd
         fselect
         ghq

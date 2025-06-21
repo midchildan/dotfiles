@@ -66,21 +66,6 @@ in
             '';
         }
         {
-          plugin = pkgs.vimPlugins.vim-easymotion;
-          type = "lua";
-          config = # lua
-            ''
-              vim.g.EasyMotion_do_mapping = false
-              vim.g.EasyMotion_smartcase = true
-              vim.g.EasyMotion_use_migemo = true
-              vim.keymap.set({ "n", "x", "o" }, "<Leader>j", "<Plug>(easymotion-j)", { remap = true })
-              vim.keymap.set({ "n", "x", "o" }, "<Leader>k", "<Plug>(easymotion-k)", { remap = true })
-              vim.keymap.set({ "x", "o" }, "<Leader>s", "<Plug>(easymotion-s2)", { remap = true })
-              vim.keymap.set("n", "<Leader>s", "<Plug>(easymotion-overwin-f2)", { remap = true })
-              vim.keymap.set({ "n", "x", "o" }, "g/", "<Plug>(easymotion-sn)", { remap = true })
-            '';
-        }
-        {
           plugin = pkgs.vimPlugins.vim-sandwich;
           type = "lua";
           config = # lua
@@ -181,8 +166,11 @@ in
               local fzf = require("fzf-lua")
               fzf.setup({
                 winopts = {
-                  winblend = vim.opt.winblend:get()
-                }
+                  winblend = vim.opt.winblend:get(),
+                  preview = {
+                    layout = "vertical",
+                  },
+                },
               })
 
               local function fzf_projects(opts)
@@ -268,14 +256,6 @@ in
             '';
         }
         {
-          plugin = pkgs.vimPlugins.nvim-notify;
-          type = "lua";
-          config = # lua
-            ''
-              vim.notify = require("notify")
-            '';
-        }
-        {
           plugin = pkgs.vimPlugins.nvim-treesitter-context;
           type = "lua";
           config = # lua
@@ -293,7 +273,7 @@ in
           type = "lua";
           config = # lua
             ''
-              local blink = require("blink-cmp")
+              local blink = require("blink.cmp")
               blink.setup({
                 completion = {
                   menu = {
@@ -312,6 +292,24 @@ in
                     winblend = vim.opt.pumblend:get(),
                   },
                 },
+                sources = {
+                  providers = {
+                    snippets = {
+                      opts = {
+                        global_snippets = { "all", "license", "loremipsum" },
+                      },
+                    },
+                  },
+                },
+                keymap = {
+                  -- Fixes builtin completion
+                  ["<C-y>"] = { "select_and_accept", "fallback" },
+                },
+              })
+
+              -- Fixes builtin completion
+              vim.api.nvim_create_autocmd('TextChangedP', {
+                callback = function() blink.hide() end
               })
             '';
         }
@@ -320,34 +318,22 @@ in
           type = "lua";
           config = # lua
             ''
-              local capabilities = blink.get_lsp_capabilities()
-              local lspconfig = require("lspconfig")
-              local servers = {
+              vim.lsp.config("jdtls", {
+                init_options = {
+                  bundles = { vim.fn.glob("${javaDebugGlob}", 1) }
+                },
+              })
+
+              vim.lsp.enable({
                 "ansiblels",
                 "clangd",
                 "eslint",
                 "gopls",
+                "jdtls",
                 "rust_analyzer",
                 "rubocop",
                 "pyright",
                 "ts_ls",
-              }
-
-              for _, lsp in ipairs(servers) do
-                lspconfig[lsp].setup({
-                  capabilities = capabilities,
-                  silent = true,
-                })
-              end
-
-              lspconfig.jdtls.setup({
-                capabilities = capabilities,
-                silent = true,
-                settings = {
-                  initializationOptions = {
-                    vim.fn.glob("${javaDebugGlob}", 1)
-                  },
-                },
               })
             '';
         }
@@ -430,12 +416,6 @@ in
                 },
                 source_selector = {
                   winbar = true,
-                  sources = {
-                    { source = "filesystem", display_name = " 󰉓 Files" },
-                    { source = "buffers", display_name = " 󰈙 Buffers" },
-                    { source = "git_status", display_name = "  Git" },
-                    { source = "document_symbols", display_name = "  Symbols" },
-                  },
                 },
                 filesystem = {
                   group_empty_dirs = true,
@@ -448,14 +428,8 @@ in
 
               vim.keymap.set("n", "<Leader>tf", "<Cmd>Neotree toggle<CR>")
               vim.keymap.set("n", "<Leader>tF", "<Cmd>Neotree reveal<CR>")
-            '';
-        }
-        {
-          plugin = pkgs.vimPlugins.tagbar;
-          type = "lua";
-          config = # lua
-            ''
-              vim.keymap.set("n", "<Leader>tt", "<Cmd>TagbarToggle<CR>")
+              vim.keymap.set("n", "<Leader>tt",
+                "<Cmd>Neotree document_symbols toggle right selector=false<CR>")
             '';
         }
         {

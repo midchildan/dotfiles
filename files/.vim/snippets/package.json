@@ -1,0 +1,19 @@
+{
+  "name": "vimrc-snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "changelog",
+        "path": "./changelog.json"
+      },
+      {
+        "language": "gitsendemail",
+        "path": "./gitsendemail.json"
+      },
+      {
+        "language": "tex",
+        "path": "./tex.json"
+      }
+    ]
+  }
+}

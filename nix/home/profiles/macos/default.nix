@@ -52,6 +52,20 @@ in
         };
 
         "com.apple.mail".SwipeAction = lib.mkDefault 1; # swipe to archive
+
+        "com.apple.WindowManager" = {
+          # Enable Stage Manager
+          GloballyEnabled = lib.mkDefault true;
+          GloballyEnabledEver = lib.mkDefault true;
+          AppWindowGroupingBehavior = lib.mkDefault true; # show windows from an app all at once
+          AutoHide = lib.mkDefault false; # show recent apps
+
+          StandardHideDesktopIcons = lib.mkDefault false;
+          HideDesktop = lib.mkDefault false;
+
+          StandardHideWidgets = lib.mkDefault false;
+          StageManagerHideWidgets = lib.mkDefault false;
+        };
       };
 
       currentHostDefaults = {

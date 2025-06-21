@@ -17,7 +17,6 @@
     };
 
     homebrew.casks = [
-      "alfred"
       "aquaskk"
       "firefox"
       "gimp"
@@ -26,8 +25,12 @@
       "iterm2"
       "krita"
       "netnewswire"
-      "skim"
       "wireshark"
+      "zotero"
     ];
+
+    homebrew.masApps = {
+      "AdGuard for Safari" = 1440147259;
+    };
   };
 }

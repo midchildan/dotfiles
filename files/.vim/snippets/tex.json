@@ -1,0 +1,57 @@
+{
+  "article template": {
+    "prefix": "article",
+    "body": [
+      "\\documentclass[a4paper, 12pt]{article}",
+      "\\usepackage{biblatex}",
+      "\\usepackage{booktabs}",
+      "\\usepackage{graphicx}",
+      "\\usepackage{here}",
+      "\\usepackage{hyperref}",
+      "\\usepackage{listings}",
+      "\\usepackage{longtable}",
+      "\\usepackage{xcolor}",
+      "\\addbibresource{${TM_FILENAME_BASE}.bib}",
+      "",
+      "\\title{$1}",
+      "\\author{$2}",
+      "\\date{\\today}",
+      "",
+      "\\begin{document}",
+      "\\maketitle",
+      "",
+      "$0",
+      "",
+      "\\printbibliography",
+      "\\end{document}"
+    ]
+  },
+  "jsarticle template": {
+    "prefix": "jsarticle",
+    "body": [
+      "\\documentclass[a4paper,11pt,uplatex,dvipdfmx]{jsarticle}",
+      "\\usepackage{biblatex}",
+      "\\usepackage{booktabs}",
+      "\\usepackage{graphicx}",
+      "\\usepackage{here}",
+      "\\usepackage{hyperref}",
+      "\\usepackage{listings}",
+      "\\usepackage{longtable}",
+      "\\usepackage{pxjahyper}",
+      "\\usepackage{xcolor}",
+      "\\addbibresource{${TM_FILENAME_BASE}.bib}",
+      "",
+      "\\title{$1}",
+      "\\author{$2}",
+      "\\date{\\today}",
+      "",
+      "\\begin{document}",
+      "\\maketitle",
+      "",
+      "$0",
+      "",
+      "\\printbibliography[title=参考文献]",
+      "\\end{document}"
+    ]
+  }
+}

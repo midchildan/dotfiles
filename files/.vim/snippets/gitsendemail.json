@@ -1,0 +1,6 @@
+{
+  "generate a message-id email header": {
+    "prefix": "messageid",
+    "body": ["Message-Id: ${UUID}@${1:author}"]
+  }
+}

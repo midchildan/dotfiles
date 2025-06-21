@@ -1,0 +1,9 @@
+{
+  "an RPM changelog entry": {
+    "prefix": "rpm",
+    "body": [
+      "* ${CURRENT_DAY_NAME_SHORT} ${CURRENT_MONTH_NAME_SHORT} ${CURRENT_DATE} ${CURRENT_YEAR} ${1:author} <${2:email}> - ${3:1.0-1}",
+      "- "
+    ]
+  }
+}
