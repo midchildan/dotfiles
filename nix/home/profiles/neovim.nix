@@ -15,9 +15,6 @@ let
   vimRuntime = lib.genAttrs vimFilesFiltered (path: {
     source = toString vimDir + "/" + path;
   });
-
-  javaDebug = pkgs.vscode-extensions.vscjava.vscode-java-debug;
-  javaDebugGlob = "${javaDebug}/share/vscode/extensions/vscjava.vscode-java-debug/server/com.microsoft.java.debug.plugin-*.jar";
 in
 {
   options.dotfiles.profiles.neovim.enable = lib.mkEnableOption "neovim";
@@ -268,6 +265,7 @@ in
         # Language Support
         pkgs.vimPlugins.friendly-snippets
         pkgs.vimPlugins.nvim-dap
+        pkgs.vimPlugins.nvim-lspconfig
         {
           plugin = pkgs.vimPlugins.blink-cmp;
           type = "lua";
@@ -310,30 +308,6 @@ in
               -- Fixes builtin completion
               vim.api.nvim_create_autocmd('TextChangedP', {
                 callback = function() blink.hide() end
-              })
-            '';
-        }
-        {
-          plugin = pkgs.vimPlugins.nvim-lspconfig;
-          type = "lua";
-          config = # lua
-            ''
-              vim.lsp.config("jdtls", {
-                init_options = {
-                  bundles = { vim.fn.glob("${javaDebugGlob}", 1) }
-                },
-              })
-
-              vim.lsp.enable({
-                "ansiblels",
-                "clangd",
-                "eslint",
-                "gopls",
-                "jdtls",
-                "rust_analyzer",
-                "rubocop",
-                "pyright",
-                "ts_ls",
               })
             '';
         }
