@@ -20,7 +20,6 @@
       "aquaskk"
       "firefox"
       "gimp"
-      "gutenprint"
       "inkscape"
       "iterm2"
       "krita"
