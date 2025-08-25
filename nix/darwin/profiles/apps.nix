@@ -24,7 +24,7 @@
       "iterm2"
       "krita"
       "netnewswire"
-      "wireshark"
+      "wireshark-app"
       "zotero"
     ];
 
