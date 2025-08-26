@@ -96,7 +96,7 @@ in
       }
 
       (lib.mkIf (cfg.desktop == "gnome") {
-        environment.systemPackages = with pkgs.gnome; [ gnome-session ];
+        environment.systemPackages = [ pkgs.gnome-session ];
         environment.gnome.excludePackages = [ pkgs.gnome-music ];
 
         services.gnome = {
