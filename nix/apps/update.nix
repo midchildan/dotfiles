@@ -96,7 +96,8 @@ let
     python3.interpreter
     "${path}/maintainers/scripts/update.py"
     packagesJson
-  ] ++ lib.optional (max-workers != null) "--max-workers=${max-workers}";
+  ]
+  ++ lib.optional (max-workers != null) "--max-workers=${max-workers}";
 
   binPath = lib.makeBinPath [
     coreutils

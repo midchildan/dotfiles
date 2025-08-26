@@ -26,7 +26,8 @@ let
     modules = [
       upstreamConfig
       customConfig
-    ] ++ modules;
+    ]
+    ++ modules;
   };
 
   # The original isoImage may refuse to evaluate meta.platforms for incompatible systems because it
