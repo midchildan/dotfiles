@@ -44,7 +44,6 @@ in
       enable = lib.mkDefault true;
       startWhenNeeded = lib.mkDefault true;
       settings = {
-        X11Forwarding = lib.mkDefault config.dotfiles.profiles.desktop.enable;
         PasswordAuthentication = lib.mkDefault false;
         PermitRootLogin = lib.mkDefault "no";
       };
