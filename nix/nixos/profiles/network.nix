@@ -35,9 +35,7 @@ in
 
     services.avahi = {
       enable = lib.mkDefault true;
-      nssmdns = lib.mkDefault true;
-      ipv4 = lib.mkDefault true;
-      ipv6 = lib.mkDefault true;
+      nssmdns4 = lib.mkDefault true;
       publish.enable = lib.mkDefault true;
       publish.addresses = lib.mkDefault true;
     };

@@ -13,13 +13,13 @@ in
 {
   options.dotfiles.profiles.desktop = {
     enable = lib.mkEnableOption "configuration for desktop environments";
-    desktop = lib.mkOption {
+    type = lib.mkOption {
       type = lib.types.enum [
         "gnome"
-        "kde"
+        "plasma"
       ];
       default = "gnome";
-      description = "Which DM to use.";
+      description = "Which DE to use.";
     };
   };
 
@@ -32,7 +32,8 @@ in
 
         i18n = {
           inputMethod = {
-            enabled = lib.mkDefault "ibus";
+            enable = lib.mkDefault true;
+            type = lib.mkDefault "ibus";
             ibus.engines = with pkgs.ibus-engines; [ mozc ];
           };
         };
@@ -83,7 +84,7 @@ in
 
         services.xserver = {
           enable = true;
-          layout = lib.mkDefault "us";
+          xkb.layout = lib.mkDefault "us";
           excludePackages = [ pkgs.xterm ];
         };
 
@@ -95,29 +96,27 @@ in
         users.users.${username}.extraGroups = [ "networkmanager" ];
       }
 
-      (lib.mkIf (cfg.desktop == "gnome") {
-        environment.systemPackages = [ pkgs.gnome-session ];
-        environment.gnome.excludePackages = [ pkgs.gnome-music ];
+      (lib.mkIf (cfg.type == "gnome") {
+        services.xserver.displayManager.gdm.enable = lib.mkDefault true;
+        services.xserver.desktopManager.gnome.enable = lib.mkDefault true;
 
         services.gnome = {
           core-os-services.enable = true;
           core-shell.enable = true;
-          core-utilities.enable = true;
+          core-apps.enable = true;
         };
 
-        services.xserver = {
-          displayManager.gdm.enable = lib.mkDefault true;
-          desktopManager.gnome.enable = lib.mkDefault true;
-        };
+        environment.systemPackages = [ pkgs.gnome-session ];
+        environment.gnome.excludePackages = [ pkgs.gnome-music ];
 
         services.tlp.enable = false;
       })
 
-      (lib.mkIf (cfg.desktop == "kde") {
-        services.xserver = {
-          displayManager.sddm.enable = lib.mkDefault true;
-          desktopManager.plasma5.enable = lib.mkDefault true;
-        };
+      (lib.mkIf (cfg.type == "plasma") {
+        services.displayManager.sddm.enable = lib.mkDefault true;
+        services.desktopManager.plasma6.enable = lib.mkDefault true;
+
+        services.tlp.enable = false;
       })
     ]
   );
