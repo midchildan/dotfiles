@@ -59,6 +59,8 @@ in
     targets.darwin = lib.mkIf isDarwin {
       defaults = {
         "com.apple.Safari" = {
+          AlwaysRestoreSessionAtLaunch = lib.mkDefault true;
+          ExcludePrivateWindowWhenRestoringSessionAtLaunch = lib.mkDefault true;
           AutoOpenSafeDownloads = lib.mkDefault false;
           AutoFillPasswords = lib.mkDefault false;
           AutoFillCreditCardData = lib.mkDefault false;
