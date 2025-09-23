@@ -78,7 +78,14 @@ in
       };
 
       currentHostDefaults = {
-        "com.apple.controlcenter".BatteryShowPercentage = lib.mkDefault true;
+        "com.apple.controlcenter" = {
+          BatteryShowPercentage = lib.mkDefault true;
+          Sound = lib.mkDefault 16; # always show in menu bar
+          Spotlight = lib.mkDefault 8; # hide in menu bar
+          Weather = lib.mkDefault 2; # show in menu bar
+        };
+
+        "com.apple.Spotlight".MenuItemHidden = lib.mkDefault true;
       };
     };
   };
