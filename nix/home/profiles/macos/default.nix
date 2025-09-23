@@ -51,6 +51,15 @@ in
           showAppExposeGestureEnabled = lib.mkDefault true;
         };
 
+        "com.apple.finder" = {
+          # enable desktop stacks
+          DesktopViewSettings = {
+            GroupBy = lib.mkDefault "Kind";
+            IconViewSettings.arrangeBy = lib.mkDefault "dateAdded";
+          };
+          FXPreferredGroupBy = lib.mkDefault "Kind"; # somehow related to desktop stacking?
+        };
+
         "com.apple.mail".SwipeAction = lib.mkDefault 1; # swipe to archive
 
         "com.apple.WindowManager" = {
