@@ -8,13 +8,21 @@
 
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin system;
+  cfg = config.dotfiles.profiles.essential;
   myPkgs = dotfiles.packages.${system};
 in
 {
-  options.dotfiles.profiles.essential.enable =
-    lib.mkEnableOption "essential packages for servers and desktops alike";
+  options.dotfiles.profiles.essential = {
+    enable = lib.mkEnableOption "essential packages for servers and desktops alike";
 
-  config = lib.mkIf config.dotfiles.profiles.essential.enable {
+    installCommonPackages = lib.mkOption {
+      type = lib.types.bool;
+      default = !isDarwin;
+      description = "Whether to install packages commonly preinstalled in Linux distros.";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
     home.packages =
       with pkgs;
       [
@@ -37,7 +45,7 @@ in
         gitAndTools.git-absorb
         nodePackages.prettier
       ]
-      ++ lib.optionals (!isDarwin) [
+      ++ lib.optionals cfg.installCommonPackages [
         dnsutils
         file
         libarchive
