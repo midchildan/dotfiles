@@ -14,8 +14,6 @@
         ansible = pkgs.callPackage ./ansible.nix { };
 
         setup = pkgs.callPackage ./setup.nix { };
-
-        quic = pkgs.callPackage ./quic.nix { };
       };
     };
 }
