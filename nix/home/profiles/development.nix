@@ -24,6 +24,8 @@ in
         shellcheck
         tokei
         universal-ctags
+        gitAndTools.git-absorb
+        nodePackages.prettier
       ]
       ++ lib.optionals isLinux [ distrobox ]
       ++ lib.optionals isNixOS [ man-pages ];
