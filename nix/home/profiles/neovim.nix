@@ -257,8 +257,9 @@ in
           type = "lua";
           config = # lua
             ''
-              require("treesitter-context").setup({ enable = false })
-              vim.keymap.set("n", "<Leader>tz", "<Cmd>TSContextToggle<CR>")
+              local context = require("treesitter-context")
+              context.setup({ enable = false })
+              vim.keymap.set("n", "<Leader>tz", context.toggle)
             '';
         }
 
