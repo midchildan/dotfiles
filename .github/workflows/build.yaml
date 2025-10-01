@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.runners }}
     steps:
       - uses: actions/checkout@v5
-      - uses: cachix/install-nix-action@v31.6.0
+      - uses: cachix/install-nix-action@v31.7.0
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Check flake
         run: nix flake check
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: cachix/install-nix-action@v31.6.0
+      - uses: cachix/install-nix-action@v31.7.0
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Build NixOS configuration
         run: nix run '.#os' -- build -L --flake '.#ci' --print-build-logs

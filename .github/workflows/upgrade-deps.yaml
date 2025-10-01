@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: cachix/install-nix-action@v31.6.0
+      - uses: cachix/install-nix-action@v31.7.0
       - name: Update dependencies
         run: nix run '.#update'
       - name: Create Pull Request
