@@ -6,7 +6,7 @@ IGNOREFILES=(
 )
 
 main() {
-  local opt mode="ssh" src="gh-pages" dest= dotrepo=
+  local opt mode='ssh' src='gh-pages' dest='' dotrepo=''
   while getopts hs:d:g:cp opt; do
     case $opt in
       s) src="$OPTARG" ;;
@@ -19,7 +19,8 @@ main() {
   done
   shift $((OPTIND - 1))
 
-  local host="$(gethost "$@")"
+  local host
+  host="$(gethost "$@")"
   if [[ -z "$dotrepo" ]]; then
     dotrepo="$(findrepo "${BASH_SOURCE[0]}")" \
       || abort "Failed to find dotfiles repo"
@@ -46,9 +47,9 @@ main() {
 # print a copy-pastable, self-contained script for deploying dotfiles
 printscript() {
   local dest="$1"
-  printf "base64 -d <<EOF | tar xzf - -C \"$dest\" "
+  printf 'base64 -d <<EOF | tar xzf - -C "%s" ' "$dest"
   printf "'%s' " "${IGNOREFILES[@]/#/--exclude=}"
-  printf "\n"
+  printf '\n'
   base64
   echo "EOF"
 }
@@ -80,48 +81,19 @@ gethost() {
 
 # find the canonical path to the dotfiles repo using the path to this script
 findrepo() {
-  local scriptfile="$(canonicalpath "$1")"
+  local scriptfile scriptdir dotrepo
+
+  scriptfile="$(realpath "$1")"
   [[ -z "$scriptfile" ]] && return 1
-  local scriptdir="$(dirname "$scriptfile")"
+
+  scriptdir="$(dirname "$scriptfile")"
   [[ -z "$scriptdir" ]] && return 1
-  local dotrepo="$(git -C "$scriptdir" rev-parse --show-toplevel)"
+
+  dotrepo="$(git -C "$scriptdir" rev-parse --show-toplevel)"
   [[ -z "$dotrepo" ]] && return 1
 
   echo "$dotrepo"
 }
-
-# a poor man's implementation of realpath(1)
-canonicalpath() (
-  # use realpath if it exists
-  if command -v realpath &> /dev/null; then
-    command realpath "$@"
-    return
-  fi
-
-  local filepath="$1"
-  cd "$(dirname "$filepath")"
-  filepath="$(basename "$filepath")"
-
-  # reject deeply nested symlinks
-  for (( i=0; i < 10; i++ )); do
-    if [[ -L "$filepath" ]]; then
-      filepath="$(readlink "$filepath")"
-      cd "$(dirname "$filepath")"
-      filepath="$(basename "$filepath")"
-      continue
-    fi
-
-    # $filepath is canonicalized
-    if [[ "$filepath" == /* ]]; then
-      echo "$filepath"
-    else
-      echo "$(pwd -P)/$filepath"
-    fi
-    return
-  done
-
-  return 1
-)
 
 # print an error message and exit
 abort() {
