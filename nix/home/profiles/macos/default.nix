@@ -60,7 +60,11 @@ in
           FXPreferredGroupBy = lib.mkDefault "Kind"; # somehow related to desktop stacking?
         };
 
-        "com.apple.mail".SwipeAction = lib.mkDefault 1; # swipe to archive
+        "com.apple.mail" = {
+          SwipeAction = lib.mkDefault 1; # swipe to archive
+          MailDockBadge = lib.mkDefault 1; # inbox only
+          MailUserNotificationScope = lib.mkDefault 1; # inbox only
+        };
 
         "com.apple.WindowManager" = {
           # Enable Stage Manager
