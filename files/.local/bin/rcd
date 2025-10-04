@@ -26,7 +26,7 @@ main() {
       || abort "Failed to find dotfiles repo"
   fi
 
-  git -C "$dotrepo" archive --format=tar.gz "$src" | {
+  git -C "$dotrepo" archive --format=tar.gz "$src" "${IGNOREFILES[@]/#/:!/}" | {
     case "$mode" in
       ssh|scp) send "$host:$dest" ;;
       print) printscript "${dest:-\$HOME}" ;;
@@ -47,9 +47,7 @@ main() {
 # print a copy-pastable, self-contained script for deploying dotfiles
 printscript() {
   local dest="$1"
-  printf 'base64 -d <<EOF | tar xzf - -C "%s" ' "$dest"
-  printf "'%s' " "${IGNOREFILES[@]/#/--exclude=}"
-  printf '\n'
+  printf 'base64 -d <<EOF | tar xzf - -C "%s"\n' "$dest"
   base64
   echo "EOF"
 }
@@ -63,10 +61,10 @@ send() {
   if [[ -n "$path" ]]; then
     ssh "$host" mkdir -p "$path" < /dev/null \
       || abort "Failed to create remote directory"
-    ssh "$host" tar xzf - "${IGNOREFILES[@]/#/--exclude=}" -C "$path" \
+    ssh "$host" tar xzf - -C "$path" \
       || abort "Failed to transfer dotfiles"
   else
-    ssh "$host" tar xzf - "${IGNOREFILES[@]/#/--exclude=}" \
+    ssh "$host" tar xzf - \
       || abort "Failed to transfer dotfiles"
   fi
 }
