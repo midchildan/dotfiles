@@ -31,28 +31,89 @@ in
   config = lib.mkIf config.dotfiles.profiles.web.enable {
     dotfiles.firefox = {
       enable = lib.mkDefault true;
-      preferences = lib.mkIf isLinux {
-        # enable hardware accelerated video playback by default
-        #
-        # TODO: remove when this becomes the default
-        # https://bugzilla.mozilla.org/show_bug.cgi?id=1777430
-        "media.ffmpeg.vaapi.enabled" = lib.mkDefault true;
-
-        # enable swipe-to-navigate by default
-        #
-        # TODO: remove when this becomes the default
-        # https://bugzilla.mozilla.org/buglist.cgi?product=Core&short_desc_type=allwordssubstr&query_format=advanced&short_desc=swipe&component=Panning%20and%20Zooming
-        "widget.disable-swipe-tracker" = lib.mkDefault false;
+      preferences = {
+        # Setting via policy is forbidden for now
+        # "sidebar.revamp" = lib.mkDefault true;
+        # "sidebar.verticalTabs" = lib.mkDefault true;
       };
 
-      policies.Preferences."browser.contentblocking.category" = {
-        Value = lib.mkDefault "strict";
+      policies = {
+        DisableFirefoxStudies = lib.mkDefault true;
+        DisableTelemetry = lib.mkDefault true;
+        DontCheckDefaultBrowser = lib.mkDefault true;
+        EnableTrackingProtection = {
+          Category = lib.mkDefault "strict";
+          # NOTE: Currently, the following two policies are ignored when category is set.
+          # https://searchfox.org/firefox-main/rev/c2646728/browser/components/enterprisepolicies/Policies.sys.mjs#1226-1229
+          BaselineExceptions = lib.mkDefault true;
+          ConvenienceExceptions = lib.mkDefault true;
+        };
+        EncryptedMediaExtensions.Enabled = lib.mkDefault true;
+        SearchEngines.Default = lib.mkDefault "DuckDuckGo";
+      };
 
-        # Firefox forcibly sets this option to "custom" if:
-        #   1. The setting doesn't appear to be set by the user
-        #   2. Related settings deviate from the expected values
-        # https://searchfox.org/mozilla-central/rev/201b2c1/browser/components/BrowserGlue.jsm#5059
-        Status = lib.mkDefault "user";
+      policies.ExtensionSettings =
+        lib.mapAttrs
+          (
+            name: value:
+            {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/${lib.escapeURL name}/latest.xpi";
+              default_area = lib.mkDefault "menupanel";
+            }
+            // value
+          )
+          {
+            # Firefox Multi-Account Containers
+            "@testpilot-containers" = {
+              default_area = lib.mkDefault "navbar";
+            };
+
+            # uBlock Origin
+            "uBlock0@raymondhill.net" = {
+              private_browsing = lib.mkDefault true;
+            };
+
+            # SponsorBlock
+            "sponsorBlocker@ajay.app" = { };
+
+            # Ruffle
+            "{b5501fd1-7084-45c5-9aa6-567c2fcf5dc6}" = { };
+          };
+
+      policies."3rdparty".Extensions = {
+        # See:
+        # https://github.com/gorhill/uBlock/wiki/Deploying-uBlock-Origin:-configuration
+        # https://raw.githubusercontent.com/gorhill/uBlock/refs/heads/master/platform/common/managed_storage.json
+        "uBlock0@raymondhill.net" = {
+          # Obtain the default lists with:
+          # curl -sSfL https://raw.githubusercontent.com/gorhill/uBlock/refs/heads/master/assets/assets.json \
+          #   | jq -r 'to_entries[] | select(.value | .content == "filters" and (.off | not)) | .key'
+          toOverwrite.filterLists = lib.mkDefault [
+            # default
+            "user-filters"
+            "ublock-filters"
+            "ublock-badware"
+            "ublock-privacy"
+            "ublock-unbreak"
+            "ublock-quick-fixes"
+            "easylist"
+            "easyprivacy"
+            "urlhaus-1"
+            "plowe-0"
+            # added
+            "block-lan"
+            "fanboy-cookiemonster"
+            "fanboy-social"
+            "ublock-annoyances"
+            "JPN-1"
+            "easylist-annoyances"
+            "easylist-chat"
+            "easylist-newsletters"
+            "easylist-notifications"
+            "ublock-cookies-easylist"
+          ];
+        };
       };
     };
 
