@@ -51,7 +51,20 @@ in
           showAppExposeGestureEnabled = lib.mkDefault true;
         };
 
-        "com.apple.mail".SwipeAction = lib.mkDefault 1; # swipe to archive
+        "com.apple.finder" = {
+          # enable desktop stacks
+          DesktopViewSettings = {
+            GroupBy = lib.mkDefault "Kind";
+            IconViewSettings.arrangeBy = lib.mkDefault "dateAdded";
+          };
+          FXPreferredGroupBy = lib.mkDefault "Kind"; # somehow related to desktop stacking?
+        };
+
+        "com.apple.mail" = {
+          SwipeAction = lib.mkDefault 1; # swipe to archive
+          MailDockBadge = lib.mkDefault 1; # inbox only
+          MailUserNotificationScope = lib.mkDefault 1; # inbox only
+        };
 
         "com.apple.WindowManager" = {
           # Enable Stage Manager
@@ -69,7 +82,14 @@ in
       };
 
       currentHostDefaults = {
-        "com.apple.controlcenter".BatteryShowPercentage = lib.mkDefault true;
+        "com.apple.controlcenter" = {
+          BatteryShowPercentage = lib.mkDefault true;
+          Sound = lib.mkDefault 16; # always show in menu bar
+          Spotlight = lib.mkDefault 8; # hide in menu bar
+          Weather = lib.mkDefault 2; # show in menu bar
+        };
+
+        "com.apple.Spotlight".MenuItemHidden = lib.mkDefault true;
       };
     };
   };

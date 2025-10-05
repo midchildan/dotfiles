@@ -42,7 +42,6 @@ install: Git config
   - .config/git/attributes
   - .config/git/config
   - .config/git/ignore
-  - .config/tig/config
   - .local/bin/git-deploy
   - .local/bin/git-kitty
 

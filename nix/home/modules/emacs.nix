@@ -33,7 +33,7 @@ in
       syncDoomEmacs = lib.hm.dag.entryAfter [ "installPackages" ] ''
         queryEmacsVersion() {
           local emacs="$1"
-          "$emacs" --batch --eval '(princ (format "%d\n" emacs-major-version))'
+          "$emacs" --no-init-file --batch --eval '(princ (format "%d\n" emacs-major-version))'
         }
 
         syncDoomEmacs() {
@@ -52,15 +52,7 @@ in
 
             PATH="$newGenPath/home-path/bin:${pkgs.git}/bin:$PATH" \
               $DRY_RUN_CMD "${homeDir}/.config/emacs/bin/doom" \
-                ''${VERBOSE:+-d} sync -e > /dev/null
-
-            oldVersion="$(queryEmacsVersion "$oldEmacs")"
-            newVersion="$(queryEmacsVersion "$newEmacs")"
-            if (( oldVersion != newVersion )); then
-              PATH="$newGenPath/home-path/bin:$PATH" \
-                $DRY_RUN_CMD "${homeDir}/.config/emacs/bin/doom" \
-                  ''${VERBOSE:+-d} build > /dev/null
-            fi
+                ''${VERBOSE:+-d} sync -e --force > /dev/null
 
             ulimit -n "$maxfiles"
           fi

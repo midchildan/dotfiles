@@ -18,7 +18,6 @@ in
       lib.optionals isLinux [
         anki
         gimp
-        ink
         kitty
         libreoffice
         lollypop

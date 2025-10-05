@@ -36,7 +36,7 @@ in
     nix.package = lib.mkOption {
       type = lib.types.str;
       description = "The Nix package to use, specified by attribute name.";
-      default = "nix_2_24";
+      default = "nix_2_28";
     };
 
     home.modules = lib.mkOption {

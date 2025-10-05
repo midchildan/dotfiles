@@ -1,7 +1,7 @@
 " save commit message to register g
 func! s:save_commitmsg()
   let @g=''
-  silent! keepmarks keepjumps keeppatterns g/\v(^$)|^([^#].*$)/y L
+  silent! keepmarks keepjumps keeppatterns g/\v(^$)|^([^#].*$)/y G
   let @g=@g[1:]
 endf
 
