@@ -12,17 +12,12 @@
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
 
+  uboLite = "ddkjiahejlhfcafbddmgiahcphecmpfh";
   chromeExtensions = [
-    rec {
-      name = "uBlock Origin Lite";
-      id = "ddkjiahejlhfcafbddmgiahcphecmpfh";
-      url = "https://chromewebstore.google.com/detail/ublock-origin-lite/${id}";
-    }
-    rec {
-      name = "SponsorBlock";
-      id = "mnjggcdmjocbbbhaepdhchncahnbgone";
-      url = "https://chromewebstore.google.com/detail/sponsorblock-for-youtube/${id}";
-    }
+    # uBlock Origin Lite
+    uboLite
+    # SponsorBlock
+    "mnjggcdmjocbbbhaepdhchncahnbgone"
   ];
 in
 {
@@ -132,6 +127,10 @@ in
 
         # The configuration here is only for macOS. On Linux, Chrome doesn't appear to support OS
         # user level policies, so policies would have to be set at the system level.
+        #
+        # Also numerous policies are enterprise only according to the docs. Examples include
+        # telemetry opt-out.
+        # https://chromeenterprise.google/intl/en_us/policies/#MetricsReportingEnabled
         "com.google.Chrome" = {
           RestoreOnStartup = 1; # restore the last session
           PasswordManagerEnabled = lib.mkDefault false;
@@ -148,6 +147,9 @@ in
           PrivacySandboxSiteEnabledAdsEnabled = lib.mkDefault false;
           SyncDisabled = lib.mkDefault true;
 
+          # > On macOS, this policy is only available on instances that are managed via MDM, joined
+          # > to a domain via MCX or enrolled in Chrome Enterprise Core.
+          # https://chromeenterprise.google/intl/en_us/policies/?policy=DefaultSearchProviderEnabled
           DefaultSearchProviderEnabled = lib.mkDefault true;
           DefaultSearchProviderName = lib.mkDefault "DuckDuckGo";
           DefaultSearchProviderKeyword = lib.mkDefault "ddg";
@@ -158,14 +160,52 @@ in
           );
           DefaultSearchProviderNewTabURL = lib.mkDefault "https://start.duckduckgo.com/chrome_newtab";
 
-          # If a system wide policy already includes these settings, they'll unfortunately be
-          # overriden instead of being merged.
-          ExtensionInstallForceList = map (e: e.id) chromeExtensions;
-          ManagedBookmarks = map (e: { inherit (e) name url; }) chromeExtensions;
+          ManagedBookmarks = [
+            # Non-enterprise users have to change search engines manually, so at least make it easy.
+            {
+              name = "Search engine settings";
+              url = "chrome://settings/search";
+            }
+          ];
+        };
+
+        # https://github.com/uBlockOrigin/uBOL-home/wiki/Managed-settings
+        "com.google.Chrome.extensions.${uboLite}" = {
+          defaultFiltering = lib.mkDefault "complete";
+
+          # Obtain non-default rulesets with:
+          # curl -sSfL https://raw.githubusercontent.com/uBlockOrigin/uBOL-home/refs/heads/main/chromium/rulesets/ruleset-details.json \
+          #   | jq -r '.[] | select(.enabled | not) | .id'
+          rulesets = [
+            "+default"
+            "+block-lan"
+            "+annoyances-cookies"
+            "+annoyances-overlays"
+            "+annoyances-social"
+            "+annoyances-widgets"
+            "+annoyances-others"
+            "+annoyances-notifications"
+            "+jpn-1"
+          ];
         };
       };
 
       search = lib.mkDefault "DuckDuckGo";
     };
+
+    # Install extensions
+    # https://developer.chrome.com/docs/extensions/how-to/distribute/install-extensions
+    home.file = lib.mkIf isDarwin (
+      let
+        pathFor = id: "Library/Application Support/Google/Chrome/External Extensions/${id}.json";
+        paths = map pathFor chromeExtensions;
+        content = {
+          text = builtins.toJSON {
+            external_update_url = "https://clients2.google.com/service/update2/crx";
+          };
+        };
+      in
+      lib.genAttrs paths (_: content)
+    );
   };
 }
