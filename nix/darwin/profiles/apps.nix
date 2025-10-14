@@ -29,7 +29,7 @@
     ];
 
     homebrew.masApps = {
-      "AdGuard for Safari" = 1440147259;
+      "uBlock Origin Lite" = 6745342698;
     };
   };
 }
