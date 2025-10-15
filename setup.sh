@@ -96,7 +96,6 @@ install: miscellaneous config
   - .config/kitty/kitty.conf
   - .config/nano/nanorc
   - .config/ranger/rc.conf
-  - .config/ranger/scope.sh
   - .config/tmux/tmux.conf
   - .config/zathura/zathurarc
 
