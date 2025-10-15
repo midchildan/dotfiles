@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   options.dotfiles.profiles.apps.enable = lib.mkEnableOption "essential apps for Macs";
@@ -29,7 +34,9 @@
     ];
 
     homebrew.masApps = {
-      "AdGuard for Safari" = 1440147259;
+      "uBlock Origin Lite" = 6745342698;
     };
+
+    environment.systemPackages = [ pkgs.mas ];
   };
 }

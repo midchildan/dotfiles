@@ -403,16 +403,6 @@ sha256sum() {
   command shasum -a 256 "$@"
 }
 
-# Wrapper for tput
-# Returns:
-#   None
-tput() {
-  case "$TERM" in
-    ""|dumb) return ;;
-    *) command tput "$@" ;;
-  esac
-}
-
 # }}}
 # {{{ Subcommands
 
