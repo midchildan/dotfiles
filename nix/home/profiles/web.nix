@@ -132,7 +132,7 @@ in
         # telemetry opt-out.
         # https://chromeenterprise.google/intl/en_us/policies/#MetricsReportingEnabled
         "com.google.Chrome" = {
-          RestoreOnStartup = 1; # restore the last session
+          RestoreOnStartup = lib.mkDefault 1; # restore the last session
           PasswordManagerEnabled = lib.mkDefault false;
 
           AdsSettingForIntrusiveAdsSites = lib.mkDefault 2; # disallow

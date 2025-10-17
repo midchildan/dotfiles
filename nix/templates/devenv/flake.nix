@@ -94,7 +94,7 @@
             stdenv = pkgs.stdenvNoCC; # C compilers aren't required for this project
 
             # the quickest way to make "nix flake check" pass
-            containers = lib.mkIf (pkgs.stdenv.isDarwin) (lib.mkForce { });
+            containers = lib.mkIf (pkgs.stdenv.hostPlatform.isDarwin) (lib.mkForce { });
           };
 
           treefmt = {

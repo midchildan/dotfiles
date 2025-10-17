@@ -8,7 +8,7 @@
 let
   cfg = config.dotfiles.firefox;
 
-  inherit (pkgs.stdenv) isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin;
 
   defaultPackage = if isDarwin then null else pkgs.firefox-bin;
   finalPackage = cfg.package.override { extraPolicies = cfg.policies; };

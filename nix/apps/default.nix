@@ -55,10 +55,10 @@ in
             ${nvim} "$@"
           '';
       }
-      // lib.optionalAttrs pkgs.stdenv.isLinux {
+      // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
         os.program = "${self'.packages.nixos-rebuild}/bin/nixos-rebuild";
       }
-      // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
         os.program = "${inputs'.darwin.packages.default}/bin/darwin-rebuild";
       };
     };

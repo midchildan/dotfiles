@@ -32,7 +32,8 @@ let
 
   # The original isoImage may refuse to evaluate meta.platforms for incompatible systems because it
   # contains an assertion which depends on another Linux only derivation.
-  isoImage = if stdenv.isLinux then installer.config.system.build.isoImage else emptyFile;
+  isoImage =
+    if stdenv.hostPlatform.isLinux then installer.config.system.build.isoImage else emptyFile;
 in
 isoImage.overrideAttrs (old: {
   meta = (old.meta or { }) // {
