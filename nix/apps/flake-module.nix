@@ -1,12 +1,11 @@
-{ config }@localFlake:
-{ ... }@flake:
+{ config, ... }:
 
-let
-  nixAttrName = config.dotfiles.nix.package;
-in
 {
   perSystem =
     { pkgs, self', ... }:
+    let
+      nixAttrName = config.dotfiles.nix.package;
+    in
     {
       apps.update.program = "${pkgs.callPackage ./update.nix {
         inherit (self') packages;

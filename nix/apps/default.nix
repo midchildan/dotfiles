@@ -7,12 +7,7 @@
 }:
 
 let
-  inherit (flake-parts-lib) importApply;
-  nixAttrName = config.dotfiles.nix.package;
-
-  flakeModules.updater = {
-    imports = [ (importApply ./flake-module.nix { inherit config; }) ];
-  };
+  flakeModules.updater = ./flake-module.nix;
 in
 {
   imports = [ flakeModules.updater ];
