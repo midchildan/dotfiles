@@ -33,7 +33,6 @@ in
         ghq
         gitstatus
         httpie
-        jq
         lsof
         magic-wormhole
         nkf
@@ -54,6 +53,9 @@ in
       ++ lib.optionals isDarwin [
         ssh-copy-id
         watch
+      ]
+      ++ lib.optionals (!isDarwin) [
+        jq
       ];
 
     dotfiles = {
