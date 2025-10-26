@@ -154,10 +154,7 @@ in
           DefaultSearchProviderName = lib.mkDefault "DuckDuckGo";
           DefaultSearchProviderKeyword = lib.mkDefault "ddg";
           DefaultSearchProviderSearchURL = lib.mkDefault "https://start.duckduckgo.com/?q={searchTerms}";
-          DefaultSearchProviderSuggestURL = lib.mkDefault (
-            # TODO: make home manager escape the generated plist file
-            lib.escapeXML "https://start.duckduckgo.com/ac/?q={searchTerms}&type=list"
-          );
+          DefaultSearchProviderSuggestURL = lib.mkDefault "https://start.duckduckgo.com/ac/?q={searchTerms}&type=list";
           DefaultSearchProviderNewTabURL = lib.mkDefault "https://start.duckduckgo.com/chrome_newtab";
 
           ManagedBookmarks = [
