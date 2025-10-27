@@ -92,7 +92,6 @@ install: miscellaneous config
   - .config/tmux/tmux.conf
   - .config/zathura/zathurarc
   - .local/bin/imgcat
-  - .local/bin/uninstaller
   - Library/Application\ Support/AquaSKK/keymap.conf
   - Library/Developer/Xcode/UserData/IDETemplateMacros.plist
 
