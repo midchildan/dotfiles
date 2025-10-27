@@ -132,7 +132,7 @@ in
         # telemetry opt-out.
         # https://chromeenterprise.google/intl/en_us/policies/#MetricsReportingEnabled
         "com.google.Chrome" = {
-          RestoreOnStartup = 1; # restore the last session
+          RestoreOnStartup = lib.mkDefault 1; # restore the last session
           PasswordManagerEnabled = lib.mkDefault false;
 
           AdsSettingForIntrusiveAdsSites = lib.mkDefault 2; # disallow
@@ -154,10 +154,7 @@ in
           DefaultSearchProviderName = lib.mkDefault "DuckDuckGo";
           DefaultSearchProviderKeyword = lib.mkDefault "ddg";
           DefaultSearchProviderSearchURL = lib.mkDefault "https://start.duckduckgo.com/?q={searchTerms}";
-          DefaultSearchProviderSuggestURL = lib.mkDefault (
-            # TODO: make home manager escape the generated plist file
-            lib.escapeXML "https://start.duckduckgo.com/ac/?q={searchTerms}&type=list"
-          );
+          DefaultSearchProviderSuggestURL = lib.mkDefault "https://start.duckduckgo.com/ac/?q={searchTerms}&type=list";
           DefaultSearchProviderNewTabURL = lib.mkDefault "https://start.duckduckgo.com/chrome_newtab";
 
           ManagedBookmarks = [

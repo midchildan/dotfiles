@@ -7,8 +7,8 @@
 }:
 
 let
+  inherit (pkgs.stdenv.hostPlatform) isLinux;
   cfg = config.dotfiles.profiles;
-  isLinux = pkgs.stdenv.hostPlatform.isLinux;
   isGenericLinux = (config.targets.genericLinux.enable or false);
 in
 {

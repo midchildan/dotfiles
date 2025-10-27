@@ -1,0 +1,20 @@
+{
+  "version": "2025.1012.1712",
+  "strictBlockMode": true,
+  "rulesets": [
+    "+annoyances-cookies",
+    "+annoyances-overlays",
+    "+annoyances-social",
+    "+annoyances-widgets",
+    "+annoyances-others",
+    "+annoyances-notifications",
+    "+block-lan",
+    "+jpn-1"
+  ],
+  "filteringModes": {
+    "optimal": [],
+    "basic": [],
+    "none": ["duckduckgo.com"],
+    "complete": ["all-urls"]
+  }
+}

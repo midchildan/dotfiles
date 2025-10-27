@@ -33,7 +33,6 @@ in
         ghq
         gitstatus
         httpie
-        jq
         lsof
         magic-wormhole
         nkf
@@ -51,10 +50,8 @@ in
         whois
         myPkgs.terminfo-collection
       ]
-      ++ lib.optionals isDarwin [
-        ssh-copy-id
-        watch
-      ];
+      ++ lib.optionals isDarwin [ watch ]
+      ++ lib.optionals (!isDarwin) [ jq ];
 
     dotfiles = {
       git.enableDelta = lib.mkDefault true;

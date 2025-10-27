@@ -20,6 +20,12 @@ in
 
   config = lib.mkIf cfg.enable {
     targets.darwin = {
+      linkApps.enable = lib.mkDefault false;
+      copyApps = {
+        enable = lib.mkDefault true;
+        enableChecks = lib.mkDefault false;
+      };
+
       defaults = {
         NSGlobalDomain = {
           # Locale

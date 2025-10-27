@@ -7,12 +7,7 @@
 }:
 
 let
-  inherit (flake-parts-lib) importApply;
-  nixAttrName = config.dotfiles.nix.package;
-
-  flakeModules.updater = {
-    imports = [ (importApply ./flake-module.nix { inherit config; }) ];
-  };
+  flakeModules.updater = ./flake-module.nix;
 in
 {
   imports = [ flakeModules.updater ];
@@ -55,10 +50,10 @@ in
             ${nvim} "$@"
           '';
       }
-      // lib.optionalAttrs pkgs.stdenv.isLinux {
+      // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
         os.program = "${self'.packages.nixos-rebuild}/bin/nixos-rebuild";
       }
-      // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
         os.program = "${inputs'.darwin.packages.default}/bin/darwin-rebuild";
       };
     };

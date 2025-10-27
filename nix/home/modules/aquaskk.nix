@@ -150,7 +150,7 @@ in
     home.file."Library/Application Support/AquaSKK/DictionarySet.plist" =
       lib.mkIf (cfg.dictionaries != { })
         {
-          text = lib.generators.toPlist { } dictionarySet;
+          text = lib.generators.toPlist { escape = true; } dictionarySet;
           force = true;
         };
 

@@ -23,7 +23,7 @@ let
       ...
     }@args:
     let
-      userDir = if pkgs.stdenv.isDarwin then "/Users" else "/home";
+      userDir = if pkgs.stdenv.hostPlatform.isDarwin then "/Users" else "/home";
       flakeOptionsModule =
         { lib, config, ... }:
         {
