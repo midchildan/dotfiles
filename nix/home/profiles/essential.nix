@@ -50,13 +50,8 @@ in
         whois
         myPkgs.terminfo-collection
       ]
-      ++ lib.optionals isDarwin [
-        ssh-copy-id
-        watch
-      ]
-      ++ lib.optionals (!isDarwin) [
-        jq
-      ];
+      ++ lib.optionals isDarwin [ watch ]
+      ++ lib.optionals (!isDarwin) [ jq ];
 
     dotfiles = {
       git.enableDelta = lib.mkDefault true;
