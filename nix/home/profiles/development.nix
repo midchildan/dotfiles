@@ -19,6 +19,7 @@ in
     home.packages =
       with pkgs;
       [
+        devenv
         github-cli
         semgrep
         shellcheck
