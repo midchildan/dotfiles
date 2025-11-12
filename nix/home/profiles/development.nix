@@ -31,6 +31,11 @@ in
       ++ lib.optionals isLinux [ distrobox ]
       ++ lib.optionals isNixOS [ man-pages ];
 
+    programs.direnv = {
+      enable = lib.mkDefault true;
+      nix-direnv.enable = lib.mkDefault true;
+    };
+
     dotfiles.gitsign = {
       enable = lib.mkDefault true;
       enableCredentialCache = lib.mkDefault true;
