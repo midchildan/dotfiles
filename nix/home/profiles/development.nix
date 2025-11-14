@@ -20,12 +20,12 @@ in
       with pkgs;
       [
         devenv
+        git-absorb
         github-cli
         semgrep
         shellcheck
         tokei
         universal-ctags
-        gitAndTools.git-absorb
         nodePackages.prettier
       ]
       ++ lib.optionals isLinux [ distrobox ]
