@@ -29,9 +29,15 @@ path=(
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias ls='/bin/ls -F'
+
+if (( $+commands[/bin/ls] )); then
+  alias ls='/bin/ls -F --color=auto'
+else
+  alias ls='ls -F --color=auto'
+fi
 alias ll='ls -lh'
 alias la='ls -lAh'
+
 alias qlook='qlmanage -p'
 alias sudoedit='sudo -e'
 alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'

@@ -14,7 +14,7 @@
   "filteringModes": {
     "optimal": [],
     "basic": [],
-    "none": ["duckduckgo.com"],
+    "none": [],
     "complete": ["all-urls"]
   }
 }

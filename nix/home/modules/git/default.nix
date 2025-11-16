@@ -8,7 +8,7 @@
 let
   cfg = config.dotfiles.git;
   gitIni = pkgs.formats.gitIni { };
-  inherit (pkgs.gitAndTools) delta;
+  deltaExe = lib.getExe pkgs.delta;
 in
 {
   options.dotfiles.git = {
@@ -48,10 +48,10 @@ in
   config = lib.mkMerge [
     { xdg.configFile."git/hmconfig".source = gitIni.generate "git.ini" cfg.config; }
     (lib.mkIf cfg.enableDelta {
-      home.packages = [ delta ];
+      home.packages = [ pkgs.delta ];
       dotfiles.git.config = {
-        core.pager = "${delta}/bin/delta";
-        interactive.diffFilter = "${delta}/bin/delta --color-only";
+        core.pager = deltaExe;
+        interactive.diffFilter = "${deltaExe} --color-only";
       };
     })
   ];
