@@ -8,7 +8,7 @@
 
 let
   inherit (pkgs.stdenv.hostPlatform) isLinux;
-  isGenericLinux = (config.targets.genericLinux.enable or false);
+  isGenericLinux = config.targets.genericLinux.enable or false;
   isNixOS = isLinux && !isGenericLinux;
   cfg = config.dotfiles.profiles;
 in
@@ -29,7 +29,8 @@ in
         nodePackages.prettier
       ]
       ++ lib.optionals isLinux [ distrobox ]
-      ++ lib.optionals isNixOS [ man-pages ];
+      ++ lib.optionals isNixOS [ man-pages ]
+      ++ lib.optionals cfg.extras.enable [ nixos-shell ];
 
     programs.direnv = {
       enable = lib.mkDefault true;

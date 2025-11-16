@@ -6,7 +6,10 @@ in
 {
   users.users.${username}.home = "/Users/${username}";
 
-  dotfiles.profiles.apps.enable = true;
+  dotfiles.profiles = {
+    apps.enable = true;
+    development.enable = true;
+  };
 
   home-manager.users.${username} = {
     dotfiles.profiles = {
