@@ -7,7 +7,7 @@ jobs:
   upgrade-dependencies:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: cachix/install-nix-action@v31.8.2
       - name: Update dependencies
         run: nix run '.#update'
