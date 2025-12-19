@@ -37,6 +37,7 @@ in
         magic-wormhole
         nkf
         ranger
+        timg
         tmux
         wget
         zsh-completions
