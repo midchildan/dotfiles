@@ -11,6 +11,7 @@ let
   inherit (config.home) homeDirectory;
   inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
 
+  program = lib.getExe cfg.package;
   cacheDir = if isDarwin then "${homeDirectory}/Library/Caches" else config.xdg.cacheHome;
   socketPath = "${cacheDir}/sigstore/gitsign/cache.sock";
 in
@@ -36,9 +37,18 @@ in
       tag.gpgsign = lib.mkDefault true;
       gpg = {
         format = "x509";
-        x509.program = lib.getExe cfg.package;
+        x509.program = program;
       };
       gitsign = lib.mkIf (cfg.settings != { }) cfg.settings;
+    };
+
+    programs.jujutsu.settings = {
+      git.sign-on-push = lib.mkDefault true;
+      signing = {
+        behavior = lib.mkDefault "drop";
+        backend = "gpgsm";
+        backends.gpgsm.program = program;
+      };
     };
 
     home.sessionVariables.GITSIGN_CREDENTIAL_CACHE = lib.mkIf cfg.enableCredentialCache socketPath;
