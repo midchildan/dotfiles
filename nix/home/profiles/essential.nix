@@ -31,7 +31,6 @@ in
         fd
         fselect
         ghq
-        gitstatus
         httpie
         lsof
         magic-wormhole
