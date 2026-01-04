@@ -8,8 +8,12 @@ prompt_dashboard_setup() {
   zstyle ':vcs_info:*' max-exports 4
   zstyle ':vcs_info:*' stagedstr '+'
   zstyle ':vcs_info:*' unstagedstr '!'
-  zstyle ':vcs_info:*' formats '%r/%S' '%b' '%u%c'
-  zstyle ':vcs_info:*' actionformats '%r/%S' '%b' '%u%c' '%a'
+  zstyle ':vcs_info:*' untrackedstr '∅'
+  zstyle ':vcs_info:*' stashedstr '≡%d'
+  zstyle ':vcs_info:*' aheadstr '↑%d'
+  zstyle ':vcs_info:*' behindstr '↓%d'
+  zstyle ':vcs_info:*' formats '%r/%S' '%b' '%?%u%c%+%_%='
+  zstyle ':vcs_info:*' actionformats '%r/%S' '%b' '%?%u%c%+%_%=' '%a'
 
   local container
   if ! zstyle -s ':dotfiles:prompt:dashboard:container' type container; then
@@ -58,8 +62,6 @@ prompt_dashboard_set_prompt() {
   fi
   if [[ -n $vcs_info_msg_2_ ]]; then
     PROMPT+=" %B%F{red}[$vcs_info_msg_2_]%f%b"
-  elif [[ -n $vcs_info_msg_0_ ]]; then
-    PROMPT+=" %B%F{red}[?]%f%b"
   fi
   if [[ -n $vcs_info_msg_3_ ]]; then
     PROMPT+=" doing %B%F{green}$vcs_info_msg_3_%f%b"
