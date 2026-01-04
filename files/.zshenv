@@ -9,7 +9,9 @@ if [[ -z "$__DOT_ZPROFILE_DONE" ]]; then
   # Let macOS's path_helper(8) setup the system shell exactly once.
   source /etc/zprofile
   if [[ -d /opt/homebrew ]]; then
+    # see output of 'brew shellenv' to check required config
     path=(/opt/homebrew/{,s}bin "${path[@]}")
+    fpath[1,0]=/opt/homebrew/share/zsh/site-functions
   fi
   export __DOT_ZPROFILE_DONE=1
 fi
