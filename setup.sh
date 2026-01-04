@@ -91,7 +91,6 @@ install: miscellaneous config
   - .config/ranger/rc.conf
   - .config/tmux/tmux.conf
   - .config/zathura/zathurarc
-  - .local/bin/imgcat
   - Library/Application\ Support/AquaSKK/keymap.conf
   - Library/Developer/Xcode/UserData/IDETemplateMacros.plist
 
