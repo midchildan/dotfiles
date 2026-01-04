@@ -107,7 +107,7 @@ fi
   zstyle ':completion:*:*:*:users' ignored-patterns '_*'
 
   # update the completion cache only once a day
-  if [[ -n ~/.cache/zsh/compdump(#qN.m+1) ]]; then
+  if [[ -n ~/.cache/zsh/compdump(#qN.m+0) ]]; then
     # ignore compaudit warnings because it's pointless on single user systems
     compinit -u -d ~/.cache/zsh/compdump && touch ~/.cache/zsh/compdump
   else
