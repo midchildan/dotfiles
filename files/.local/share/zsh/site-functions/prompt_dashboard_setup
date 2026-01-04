@@ -4,7 +4,6 @@ prompt_dashboard_setup() {
   zmodload zsh/parameter
 
   autoload -Uz async_vcs_info
-  zstyle ':vcs_info:*' enable git
   zstyle ':vcs_info:*' max-exports 4
   zstyle ':vcs_info:*' stagedstr '+'
   zstyle ':vcs_info:*' unstagedstr '!'

@@ -235,7 +235,7 @@ fi
 
 setopt no_flowcontrol
 
-__set_title() {
+_zshrc::set_title() {
   if [[ -n "$SSH_CONNECTION" ]]; then
     print -Pn "\e]0;%m: %1~\a"
   else
@@ -243,7 +243,7 @@ __set_title() {
   fi
 }
 
-__report_cwd() {
+_zshrc::report_cwd() {
   setopt localoptions extended_glob no_multibyte
   local match mbegin mend
   local pattern="[^A-Za-z0-9_.!~*\'\(\)-\/]"
@@ -259,26 +259,26 @@ __report_cwd() {
   fi
 }
 
-__vi_cursor() {
+_zshrc::vi_cursor() {
   local shape=6
   [[ "$ZLE_STATE" == *overwrite* ]] && shape=4
   [[ "$KEYMAP" == vicmd ]] && shape=2
   print -Pn "\e[$shape q"
 }
 
-__reset_cursor() {
+_zshrc::reset_cursor() {
   print -Pn "\e[2 q"
 }
 
 case "$TERM" in
   xterm*|screen*|tmux*)
-    zle -N zle-line-init __vi_cursor
-    zle -N zle-keymap-select __vi_cursor
-    add-zsh-hook preexec __reset_cursor
-    add-zsh-hook precmd __set_title
+    zle -N zle-line-init _zshrc::vi_cursor
+    zle -N zle-keymap-select _zshrc::vi_cursor
+    add-zsh-hook preexec _zshrc::reset_cursor
+    add-zsh-hook precmd _zshrc::set_title
     ;| # fallthrough
   xterm*)
-    add-zsh-hook precmd __report_cwd
+    add-zsh-hook precmd _zshrc::report_cwd
     ;| # fallthrough
   eterm*|xterm-kitty)
     zstyle ':dotfiles:iterm2:osc' enable false
@@ -321,6 +321,7 @@ unset LS_COLORS # clear distro defaults
 
 autoload -Uz promptinit && promptinit
 prompt dashboard
+zstyle ':vcs_info:*' enable git
 
 # must be run last
 source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
