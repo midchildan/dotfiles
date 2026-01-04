@@ -7,6 +7,7 @@ vim.opt.backupdir:remove(".")
 vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.opt.exrc = true
 
 vim.g.tex_flavor = "latex"
 
