@@ -66,6 +66,10 @@
 
 `find {{path/to/directory}} -type f -printf . | wc -c`
 
+- Optimize Git performance on large repositories:
+
+`git config feature.manyFiles true; git config core.fsmonitor true`
+
 - Add files to the git staging area, but leave their contents out:
 
 `git add --intent-to-add {{flake.nix}}`

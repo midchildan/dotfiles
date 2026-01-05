@@ -31,12 +31,12 @@ in
         fd
         fselect
         ghq
-        gitstatus
         httpie
         lsof
         magic-wormhole
         nkf
         ranger
+        timg
         tmux
         wget
         zsh-completions

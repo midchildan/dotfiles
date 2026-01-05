@@ -1,0 +1,166 @@
+zmodload zsh/system
+autoload -Uz vcs_info
+
+zstyle ':vcs_info:*+no-vcs:*' hooks async_vcs_info_no_vcs
+zstyle ':vcs_info:*+set-message:*' hooks async_vcs_info_mark_unchecked
+zstyle ':vcs_info:git+post-backend:*' hooks async_vcs_info_get_extra_data_git
+zstyle -e ':vcs_info:*' check-for-changes \
+  '[[ -n ${(M)funcstack:#_async_vcs_info::worker} ]] && reply=( true ) || reply=( false )'
+
++vi-async_vcs_info_no_vcs() {
+  typeset -g _ASYNC_VCS_INFO_NO_VCS=1
+}
+
++vi-async_vcs_info_mark_unchecked() {
+  if (( $1 > 0 )); then
+    return
+  fi
+
+  if ! zstyle -t ":vcs_info:$vcs:$usercontext:$rrn" check-for-changes; then
+    hook_com[unstaged]='?'
+    if ! zstyle -t ":vcs_info:$vcs:$usercontext:$rrn" check-for-staged-changes; then
+      hook_com[staged]='?'
+    fi
+  fi
+}
+
++vi-async_vcs_info_get_extra_data_git() {
+  local n_ahead n_behind n_stashed
+  n_ahead="$(
+    ${vcs_comm[cmd]} rev-list --count "${hook_com[branch]}@{u}.." 2>/dev/null
+  )"
+  n_behind="$(
+    ${vcs_comm[cmd]} rev-list --count "..${hook_com[branch]}@{u}" 2>/dev/null
+  )"
+  n_stashed="$(
+    ${vcs_comm[cmd]} rev-list \
+      --walk-reflogs --ignore-missing --count refs/stash 2>/dev/null
+  )"
+
+  if (( n_ahead > 0 )); then
+    local aheadfmt aheadstr
+    zstyle -s ":vcs_info:$vcs:$usercontext:$rrn" aheadstr aheadfmt
+    builtin zformat -f aheadstr "$aheadfmt" d:$(( n_ahead ))
+    hook_com[ahead]="$aheadstr"
+  fi
+
+  if (( n_behind > 0 )); then
+    local behindfmt behindstr
+    zstyle -s ":vcs_info:$vcs:$usercontext:$rrn" behindstr behindfmt
+    builtin zformat -f behindstr "$behindfmt" d:$(( n_behind ))
+    hook_com[behind]="$behindstr"
+  fi
+
+  if (( n_stashed > 0 )); then
+    local stashedfmt stashedstr
+    zstyle -s ":vcs_info:$vcs:$usercontext:$rrn" stashedstr stashedfmt
+    builtin zformat -f stashedstr "$stashedfmt" d:$(( n_stashed ))
+    hook_com[stashed]="$stashedstr"
+  fi
+
+  if zstyle -t ":vcs_info:$vcs:$usercontext:$rrn" check-for-changes &&
+    ${vcs_comm[cmd]} status --porcelain | grep -q '^?? ' 2>/dev/null; then
+    local untrackedstr
+    zstyle -s ":vcs_info:$vcs:$usercontext:$rrn" untrackedstr untrackedstr
+    if [[ -z $untrackedstr ]]; then
+      hook_com[untracked]='N'
+    else
+      hook_com[untracked]="$untrackedstr"
+    fi
+  fi
+}
+
+_async_vcs_info::vcs_info() {
+  zformat() {
+    builtin zformat "$@" \
+      "+:${hook_com[ahead]:-}" \
+      "_:${hook_com[behind]:-}" \
+      "=:${hook_com[stashed]:-}" \
+      "?:${hook_com[untracked]:-}"
+  }
+
+  vcs_info
+
+  unfunction zformat
+}
+
+_async_vcs_info::worker() {
+  print "$sysparams[pid]"
+
+  _async_vcs_info::vcs_info
+
+  local max_exports
+  if ! zstyle -s ':vcs_info:*' max-exports max_exports; then
+    max_exports=2
+  fi
+
+  local i
+  for (( i = 0; i < max_exports; i++ )); do
+    print -- ${(P)${:-vcs_info_msg_${i}_}}
+  done
+}
+
+_async_vcs_info::callback() {
+  if [[ -z "$_ASYNC_VCS_INFO_FD" ]]; then
+    return
+  fi
+
+  zle -F "$_ASYNC_VCS_INFO_FD"
+
+  if [[ -n ${(Mk)parameters:#vcs_info_msg_<->_} ]]; then
+    unset ${parameters[(I)vcs_info_msg_<->_]}
+  fi
+
+  local max_exports
+  if ! zstyle -s ':vcs_info:*' max-exports max_exports; then
+    max_exports=2
+  fi
+
+  local i
+  for (( i=0; i < max_exports; i++ )); do
+    typeset -g vcs_info_msg_${i}_
+    read vcs_info_msg_${i}_ <&$_ASYNC_VCS_INFO_FD
+  done
+
+  exec {_ASYNC_VCS_INFO_FD}<&-
+  unset _ASYNC_VCS_INFO_FD _ASYNC_VCS_WORKER_PID
+
+  if [[ -n $_ASYNC_VCS_INFO_CALLBACK ]]; then
+    "$_ASYNC_VCS_INFO_CALLBACK"
+  fi
+  unset _ASYNC_VCS_INFO_CALLBACK
+}
+
+async_vcs_info() {
+  typeset -g _ASYNC_VCS_INFO_FD _ASYNC_VCS_WORKER_PID
+  unset _ASYNC_VCS_INFO_NO_VCS
+
+  if [[ -n $_ASYNC_VCS_INFO_FD ]]; then
+    zle -F "$_ASYNC_VCS_INFO_FD"
+    exec {_ASYNC_VCS_INFO_FD}<&-
+  fi
+
+  if [[ -n $_ASYNC_VCS_WORKER_PID ]]; then
+		if [[ -o MONITOR ]]; then
+			kill -TERM -"$_ASYNC_VCS_WORKER_PID" 2>/dev/null
+		else
+			kill -TERM "$_ASYNC_VCS_WORKER_PID" 2>/dev/null
+		fi
+  fi
+
+  _async_vcs_info::vcs_info
+  if [[ -n $_ASYNC_VCS_INFO_NO_VCS ]]; then
+    unset _ASYNC_VCS_INFO_FD _ASYNC_VCS_WORKER_PID _ASYNC_VCS_INFO_NO_VCS
+    return
+  fi
+
+  exec {_ASYNC_VCS_INFO_FD}< <(_async_vcs_info::worker)
+  read _ASYNC_VCS_WORKER_PID <&$_ASYNC_VCS_INFO_FD
+
+  typeset -g _ASYNC_VCS_INFO_CALLBACK="$1"
+  zle -F "$_ASYNC_VCS_INFO_FD" _async_vcs_info::callback
+}
+
+async_vcs_info "$@"
+
+# vim:set et sw=2 ft=zsh:

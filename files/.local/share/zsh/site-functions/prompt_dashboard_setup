@@ -1,29 +1,18 @@
 # dashboard prompt theme inspired by denysdovhan/spaceship-prompt
 
 prompt_dashboard_setup() {
-  local maxfiles
-  if ! zstyle -s ':dotfiles:prompt:dashboard:vcs:git' max-files maxfiles; then
-    maxfiles=100000
-  fi
+  zmodload zsh/parameter
 
-  local gspath
-  if ! zstyle -s ':dotfiles:prompt:dashboard:vcs:git' gitstatus-path gspath; then
-    gspath=~/.nix-profile/share/gitstatus/gitstatus.plugin.zsh
-  fi
-
-  if [[ -f "$gspath" ]]; then
-    source "$gspath"
-    gitstatus_stop dotfiles && gitstatus_start -m "$maxfiles" dotfiles
-  else
-    autoload -Uz vcs_info
-    zstyle ':vcs_info:*' enable git
-    zstyle ':vcs_info:*' check-for-changes true
-    zstyle ':vcs_info:*' max-exports 4
-    zstyle ':vcs_info:*' stagedstr '+'
-    zstyle ':vcs_info:*' unstagedstr '!'
-    zstyle ':vcs_info:*' formats '%r/%S' '%b' '%u%c'
-    zstyle ':vcs_info:*' actionformats '%r/%S' '%b' '%u%c' '%a'
-  fi
+  autoload -Uz async_vcs_info
+  zstyle ':vcs_info:*' max-exports 4
+  zstyle ':vcs_info:*' stagedstr '+'
+  zstyle ':vcs_info:*' unstagedstr '!'
+  zstyle ':vcs_info:*' untrackedstr '∅'
+  zstyle ':vcs_info:*' stashedstr '≡%d'
+  zstyle ':vcs_info:*' aheadstr '↑%d'
+  zstyle ':vcs_info:*' behindstr '↓%d'
+  zstyle ':vcs_info:*' formats '%r/%S' '%b' '%?%u%c%+%_%='
+  zstyle ':vcs_info:*' actionformats '%r/%S' '%b' '%?%u%c%+%_%=' '%a'
 
   prompt_opts=(cr percent sp)
   add-zsh-hook precmd prompt_dashboard_precmd
@@ -31,70 +20,7 @@ prompt_dashboard_setup() {
   unset RPROMPT
 }
 
-prompt_dashboard_gitstatus() {
-  local maxsec
-  if ! zstyle -s ':dotfiles:prompt:dashboard:vcs:git' timeout-sec maxsec; then
-    maxsec=1
-  fi
-
-  if ! gitstatus_query -d "$PWD" -t "$maxsec" dotfiles; then
-    VCS_STATUS_RESULT=error
-    return
-  fi
-  if [[ "$VCS_STATUS_RESULT" != ok-sync ]]; then
-    return
-  fi
-
-  vcs_info_msg_0_="${PWD#${VCS_STATUS_WORKDIR:h}/}"
-  vcs_info_msg_1_="${VCS_STATUS_LOCAL_BRANCH:-${VCS_STATUS_TAG:-${VCS_STATUS_COMMIT[1,8]}}}"
-  vcs_info_msg_3_="$VCS_STATUS_ACTION"
-  vcs_info_msg_2_=''
-  if (( VCS_STATUS_HAS_UNTRACKED == 1 )); then
-    vcs_info_msg_2_+='∅'
-  fi
-  if (( VCS_STATUS_HAS_UNSTAGED == 1 || VCS_STATUS_HAS_CONFLICTED == 1)); then
-    vcs_info_msg_2_+='!'
-  fi
-  if (( VCS_STATUS_HAS_STAGED == 1 )); then
-    vcs_info_msg_2_+='+'
-  fi
-  if (( VCS_STATUS_HAS_UNSTAGED == -1 || VCS_STATUS_HAS_STAGED == -1 )); then
-    vcs_info_msg_2_+='?'
-  fi
-  if (( VCS_STATUS_COMMITS_AHEAD > 0 )); then
-    vcs_info_msg_2_+="↑$VCS_STATUS_COMMITS_AHEAD"
-  fi
-  if (( VCS_STATUS_COMMITS_BEHIND > 0 )); then
-    vcs_info_msg_2_+="↓$VCS_STATUS_COMMITS_BEHIND"
-  fi
-  if (( VCS_STATUS_STASHES > 0 )); then
-    vcs_info_msg_2_+="≡$VCS_STATUS_STASHES"
-  fi
-
-  _gitstatus_clear
-}
-
-prompt_dashboard_vcs_info() {
-  unset VCS_STATUS_RESULT
-
-  local maxfiles
-  if ! zstyle -s ':dotfiles:prompt:dashboard:vcs:git' max-files maxfiles; then
-    maxfiles=100000
-  fi
-
-  local nfiles=0
-  if (( maxfiles >= 0 && $+commands[git] )); then
-    nfiles="$(git ls-files 2> /dev/null | wc -l)"
-  fi
-  if (( maxfiles < 0 || nfiles < maxfiles )); then
-    vcs_info
-    vcs_info_msg_0_="${vcs_info_msg_0_%/.}"
-  else
-    VCS_STATUS_RESULT=error
-  fi
-}
-
-prompt_dashboard_precmd() {
+prompt_dashboard_set_prompt() {
   local prompt_mark='%#' pbegin pend vcs_icon nix_icon
   if zstyle -T ':dotfiles:iterm2:osc' enable; then
     pbegin=$'%{\e]133;D;%?\a\e]133;A\a%}'
@@ -106,38 +32,42 @@ prompt_dashboard_precmd() {
     prompt_mark='❯'
   fi
 
-  unset vcs_info_msg_{0..3}_
-  if (( $+functions[gitstatus_query] )); then
-    prompt_dashboard_gitstatus
-  else
-    prompt_dashboard_vcs_info
-  fi
-
   PROMPT="$pbegin"
 
   if (( EUID == 0 || UID == 0 || EUID != UID )); then
     PROMPT+="%B%F{red}%n%f%b in "
   fi
+
+  vcs_info_msg_0_="${vcs_info_msg_0_%/.}"
   PROMPT+="%B%F{blue}${vcs_info_msg_0_:-%~}%f%b"
-  if [[ -n "$SSH_CONNECTION$SSH_TTY" ]]; then
+
+  if [[ -n $SSH_CONNECTION$SSH_TTY ]]; then
     PROMPT+=" at %B%F{yellow}%m%f%b"
   fi
-  if [[ "$VCS_STATUS_RESULT" == error ]]; then
-    PROMPT+=" on %B%F{magenta}${vcs_icon}[unknown]%f%b"
-  elif [[ -n "$vcs_info_msg_1_" ]]; then
+  if [[ -n $vcs_info_msg_1_ ]]; then
     PROMPT+=" on %B%F{magenta}$vcs_icon$vcs_info_msg_1_%f%b"
   fi
-  if [[ -n "$vcs_info_msg_2_" ]]; then
+  if [[ -n $vcs_info_msg_2_ ]]; then
     PROMPT+=" %B%F{red}[$vcs_info_msg_2_]%f%b"
   fi
-  if [[ -n "$vcs_info_msg_3_" ]]; then
+  if [[ -n $vcs_info_msg_3_ ]]; then
     PROMPT+=" doing %B%F{green}$vcs_info_msg_3_%f%b"
   fi
-  if [[ -n "$IN_NIX_SHELL" ]]; then
+  if [[ -n $IN_NIX_SHELL ]]; then
     PROMPT+=" via %B%F{cyan}$nix_icon$name%f%b"
   fi
 
   PROMPT+=$'\n'"%B%(?:%F{green}:%F{red})$prompt_mark%f%b $pend"
+}
+
+prompt_dashboard_async_handler() {
+  prompt_dashboard_set_prompt
+  zle reset-prompt
+}
+
+prompt_dashboard_precmd() {
+  async_vcs_info prompt_dashboard_async_handler
+  prompt_dashboard_set_prompt
 }
 
 prompt_dashboard_preexec() {
