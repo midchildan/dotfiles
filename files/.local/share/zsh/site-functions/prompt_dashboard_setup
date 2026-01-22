@@ -7,23 +7,71 @@ prompt_dashboard_setup() {
   zstyle ':vcs_info:*' max-exports 4
   zstyle ':vcs_info:*' stagedstr '+'
   zstyle ':vcs_info:*' unstagedstr '!'
-  zstyle ':vcs_info:*' untrackedstr '∅'
+  zstyle ':vcs_info:*' untrackedstr '*'
   zstyle ':vcs_info:*' stashedstr '≡%d'
   zstyle ':vcs_info:*' aheadstr '↑%d'
   zstyle ':vcs_info:*' behindstr '↓%d'
   zstyle ':vcs_info:*' formats '%r/%S' '%b' '%?%u%c%+%_%='
   zstyle ':vcs_info:*' actionformats '%r/%S' '%b' '%?%u%c%+%_%=' '%a'
 
-  local container
-  if ! zstyle -s ':dotfiles:prompt:dashboard:container' type container; then
-    if [[ -f /.dockerenv ]]; then
-      zstyle ':dotfiles:prompt:*:container' type docker
-    elif [[ -f /run/.containerenv ]]; then
-      zstyle ':dotfiles:prompt:*:container' type podman
-    elif [[ -r /run/host/container-manager ]]; then
-      read -r container < /run/host/container-manager
-      zstyle ':dotfiles:prompt:*:container' type "$container"
-    fi
+  local -r prefix=':dotfiles:prompt:dashboard:section'
+  local style
+
+  style="${prefix}:username"
+  zstyle "$style" preposition as
+  zstyle "$style" format '%n'
+  zstyle -e "$style" color \
+    '(( EUID == 0 || UID == 0 )) && reply=(red) || reply=(green)'
+  zstyle -e "$style" show \
+    '(( EUID == 0 || UID == 0 || EUID != UID )) && reply=(true) || reply=(false)'
+
+  style="${prefix}:directory"
+  zstyle "$style" preposition in
+  zstyle -e "$style" format 'reply=("${${vcs_info_msg_0_%/.}:-%~}")'
+  zstyle "$style" color blue
+
+  style="${prefix}:hostname"
+  zstyle "$style" preposition at
+  zstyle "$style" format '%m'
+  zstyle "$style" color yellow
+  zstyle -e "$style" show \
+    '[[ -n $SSH_CONNECTION$SSH_TTY ]] && reply=(true) || reply=(false)'
+
+  style="${prefix}:vcs-branch"
+  zstyle "$style" preposition on
+  zstyle "$style" icon ''
+  zstyle -e "$style" format 'reply=("$vcs_info_msg_1_")'
+  zstyle "$style" color magenta
+
+  style="${prefix}:vcs-status"
+  zstyle -e "$style" format 'reply=("[${(*)vcs_info_msg_2_/\?\?##/?}]")'
+  zstyle "$style" color red
+  zstyle -e "$style" show \
+    '[[ -n $vcs_info_msg_2_ ]] && reply=(true) || reply=(false)'
+
+  style="${prefix}:vcs-action"
+  zstyle "$style" preposition doing
+  zstyle -e "$style" format 'reply=("$vcs_info_msg_3_")'
+  zstyle "$style" color green
+
+  style="${prefix}:nix-shell"
+  zstyle "$style" preposition via
+  zstyle "$style" icon '❆'
+  zstyle -e "$style" format 'reply=("$name")'
+  zstyle "$style" color cyan
+  zstyle -e "$style" show \
+    '[[ -n $IN_NIX_SHELL ]] && reply=(true) || reply=(false)'
+
+  style="${prefix}:container"
+  zstyle "$style" preposition inside
+  if [[ -f /.dockerenv ]]; then
+    zstyle "$style" format docker
+  elif [[ -f /run/.containerenv ]]; then
+    zstyle "$style" format podman
+  elif [[ -r /run/host/container-manager ]]; then
+    local container
+    read -r container < /run/host/container-manager
+    zstyle "$style" format "$container"
   fi
 
   prompt_opts=(cr percent sp)
@@ -33,48 +81,59 @@ prompt_dashboard_setup() {
 }
 
 prompt_dashboard_set_prompt() {
-  local prompt_mark='%#' pbegin pend vcs_icon nix_icon
-  if zstyle -T ':dotfiles:iterm2:osc' enable; then
-    pbegin=$'%{\e]133;D;%?\a\e]133;A\a%}'
-    pend=$'%{\e]133;B\a%}'
-  fi
-  if [[ "$USE_POWERLINE" == 1 ]]; then
-    vcs_icon=' '
-    nix_icon='❆ '
-    prompt_mark='❯'
+  local symbol start fin
+  if zstyle -T ':dotfiles:prompt:dashboard' enable-semantic-markers; then
+    start=$'%{\e]133;D;%?\a\e]133;A\a%}'
+    fin=$'%{\e]133;B\a%}'
   fi
 
-  PROMPT="$pbegin"
-
-  if (( EUID == 0 || UID == 0 || EUID != UID )); then
-    PROMPT+="%B%F{red}%n%f%b in "
+  if ! zstyle -s ':dotfiles:prompt:dashboard' prompt symbol; then
+    if zstyle -T ':dotfiles:prompt:dashboard' show-icons; then
+      symbol='❯'
+    else
+      symbol='%#'
+    fi
   fi
 
-  vcs_info_msg_0_="${vcs_info_msg_0_%/.}"
-  PROMPT+="%B%F{blue}${vcs_info_msg_0_:-%~}%f%b"
-
-  if [[ -n $SSH_CONNECTION$SSH_TTY ]]; then
-    PROMPT+=" at %B%F{yellow}%m%f%b"
-  fi
-  if [[ -n $vcs_info_msg_1_ ]]; then
-    PROMPT+=" on %B%F{magenta}$vcs_icon$vcs_info_msg_1_%f%b"
-  fi
-  if [[ -n $vcs_info_msg_2_ ]]; then
-    PROMPT+=" %B%F{red}[$vcs_info_msg_2_]%f%b"
-  fi
-  if [[ -n $vcs_info_msg_3_ ]]; then
-    PROMPT+=" doing %B%F{green}$vcs_info_msg_3_%f%b"
-  fi
-  if [[ -n $IN_NIX_SHELL ]]; then
-    PROMPT+=" via %B%F{cyan}$nix_icon$name%f%b"
+  local -a sections
+  if ! zstyle -a ':dotfiles:prompt:dashboard' sections sections; then
+    sections=(
+      username
+      directory
+      hostname
+      vcs-{branch,status,action}
+      nix-shell
+      container
+    )
   fi
 
-  local container
-  if zstyle -s ':dotfiles:prompt:dashboard:container' type container; then
-    PROMPT+=" inside %B$container%b"
-  fi
+  local section style text format preposition color icon
+  for section in "${sections[@]}"; do
+    style=":dotfiles:prompt:dashboard:section:$section"
 
-  PROMPT+=$'\n'"%B%(?:%F{green}:%F{red})$prompt_mark%f%b $pend"
+    if ! zstyle -T "$style" show; then
+      continue
+    fi
+
+    zstyle -s "$style" format format
+    if [[ -z $format ]]; then
+      continue
+    fi
+
+    if [[ -n "$text" ]]; then
+      zstyle -s "$style" preposition preposition
+      text+=" $preposition${preposition:+ }"
+    fi
+
+    zstyle -s "$style" color color
+    if zstyle -T ':dotfiles:prompt:dashboard' show-icons; then
+      zstyle -s "$style" icon icon
+    fi
+
+    text+="%B%F{${color:-default}}$icon${icon:+ }$format%f%b"
+  done
+
+  PROMPT="$start$text"$'\n'"%B%(?:%F{green}:%F{red})$symbol%f%b $fin"
 }
 
 prompt_dashboard_async_handler() {
@@ -88,7 +147,7 @@ prompt_dashboard_precmd() {
 }
 
 prompt_dashboard_preexec() {
-  if zstyle -T ':dotfiles:iterm2:osc' enable; then
+  if zstyle -T ':dotfiles:prompt:dashboard' enable-semantic-markers; then
     print -Pn "\e]133;C\a"
   fi
 }
