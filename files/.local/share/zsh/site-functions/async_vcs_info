@@ -16,10 +16,17 @@ zstyle -e ':vcs_info:*' check-for-changes \
     return
   fi
 
+  local uncheckedstr
+  zstyle -s ":vcs_info:$vcs:$usercontext:$rrn" uncheckedstr uncheckedstr
+  if [[ -z $uncheckedstr ]]; then
+    uncheckedstr='?'
+  fi
+
   if ! zstyle -t ":vcs_info:$vcs:$usercontext:$rrn" check-for-changes; then
-    hook_com[unstaged]='?'
+    hook_com[unstaged]="$uncheckedstr"
+    hook_com[untracked]="$uncheckedstr"
     if ! zstyle -t ":vcs_info:$vcs:$usercontext:$rrn" check-for-staged-changes; then
-      hook_com[staged]='?'
+      hook_com[staged]="$uncheckedstr"
     fi
   fi
 }

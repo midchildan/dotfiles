@@ -259,9 +259,7 @@ _zshrc::report_cwd() {
     "$HOST" ${(j::)unsafepwd/(#b)($~pattern)/%${(l:2::0:)$(([##16]#match))}}
 
   # report current username to iTerm
-  if zstyle -T ':dotfiles:iterm2:osc' enable; then
-    printf "\e]1337;RemoteHost=%s@\a" "$USER"
-  fi
+  printf "\e]1337;RemoteHost=%s@\a" "$USER"
 }
 
 _zshrc::vi_cursor() {
@@ -286,7 +284,7 @@ case "$TERM" in
     add-zsh-hook precmd _zshrc::report_cwd
     ;| # fallthrough
   eterm*|xterm-kitty)
-    zstyle ':dotfiles:iterm2:osc' enable false
+    zstyle ':dotfiles:prompt:*' enable-semantic-markers false
     ;;
 esac
 

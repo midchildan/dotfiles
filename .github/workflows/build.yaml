@@ -11,16 +11,16 @@ jobs:
         runners: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.runners }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: cachix/install-nix-action@v31.8.2
+      - uses: actions/checkout@v6
+      - uses: cachix/install-nix-action@v31.9.0
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Check flake
         run: nix flake check
   nixos:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: cachix/install-nix-action@v31.8.2
+      - uses: actions/checkout@v6
+      - uses: cachix/install-nix-action@v31.9.0
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Build NixOS configuration
         run: nix run '.#os' -- build -L --flake '.#ci' --print-build-logs
