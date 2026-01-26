@@ -15,7 +15,7 @@ jobs:
       - uses: cachix/install-nix-action@v31.9.0
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Check flake
-        run: nix flake check
+        run: nix flake check --print-build-logs
   nixos:
     runs-on: ubuntu-latest
     steps:

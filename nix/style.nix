@@ -11,7 +11,11 @@
       projectRootFile = lib.mkDefault "flake.nix";
       programs = {
         nixfmt.enable = lib.mkDefault true;
-        shellcheck.enable = lib.mkDefault true;
+        shellcheck = {
+          enable = lib.mkDefault true;
+          external-sources = lib.mkDefault true;
+          source-path = lib.mkDefault "SCRIPTDIR";
+        };
         stylua.enable = lib.mkDefault true;
         prettier = {
           enable = lib.mkDefault true;
@@ -21,10 +25,6 @@
       settings.global.excludes = [
         # Prettier chokes on symlinks
         "files/.local/share/zsh/snippets/dotfiles/*.md"
-      ];
-      settings.formatter.shellcheck.options = lib.mkDefault [
-        "--external-sources"
-        "--source-path=SCRIPTDIR"
       ];
     };
 
