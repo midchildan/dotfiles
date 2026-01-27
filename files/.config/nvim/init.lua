@@ -106,6 +106,22 @@ vim.diagnostic.config({
   },
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "*",
+  callback = function(args)
+    local lang = vim.treesitter.language.get_lang(args.match)
+    -- check parser availablity
+    if vim.treesitter.language.add(lang) then
+      vim.treesitter.start()
+      vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+      if pcall(require, "nvim-treesitter") then
+        vim.bo.indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+      end
+    end
+  end,
+})
+
 -- }}}
 -- {{{ Keybindings
 
