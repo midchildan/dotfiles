@@ -325,50 +325,34 @@ in
         }
 
         # TreeSitter
-        {
-          plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
-          type = "lua";
-          config = # lua
-            ''
-              require("nvim-treesitter.configs").setup({
-                auto_install = false,
-                highlight = {
-                  enable = true,
-                },
-                indent = {
-                  enable = true,
-                },
-              })
-            '';
-        }
+        pkgs.vimPlugins.nvim-treesitter.withAllGrammars
         {
           plugin = pkgs.vimPlugins.nvim-treesitter-textobjects;
           type = "lua";
           config = # lua
             ''
-              require("nvim-treesitter.configs").setup({
-                textobjects = {
-                  select = {
-                    enable = true,
-                    lookahead = true,
-                    keymaps = {
-                      ["af"] = "@function.outer",
-                      ["if"] = "@function.inner",
-                      ["ac"] = "@class.outer",
-                      ["ic"] = "@class.inner",
-                    },
-                  },
-                  swap = {
-                    enable = true,
-                    swap_next = {
-                      ["<Leader>>"] = "@parameter.inner",
-                    },
-                    swap_previous = {
-                      ["<Leader><"] = "@parameter.inner",
-                    },
-                  },
-                },
+              require("nvim-treesitter-textobjects").setup({
+                select = { lookahead = true },
               })
+
+              local set_keymap_select = function(key, target)
+                vim.keymap.set({ "x", "o" }, key, function()
+                  require("nvim-treesitter-textobjects.select")
+                    .select_textobject(target, "textobjects")
+                end)
+              end
+
+              set_keymap_select("af", "@function.outer")
+              set_keymap_select("if", "@function.inner")
+              set_keymap_select("ac", "@class.outer")
+              set_keymap_select("ic", "@class.inner")
+
+              vim.keymap.set("n", "<leader>>", function()
+                require("nvim-treesitter-textobjects.swap").swap_next "@parameter.inner"
+              end)
+              vim.keymap.set("n", "<leader><", function()
+                require("nvim-treesitter-textobjects.swap").swap_previous "@parameter.inner"
+              end)
             '';
         }
 
