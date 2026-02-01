@@ -98,6 +98,7 @@ install: miscellaneous config
   - .config/ranger/rc.conf
   - .config/tmux/tmux.conf
   - .config/zathura/zathurarc
+  - .local/bin/devdocs
 
 # The following will not run unless --init is specified
 
