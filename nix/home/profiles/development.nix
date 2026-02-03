@@ -45,6 +45,17 @@ in
           name = flakeOptions.user.fullName;
           email = flakeOptions.user.email;
         };
+        ui = {
+          diff-formatter = "delta";
+          pager = "less";
+        };
+        merge-tools.delta = {
+          program = lib.getExe pkgs.delta;
+          diff-expected-exit-codes = [
+            0
+            1
+          ];
+        };
       };
     };
 
