@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DEVDOCS_DIR="${XDG_STATE_DIR:-$HOME/.local/state}/devdocs"
+
+usage() {
+  local name="${0##*/}"
+  cat <<EOF
+CLI viewer for devdocs.io
+
+Download docsets:
+
+    $name download
+    $name download bash docker~19
+
+View downloaded docsets:
+
+    $name
+EOF
+}
+
+main() {
+  local OPTIND
+  for ((OPTIND = 1; OPTIND <= $#; OPTIND++)); do
+    case "${!OPTIND}" in
+    -h | --help)
+      usage
+      exit
+      ;;
+    *) break ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+
+  if (($# == 0)); then
+    cmd=doc
+  else
+    cmd=$1
+  fi
+
+  "run::$cmd" "${@:2}"
+}
+
+run::download() {
+  if (($# == 0)); then
+    run::list | fzf -m --prompt 'Download docsets> ' --with-nth 1 | download
+  else
+    run::list | awk '
+      BEGIN {
+        for (i = 1; i < length(ARGV); i += 1) {
+          docs[ARGV[i]] = 1; ARGV[i] = ""
+        }
+      }
+
+      docs[$1] { print $0 }
+    ' "$@" | download
+  fi
+}
+
+run::doc() {
+  find "$DEVDOCS_DIR" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; |
+    fzf --prompt 'Choose docs> ' | {
+    if ! read -r slug; then
+      printf 'No docs selected.\n' >&2
+      exit 1
+    fi
+
+    jq -r '.entries[] | "\(.name)\u0000\(.path)\u0000(\(.type))"' \
+      "${DEVDOCS_DIR}/${slug}/index.json" |
+      fzf --prompt 'Choose a topic> ' \
+        --delimiter '\0' --with-nth $'{1}\t{3}' --accept-nth 2 |
+      {
+        if ! read -r path; then
+          printf 'No topic selected.\n' >&2
+          exit 1
+        fi
+
+        local url="file://$DEVDOCS_DIR/$slug/$path"
+
+        if useBrowser lynx; then
+          lynx -assume_charset=utf-8 "$url"
+        elif useBrowser w3m; then
+          w3m -I utf-8 "$url"
+        elif useBrowser xdg-open; then
+          xdg-open "$url"
+        elif [[ "$OSTYPE" == darwin* ]]; then
+          open "$url"
+        elif useBrowser firefox; then
+          firefox "$url"
+        elif [[ -n "$BROWSER" ]]; then
+          $BROWSER "$url"
+        else
+          printf 'No browser found.\n' >&2
+          exit 1
+        fi
+      }
+  }
+}
+
+run::list() {
+  curl -sSL https://devdocs.io/docs.json | jq -r '.[] | [.slug, .mtime] | @tsv'
+}
+
+download() {
+  while read -r slug mtime; do
+    test -n "$slug" || return
+
+    dir="$DEVDOCS_DIR/$slug"
+
+    if read -r old_mtime < <(jq .mtime "$dir/meta.json"); then
+      if ((old_mtime >= mtime)); then
+        printf 'Up-to-date %s\n' "$slug" 1>&2
+        continue
+      fi
+    fi
+    printf 'Downloading %s\n' "$slug" 1>&2
+
+    if [[ -e "$dir" ]]; then
+      rm -rf "$dir"
+    fi
+    mkdir -p "$dir"
+
+    curl -C - -sSfL "https://downloads.devdocs.io/$slug.tar.gz" |
+      tar xzf - -C "$dir"
+
+    local old_index new_index
+    old_index="$dir/index.json"
+    new_index="$(mktemp)"
+    jq -c '.entries[].path |= sub("(?<x>#|$)"; ".html\(.x)")' \
+      "$old_index" >"$new_index"
+    mv "$new_index" "$old_index"
+
+    find "$dir" -type f -name '*.html' -exec \
+      perl -pi -e 's/(href="[^"#]+)/$1.html/g' '{}' \;
+  done
+}
+
+useBrowser() {
+  local browser="${BROWSER:-}"
+  local browserprg="${browser%% *}"
+  [[ "${browserprg:-$1}" == "$1" ]] && command -v "$1" &>/dev/null
+}
+
+fzf() {
+  command fzf --reverse --height 40% "$@"
+}
+
+main "$@"
