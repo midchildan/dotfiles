@@ -23,11 +23,11 @@ in
         devenv
         git-absorb
         github-cli
+        prettier
         semgrep
         shellcheck
         tokei
         universal-ctags
-        nodePackages.prettier
       ]
       ++ lib.optionals isLinux [ distrobox ]
       ++ lib.optionals isNixOS [ man-pages ]
