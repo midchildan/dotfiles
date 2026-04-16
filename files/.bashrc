@@ -1,8 +1,8 @@
 # shellcheck disable=SC1090,SC1091,SC2039
 
-##########################
-#  Early Initialization  #
-##########################
+###
+## *  Early Initialization
+#
 
 # Setup some environment variables before the interactivity check. This is the
 # only place where you can place startup commands that will be picked up by
@@ -39,9 +39,10 @@ case $- in
   *) return ;;
 esac
 
-###########################
-#  Environment Variables  #
-###########################
+###
+## *  Environment Variables
+#
+
 GPG_TTY="$(tty)"
 printf -v PATH "%s:" \
   ~/.local/bin \
@@ -54,9 +55,10 @@ export PATH
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
 
-###########################
-#  Aliases and Functions  #
-###########################
+###
+## *  Aliases and Functions
+#
+
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -65,9 +67,10 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 alias ssh-fa='ssh-agent ssh -o AddKeysToAgent=confirm -o ForwardAgent=yes'
 
-#############
-#  History  #
-#############
+###
+## *  History
+#
+
 HISTCONTROL=ignoreboth
 HISTSIZE=1000
 HISTFILESIZE=2000
@@ -75,9 +78,10 @@ shopt -s cmdhist
 shopt -s lithist
 shopt -s histappend
 
-######################
-#  Terminal Support  #
-######################
+###
+## *  Terminal Support
+#
+
 __dot::urlencode() {
   # Use LC_CTYPE=C to process text byte-by-byte.
   local LC_CTYPE=C LC_ALL='' raw_url="$1" safe
@@ -122,9 +126,10 @@ if [[ -n "$INSIDE_EMACS" ]]; then
   export EDITOR='emacsclient'
 fi
 
-##########
-#  Misc  #
-##########
+###
+## *  Misc
+#
+
 set -o noclobber
 shopt -s checkjobs
 shopt -s checkwinsize
@@ -139,9 +144,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
-###########
-#  Theme  #
-###########
+###
+## *  Theme
+#
+
 if [[ $TERM == "dumb" ]]; then
   PS1='\u@\h:\w\$ '
   return
@@ -175,3 +181,6 @@ __prompt_dashboard_lite() {
 
 # must come last
 PROMPT_COMMAND="__prompt_dashboard_lite;$PROMPT_COMMAND"
+
+###
+# vim:set foldmethod=marker foldmarker=##\ *,###:
