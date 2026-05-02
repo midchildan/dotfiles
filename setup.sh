@@ -76,10 +76,6 @@ install: Emacs config
   - .config/doom/config.org
   - .config/doom/packages.el
 
-install: VSCode config
-  - shell: install -d -m 700 ~/.config/Code
-  - .config/Code/User/settings.json
-
 install: miscellaneous config
   - .clang-format
   - .editrc
