@@ -104,3 +104,5 @@ run: package installation
 githooks:
   - init: true
   - post-receive
+
+# vim: set path+=./files:
