@@ -17,7 +17,11 @@ if vim.fn.executable("rg") == 1 then
   vim.opt.grepprg = "rg --vimgrep --hidden "
 end
 
-vim.cmd("silent! packadd! cfilter")
+vim.cmd([[
+  silent! packadd! cfilter
+  silent! packadd! nvim.tohtml
+  silent! packadd! nvim.undotree
+]])
 
 -- See :h :DiffOrig
 vim.cmd([[
@@ -166,6 +170,7 @@ vim.keymap.set("o", "ag", [[<Cmd>exe "normal! m`"<Bar>keepjumps normal! ggVG<CR>
 
 -- toggles
 vim.keymap.set("n", "<Leader>ts", "<Cmd>setlocal spell! spell?<CR>")
+vim.keymap.set("n", "<Leader>tu", "<Cmd>Undotree<CR>")
 vim.keymap.set("n", "<Leader>tv", "<Cmd>call vimrc#toggle_virtualedit()<CR>")
 vim.keymap.set("n", "<Leader>tq", "<Cmd>call vimrc#toggle_textwidth()<CR>")
 vim.keymap.set("n", "<Leader>t#", "<Cmd>setlocal relativenumber! relativenumber?<CR>")

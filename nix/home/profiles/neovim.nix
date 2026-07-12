@@ -391,15 +391,6 @@ in
                 "<Cmd>Neotree document_symbols toggle right selector=false<CR>")
             '';
         }
-        {
-          plugin = pkgs.vimPlugins.undotree;
-          type = "lua";
-          config = # lua
-            ''
-              vim.g.undotree_WindowLayout = 2
-              vim.keymap.set("n", "<Leader>tu", "<Cmd>UndotreeToggle<CR>")
-            '';
-        }
       ];
     };
   };
