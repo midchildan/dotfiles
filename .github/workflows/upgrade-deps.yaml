@@ -17,8 +17,8 @@ jobs:
           branch: bot/routine-update
           delete-branch: true
           labels: dependencies
-          title: "chore(deps): routine update"
-          commit-message: "chore(deps): routine update"
+          title: "deps: routine update"
+          commit-message: "deps: routine update"
           body: |
             - Update submodules
             - Update flakes
