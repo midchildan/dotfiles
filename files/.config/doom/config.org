@@ -380,13 +380,6 @@ For non-cycling =TAB=, there's =z a= instead.
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 #+end_src
 
-** Ruby
-Prevent ruby-mode from forcibly inserting content on save.
-
-#+begin_src emacs-lisp
-(setq ruby-insert-encoding-magic-comment nil)
-#+end_src
-
 ** Nix
 Use nixpkgs-fmt for formatting.
 

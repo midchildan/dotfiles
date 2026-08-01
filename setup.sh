@@ -86,7 +86,6 @@ install: miscellaneous config
   - .config/bat/config
   - .config/broot/conf.hjson
   - .config/broot/launcher/refused
-  - .config/gem/gemrc
   - .config/ipython/profile_default/ipython_config.py
   - .config/kitty/kitty.conf
   - .config/nano/nanorc

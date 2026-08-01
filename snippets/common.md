@@ -158,10 +158,6 @@
 
 `repeat {{n}}; do tmux split-window -dh \; select-layout main-horizontal; done`
 
-- Expand an embedded Ruby template:
-
-`erb -T - {{template.txt.erb}}`
-
 - Decode URL-encoded string from stdin:
 
 `while read; do : "${REPLY//\%/\\x}"; printf '%b\n' "${_//+/ }"; done`
