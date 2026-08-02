@@ -22,7 +22,7 @@ in
   config = lib.mkIf cfg.enable {
     programs.neovim = {
       enable = true;
-      extraLuaConfig = builtins.readFile ../../../files/.config/nvim/init.lua;
+      initLua = builtins.readFile ../../../files/.config/nvim/init.lua;
       plugins = [
         {
           plugin = pkgs.emptyDirectory;
@@ -88,6 +88,7 @@ in
         # Colorscheme
         {
           plugin = pkgs.vimPlugins.gruvbox;
+          type = "viml";
           config = # vim
             ''
               colorscheme gruvbox
@@ -233,6 +234,7 @@ in
         }
         {
           plugin = pkgs.vimPlugins.vim-illuminate;
+          type = "viml";
           config = # vim
             ''
               hi link IlluminatedWordText cursorLine
