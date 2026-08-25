@@ -23,7 +23,7 @@ in
       email = lib.mkOption {
         type = lib.types.str;
         description = "The default email to use throughout this flake.";
-        default = "git@${cfg.user.name}.org";
+        default = "noreply@${cfg.user.name}.org";
       };
 
       pgpKey = lib.mkOption {
