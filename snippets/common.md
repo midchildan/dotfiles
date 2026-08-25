@@ -44,7 +44,7 @@
 
 - Generate a DuckDuckGo email address:
 
-`curl -sSfL -X POST https://quack.duckduckgo.com/api/email/addresses -H "Authorization: Bearer {{$token}}" | jq -r '.address + "@duck.com"'`
+`curl -sSfL -X POST https://quack.duckduckgo.com/api/email/addresses -A 'Mozilla/5.0' -H "Authorization: Bearer {{$token}}" | jq -r '.address + "@duck.com"'`
 
 - Lookup the manpage for a specific version of tmux:
 
