@@ -45,7 +45,7 @@
 let
   packageList = lib.mapAttrsToList (attrPath: package: { inherit attrPath package; }) packages;
 
-  checkEligibility = p: lib.hasAttr "updateScript" p.package;
+  checkEligibility = p: (p.package.updateScript or null) != null;
   updatables = lib.filter checkEligibility packageList;
 
   somewhatUniqueRepresentant = p: {
@@ -81,9 +81,10 @@ let
       name = package.name;
       pname = lib.getName package;
       oldVersion = lib.getVersion package;
-      updateScript = map builtins.toString (
-        lib.toList (package.updateScript.command or package.updateScript)
-      );
+      updateScript = lib.pipe (package.updateScript.command or package.updateScript) [
+        lib.toList
+        (map builtins.toString)
+      ];
       supportedFeatures = package.updateScript.supportedFeatures or [ ];
       attrPath = package.updateScript.attrPath or attrPath;
     };
