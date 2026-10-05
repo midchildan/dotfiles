@@ -17,21 +17,19 @@ in
   options.dotfiles.profiles.development.enable = lib.mkEnableOption "development packages";
 
   config = lib.mkIf cfg.development.enable {
-    home.packages =
-      with pkgs;
-      [
-        devenv
-        git-absorb
-        github-cli
-        prettier
-        semgrep
-        shellcheck
-        tokei
-        universal-ctags
-      ]
-      ++ lib.optionals isLinux [ distrobox ]
-      ++ lib.optionals isNixOS [ man-pages ]
-      ++ lib.optionals cfg.extras.enable [ nixos-shell ];
+    home.packages = [
+      pkgs.ast-grep
+      pkgs.devenv
+      pkgs.git-absorb
+      pkgs.github-cli
+      pkgs.prettier
+      pkgs.shellcheck
+      pkgs.tokei
+      pkgs.universal-ctags
+    ]
+    ++ lib.optionals isLinux [ pkgs.distrobox ]
+    ++ lib.optionals isNixOS [ pkgs.man-pages ]
+    ++ lib.optionals cfg.extras.enable [ pkgs.nixos-shell ];
 
     programs.direnv = {
       enable = lib.mkDefault true;
