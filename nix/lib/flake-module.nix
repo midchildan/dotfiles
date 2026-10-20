@@ -131,7 +131,7 @@ let
 
   # Instantiates stable Nixpkgs for the given architecture.
   #
-  nixosFor = system: (getSystem system).allModuleArgs.nixos;
+  pkgsStableFor = system: (getSystem system).allModuleArgs.pkgsStable;
 in
 {
   # Allow downstream flakes to define additional things under lib.
@@ -147,7 +147,7 @@ in
       mkNixOS
       importNixOS
       pkgsFor
-      nixosFor
+      pkgsStableFor
       ;
   };
 }

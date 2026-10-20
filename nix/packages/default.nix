@@ -2,7 +2,7 @@
 
 {
   perSystem =
-    { pkgs, nixos, ... }:
+    { pkgs, pkgsStable, ... }:
     {
       dotfiles.callPackages = {
         enable = true;
@@ -10,13 +10,13 @@
       };
 
       dotfiles.callPackages.extraPackages = ps: {
-        nixos-iso = nixos.callPackage ./by-name/nixos-iso.nix {
-          inherit nixos;
+        nixos-iso = pkgsStable.callPackage ./by-name/nixos-iso.nix {
+          inherit pkgsStable;
           inherit (inputs.self.lib) mkNixOS;
           modules = [ ];
         };
 
-        nixos-rebuild = nixos.callPackage ./by-name/nixos-rebuild.nix {
+        nixos-rebuild = pkgsStable.callPackage ./by-name/nixos-rebuild.nix {
           nix = pkgs.nixVersions.${config.dotfiles.nix.package};
         };
 

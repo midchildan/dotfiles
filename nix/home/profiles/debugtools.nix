@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  nixos,
+  pkgsStable,
   ...
 }:
 
@@ -26,9 +26,9 @@ in
         powertop
         radare2
         valgrind
-        nixos.linuxPackages.bcc
-        (lowPrio nixos.linuxPackages.bpftrace)
+        pkgsStable.linuxPackages.bcc
+        (lowPrio pkgsStable.linuxPackages.bpftrace)
       ]
-      ++ lib.optionals (isLinux && cfg.desktop.enable) [ nixos.cutter ];
+      ++ lib.optionals (isLinux && cfg.desktop.enable) [ pkgsStable.cutter ];
   };
 }

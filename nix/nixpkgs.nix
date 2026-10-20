@@ -63,7 +63,7 @@ in
       {
         _module.args = {
           pkgs = importPkgs inputs.nixpkgs;
-          nixos = importPkgs inputs.nixos;
+          pkgsStable = importPkgs inputs.nixos;
         };
       };
   };

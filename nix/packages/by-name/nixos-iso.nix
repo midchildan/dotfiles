@@ -3,7 +3,7 @@
   stdenv,
   emptyFile,
   mkNixOS,
-  nixos,
+  pkgsStable,
   modules ? [ ],
 }:
 
@@ -22,7 +22,7 @@ let
     };
 
   installer = mkNixOS {
-    pkgs = nixos;
+    pkgs = pkgsStable;
     modules = [
       upstreamConfig
       customConfig

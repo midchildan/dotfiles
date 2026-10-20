@@ -49,7 +49,7 @@ in
       config = {
         _module.args = {
           inherit dotfiles;
-          nixos = (getSystem pkgs.stdenv.system).allModuleArgs.nixos;
+          pkgsStable = (getSystem pkgs.stdenv.system).allModuleArgs.pkgsStable;
         };
 
         # NOTE: The following enables declarative management of the Nix user

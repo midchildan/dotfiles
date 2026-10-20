@@ -59,7 +59,7 @@
           };
 
           nixosConfigurations.my-desktop = self.lib.mkNixOS {
-            pkgs = self.lib.nixosFor "x86_64-linux";
+            pkgs = self.lib.pkgsStableFor "x86_64-linux";
             modules = [
               {
                 # Options are defined in:
