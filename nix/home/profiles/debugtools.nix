@@ -29,6 +29,6 @@ in
         nixos.linuxPackages.bcc
         (lowPrio nixos.linuxPackages.bpftrace)
       ]
-      ++ lib.optionals (isLinux && cfg.desktop.enable) [ cutter ];
+      ++ lib.optionals (isLinux && cfg.desktop.enable) [ nixos.cutter ];
   };
 }
