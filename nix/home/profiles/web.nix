@@ -118,7 +118,7 @@ in
           AlwaysRestoreSessionAtLaunch = lib.mkDefault true;
           ExcludePrivateWindowWhenRestoringSessionAtLaunch = lib.mkDefault true;
           AutoOpenSafeDownloads = lib.mkDefault false;
-          AutoFillPasswords = lib.mkDefault false;
+          AutoFillPasswords = lib.mkDefault true;
           AutoFillCreditCardData = lib.mkDefault false;
           IncludeDevelopMenu = lib.mkDefault true;
           ShowOverlayStatusBar = lib.mkDefault true;
